@@ -1,25 +1,33 @@
 using System.Collections;
 using UnityEngine;
 
+using Banchou.Player;
+
 namespace Banchou.Board.Part {
     public class BoardScratchPad : MonoBehaviour {
         public void Construct(
             Dispatcher dispatch,
             GetState getState,
-            BoardActions boardActions
+            BoardActions boardActions,
+            PlayerActions playerActions
         ) {
             IEnumerator RunTest() {
-                var pawnId = getState().GetNextPawnId();
+                dispatch(
+                    playerActions.Add(
+                        playerId: 1,
+                        prefabKey: "Local Player",
+                        networkId: 0
+                    )
+                );
                 dispatch(
                     boardActions.AddPawn(
-                        pawnId: pawnId,
-                        playerId: 0,
+                        pawnId: 1,
+                        playerId: 1,
                         prefabKey: "Erho",
                         position: new Vector3(0f, 2f, 0f)
                     )
                 );
-                yield return new WaitForSeconds(5f);
-                dispatch(boardActions.RemovePawn(pawnId));
+                yield break;
             }
 
             StartCoroutine(RunTest());

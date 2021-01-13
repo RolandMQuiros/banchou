@@ -4,8 +4,8 @@ using UniRx;
 
 namespace Banchou.Player {
     public static class PlayersSelectors {
-        public static IObservable<Unit> ObservePlayers(this GameState state) {
-            return Observable.FromEvent(
+        public static IObservable<PlayersState> ObservePlayers(this GameState state) {
+            return Observable.FromEvent<PlayersState>(
                 h => state.Players.Changed += h,
                 h => state.Players.Changed -= h
             );
@@ -21,12 +21,23 @@ namespace Banchou.Player {
             return player;
         }
 
+        public static IObservable<PlayerState> ObservePlayer(this GameState state, int playerId) {
+            var player = state.GetPlayer(playerId);
+            if (player == null) {
+                return Observable.Empty<PlayerState>();
+            }
+            return Observable.FromEvent<PlayerState>(
+                h => player.Changed += h,
+                h => player.Changed -= h
+            ).StartWith(player);
+        }
+
         public static IEnumerable<int> GetPlayerIds(this GameState state) {
             return state.Players.Members.Keys;
         }
 
-        public static IList<InputUnit> GetPlayerInputs(this GameState state, int playerId) {
-            return state.GetPlayer(playerId)?.Inputs;
+        public static string GetPlayerPrefabKey(this GameState state, int playerId) {
+            return state.GetPlayer(playerId)?.PrefabKey;
         }
     }
 }

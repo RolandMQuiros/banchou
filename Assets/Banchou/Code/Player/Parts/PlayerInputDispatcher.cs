@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Banchou.Player.Part {
     public class PlayerInputDispatcher : MonoBehaviour {
-        [SerializeField] private Transform _camera = Camera.main.transform;
+        [SerializeField] private Transform _camera;
 
         private int _playerId;
         private Dispatcher _dispatch;
@@ -15,6 +15,8 @@ namespace Banchou.Player.Part {
         private Vector2 _lookInput;
         private PlayerCommand _commandsInput;
 
+        private InputUnit _lastUnit;
+
         public void Construct(
             GetPlayerId getPlayerId,
             Dispatcher dispatch,
@@ -25,6 +27,8 @@ namespace Banchou.Player.Part {
             _dispatch = dispatch;
             _playerActions = playerActions;
             _getTime = getTime;
+
+            _camera = _camera == null ? Camera.main.transform : _camera;
         }
 
         public void DispatchMovement(InputAction.CallbackContext callbackContext) {
@@ -47,20 +51,19 @@ namespace Banchou.Player.Part {
             var move = _moveInput.CameraPlaneProject(_camera);
             var look = _lookInput;
 
-            _dispatch(_playerActions.PushInput(
-                new InputUnit(
+            if (move != _lastUnit.Direction || look != _lastUnit.Look || _commandsInput != _lastUnit.Commands) {
+                _lastUnit = new InputUnit(
                     playerId: _playerId,
                     when: _getTime(),
                     sequence: _sequence++,
                     commands: _commandsInput,
                     direction: move,
                     look: look
-                )
-            ));
+                );
 
-            _moveInput = Vector3.zero;
-            _lookInput = Vector3.zero;
-            _commandsInput = PlayerCommand.None;
+                _dispatch(_playerActions.PushInput(_lastUnit));
+                _commandsInput = PlayerCommand.None;
+            }
         }
     }
 }

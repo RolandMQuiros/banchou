@@ -6,16 +6,16 @@ namespace Banchou.Pawn.Part {
         public void Construct(
             GetPawnId getPawnId,
             GetTime getTime,
-            GameState state,
+            GetState getState,
             Dispatcher dispatch,
             CharacterController controller
         ) {
             var pawnId = getPawnId();
 
-            state.ObservePawnChanges(pawnId)
+            getState().ObservePawn(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    var vectors = state.GetPawnVectors(pawnId);
+                    var vectors = getState().GetPawnVectors(pawnId);
 
                     if (controller.transform.position != vectors.Position) {
                         controller.enabled = false;

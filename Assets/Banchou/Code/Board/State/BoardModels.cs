@@ -6,7 +6,7 @@ using Banchou.Pawn;
 
 namespace Banchou.Board {
     [MessagePackObject]
-    public class BoardState : Substate {
+    public class BoardState : Substate<BoardState> {
         [Key(0)] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
         [Key(1)] public float LastUpdated;
 

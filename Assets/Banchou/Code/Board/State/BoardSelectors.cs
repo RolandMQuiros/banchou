@@ -5,8 +5,8 @@ using UniRx;
 
 namespace Banchou.Board {
     public static class BoardSelectors {
-        public static IObservable<Unit> ObserveBoard(this GameState state) {
-            return Observable.FromEvent(
+        public static IObservable<BoardState> ObserveBoard(this GameState state) {
+            return Observable.FromEvent<BoardState>(
                 h => state.Board.Changed += h,
                 h => state.Board.Changed -= h
             );
@@ -14,10 +14,6 @@ namespace Banchou.Board {
 
         public static IEnumerable<int> GetPawnIds(this GameState state) {
             return state.Board.Pawns.Keys;
-        }
-
-        public static int GetNextPawnId(this GameState state) {
-            return state.GetPawnIds().Any() ? state.GetPawnIds().Max() + 1 : 1;
         }
     }
 }

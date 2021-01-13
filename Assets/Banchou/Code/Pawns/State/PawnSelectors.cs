@@ -2,6 +2,8 @@ using System;
 using UniRx;
 using UnityEngine;
 
+using Banchou.Player;
+
 namespace Banchou.Pawn {
     public static class PawnSelectors {
         public static PawnState GetPawn(this GameState state, int pawnId) {
@@ -12,16 +14,25 @@ namespace Banchou.Pawn {
             return null;
         }
 
-        public static IObservable<Unit> ObservePawnChanges(this GameState state, int pawnId) {
+        public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) {
             var pawn = state.GetPawn(pawnId);
             if (pawn == null) {
-                return Observable.Empty<Unit>();
+                return Observable.Empty<PawnState>();
             } else {
-                return Observable.FromEvent(
+                return Observable.FromEvent<PawnState>(
                     h => pawn.Changed += h,
                     h => pawn.Changed -= h
-                );
+                ).StartWith(pawn);
             }
+        }
+
+        public static IObservable<InputUnit> ObservePawnInput(this GameState state, int pawnId) {
+            return state.ObservePawn(pawnId)
+                .Select(pawn => pawn.PlayerId)
+                .DistinctUntilChanged()
+                .SelectMany(playerId => state.ObservePlayer(playerId))
+                .Select(player => player.LastInput)
+                .DistinctUntilChanged();
         }
 
         public static int GetPawnPlayerId(this GameState state, int pawnId) {

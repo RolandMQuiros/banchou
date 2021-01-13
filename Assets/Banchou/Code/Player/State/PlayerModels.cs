@@ -4,15 +4,13 @@ using MessagePack;
 
 namespace Banchou.Player {
     [MessagePackObject]
-    public class PlayerState : Substate {
+    public class PlayerState : Substate<PlayerState> {
         [Key(0)] public int PlayerId { get; private set; }
         [Key(1)] public string PrefabKey { get; private set; }
         [Key(2)] public int NetworkId { get; private set; }
-        [Key(3)] public List<InputUnit> Inputs { get; private set; } = new List<InputUnit>();
-
+        [Key(3)] public InputUnit LastInput { get; private set; }
 
         public PlayerState() { }
-
         public PlayerState(
             int id,
             string prefabKey,
@@ -26,13 +24,8 @@ namespace Banchou.Player {
         protected override bool Consume(IList actions) {
             var consumed = false;
             foreach (var action in actions) {
-                if (action is Banchou.StateAction.StartProcess && Inputs.Count > 0) {
-                    Inputs.Clear();
-                    consumed = true;
-                }
-
                 if (action is StateAction.PushInput push && push.Unit.PlayerId == PlayerId) {
-                    Inputs.Add(push.Unit);
+                    LastInput = push.Unit;
                     consumed = true;
                 }
             }
@@ -41,7 +34,7 @@ namespace Banchou.Player {
     }
 
     [MessagePackObject]
-    public class PlayersState : Substate {
+    public class PlayersState : Substate<PlayersState> {
         [Key(0)] public Dictionary<int, PlayerState> Members { get; private set; } = new Dictionary<int, PlayerState>();
 
         protected override bool Consume(IList actions) {

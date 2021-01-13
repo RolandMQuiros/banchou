@@ -37,7 +37,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             writer.Write(value.PlayerId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PrefabKey, options);
             writer.Write(value.NetworkId);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>>().Serialize(ref writer, value.Inputs, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputUnit>().Serialize(ref writer, value.LastInput, options);
         }
 
         public global::Banchou.Player.PlayerState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -53,7 +53,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             var __PlayerId__ = default(int);
             var __PrefabKey__ = default(string);
             var __NetworkId__ = default(int);
-            var __Inputs__ = default(global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>);
+            var __LastInput__ = default(global::Banchou.Player.InputUnit);
 
             for (int i = 0; i < length; i++)
             {
@@ -71,7 +71,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                         __NetworkId__ = reader.ReadInt32();
                         break;
                     case 3:
-                        __Inputs__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>>().Deserialize(ref reader, options);
+                        __LastInput__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputUnit>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

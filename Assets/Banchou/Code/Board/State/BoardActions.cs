@@ -1,6 +1,5 @@
-
 using UnityEngine;
-
+using Random = System.Random;
 namespace Banchou.Board {
     namespace StateAction {
         public struct AddPawn {
@@ -24,25 +23,29 @@ namespace Banchou.Board {
 
     public class BoardActions {
         private GetTime _getTime;
+        private int _idCount = 0;
+
         public BoardActions(GetTime getTime) {
             _getTime = getTime;
         }
 
         public StateAction.AddPawn AddPawn(
-            int pawnId,
             string prefabKey,
+            int? pawnId = null,
             int playerId = 0,
             Vector3? position = null,
             Vector3? forward = null,
             float? when = null
-        ) => new StateAction.AddPawn {
-            PawnId = pawnId,
-            PrefabKey = prefabKey,
-            PlayerId = playerId,
-            Position = position ?? Vector3.zero,
-            Forward = forward ?? Vector3.forward,
-            When = when ?? _getTime()
-        };
+        ){
+            return new StateAction.AddPawn {
+                PawnId = pawnId ?? ++_idCount,
+                PrefabKey = prefabKey,
+                PlayerId = playerId,
+                Position = position ?? Vector3.zero,
+                Forward = forward ?? Vector3.forward,
+                When = when ?? _getTime()
+            };
+        }
 
         public StateAction.RemovePawn RemovePawn(int pawnId, float? when = null) => new StateAction.RemovePawn {
             PawnId = pawnId,
