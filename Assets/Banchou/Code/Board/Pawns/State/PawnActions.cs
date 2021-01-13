@@ -27,8 +27,8 @@ namespace Banchou.Pawn {
         private int _pawnId;
         private GetTime _getTime;
 
-        public PawnActions(int pawnId, GetTime getTime) {
-            _pawnId = pawnId;
+        public PawnActions(GetPawnId getPawnId, GetTime getTime) {
+            _pawnId = getPawnId();
             _getTime = getTime;
         }
 

@@ -8,11 +8,11 @@ namespace Banchou.Pawn.Part {
         private Rigidbody _rigidbody;
         private PawnActions _pawnActions;
 
-        public void Construct(int pawnId, GetTime getTime) {
+        public void Construct(GetPawnId getPawnId, GetTime getTime) {
             _animator = GetComponentInChildren<Animator>();
             _controller = GetComponentInChildren<CharacterController>();
             _rigidbody = GetComponentInChildren<Rigidbody>();
-            _pawnActions = new PawnActions(pawnId, getTime);
+            _pawnActions = new PawnActions(getPawnId, getTime);
         }
 
         public DiContainer InstallBindings(DiContainer container) {

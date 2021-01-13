@@ -29,8 +29,8 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(6);
             writer.Write(value.PlayerId);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputUnitType>().Serialize(ref writer, value.Type, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayerCommand>().Serialize(ref writer, value.Command, options);
+            writer.WriteNil();
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayerCommand>().Serialize(ref writer, value.Commands, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Direction, options);
             writer.Write(value.Sequence);
             writer.Write(value.When);
@@ -47,8 +47,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __PlayerId__ = default(int);
-            var __Type__ = default(global::Banchou.Player.InputUnitType);
-            var __Command__ = default(global::Banchou.Player.PlayerCommand);
+            var __Commands__ = default(global::Banchou.Player.PlayerCommand);
             var __Direction__ = default(global::UnityEngine.Vector3);
             var __Sequence__ = default(long);
             var __When__ = default(float);
@@ -62,11 +61,8 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                     case 0:
                         __PlayerId__ = reader.ReadInt32();
                         break;
-                    case 1:
-                        __Type__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputUnitType>().Deserialize(ref reader, options);
-                        break;
                     case 2:
-                        __Command__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayerCommand>().Deserialize(ref reader, options);
+                        __Commands__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayerCommand>().Deserialize(ref reader, options);
                         break;
                     case 3:
                         __Direction__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
@@ -83,7 +79,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                 }
             }
 
-            var ____result = new global::Banchou.Player.InputUnit(__PlayerId__, __Type__, __Command__, __Direction__, __Sequence__, __When__);
+            var ____result = new global::Banchou.Player.InputUnit();
             reader.Depth--;
             return ____result;
         }
