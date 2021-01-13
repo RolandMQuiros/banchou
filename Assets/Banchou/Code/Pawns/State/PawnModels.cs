@@ -16,6 +16,7 @@ namespace Banchou.Pawn {
         [IgnoreMember] public Vector3 Right => Vector3.Cross(Forward, Up);
         [Key(6)] public Vector3 Velocity { get; private set; }
         [Key(7)] public bool IsContinuous { get; private set; }
+        [Key(9)] public bool IsGrounded { get; private set; }
         [Key(8)] public float LastUpdated { get; private set; }
 
         public PawnState(
@@ -26,7 +27,6 @@ namespace Banchou.Pawn {
             Vector3? forward = null,
             Vector3? up = null,
             Vector3? velocity = null,
-            bool isContinuous = false,
             float lastUpdated = 0f
         ) {
             PawnId = pawnId;
@@ -36,7 +36,8 @@ namespace Banchou.Pawn {
             Forward = forward ?? Vector3.forward;
             Up = up ?? Vector3.up;
             Velocity = velocity ?? Vector3.zero;
-            IsContinuous = isContinuous;
+            IsContinuous = false;
+            IsGrounded = false;
             LastUpdated = lastUpdated;
         }
 
@@ -54,6 +55,7 @@ namespace Banchou.Pawn {
                 if (action is StateAction.PawnMoved moved && moved.PawnId == PawnId) {
                     Position = moved.Position;
                     Velocity = moved.CancelMomentum ? Vector3.zero : Velocity;
+                    IsGrounded = moved.IsGrounded;
                     LastUpdated = moved.When;
                     consumed = true;
                 }

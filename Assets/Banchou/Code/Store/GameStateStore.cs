@@ -5,12 +5,13 @@ using UnityEngine;
 namespace Banchou {
     [CreateAssetMenu(fileName = "GameStateStore.asset", menuName = "Banchou/Game State Store")]
     public class GameStateStore : ScriptableObject {
-        private List<object> _actions = new List<object> { new StateAction.StartProcess() };
+        private Queue<object> _buffer = new Queue<object>();
+        private List<object> _actions = new List<object>();
         private GameState _state = new GameState();
         private long _processCount = 0L;
 
         public void Dispatch(in object action) {
-            _actions.Add(action);
+            _buffer.Enqueue(action);
         }
 
         public GameState GetState() {
@@ -19,21 +20,22 @@ namespace Banchou {
 
         public void ProcessStateActions() {
             _processCount++;
-            _actions.Add(
-                new StateAction.EndProcess {
+
+            // Load the buffer into the actions list
+            _actions.Add(new StateAction.StartProcess {
                     ProcessCount = _processCount
-                }
-            );
+            });
+            while (_buffer.Count > 0) {
+                _actions.Add(_buffer.Dequeue());
+            }
+            _actions.Add(new StateAction.EndProcess {
+                ProcessCount = _processCount
+            });
 
-
+            // Processing can cause more additions to the queue, so we need to juggle collections
+            // so we don't skip anything
             _state.Process(_actions);
-
             _actions.Clear();
-            _actions.Add(
-                new StateAction.StartProcess {
-                    ProcessCount = _processCount
-                }
-            );
         }
     }
 

@@ -43,7 +43,7 @@ namespace Banchou.Pawn {
             return state.GetPawn(pawnId)?.PrefabKey;
         }
 
-        public static (Vector3 Position, Vector3 Forward, Vector3 Up, Vector3 Velocity) GetPawnVectors(this GameState state, int pawnId) {
+        public static (Vector3 Position, Vector3 Forward, Vector3 Up, Vector3 Velocity) GetPawnSpatial(this GameState state, int pawnId) {
             var pawn = state.GetPawn(pawnId);
             if (pawn == null) {
                 return (

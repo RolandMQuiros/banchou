@@ -19,6 +19,7 @@ namespace Banchou.Pawn {
             public int PawnId;
             public Vector3 Position;
             public bool CancelMomentum;
+            public bool IsGrounded;
             public float When;
         }
     }
@@ -44,12 +45,14 @@ namespace Banchou.Pawn {
 
         public StateAction.PawnMoved Moved(
             Vector3 position,
+            bool isGrounded,
             bool cancelMomentum = true,
             int? pawnId = null,
             float? when = null
         ) => new StateAction.PawnMoved {
             PawnId = pawnId ?? _pawnId,
             Position = position,
+            IsGrounded = isGrounded,
             CancelMomentum = cancelMomentum,
             When = when ?? _getTime()
         };

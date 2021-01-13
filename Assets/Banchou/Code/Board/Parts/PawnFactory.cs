@@ -36,7 +36,7 @@ namespace Banchou.Board.Part {
 
                         foreach (var id in added) {
                             var prefabKey = state.GetPawnPrefabKey(id);
-                            var vectors = state.GetPawnVectors(id);
+                            var vectors = state.GetPawnSpatial(id);
                             GameObject prefab;
                             if (catalog.TryGetValue(prefabKey, out prefab)) {
                                 spawned[id] = instantiate(

@@ -5,9 +5,9 @@ namespace Banchou.Pawn.Part {
     public class Motor : MonoBehaviour {
         public void Construct(
             GetPawnId getPawnId,
-            GetTime getTime,
             GetState getState,
             Dispatcher dispatch,
+            PawnActions pawnActions,
             CharacterController controller
         ) {
             var pawnId = getPawnId();
@@ -15,22 +15,21 @@ namespace Banchou.Pawn.Part {
             getState().ObservePawn(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    var vectors = getState().GetPawnVectors(pawnId);
+                    var spatial = getState().GetPawnSpatial(pawnId);
 
-                    if (controller.transform.position != vectors.Position) {
+                    if (controller.transform.position != spatial.Position) {
                         controller.enabled = false;
-                        controller.transform.position = vectors.Position;
+                        controller.transform.position = spatial.Position;
                         controller.enabled = true;
                     }
 
-                    if (vectors.Velocity != Vector3.zero) {
-                        controller.Move(vectors.Velocity);
+                    if (spatial.Velocity != Vector3.zero) {
+                        controller.Move(spatial.Velocity);
                         dispatch(
-                            new StateAction.PawnMoved {
-                                PawnId = pawnId,
-                                Position = controller.transform.position,
-                                When = getTime()
-                            }
+                            pawnActions.Moved(
+                                position: controller.transform.position,
+                                isGrounded: controller.isGrounded
+                            )
                         );
                     }
                 })

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Player {
     [Flags]
-    public enum PlayerCommand : byte {
+    public enum InputCommand : byte {
         None,
         LightAttack,
         HeavyAttack,
@@ -17,7 +17,7 @@ namespace Banchou.Player {
     [MessagePackObject]
     public struct InputUnit {
         [Key(0)] public int PlayerId { get; private set; }
-        [Key(2)] public PlayerCommand Commands { get; private set; }
+        [Key(2)] public InputCommand Commands { get; private set; }
         [Key(3)] public Vector3 Direction { get; private set; }
         [IgnoreMember] public Vector2 Look { get; private set; }
         [Key(4)] public long Sequence { get; private set; }
@@ -27,7 +27,7 @@ namespace Banchou.Player {
             int playerId,
             long sequence,
             float when,
-            PlayerCommand commands = PlayerCommand.None,
+            InputCommand commands = InputCommand.None,
             Vector3 direction = default,
             Vector2 look = default
         ) {

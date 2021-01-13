@@ -13,7 +13,7 @@ namespace Banchou.Player.Part {
         private long _sequence = 0L;
         private Vector2 _moveInput;
         private Vector2 _lookInput;
-        private PlayerCommand _commandsInput;
+        private InputCommand _commandsInput;
 
         private InputUnit _lastUnit;
 
@@ -43,7 +43,7 @@ namespace Banchou.Player.Part {
 
         public void DispatchLightAttack(InputAction.CallbackContext callbackContext) {
             if (callbackContext.performed) {
-                _commandsInput |= PlayerCommand.LightAttack;
+                _commandsInput |= InputCommand.LightAttack;
             }
         }
 
@@ -62,7 +62,7 @@ namespace Banchou.Player.Part {
                 );
 
                 _dispatch(_playerActions.PushInput(_lastUnit));
-                _commandsInput = PlayerCommand.None;
+                _commandsInput = InputCommand.None;
             }
         }
     }
