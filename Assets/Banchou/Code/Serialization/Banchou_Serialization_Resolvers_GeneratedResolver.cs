@@ -49,12 +49,19 @@ namespace Banchou.Serialization.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(4)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(11)
             {
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>), 0 },
-                { typeof(global::Banchou.Board.BoardState), 1 },
-                { typeof(global::Banchou.GameState), 2 },
-                { typeof(global::Banchou.Pawn.PawnState), 3 },
+                { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>), 1 },
+                { typeof(global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>), 2 },
+                { typeof(global::Banchou.Player.InputUnitType), 3 },
+                { typeof(global::Banchou.Player.PlayerCommand), 4 },
+                { typeof(global::Banchou.Board.BoardState), 5 },
+                { typeof(global::Banchou.GameState), 6 },
+                { typeof(global::Banchou.Pawn.PawnState), 7 },
+                { typeof(global::Banchou.Player.InputUnit), 8 },
+                { typeof(global::Banchou.Player.PlayersState), 9 },
+                { typeof(global::Banchou.Player.PlayerState), 10 },
             };
         }
 
@@ -69,9 +76,16 @@ namespace Banchou.Serialization.Resolvers
             switch (key)
             {
                 case 0: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Pawn.PawnState>();
-                case 1: return new Banchou.Serialization.Formatters.Banchou.Board.BoardStateFormatter();
-                case 2: return new Banchou.Serialization.Formatters.Banchou.GameStateFormatter();
-                case 3: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnStateFormatter();
+                case 1: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Player.PlayerState>();
+                case 2: return new global::MessagePack.Formatters.ListFormatter<global::Banchou.Player.InputUnit>();
+                case 3: return new Banchou.Serialization.Formatters.Banchou.Player.InputUnitTypeFormatter();
+                case 4: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerCommandFormatter();
+                case 5: return new Banchou.Serialization.Formatters.Banchou.Board.BoardStateFormatter();
+                case 6: return new Banchou.Serialization.Formatters.Banchou.GameStateFormatter();
+                case 7: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnStateFormatter();
+                case 8: return new Banchou.Serialization.Formatters.Banchou.Player.InputUnitFormatter();
+                case 9: return new Banchou.Serialization.Formatters.Banchou.Player.PlayersStateFormatter();
+                case 10: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerStateFormatter();
                 default: return null;
             }
         }

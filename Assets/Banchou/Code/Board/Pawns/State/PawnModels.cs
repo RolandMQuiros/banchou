@@ -7,7 +7,7 @@ namespace Banchou.Pawn {
 
     [MessagePackObject]
     public class PawnState : Substate {
-        [Key(0)] public int Id { get; private set; }
+        [Key(0)] public int PawnId { get; private set; }
         [Key(1)] public int PlayerId { get; private set; }
         [Key(2)] public string PrefabKey { get; private set; }
         [Key(3)] public Vector3 Position { get; private set; }
@@ -18,7 +18,7 @@ namespace Banchou.Pawn {
         [Key(8)] public float LastUpdated { get; private set; }
 
         public PawnState(
-            int id,
+            int pawnId,
             int playerId,
             string prefabKey,
             Vector3 position,
@@ -28,7 +28,7 @@ namespace Banchou.Pawn {
             bool isContinuous = false,
             float lastUpdated = 0f
         ) {
-            Id = id;
+            PawnId = pawnId;
             PlayerId = playerId;
             PrefabKey = prefabKey;
             Position = position;
@@ -39,39 +39,28 @@ namespace Banchou.Pawn {
             LastUpdated = lastUpdated;
         }
 
-        public PawnState(in PawnState prev) {
-            Id = prev.Id;
-            PlayerId = prev.PlayerId;
-            PrefabKey = prev.PrefabKey;
-            Position = prev.Position;
-            Forward = prev.Forward;
-            Up = prev.Up;
-            Velocity = prev.Velocity;
-            IsContinuous = prev.IsContinuous;
-            LastUpdated = prev.LastUpdated;
-        }
-
         protected override bool Consume(IList actions) {
             var consumed = false;
 
             foreach (var action in actions) {
-                if (action is StateAction.Move move && move.PawnId == Id) {
+                if (action is StateAction.MovePawn move && move.PawnId == PawnId) {
                     Velocity = move.Direction;
                     IsContinuous = true;
                     LastUpdated = move.When;
                     consumed = true;
                 }
 
-                if (action is StateAction.Moved moved && moved.PawnId == Id) {
+                if (action is StateAction.PawnMoved moved && moved.PawnId == PawnId) {
                     Position = moved.Position;
                     LastUpdated = moved.When;
                     consumed = true;
                 }
 
-                if (action is StateAction.Teleport teleport && teleport.PawnId == Id) {
+                if (action is StateAction.TeleportPawn teleport && teleport.PawnId == PawnId) {
                     Position = teleport.Position;
                     Velocity = teleport.CancelMomentum ? Vector3.zero : Velocity;
                     IsContinuous = false;
+                    LastUpdated = teleport.When;
                     consumed = true;
                 }
             }

@@ -26,7 +26,7 @@ namespace Banchou.Pawn.Part {
                     if (vectors.Velocity != Vector3.zero) {
                         controller.Move(vectors.Velocity);
                         dispatch(
-                            new StateAction.Moved {
+                            new StateAction.PawnMoved {
                                 PawnId = pawnId,
                                 Position = controller.transform.position,
                                 When = getTime()

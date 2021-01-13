@@ -34,7 +34,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(9);
-            writer.Write(value.Id);
+            writer.Write(value.PawnId);
             writer.Write(value.PlayerId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PrefabKey, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Position, options);
@@ -55,7 +55,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Id__ = default(int);
+            var __PawnId__ = default(int);
             var __PlayerId__ = default(int);
             var __PrefabKey__ = default(string);
             var __Position__ = default(global::UnityEngine.Vector3);
@@ -72,7 +72,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                 switch (key)
                 {
                     case 0:
-                        __Id__ = reader.ReadInt32();
+                        __PawnId__ = reader.ReadInt32();
                         break;
                     case 1:
                         __PlayerId__ = reader.ReadInt32();
@@ -104,7 +104,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                 }
             }
 
-            var ____result = new global::Banchou.Pawn.PawnState(__Id__, __PlayerId__, __PrefabKey__, __Position__, __Forward__, __Up__, __Velocity__, __IsContinuous__, __LastUpdated__);
+            var ____result = new global::Banchou.Pawn.PawnState(__PawnId__, __PlayerId__, __PrefabKey__, __Position__, __Forward__, __Up__, __Velocity__, __IsContinuous__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

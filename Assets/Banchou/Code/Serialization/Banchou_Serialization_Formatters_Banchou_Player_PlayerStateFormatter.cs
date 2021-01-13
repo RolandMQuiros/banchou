@@ -14,17 +14,17 @@
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Banchou.Serialization.Formatters.Banchou.Board
+namespace Banchou.Serialization.Formatters.Banchou.Player
 {
     using System;
     using System.Buffers;
     using MessagePack;
 
-    public sealed class BoardStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Board.BoardState>
+    public sealed class PlayerStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.PlayerState>
     {
 
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Board.BoardState value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.PlayerState value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -33,12 +33,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(2);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>>().Serialize(ref writer, value.Pawns, options);
-            writer.Write(value.LastUpdated);
+            writer.WriteArrayHeader(4);
+            writer.Write(value.PlayerId);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PrefabKey, options);
+            writer.Write(value.NetworkId);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>>().Serialize(ref writer, value.Inputs, options);
         }
 
-        public global::Banchou.Board.BoardState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Player.PlayerState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -48,8 +50,10 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Pawns__ = default(global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>);
-            var __LastUpdated__ = default(float);
+            var __PlayerId__ = default(int);
+            var __PrefabKey__ = default(string);
+            var __NetworkId__ = default(int);
+            var __Inputs__ = default(global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>);
 
             for (int i = 0; i < length; i++)
             {
@@ -58,10 +62,16 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
                 switch (key)
                 {
                     case 0:
-                        __Pawns__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>>().Deserialize(ref reader, options);
+                        __PlayerId__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __LastUpdated__ = reader.ReadSingle();
+                        __PrefabKey__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __NetworkId__ = reader.ReadInt32();
+                        break;
+                    case 3:
+                        __Inputs__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Player.InputUnit>>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();
@@ -69,8 +79,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
                 }
             }
 
-            var ____result = new global::Banchou.Board.BoardState();
-            ____result.LastUpdated = __LastUpdated__;
+            var ____result = new global::Banchou.Player.PlayerState(__PlayerId__, __PrefabKey__, __NetworkId__);
             reader.Depth--;
             return ____result;
         }
