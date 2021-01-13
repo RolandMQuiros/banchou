@@ -6,18 +6,21 @@ namespace Banchou.Pawn.Part {
         private Animator _animator;
         private CharacterController _controller;
         private Rigidbody _rigidbody;
+        private PawnActions _pawnActions;
 
-        public void Construct() {
+        public void Construct(int pawnId, GetTime getTime) {
             _animator = GetComponentInChildren<Animator>();
             _controller = GetComponentInChildren<CharacterController>();
             _rigidbody = GetComponentInChildren<Rigidbody>();
+            _pawnActions = new PawnActions(pawnId, getTime);
         }
 
         public DiContainer InstallBindings(DiContainer container) {
             return container
                 .Bind(_animator)
                 .Bind(_controller)
-                .Bind(_rigidbody);
+                .Bind(_rigidbody)
+                .Bind(_pawnActions);
         }
     }
 }
