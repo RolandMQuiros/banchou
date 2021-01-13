@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UniRx;
 
@@ -13,6 +14,10 @@ namespace Banchou.Board {
 
         public static IEnumerable<int> GetPawnIds(this GameState state) {
             return state.Board.Pawns.Keys;
+        }
+
+        public static int GetNextPawnId(this GameState state) {
+            return state.GetPawnIds().Any() ? state.GetPawnIds().Max() + 1 : 1;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Banchou.Board {
         public BoardState(BoardState prev) {
             Pawns = prev.Pawns;
         }
-        protected override bool Consume(IEnumerable actions) {
+        protected override bool Consume(IList actions) {
             var consumed = false;
 
             foreach (var action in actions) {

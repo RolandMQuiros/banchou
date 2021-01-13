@@ -13,5 +13,9 @@ namespace Banchou {
                 .Bind<GetTime>(() => Time.fixedUnscaledTime)
                 .Bind<GetDeltaTime>(() => Time.fixedUnscaledDeltaTime);
         }
+
+        private void LateUpdate() {
+            _store.ProcessStateActions();
+        }
     }
 }

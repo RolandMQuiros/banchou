@@ -51,7 +51,7 @@ namespace Banchou.Pawn {
             LastUpdated = prev.LastUpdated;
         }
 
-        protected override bool Consume(IEnumerable actions) {
+        protected override bool Consume(IList actions) {
             var consumed = false;
 
             foreach (var action in actions) {

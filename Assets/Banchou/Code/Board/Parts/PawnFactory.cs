@@ -20,16 +20,18 @@ namespace Banchou.Part {
         [SerializeField] private NamedPrefab[] _catalog = null;
 
         public void Construct(
-            GameState state,
+            GetState getState,
             Instantiator instantiate
         ) {
             var catalog = _catalog.ToDictionary(n => n.Key, n => n.Prefab);
             var spawned = new Dictionary<int, GameObject>();
 
-            state.ObserveBoard()
+            getState().ObserveBoard()
                 .CatchIgnoreLog()
                 .Subscribe(
                     _ => {
+                        Debug.Log("Board update detected");
+                        var state = getState();
                         var added = state.GetPawnIds().Except(spawned.Keys);
                         var removed = spawned.Keys.Except(state.GetPawnIds());
 

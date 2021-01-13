@@ -4,10 +4,8 @@ using System.Collections;
 namespace Banchou {
     public abstract class Substate {
         public event Action Changed;
-        private bool _didChange = false;
-
-        protected abstract bool Consume(IEnumerable actions);
-        public virtual void Process(IEnumerable actions) {
+        protected abstract bool Consume(IList actions);
+        public virtual void Process(IList actions) {
             if (Consume(actions) && Changed != null) {
                 Changed();
             }
