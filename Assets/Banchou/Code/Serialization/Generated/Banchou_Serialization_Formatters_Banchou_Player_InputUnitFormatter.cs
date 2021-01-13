@@ -30,7 +30,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             writer.WriteArrayHeader(6);
             writer.Write(value.PlayerId);
             writer.WriteNil();
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayerCommand>().Serialize(ref writer, value.Commands, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputCommand>().Serialize(ref writer, value.Commands, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Direction, options);
             writer.Write(value.Sequence);
             writer.Write(value.When);
@@ -47,7 +47,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __PlayerId__ = default(int);
-            var __Commands__ = default(global::Banchou.Player.PlayerCommand);
+            var __Commands__ = default(global::Banchou.Player.InputCommand);
             var __Direction__ = default(global::UnityEngine.Vector3);
             var __Sequence__ = default(long);
             var __When__ = default(float);
@@ -62,7 +62,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                         __PlayerId__ = reader.ReadInt32();
                         break;
                     case 2:
-                        __Commands__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayerCommand>().Deserialize(ref reader, options);
+                        __Commands__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputCommand>().Deserialize(ref reader, options);
                         break;
                     case 3:
                         __Direction__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);

@@ -53,7 +53,7 @@ namespace Banchou.Serialization.Resolvers
             {
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>), 1 },
-                { typeof(global::Banchou.Player.PlayerCommand), 2 },
+                { typeof(global::Banchou.Player.InputCommand), 2 },
                 { typeof(global::Banchou.Board.BoardState), 3 },
                 { typeof(global::Banchou.GameState), 4 },
                 { typeof(global::Banchou.Pawn.PawnState), 5 },
@@ -75,7 +75,7 @@ namespace Banchou.Serialization.Resolvers
             {
                 case 0: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Pawn.PawnState>();
                 case 1: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Player.PlayerState>();
-                case 2: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerCommandFormatter();
+                case 2: return new Banchou.Serialization.Formatters.Banchou.Player.InputCommandFormatter();
                 case 3: return new Banchou.Serialization.Formatters.Banchou.Board.BoardStateFormatter();
                 case 4: return new Banchou.Serialization.Formatters.Banchou.GameStateFormatter();
                 case 5: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnStateFormatter();

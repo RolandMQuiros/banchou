@@ -17,16 +17,16 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
     using System.Buffers;
     using MessagePack;
 
-    public sealed class PlayerCommandFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.PlayerCommand>
+    public sealed class InputCommandFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.InputCommand>
     {
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.PlayerCommand value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.InputCommand value, global::MessagePack.MessagePackSerializerOptions options)
         {
             writer.Write((Byte)value);
         }
 
-        public global::Banchou.Player.PlayerCommand Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Player.InputCommand Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
-            return (global::Banchou.Player.PlayerCommand)reader.ReadByte();
+            return (global::Banchou.Player.InputCommand)reader.ReadByte();
         }
     }
 }

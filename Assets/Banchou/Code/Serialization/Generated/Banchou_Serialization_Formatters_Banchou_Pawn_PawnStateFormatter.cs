@@ -33,7 +33,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(9);
+            writer.WriteArrayHeader(10);
             writer.Write(value.PawnId);
             writer.Write(value.PlayerId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PrefabKey, options);
@@ -42,6 +42,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Up, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Velocity, options);
             writer.Write(value.IsContinuous);
+            writer.Write(value.IsGrounded);
             writer.Write(value.LastUpdated);
         }
 
@@ -63,6 +64,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             var __Up__ = default(global::UnityEngine.Vector3);
             var __Velocity__ = default(global::UnityEngine.Vector3);
             var __IsContinuous__ = default(bool);
+            var __IsGrounded__ = default(bool);
             var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
@@ -96,6 +98,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                         __IsContinuous__ = reader.ReadBoolean();
                         break;
                     case 8:
+                        __IsGrounded__ = reader.ReadBoolean();
+                        break;
+                    case 9:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
@@ -104,7 +109,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                 }
             }
 
-            var ____result = new global::Banchou.Pawn.PawnState(__PawnId__, __PlayerId__, __PrefabKey__, __Position__, __Forward__, __Up__, __Velocity__, __IsContinuous__, __LastUpdated__);
+            var ____result = new global::Banchou.Pawn.PawnState(__PawnId__, __PlayerId__, __PrefabKey__, __Position__, __Forward__, __Up__, __Velocity__, __IsContinuous__, __IsGrounded__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }
