@@ -15,11 +15,11 @@ namespace Banchou.Serialization.Resolvers
 {
     using System;
 
-    public class GeneratedResolver : global::MessagePack.IFormatterResolver
+    public class BanchouResolver : global::MessagePack.IFormatterResolver
     {
-        public static readonly global::MessagePack.IFormatterResolver Instance = new GeneratedResolver();
+        public static readonly global::MessagePack.IFormatterResolver Instance = new BanchouResolver();
 
-        private GeneratedResolver()
+        private BanchouResolver()
         {
         }
 
@@ -34,7 +34,7 @@ namespace Banchou.Serialization.Resolvers
 
             static FormatterCache()
             {
-                var f = GeneratedResolverGetFormatterHelper.GetFormatter(typeof(T));
+                var f = BanchouResolverGetFormatterHelper.GetFormatter(typeof(T));
                 if (f != null)
                 {
                     Formatter = (global::MessagePack.Formatters.IMessagePackFormatter<T>)f;
@@ -43,11 +43,11 @@ namespace Banchou.Serialization.Resolvers
         }
     }
 
-    internal static class GeneratedResolverGetFormatterHelper
+    internal static class BanchouResolverGetFormatterHelper
     {
         private static readonly global::System.Collections.Generic.Dictionary<Type, int> lookup;
 
-        static GeneratedResolverGetFormatterHelper()
+        static BanchouResolverGetFormatterHelper()
         {
             lookup = new global::System.Collections.Generic.Dictionary<Type, int>(9)
             {

@@ -40,6 +40,7 @@ namespace Banchou.Pawn.FSM {
 
             ObserveStateUpdate
                 .WithLatestFrom(observePlayerMove, (_, velocity) => velocity)
+                .Where(velocity => velocity != Vector3.zero)
                 .CatchIgnoreLog()
                 .Subscribe(
                     velocity => {

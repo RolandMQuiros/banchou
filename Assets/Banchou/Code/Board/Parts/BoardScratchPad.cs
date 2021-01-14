@@ -19,14 +19,16 @@ namespace Banchou.Board.Part {
                         networkId: 0
                     )
                 );
-                dispatch(
-                    boardActions.AddPawn(
-                        pawnId: 1,
-                        playerId: 1,
-                        prefabKey: "Erho",
-                        position: new Vector3(0f, 2f, 0f)
-                    )
-                );
+                for (int i = 1; i <= 100; i++) {
+                    dispatch(
+                        boardActions.AddPawn(
+                            pawnId: i,
+                            playerId: 1,
+                            prefabKey: "Erho",
+                            position: new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
+                        )
+                    );
+                }
                 yield break;
             }
 

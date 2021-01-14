@@ -5,8 +5,8 @@ using MessagePack;
 namespace Banchou.Player {
     [MessagePackObject]
     public class PlayerState : Substate<PlayerState> {
-        [Key(0)] public int PlayerId { get; private set; }
-        [Key(1)] public string PrefabKey { get; private set; }
+        [Key(0)] public readonly int PlayerId;
+        [Key(1)] public readonly string PrefabKey;
         [Key(2)] public int NetworkId { get; private set; }
         [Key(3)] public InputUnit LastInput { get; private set; }
 

@@ -7,9 +7,9 @@ namespace Banchou.Pawn {
 
     [MessagePackObject]
     public class PawnState : Substate<PawnState> {
-        [Key(0)] public int PawnId { get; private set; }
-        [Key(1)] public int PlayerId { get; private set; }
-        [Key(2)] public string PrefabKey { get; private set; }
+        [Key(0)] public readonly int PawnId;
+        [Key(1)] public readonly string PrefabKey;
+        [Key(2)] public int PlayerId { get; private set; }
         [Key(3)] public Vector3 Position { get; private set; }
         [Key(4)] public Vector3 Forward { get; private set; }
         [Key(5)] public Vector3 Up { get; private set; }
@@ -21,9 +21,9 @@ namespace Banchou.Pawn {
 
         public PawnState(
             int pawnId,
-            int playerId,
             string prefabKey,
-            Vector3 position,
+            int playerId = 0,
+            Vector3 position = default,
             Vector3? forward = null,
             Vector3? up = null,
             Vector3? velocity = null,
@@ -32,9 +32,9 @@ namespace Banchou.Pawn {
             float lastUpdated = 0f
         ) {
             PawnId = pawnId;
-            PlayerId = playerId;
             PrefabKey = prefabKey;
             Position = position;
+            PlayerId = playerId;
             Forward = forward ?? Vector3.forward;
             Up = up ?? Vector3.up;
             Velocity = velocity ?? Vector3.zero;
@@ -47,6 +47,21 @@ namespace Banchou.Pawn {
             var consumed = false;
 
             foreach (var action in actions) {
+                if (action is Banchou.StateAction.SyncGame sync) {
+                    PawnState other;
+                    if (sync.Board.Pawns.TryGetValue(PawnId, out other)) {
+                        PlayerId = other.PlayerId;
+                        Position = other.Position;
+                        Forward = other.Forward;
+                        Up = other.Up;
+                        Velocity = other.Velocity;
+                        IsContinuous = other.IsContinuous;
+                        IsGrounded = other.IsGrounded;
+                        LastUpdated = other.LastUpdated;
+                        consumed = true;
+                    }
+                }
+
                 if (action is StateAction.MovePawn move && move.PawnId == PawnId) {
                     Velocity += move.Direction;
                     IsContinuous = true;
