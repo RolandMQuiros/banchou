@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UniRx;
 
 using Banchou.Player;
@@ -20,7 +21,7 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(
             PawnState pawn,
-            GetState getState,
+            IObservable<GameState> observeState,
             Dispatcher dispatch,
             PawnActions pawnActions,
             Animator animator,
@@ -34,12 +35,14 @@ namespace Banchou.Pawn.FSM {
             var forwardSpeed = 0f;
             var rightSpeed = 0f;
 
-            var observePlayerMove = getState()
-                .ObservePawnInput(pawn.PawnId)
-                .Select(input => _movementSpeed * input.Direction);
-
             ObserveStateUpdate
-                .WithLatestFrom(observePlayerMove, (_, velocity) => velocity)
+                .WithLatestFrom(
+                    observeState
+                        .ObservePawnInput(pawn.PawnId)
+                        .Select(input => input.Direction)
+                        .DistinctUntilChanged(),
+                    (_, velocity) => velocity * _movementSpeed
+                )
                 .Where(velocity => velocity != Vector3.zero)
                 .CatchIgnoreLog()
                 .Subscribe(

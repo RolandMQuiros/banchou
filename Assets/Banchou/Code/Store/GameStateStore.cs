@@ -1,5 +1,6 @@
-using System.Linq;
+using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Banchou {
@@ -18,12 +19,19 @@ namespace Banchou {
             return _state;
         }
 
+        public IObservable<GameState> ObserveState() {
+            return Observable.FromEvent<GameState>(
+                h => _state.Changed += h,
+                h => _state.Changed -= h
+            ).StartWith(_state);
+        }
+
         public void ProcessStateActions() {
             _processCount++;
 
             // Load the buffer into the actions list
             _actions.Add(new StateAction.StartProcess {
-                    ProcessCount = _processCount
+                ProcessCount = _processCount
             });
             while (_buffer.Count > 0) {
                 _actions.Add(_buffer.Dequeue());

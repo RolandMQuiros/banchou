@@ -19,7 +19,7 @@ namespace Banchou.Board.Part {
                         networkId: 0
                     )
                 );
-                for (int i = 1; i <= 100; i++) {
+                for (int i = 1; i <= 1; i++) {
                     dispatch(
                         boardActions.AddPawn(
                             pawnId: i,

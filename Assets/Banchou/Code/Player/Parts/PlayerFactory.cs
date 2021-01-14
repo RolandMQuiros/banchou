@@ -19,17 +19,17 @@ namespace Banchou.Player.Part {
         [SerializeField] private NamedPrefab[] _catalog = null;
 
         public void Construct(
-            GetState getState,
+            IObservable<GameState> observeState,
             Instantiator instantiate
         ) {
             var catalog = _catalog.ToDictionary(n => n.Key, n => n.Prefab);
             var spawned = new Dictionary<int, GameObject>();
 
-            getState().ObservePlayers()
+            observeState
+                .OnPlayersChanged()
                 .CatchIgnoreLog()
                 .Subscribe(
-                    _ => {
-                        var state = getState();
+                    state => {
                         var playerIds = state.GetPlayerIds();
 
                         var added = playerIds.Except(spawned.Keys);

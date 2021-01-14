@@ -50,10 +50,10 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __PlayerId__ = default(int);
-            var __PrefabKey__ = default(string);
             var __NetworkId__ = default(int);
             var __LastInput__ = default(global::Banchou.Player.InputUnit);
+            var __PlayerId__ = default(int);
+            var __PrefabKey__ = default(string);
 
             for (int i = 0; i < length; i++)
             {
@@ -61,17 +61,17 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
 
                 switch (key)
                 {
-                    case 0:
-                        __PlayerId__ = reader.ReadInt32();
-                        break;
-                    case 1:
-                        __PrefabKey__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
                     case 2:
                         __NetworkId__ = reader.ReadInt32();
                         break;
                     case 3:
                         __LastInput__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputUnit>().Deserialize(ref reader, options);
+                        break;
+                    case 0:
+                        __PlayerId__ = reader.ReadInt32();
+                        break;
+                    case 1:
+                        __PrefabKey__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

@@ -27,7 +27,7 @@ namespace Banchou.Pawn {
             Vector3? forward = null,
             Vector3? up = null,
             Vector3? velocity = null,
-            bool isContinuous = false,
+            bool isContinuous = true,
             bool isGrounded = false,
             float lastUpdated = 0f
         ) {

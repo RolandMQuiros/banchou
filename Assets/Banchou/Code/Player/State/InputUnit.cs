@@ -16,6 +16,8 @@ namespace Banchou.Player {
 
     [MessagePackObject]
     public struct InputUnit {
+        public static readonly InputUnit Empty = default;
+
         [Key(0)] public int PlayerId { get; private set; }
         [Key(2)] public InputCommand Commands { get; private set; }
         [Key(3)] public Vector3 Direction { get; private set; }

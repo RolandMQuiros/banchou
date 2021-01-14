@@ -14,17 +14,17 @@
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Banchou.Serialization.Formatters.Banchou.Board
+namespace Banchou.Serialization.Formatters.Banchou.Network
 {
     using System;
     using System.Buffers;
     using MessagePack;
 
-    public sealed class BoardStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Board.BoardState>
+    public sealed class NetworkStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.NetworkState>
     {
 
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Board.BoardState value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.NetworkState value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -33,12 +33,13 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(2);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>>().Serialize(ref writer, value.Pawns, options);
-            writer.Write(value.LastUpdated);
+            writer.WriteArrayHeader(3);
+            writer.Write(value.NetworkId);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.ServerIP, options);
+            writer.Write(value.ServerPort);
         }
 
-        public global::Banchou.Board.BoardState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Network.NetworkState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -48,8 +49,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Pawns__ = default(global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>);
-            var __LastUpdated__ = default(float);
+            var __NetworkId__ = default(int);
+            var __ServerIP__ = default(string);
+            var __ServerPort__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -58,10 +60,13 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
                 switch (key)
                 {
                     case 0:
-                        __Pawns__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>>().Deserialize(ref reader, options);
+                        __NetworkId__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __LastUpdated__ = reader.ReadSingle();
+                        __ServerIP__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __ServerPort__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -69,7 +74,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
                 }
             }
 
-            var ____result = new global::Banchou.Board.BoardState();
+            var ____result = new global::Banchou.Network.NetworkState();
             reader.Depth--;
             return ____result;
         }

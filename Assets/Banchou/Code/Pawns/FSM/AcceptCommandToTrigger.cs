@@ -20,14 +20,14 @@ namespace Banchou.Pawn.FSM {
         private string _outputParameter = null;
 
         public void Construct(
+            IObservable<GameState> observeState,
             GetPawnId getPawnId,
-            GetState getState,
             Animator animator
         ) {
             var commandHash = Animator.StringToHash(_outputParameter);
             var wasTriggered = false;
 
-            getState()
+            observeState
                 .ObservePawnInput(getPawnId())
                 .Select(input => input.Commands)
                 .Where(command => (command & _acceptedCommands) != InputCommand.None && IsStateActive && !wasTriggered)

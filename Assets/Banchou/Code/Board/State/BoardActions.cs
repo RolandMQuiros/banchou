@@ -19,6 +19,14 @@ namespace Banchou.Board {
         public struct ClearPawns {
             public float When;
         }
+
+        public struct RollbackBoard {
+            public BoardState Board;
+        }
+
+        public struct ResimulateBoard {
+            public float CorrectionTime;
+        }
     }
 
     public class BoardActions {
@@ -54,6 +62,14 @@ namespace Banchou.Board {
 
         public StateAction.ClearPawns Clear(float? when = null) => new StateAction.ClearPawns {
             When = when ?? _getTime()
+        };
+
+        public StateAction.RollbackBoard Rollback(BoardState board) => new StateAction.RollbackBoard {
+            Board = board
+        };
+
+        public StateAction.ResimulateBoard Resimulate(float correctionTime) => new StateAction.ResimulateBoard {
+            CorrectionTime = correctionTime
         };
     }
 }

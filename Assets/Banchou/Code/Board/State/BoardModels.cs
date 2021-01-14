@@ -9,28 +9,21 @@ namespace Banchou.Board {
     [MessagePackObject]
     public class BoardState : Substate<BoardState> {
         [Key(0)] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
-        [Key(1)] public float LastUpdated;
-
-        private void Copy(BoardState other) {
-            var syncPawnIds = other.Pawns.Keys;
-
-            // Add missing pawns
-            foreach (var added in syncPawnIds.Except(Pawns.Keys)) {
-                Pawns[added] = other.Pawns[added];
-            }
-
-            // Remove extraneous pawns
-            foreach (var removed in Pawns.Keys.Except(syncPawnIds)) {
-                Pawns.Remove(removed);
-            }
-        }
+        [Key(1)] public float LastUpdated { get; private set; }
 
         protected override bool Consume(IList actions) {
             var consumed = false;
 
             foreach (var action in actions) {
                 if (action is Banchou.StateAction.SyncGame sync) {
-                    Copy(sync.Board);
+                    PatchPawns(sync.Board);
+                    LastUpdated = sync.When;
+                    consumed = true;
+                }
+
+                if (action is StateAction.RollbackBoard rollback) {
+                    PatchPawns(rollback.Board);
+                    LastUpdated = rollback.Board.LastUpdated;
                     consumed = true;
                 }
 
@@ -65,6 +58,20 @@ namespace Banchou.Board {
 
             foreach (var pawn in Pawns.Values) pawn.Process(actions);
             return consumed;
+        }
+
+        private void PatchPawns(BoardState other) {
+            var otherPawnIds = other.Pawns.Keys;
+
+            // Add missing pawns
+            foreach (var added in otherPawnIds.Except(Pawns.Keys)) {
+                Pawns[added] = other.Pawns[added];
+            }
+
+            // Remove extraneous pawns
+            foreach (var removed in Pawns.Keys.Except(otherPawnIds)) {
+                Pawns.Remove(removed);
+            }
         }
     }
 }

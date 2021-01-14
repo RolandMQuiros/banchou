@@ -1,3 +1,5 @@
+using System;
+using UniRx;
 using UnityEngine;
 using Banchou.DependencyInjection;
 
@@ -14,6 +16,7 @@ namespace Banchou {
         public DiContainer InstallBindings(DiContainer container) {
             return container
                 .Bind<GetState>(_store.GetState)
+                .Bind<IObservable<GameState>>(_store.ObserveState())
                 .Bind<Dispatcher>(_store.Dispatch)
                 .Bind<ProcessStateActions>(_store.ProcessStateActions)
                 .Bind<GetTime>(GetLocalTime)
@@ -25,11 +28,11 @@ namespace Banchou {
         }
 
         private float GetLocalTime() {
-            return Time.fixedUnscaledTime;
+            return Time.fixedTime;
         }
 
         private float GetLocalDeltaTime() {
-            return Time.fixedUnscaledDeltaTime;
+            return Time.fixedDeltaTime;
         }
     }
 }

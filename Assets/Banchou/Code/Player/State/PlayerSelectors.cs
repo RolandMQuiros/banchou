@@ -4,11 +4,38 @@ using UniRx;
 
 namespace Banchou.Player {
     public static class PlayersSelectors {
-        public static IObservable<PlayersState> ObservePlayers(this GameState state) {
-            return Observable.FromEvent<PlayersState>(
-                h => state.Players.Changed += h,
-                h => state.Players.Changed -= h
-            );
+        public static IObservable<PlayersState> ObservePlayers(this IObservable<GameState> observeState) {
+            return observeState
+                .SelectMany(state => state.Players.Observe());
+        }
+
+        public static IObservable<GameState> OnPlayersChanged(this IObservable<GameState> observeState) {
+            return observeState
+                .SelectMany(state => state.Players.Observe().Select(_ => state));
+        }
+
+        public static IObservable<PlayerState> ObservePlayer(this IObservable<GameState> observeState, int playerId) {
+            return observeState
+                .ObservePlayers()
+                .SelectMany(players => {
+                    PlayerState player;
+                    if (players.Members.TryGetValue(playerId, out player)) {
+                        return player.Observe();
+                    }
+                    return Observable.Empty<PlayerState>();
+                });
+        }
+
+        public static IObservable<GameState> OnPlayerChanged(this IObservable<GameState> observeState, int playerId) {
+            return observeState
+                .OnPlayersChanged()
+                .SelectMany(state => {
+                    var player = state.GetPlayer(playerId);
+                    if (player != null) {
+                        return player.Observe().Select(_ => state);
+                    }
+                    return Observable.Empty<GameState>();
+                });
         }
 
         public static IDictionary<int, PlayerState> GetPlayers(this GameState state) {
@@ -21,23 +48,16 @@ namespace Banchou.Player {
             return player;
         }
 
-        public static IObservable<PlayerState> ObservePlayer(this GameState state, int playerId) {
-            var player = state.GetPlayer(playerId);
-            if (player == null) {
-                return Observable.Empty<PlayerState>();
-            }
-            return Observable.FromEvent<PlayerState>(
-                h => player.Changed += h,
-                h => player.Changed -= h
-            ).StartWith(player);
-        }
-
         public static IEnumerable<int> GetPlayerIds(this GameState state) {
             return state.Players.Members.Keys;
         }
 
         public static string GetPlayerPrefabKey(this GameState state, int playerId) {
             return state.GetPlayer(playerId)?.PrefabKey;
+        }
+
+        public static InputUnit GetPlayerInput(this GameState state, int playerId) {
+            return state.GetPlayer(playerId)?.LastInput ?? InputUnit.Empty;
         }
     }
 }

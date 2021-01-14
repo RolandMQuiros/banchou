@@ -2,10 +2,46 @@ using System;
 using UniRx;
 using UnityEngine;
 
+using Banchou.Board;
 using Banchou.Player;
 
 namespace Banchou.Pawn {
     public static class PawnSelectors {
+        public static IObservable<PawnState> ObservePawn(this IObservable<GameState> observeState, int pawnId) {
+            return observeState
+                .ObserveBoard()
+                .SelectMany(board => {
+                    PawnState pawn;
+                    if (board.Pawns.TryGetValue(pawnId, out pawn)) {
+                        return pawn.Observe();
+                    }
+                    return Observable.Empty<PawnState>();
+                });
+        }
+
+        public static IObservable<GameState> OnPawnChanged(this IObservable<GameState> observeState, int pawnId) {
+            return observeState
+                .OnBoardChanged()
+                .SelectMany(
+                    state => {
+                        var pawn = state.GetPawn(pawnId);
+                        if (pawn != null) {
+                            return pawn.Observe().Select(_ => state);
+                        }
+                        return Observable.Empty<GameState>();
+                    }
+                );
+        }
+
+        public static IObservable<InputUnit> ObservePawnInput(this IObservable<GameState> observeState, int pawnId) {
+            return observeState
+                .ObservePawn(pawnId)
+                .Select(pawn => pawn.PlayerId)
+                .SelectMany(playerId => observeState.ObservePlayer(playerId))
+                .Select(player => player.LastInput)
+                .DistinctUntilChanged();
+        }
+
         public static PawnState GetPawn(this GameState state, int pawnId) {
             PawnState pawn;
             if (state.Board.Pawns.TryGetValue(pawnId, out pawn)) {
@@ -14,29 +50,12 @@ namespace Banchou.Pawn {
             return null;
         }
 
-        public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) {
-            var pawn = state.GetPawn(pawnId);
-            if (pawn == null) {
-                return Observable.Empty<PawnState>();
-            } else {
-                return Observable.FromEvent<PawnState>(
-                    h => pawn.Changed += h,
-                    h => pawn.Changed -= h
-                ).StartWith(pawn);
-            }
-        }
-
-        public static IObservable<InputUnit> ObservePawnInput(this GameState state, int pawnId) {
-            return state.ObservePawn(pawnId)
-                .Select(pawn => pawn.PlayerId)
-                .DistinctUntilChanged()
-                .SelectMany(playerId => state.ObservePlayer(playerId))
-                .Select(player => player.LastInput)
-                .DistinctUntilChanged();
-        }
-
         public static int GetPawnPlayerId(this GameState state, int pawnId) {
             return state.GetPawn(pawnId)?.PlayerId ?? 0;
+        }
+
+        public static PlayerState GetPawnPlayer(this GameState state, int pawnId) {
+            return state.GetPlayer(state.GetPawnPlayerId(pawnId));
         }
 
         public static string GetPawnPrefabKey(this GameState state, int pawnId) {
