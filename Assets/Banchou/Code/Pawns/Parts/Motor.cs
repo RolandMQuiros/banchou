@@ -28,11 +28,11 @@ namespace Banchou.Pawn.Part {
             }
 
             this.FixedUpdateAsObservable()
+                //.Merge(getState().ObserveResimulation())
                 .WithLatestFrom(
                     observeState.ObservePawn(getPawnId()),
                     (_, pawn) => pawn
                 )
-                //.Merge(getState().ObserveResimulation())
                 .Subscribe(pawn => {
                     if (Snap(rigidbody.position) != Snap(pawn.Position)) {
                         dispatch(pawnActions.Moved(rigidbody.position, _isGrounded));

@@ -4,7 +4,7 @@ using Banchou.Player;
 
 namespace Banchou {
     namespace StateAction {
-        public struct SyncGame {
+        public class SyncGame {
             // public StageState Stage;
             public BoardState Board;
             public PlayersState Players;

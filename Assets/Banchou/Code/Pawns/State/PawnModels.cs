@@ -17,7 +17,8 @@ namespace Banchou.Pawn {
         [Key(6)] public Vector3 Velocity { get; private set; }
         [Key(7)] public bool IsContinuous { get; private set; }
         [Key(8)] public bool IsGrounded { get; private set; }
-        [Key(9)] public float LastUpdated { get; private set; }
+        [Key(9)] public AnimatorFrameData CurrentFrame { get; private set; }
+        [Key(10)] public float LastUpdated { get; private set; }
 
         public PawnState(
             int pawnId,
@@ -40,6 +41,7 @@ namespace Banchou.Pawn {
             Velocity = velocity ?? Vector3.zero;
             IsContinuous = isContinuous;
             IsGrounded = isGrounded;
+            CurrentFrame = AnimatorFrameData.Empty;
             LastUpdated = lastUpdated;
         }
 
@@ -57,6 +59,7 @@ namespace Banchou.Pawn {
                         Velocity = other.Velocity;
                         IsContinuous = other.IsContinuous;
                         IsGrounded = other.IsGrounded;
+                        CurrentFrame = other.CurrentFrame;
                         LastUpdated = other.LastUpdated;
                         consumed = true;
                     }
@@ -85,8 +88,14 @@ namespace Banchou.Pawn {
                     consumed = true;
                 }
 
+                if (action is StateAction.PawnAnimated animated) {
+                    CurrentFrame = animated.FrameData;
+                    LastUpdated = animated.FrameData.When;
+                    consumed = true;
+                }
+
                 if (action is Player.StateAction.RemovePlayer removePlayer && removePlayer.PlayerId == PlayerId) {
-                    PlayerId = 0;
+                    PlayerId = default;
                     LastUpdated = removePlayer.When;
                     consumed = true;
                 }

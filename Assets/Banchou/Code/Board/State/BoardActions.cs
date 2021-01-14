@@ -1,8 +1,8 @@
 using UnityEngine;
-using Random = System.Random;
+
 namespace Banchou.Board {
     namespace StateAction {
-        public struct AddPawn {
+        public class AddPawn {
             public int PawnId;
             public string PrefabKey;
             public int PlayerId;
@@ -11,20 +11,20 @@ namespace Banchou.Board {
             public float When;
         }
 
-        public struct RemovePawn {
+        public class RemovePawn {
             public int PawnId;
             public float When;
         }
 
-        public struct ClearPawns {
+        public class ClearPawns {
             public float When;
         }
 
-        public struct RollbackBoard {
+        public class RollbackBoard {
             public BoardState Board;
         }
 
-        public struct ResimulateBoard {
+        public class ResimulateBoard {
             public float CorrectionTime;
         }
     }

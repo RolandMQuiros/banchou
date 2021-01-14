@@ -1,18 +1,18 @@
 namespace Banchou.Player {
     namespace StateAction {
-        public struct AddPlayer {
+        public class AddPlayer {
             public int PlayerId;
             public string PrefabKey;
             public int NetworkId;
             public float When;
         }
 
-        public struct RemovePlayer {
+        public class RemovePlayer {
             public int PlayerId;
             public float When;
         }
 
-        public struct PushInput {
+        public class PushInput {
             public InputUnit Unit;
             public float When;
         }
