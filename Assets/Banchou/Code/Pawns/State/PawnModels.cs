@@ -1,4 +1,3 @@
-using System.Collections;
 using MessagePack;
 using UnityEngine;
 
@@ -17,8 +16,7 @@ namespace Banchou.Pawn {
         [Key(6)] public Vector3 Velocity { get; private set; }
         [Key(7)] public bool IsContinuous { get; private set; }
         [Key(8)] public bool IsGrounded { get; private set; }
-        [Key(9)] public AnimatorFrameData CurrentFrame { get; private set; }
-        [Key(10)] public float LastUpdated { get; private set; }
+        [Key(9)] public float LastUpdated { get; private set; }
 
         public PawnState(
             int pawnId,
@@ -41,67 +39,60 @@ namespace Banchou.Pawn {
             Velocity = velocity ?? Vector3.zero;
             IsContinuous = isContinuous;
             IsGrounded = isGrounded;
-            CurrentFrame = AnimatorFrameData.Empty;
             LastUpdated = lastUpdated;
         }
 
-        protected override bool Consume(IList actions) {
-            var consumed = false;
+        public void SyncGame(GameState sync, float when) {
+            PawnState other;
+            if (sync.Board.Pawns.TryGetValue(PawnId, out other)) {
+                PlayerId = other.PlayerId;
+                Position = other.Position;
+                Forward = other.Forward;
+                Up = other.Up;
+                Velocity = other.Velocity;
+                IsContinuous = other.IsContinuous;
+                IsGrounded = other.IsGrounded;
+                LastUpdated = other.LastUpdated;
 
-            foreach (var action in actions) {
-                if (action is Banchou.StateAction.SyncGame sync) {
-                    PawnState other;
-                    if (sync.Board.Pawns.TryGetValue(PawnId, out other)) {
-                        PlayerId = other.PlayerId;
-                        Position = other.Position;
-                        Forward = other.Forward;
-                        Up = other.Up;
-                        Velocity = other.Velocity;
-                        IsContinuous = other.IsContinuous;
-                        IsGrounded = other.IsGrounded;
-                        CurrentFrame = other.CurrentFrame;
-                        LastUpdated = other.LastUpdated;
-                        consumed = true;
-                    }
-                }
-
-                if (action is StateAction.MovePawn move && move.PawnId == PawnId) {
-                    Velocity += move.Direction;
-                    IsContinuous = true;
-                    LastUpdated = move.When;
-                    consumed = true;
-                }
-
-                if (action is StateAction.PawnMoved moved && moved.PawnId == PawnId) {
-                    Position = moved.Position;
-                    Velocity = moved.CancelMomentum ? Vector3.zero : Velocity;
-                    IsGrounded = moved.IsGrounded;
-                    LastUpdated = moved.When;
-                    consumed = true;
-                }
-
-                if (action is StateAction.TeleportPawn teleport && teleport.PawnId == PawnId) {
-                    Position = teleport.Position;
-                    Velocity = teleport.CancelMomentum ? Vector3.zero : Velocity;
-                    IsContinuous = false;
-                    LastUpdated = teleport.When;
-                    consumed = true;
-                }
-
-                if (action is StateAction.PawnAnimated animated) {
-                    CurrentFrame = animated.FrameData;
-                    LastUpdated = animated.FrameData.When;
-                    consumed = true;
-                }
-
-                if (action is Player.StateAction.RemovePlayer removePlayer && removePlayer.PlayerId == PlayerId) {
-                    PlayerId = default;
-                    LastUpdated = removePlayer.When;
-                    consumed = true;
-                }
+                // CurrentFrame = other.CurrentFrame;
+                Notify();
             }
+        }
 
-            return consumed;
+        public void Move(Vector3 velocity, float when) {
+            Velocity += velocity;
+            IsContinuous = true;
+            LastUpdated = when;
+            Notify();
+        }
+
+        public void Teleport(Vector3 position, float when, bool cancelMomentum = true) {
+            Position = position;
+            Velocity = cancelMomentum ? Vector3.zero : Velocity;
+            IsContinuous = false;
+            LastUpdated = when;
+            Notify();
+        }
+
+        public void Moved(Vector3 position, bool isGrounded, float when, bool cancelMomentum = true) {
+            Position = position;
+            Velocity = cancelMomentum ? Vector3.zero : Velocity;
+            IsGrounded = isGrounded;
+            LastUpdated = when;
+            Notify();
+        }
+
+        public void RemovePlayer(int playerId, float when) {
+            if (playerId == PlayerId) {
+                PlayerId = default;
+                LastUpdated = when;
+                Notify();
+            }
+        }
+
+        public void Animated(Animator animator, float when) {
+            // CurrentFrame.Animated(animator, when);
+            Notify();
         }
     }
 }

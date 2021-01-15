@@ -4,37 +4,21 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject]
-    public struct AnimatorFrameData {
-        public static readonly AnimatorFrameData Empty = default;
+    public class AnimatorFrame : Substate<AnimatorFrame> {
+        public static readonly AnimatorFrame Empty = default;
         [Key(0)] public int[] StateHashes { get; private set; }
         [Key(1)] public float[] NormalizedTimes { get; private set; }
-        [Key(2)] public Dictionary<int, float> Floats { get; private set; }
-        [Key(3)] public Dictionary<int, int> Ints { get; private set; }
-        [Key(4)] public Dictionary<int, bool> Bools { get; private set; }
+        [Key(2)] public Dictionary<int, float> Floats { get; private set; } = new Dictionary<int, float>();
+        [Key(3)] public Dictionary<int, int> Ints { get; private set; } = new Dictionary<int, int>();
+        [Key(4)] public Dictionary<int, bool> Bools { get; private set; } = new Dictionary<int, bool>();
         [Key(5)] public float When;
 
-        public AnimatorFrameData(
-            int[] stateHashes,
-            float[] normalizedTimes,
-            Dictionary<int, float> floats,
-            Dictionary<int, int> ints,
-            Dictionary<int, bool> bools,
-            float when
-        ) {
-            StateHashes = stateHashes;
-            NormalizedTimes = normalizedTimes;
-            Floats = floats;
-            Ints = ints;
-            Bools = bools;
-            When = when;
-        }
+        // public AnimatorFrame(Animator animator, float when) {
+        //     StateHashes = new int[animator.layerCount];
+        //     NormalizedTimes = new float[animator.layerCount];
+        // }
 
-        public AnimatorFrameData(Animator animator, float when) {
-            StateHashes = new int[animator.layerCount];
-            NormalizedTimes = new float[animator.layerCount];
-            Floats = new Dictionary<int, float>();
-            Ints = new Dictionary<int, int>();
-            Bools = new Dictionary<int, bool>();
+        public void Animated(Animator animator, float when) {
             When = when;
 
             for (int layer = 0; layer < animator.layerCount; layer++) {
@@ -59,6 +43,8 @@ namespace Banchou.Pawn {
                         break;
                 }
             }
+
+            Notify();
         }
     }
 }

@@ -33,13 +33,14 @@ namespace Banchou.Pawn {
                 );
         }
 
-        public static IObservable<InputUnit> ObservePawnInput(this IObservable<GameState> observeState, int pawnId) {
+        public static IObservable<PlayerInputStates> ObservePawnInput(this IObservable<GameState> observeState, int pawnId) {
             return observeState
                 .ObservePawn(pawnId)
                 .Select(pawn => pawn.PlayerId)
+                .DistinctUntilChanged()
                 .SelectMany(playerId => observeState.ObservePlayer(playerId))
-                .Select(player => player.LastInput)
-                .DistinctUntilChanged();
+                .Where(player => player?.Input != null)
+                .Select(player => player.Input);
         }
 
         public static PawnState GetPawn(this GameState state, int pawnId) {

@@ -55,9 +55,5 @@ namespace Banchou.Player {
         public static string GetPlayerPrefabKey(this GameState state, int playerId) {
             return state.GetPlayer(playerId)?.PrefabKey;
         }
-
-        public static InputUnit GetPlayerInput(this GameState state, int playerId) {
-            return state.GetPlayer(playerId)?.LastInput ?? InputUnit.Empty;
-        }
     }
 }

@@ -1,9 +1,11 @@
 using System;
-using System.Collections;
+using MessagePack;
 using UniRx;
 
 namespace Banchou {
     public abstract class Substate<T> where T : Substate<T> {
+        [IgnoreMember] public bool Notified { get; private set; }
+        [IgnoreMember] public ulong ProcessCount { get; private set; }
         public event Action<T> Changed;
         public virtual IObservable<T> Observe() {
             return Observable.FromEvent<T>(
@@ -12,11 +14,20 @@ namespace Banchou {
             ).StartWith((T)this);
         }
 
-        protected abstract bool Consume(IList actions);
-        public virtual void Process(IList actions) {
-            if (Consume(actions) && Changed != null) {
-                Changed((T)this);
+        // Call the Process methods of child states
+        protected virtual void OnProcess() {  }
+
+        public void Process() {
+            ProcessCount++;
+            OnProcess();
+            if (Notified) {
+                Changed?.Invoke((T)this);
+                Notified = false;
             }
+        }
+
+        protected void Notify() {
+            Notified = true;
         }
     }
 }

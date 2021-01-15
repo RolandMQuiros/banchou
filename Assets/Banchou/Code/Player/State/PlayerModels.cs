@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using MessagePack;
+using UnityEngine;
 
 namespace Banchou.Player {
     [MessagePackObject]
@@ -8,7 +8,7 @@ namespace Banchou.Player {
         [Key(0)] public readonly int PlayerId;
         [Key(1)] public readonly string PrefabKey;
         [Key(2)] public int NetworkId { get; private set; }
-        [Key(3)] public InputUnit LastInput { get; private set; }
+        [Key(3)] public PlayerInputStates Input { get; private set; } = new PlayerInputStates();
 
         public PlayerState() { }
         public PlayerState(
@@ -21,15 +21,38 @@ namespace Banchou.Player {
             NetworkId = networkId;
         }
 
-        protected override bool Consume(IList actions) {
-            var consumed = false;
-            foreach (var action in actions) {
-                if (action is StateAction.PushInput push && push.Unit.PlayerId == PlayerId) {
-                    LastInput = push.Unit;
-                    consumed = true;
-                }
-            }
-            return consumed;
+        protected override void OnProcess() {
+            Input.Process();
+        }
+    }
+
+    [MessagePackObject]
+    public class PlayerInputStates : Substate<PlayerInputStates> {
+        [Key(0)] public InputCommand Commands { get; private set; }
+        [Key(1)] public Vector3 Direction { get; private set; }
+        [IgnoreMember] public Vector2 Look { get; private set; }
+        [Key(2)] public long Sequence { get; private set; }
+        [Key(3)] public float When { get; private set; }
+
+        public void PushMove(Vector3 direction, long sequence, float when) {
+            Direction = direction;
+            Sequence = sequence;
+            When = when;
+            Notify();
+        }
+
+        public void PushLook(Vector2 look, long sequence, float when) {
+            Look = look;
+            Sequence = sequence;
+            When = when;
+            Notify();
+        }
+
+        public void PushCommands(InputCommand commands, long sequence, float when) {
+            Commands = commands;
+            Sequence = sequence;
+            When = when;
+            Notify();
         }
     }
 
@@ -37,25 +60,19 @@ namespace Banchou.Player {
     public class PlayersState : Substate<PlayersState> {
         [Key(0)] public Dictionary<int, PlayerState> Members { get; private set; } = new Dictionary<int, PlayerState>();
 
-        protected override bool Consume(IList actions) {
-            var consumed = false;
-            foreach (var action in actions) {
-                if (action is StateAction.AddPlayer add && !Members.ContainsKey(add.PlayerId)) {
-                    Members[add.PlayerId] = new PlayerState(
-                        id: add.PlayerId,
-                        prefabKey: add.PrefabKey,
-                        networkId: add.NetworkId
-                    );
-                    consumed = true;
-                }
+        public void AddPlayer(int playerId, string prefabKey, int networkId = 0) {
+            Members[playerId] = new PlayerState(
+                id: playerId,
+                prefabKey: prefabKey,
+                networkId: networkId
+            );
+            Notify();
+        }
 
-                if (action is StateAction.RemovePlayer remove) {
-                    Members.Remove(remove.PlayerId);
-                    consumed = true;
-                }
+        public void RemovePlayer(int playerId) {
+            if (Members.Remove(playerId)) {
+                Notify();
             }
-            foreach (var player in Members.Values) player.Process(actions);
-            return consumed;
         }
     }
 

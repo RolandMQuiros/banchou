@@ -5,11 +5,9 @@ namespace Banchou.Player.Part {
     public class PlayerInputDispatcher : MonoBehaviour {
         [SerializeField] private Transform _camera;
 
-        private PlayerInput _playerInput;
+        private PlayerInput _source;
 
-        private int _playerId;
-        private Dispatcher _dispatch;
-        private PlayerActions _playerActions;
+        private PlayerInputStates _input;
         private GetTime _getTime;
 
         private long _sequence = 0L;
@@ -20,23 +18,19 @@ namespace Banchou.Player.Part {
         private InputUnit _lastUnit;
 
         public void Construct(
-            GetPlayerId getPlayerId,
-            Dispatcher dispatch,
-            PlayerActions playerActions,
+            PlayerState player,
             GetTime getTime
         ) {
-            _playerId = getPlayerId();
-            _dispatch = dispatch;
-            _playerActions = playerActions;
+            _input = player.Input;
             _getTime = getTime;
             _camera = _camera == null ? Camera.main.transform : _camera;
-            _playerInput = GetComponent<PlayerInput>();
 
-            _playerInput.onActionTriggered += HandleAction;
+            _source = GetComponent<PlayerInput>();
+            _source.onActionTriggered += HandleAction;
         }
 
         private void OnDestroy() {
-            _playerInput.onActionTriggered -= HandleAction;
+            _source.onActionTriggered -= HandleAction;
         }
 
         private void HandleAction(InputAction.CallbackContext callbackContext) {
@@ -73,19 +67,18 @@ namespace Banchou.Player.Part {
             var move = _moveInput.CameraPlaneProject(_camera);
             var look = Snapping.Snap(_lookInput, Vector3.one * 0.25f);
 
-            if (move != _lastUnit.Direction || look != _lastUnit.Look || _commandsInput != _lastUnit.Commands) {
-                _lastUnit = new InputUnit(
-                    playerId: _playerId,
-                    when: _getTime(),
-                    sequence: _sequence++,
-                    commands: _commandsInput,
-                    direction: move,
-                    look: look
-                );
-
-                _dispatch(_playerActions.PushInput(_lastUnit));
-                _commandsInput = InputCommand.None;
+            if (move != _input.Direction) {
+                _input.PushMove(move, ++_sequence, _getTime());
             }
+
+            if (look != _input.Look) {
+                _input.PushLook(look, ++_sequence, _getTime());
+            }
+
+            if (_commandsInput != InputCommand.None) {
+                _input.PushCommands(_commandsInput, ++_sequence, _getTime());
+            }
+            _commandsInput = InputCommand.None;
         }
     }
 }

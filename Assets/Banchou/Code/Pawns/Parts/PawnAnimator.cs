@@ -2,22 +2,22 @@ using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class PawnAnimator : MonoBehaviour {
+        private PawnState _pawn;
         private Animator _animator;
-        private Dispatcher _dispatch;
-        private PawnActions _pawnActions;
+        private GetTime _getTime;
 
         public void Construct(
+            PawnState pawn,
             Animator animator,
-            Dispatcher dispatch,
-            PawnActions pawnActions
+            GetTime getTime
         ) {
+            _pawn = pawn;
             _animator = animator;
-            _dispatch = dispatch;
-            _pawnActions = pawnActions;
+            _getTime = getTime;
         }
 
         private void LateUpdate() {
-            _dispatch(_pawnActions.Animated(_animator));
+            _pawn.Animated(_animator, _getTime());
         }
     }
 }

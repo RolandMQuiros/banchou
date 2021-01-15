@@ -8,12 +8,11 @@ namespace Banchou.Network {
         [Key(1)] public string ServerIP { get; private set; }
         [Key(2)] public int ServerPort { get; private set; }
 
-        protected override bool Consume(IList actions) {
-            var consumed = false;
-            foreach (var action in actions) {
-
-            }
-            return consumed;
+        public void ConnectedToServer(int networkId, string ip, int port) {
+            NetworkId = networkId;
+            ServerIP = ip;
+            ServerPort = port;
+            Notify();
         }
     }
 }

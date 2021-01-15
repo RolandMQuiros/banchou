@@ -1,7 +1,7 @@
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using MessagePack;
+using UnityEngine;
 
 using Banchou.Pawn;
 
@@ -11,53 +11,50 @@ namespace Banchou.Board {
         [Key(0)] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
         [Key(1)] public float LastUpdated { get; private set; }
 
-        protected override bool Consume(IList actions) {
-            var consumed = false;
-
-            foreach (var action in actions) {
-                if (action is Banchou.StateAction.SyncGame sync) {
-                    PatchPawns(sync.Board);
-                    LastUpdated = sync.When;
-                    consumed = true;
-                }
-
-                if (action is StateAction.RollbackBoard rollback) {
-                    PatchPawns(rollback.Board);
-                    LastUpdated = rollback.Board.LastUpdated;
-                    consumed = true;
-                }
-
-                if (action is StateAction.AddPawn add && !Pawns.ContainsKey(add.PawnId)) {
-                    Pawns.Add(
-                        add.PawnId,
-                        new PawnState(
-                            pawnId: add.PawnId,
-                            playerId: add.PlayerId,
-                            prefabKey: add.PrefabKey,
-                            position: add.Position,
-                            forward: add.Forward,
-                            lastUpdated: add.When
-                        )
-                    );
-                    LastUpdated = add.When;
-                    consumed = true;
-                }
-
-                if (action is StateAction.RemovePawn remove) {
-                    Pawns.Remove(remove.PawnId);
-                    LastUpdated = remove.When;
-                    consumed = true;
-                }
-
-                if (action is StateAction.ClearPawns clear) {
-                    Pawns.Clear();
-                    LastUpdated = clear.When;
-                    consumed = true;
-                }
+        protected override void OnProcess() {
+            foreach (var pawn in Pawns.Values) {
+                pawn.Process();
             }
+        }
 
-            foreach (var pawn in Pawns.Values) pawn.Process(actions);
-            return consumed;
+        public void SyncGame(GameState sync, float when) {
+            PatchPawns(sync.Board);
+            foreach (var pawn in Pawns.Values) {
+                pawn.SyncGame(sync, when);
+            }
+            Notify();
+        }
+
+        public void AddPawn(int pawnId, string prefabKey, int playerId, Vector3 position, Vector3 forward, float when) {
+            Pawns.Add(
+                pawnId,
+                new PawnState(
+                    pawnId: pawnId,
+                    playerId: playerId,
+                    prefabKey: prefabKey,
+                    position: position,
+                    forward: forward,
+                    lastUpdated: when
+                )
+            );
+            LastUpdated = when;
+            Notify();
+        }
+
+        public void AddPawn(int pawnId, string prefabKey, int playerId, Vector3 position, float when) {
+            AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, when);
+        }
+
+        public void RemovePawn(int pawnId, float when) {
+            Pawns.Remove(pawnId);
+            LastUpdated = when;
+            Notify();
+        }
+
+        public void ClearPawns(float when) {
+            Pawns.Clear();
+            LastUpdated = when;
+            Notify();
         }
 
         private void PatchPawns(BoardState other) {

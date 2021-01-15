@@ -61,7 +61,7 @@ namespace Banchou {
             IsStateActive = false;
         }
 
-        private void OnDestroy() {
+        protected virtual void OnDestroy() {
             _streams.ForEach(s => s.Dispose());
             _streams.Clear();
         }

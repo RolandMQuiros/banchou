@@ -22,9 +22,8 @@ namespace Banchou.Pawn.FSM {
         public void Construct(
             PawnState pawn,
             IObservable<GameState> observeState,
-            Dispatcher dispatch,
-            PawnActions pawnActions,
             Animator animator,
+            GetTime getTime,
             GetDeltaTime getDeltaTime
         ) {
             var speedOut = Animator.StringToHash(_movementSpeedOut);
@@ -36,19 +35,15 @@ namespace Banchou.Pawn.FSM {
             var rightSpeed = 0f;
 
             ObserveStateUpdate
-                .WithLatestFrom(
-                    observeState
-                        .ObservePawnInput(pawn.PawnId)
-                        .Select(input => input.Direction)
-                        .DistinctUntilChanged(),
-                    (_, velocity) => velocity * _movementSpeed
-                )
+                .WithLatestFrom(observeState.ObservePawnInput(pawn.PawnId), (_, input) => input)
+                .Where(input => input != null)
+                .Select(input => input.Direction * _movementSpeed)
                 .Where(velocity => velocity != Vector3.zero)
                 .CatchIgnoreLog()
                 .Subscribe(
                     velocity => {
                         var offset = velocity * getDeltaTime();
-                        dispatch(pawnActions.Move(offset));
+                        pawn.Move(offset, getTime());
 
                         // Write to output variables
                         if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {

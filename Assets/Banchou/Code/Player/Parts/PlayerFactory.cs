@@ -36,13 +36,17 @@ namespace Banchou.Player.Part {
                         var removed = spawned.Keys.Except(playerIds);
 
                         foreach (var id in added) {
-                            var prefabKey = state.GetPlayerPrefabKey(id);
+                            var player = state.GetPlayer(id);
+                            var prefabKey = player.PrefabKey;
                             GameObject prefab;
                             if (catalog.TryGetValue(prefabKey, out prefab)) {
                                 spawned[id] = instantiate(
                                     prefab,
                                     parent: transform,
-                                    additionalBindings: (GetPlayerId)(() => id)
+                                    additionalBindings: new object[] {
+                                        (GetPlayerId)(() => id),
+                                        player
+                                    }
                                 );
                             }
                         }

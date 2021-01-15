@@ -31,22 +31,24 @@ namespace Banchou.Board.Part {
                 .CatchIgnoreLog()
                 .Subscribe(
                     state => {
-                        Debug.Log("Board update detected");
                         var pawnIds = state.GetPawnIds();
                         var added = pawnIds.Except(spawned.Keys);
                         var removed = spawned.Keys.Except(pawnIds);
 
                         foreach (var id in added) {
-                            var prefabKey = state.GetPawnPrefabKey(id);
-                            var vectors = state.GetPawnSpatial(id);
+                            var pawn = state.GetPawn(id);
+                            var prefabKey = pawn.PrefabKey;
                             GameObject prefab;
                             if (catalog.TryGetValue(prefabKey, out prefab)) {
                                 spawned[id] = instantiate(
                                     prefab,
-                                    position: vectors.Position,
-                                    rotation: Quaternion.LookRotation(vectors.Forward),
+                                    position: pawn.Position,
+                                    rotation: Quaternion.LookRotation(pawn.Forward),
                                     parent: transform,
-                                    (GetPawnId)(() => id)
+                                    additionalBindings: new object[] {
+                                        (GetPawnId)(() => id),
+                                        pawn
+                                    }
                                 );
                             }
                         }

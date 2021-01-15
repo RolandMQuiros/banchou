@@ -8,9 +8,8 @@ namespace Banchou.Pawn.Part {
         [SerializeField] private bool _clearSpeedOnExit = false;
         public void Construct(
             PawnState pawn,
-            Dispatcher dispatch,
-            PawnActions pawnActions,
-            GetDeltaTime getDeltaTime
+            GetDeltaTime getDeltaTime,
+            GetTime getTime
         ) {
             var accumulated = Vector3.zero;
 
@@ -35,7 +34,7 @@ namespace Banchou.Pawn.Part {
                         accumulated = Vector3.zero;
                     } else {
                         accumulated += _acceleration * getDeltaTime() * getDeltaTime();
-                        dispatch(pawnActions.Move(accumulated));
+                        pawn.Move(accumulated, getTime());
                     }
                 })
                 .AddTo(this);

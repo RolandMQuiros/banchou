@@ -147,13 +147,11 @@ namespace Banchou.DependencyInjection {
                     .GetComponents<Component>()
                     .SelectMany(c => Expand(c))
                     // Handle contexts first
-                    .Select(c => (Component: c, Order: c is IContext ? 0 : 1))
-                    .OrderBy(t => t.Order)
-                    .Select(t => t.Component);
+                    .OrderBy(c => c is IContext ? 0 : 1);
 
                 foreach (var component in components) {
                     try {
-                        contexts.Where(context => context != component)
+                        contexts.TakeWhile(context => context != component)
                             .ToDiContainer(additionalBindings)
                             .Inject(component);
                     } catch (Exception error) {

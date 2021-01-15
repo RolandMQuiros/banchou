@@ -1,22 +1,18 @@
 using Banchou.DependencyInjection;
 using UnityEngine;
 
-using Banchou.Player;
-
 namespace Banchou.Board.Part {
     public class BoardContext : MonoBehaviour, IContext {
-        private BoardActions _boardActions;
-        private PlayerActions _playerActions;
+        private GameState _state;
 
-        public void Construct(GetTime getTime) {
-            _boardActions = new BoardActions(getTime);
-            _playerActions = new PlayerActions(getTime);
+        public void Construct(GameState state) {
+            _state = state;
         }
 
         public DiContainer InstallBindings(DiContainer container) {
             return container
-                .Bind(_boardActions)
-                .Bind(_playerActions);
+                .Bind(_state.Board)
+                .Bind(_state.Players);
         }
     }
 }
