@@ -1,8 +1,9 @@
-using System.Collections;
+using System;
 using MessagePack;
+using UnityEngine;
 
 namespace Banchou.Network {
-    [MessagePackObject]
+    [MessagePackObject, Serializable]
     public class NetworkState : Substate<NetworkState> {
         [IgnoreMember] public int NetworkId => _networkId;
         [Key(0)] private int _networkId;
@@ -16,14 +17,14 @@ namespace Banchou.Network {
         [IgnoreMember] public int TickRate => _tickRate;
         [Key(3)] private int _tickRate;
 
-        [IgnoreMember] public Rollback Rollback => _rollback;
-        [Key(4)] private Rollback _rollback;
+        [IgnoreMember] public RollbackState Rollback => _rollback;
+        [Key(4)] private RollbackState _rollback;
 
         public void ConnectedToServer(int networkId, string ip, int port) {
             _networkId = networkId;
             _serverIP = ip;
             _serverPort = port;
-            _rollback = new Rollback();
+            _rollback = new RollbackState();
             Notify();
         }
     }
@@ -34,31 +35,37 @@ namespace Banchou.Network {
         Resimulating
     }
 
-    public class Rollback : Substate<Rollback> {
-        [Key(0)] public RollbackPhase Phase;
-        [Key(1)] public float CorrectionTime;
-        [Key(2)] public float DeltaTime;
+    [Serializable]
+    public class RollbackState : Substate<RollbackState> {
+        [IgnoreMember] public RollbackPhase Phase => _phase;
+        [Key(0), SerializeField] private RollbackPhase _phase;
 
-        public Rollback StartRollback(float correctionTime, float deltaTime) {
-            Phase = RollbackPhase.Rewinding;
-            CorrectionTime = correctionTime;
-            DeltaTime = deltaTime;
+        [IgnoreMember] public float CorrectionTime => _correctionTime;
+        [Key(1), SerializeField] private float _correctionTime;
 
-            Notify();
-            return this;
-        }
+        [IgnoreMember] public float DeltaTime => _deltaTime;
+        [Key(2), SerializeField] private float _deltaTime;
 
-        public Rollback Simulate(float correctionTime) {
-            Phase = RollbackPhase.Resimulating;
-            CorrectionTime = correctionTime;
+        public RollbackState StartRollback(float correctionTime, float deltaTime) {
+            _phase = RollbackPhase.Rewinding;
+            _correctionTime = correctionTime;
+            _deltaTime = deltaTime;
 
             Notify();
             return this;
         }
 
-        public Rollback Finish(float correctionTime) {
-            Phase = RollbackPhase.Complete;
-            CorrectionTime = correctionTime;
+        public RollbackState Simulate(float correctionTime) {
+            _phase = RollbackPhase.Resimulating;
+            _correctionTime = correctionTime;
+
+            Notify();
+            return this;
+        }
+
+        public RollbackState Finish(float correctionTime) {
+            _phase = RollbackPhase.Complete;
+            _correctionTime = correctionTime;
 
             Notify();
             return this;

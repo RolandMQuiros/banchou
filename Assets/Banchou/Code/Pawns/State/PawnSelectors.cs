@@ -38,9 +38,10 @@ namespace Banchou.Pawn {
                 .ObservePawn(pawnId)
                 .Select(pawn => pawn.PlayerId)
                 .DistinctUntilChanged()
+                .Where(playerId => playerId != default)
                 .SelectMany(playerId => observeState.ObservePlayer(playerId))
                 .Where(player => player?.Input != null)
-                .Select(player => player.Input);
+                .SelectMany(player => player.Input.Observe());
         }
 
         public static PawnState GetPawn(this GameState state, int pawnId) {
