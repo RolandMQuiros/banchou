@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Banchou.DependencyInjection {
     public class TreeInjector : MonoBehaviour {

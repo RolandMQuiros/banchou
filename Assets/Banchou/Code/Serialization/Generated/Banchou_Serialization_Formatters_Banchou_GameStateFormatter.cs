@@ -33,7 +33,8 @@ namespace Banchou.Serialization.Formatters.Banchou
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(2);
+            writer.WriteArrayHeader(3);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Network.NetworkState>().Serialize(ref writer, value.Network, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Serialize(ref writer, value.Board, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Serialize(ref writer, value.Players, options);
         }
@@ -48,6 +49,7 @@ namespace Banchou.Serialization.Formatters.Banchou
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __Network__ = default(global::Banchou.Network.NetworkState);
             var __Board__ = default(global::Banchou.Board.BoardState);
             var __Players__ = default(global::Banchou.Player.PlayersState);
 
@@ -58,9 +60,12 @@ namespace Banchou.Serialization.Formatters.Banchou
                 switch (key)
                 {
                     case 0:
-                        __Board__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Deserialize(ref reader, options);
+                        __Network__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Network.NetworkState>().Deserialize(ref reader, options);
                         break;
                     case 1:
+                        __Board__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
                         __Players__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Deserialize(ref reader, options);
                         break;
                     default:

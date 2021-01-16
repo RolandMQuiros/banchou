@@ -14,17 +14,17 @@
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Banchou.Serialization.Formatters.Banchou.Player
+namespace Banchou.Serialization.Formatters.Banchou.Pawn
 {
     using System;
     using System.Buffers;
     using MessagePack;
 
-    public sealed class PlayerInputStatesFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.PlayerInputStates>
+    public sealed class PawnHistoryFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Pawn.PawnHistory>
     {
 
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.PlayerInputStates value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Pawn.PawnHistory value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -36,7 +36,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             writer.WriteArrayHeader(0);
         }
 
-        public global::Banchou.Player.PlayerInputStates Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Pawn.PawnHistory Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -59,7 +59,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                 }
             }
 
-            var ____result = new global::Banchou.Player.PlayerInputStates();
+            var ____result = new global::Banchou.Pawn.PawnHistory();
             reader.Depth--;
             return ____result;
         }

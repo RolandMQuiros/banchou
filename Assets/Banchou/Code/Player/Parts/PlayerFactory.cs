@@ -43,10 +43,7 @@ namespace Banchou.Player.Part {
                                 spawned[id] = instantiate(
                                     prefab,
                                     parent: transform,
-                                    additionalBindings: new object[] {
-                                        (GetPlayerId)(() => id),
-                                        player
-                                    }
+                                    additionalBindings: (GetPlayerId)(() => id)
                                 );
                             }
                         }

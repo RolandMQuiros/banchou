@@ -17,44 +17,57 @@ namespace Banchou.Board {
             }
         }
 
-        public void SyncGame(GameState sync, float when) {
+        public BoardState SyncGame(GameState sync, float when) {
             PatchPawns(sync.Board);
             foreach (var pawn in Pawns.Values) {
                 pawn.SyncGame(sync, when);
             }
             Notify();
+            return this;
         }
 
-        public void AddPawn(int pawnId, string prefabKey, int playerId, Vector3 position, Vector3 forward, float when) {
-            Pawns.Add(
-                pawnId,
-                new PawnState(
-                    pawnId: pawnId,
-                    playerId: playerId,
-                    prefabKey: prefabKey,
-                    position: position,
-                    forward: forward,
-                    lastUpdated: when
-                )
+        public BoardState AddPawn(
+            int pawnId,
+            string prefabKey,
+            int playerId,
+            Vector3 position,
+            Vector3 forward,
+            float when
+        ) {
+            var pawn = new PawnState(
+                pawnId: pawnId,
+                playerId: playerId,
+                prefabKey: prefabKey,
+                position: position,
+                forward: forward,
+                lastUpdated: when
             );
+
+            Pawns.Add(pawnId, pawn);
             LastUpdated = when;
+
             Notify();
+            return this;
         }
 
-        public void AddPawn(int pawnId, string prefabKey, int playerId, Vector3 position, float when) {
-            AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, when);
+        public BoardState AddPawn(int pawnId, string prefabKey, int playerId, Vector3 position, float when) {
+            return AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, when);
         }
 
-        public void RemovePawn(int pawnId, float when) {
+        public BoardState RemovePawn(int pawnId, float when) {
             Pawns.Remove(pawnId);
             LastUpdated = when;
+
             Notify();
+            return this;
         }
 
-        public void ClearPawns(float when) {
+        public BoardState ClearPawns(float when) {
             Pawns.Clear();
             LastUpdated = when;
+
             Notify();
+            return this;
         }
 
         private void PatchPawns(BoardState other) {

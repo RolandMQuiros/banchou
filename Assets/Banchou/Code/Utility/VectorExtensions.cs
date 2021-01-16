@@ -19,13 +19,14 @@ namespace Banchou {
         public static Vector3 ProjectOnContacts(this Vector3 vec, Vector3 up, IList<Vector3> contacts) {
             var projected = vec;
 
-            foreach (var contact in contacts) {
+            for (int c = 0; c < contacts.Count; c++) {
+                var contact = contacts[c];
                 // If we're moving into a surface, we want to project the movement direction on it, so we don't cause physics jitters from
                 // overlaps
                 if (Vector3.Dot(contact, up) > 0.3f) {
                     // if (Vector3.Dot(velocity, contact) < 0f) {
                         // If surface is a floor, and we're moving into it, move along it at full movement speed
-                        projected = Vector3.ProjectOnPlane(projected, contact).normalized * projected.magnitude;
+                        projected = Vector3.Normalize(Vector3.ProjectOnPlane(projected, contact)) * projected.magnitude;
                     // }
                     // If we're moving away from the surface, no need for projections
                 } else if (Vector3.Dot(vec, contact) < 0f) {

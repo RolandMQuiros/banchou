@@ -33,10 +33,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Network
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(3);
-            writer.Write(value.NetworkId);
-            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.ServerIP, options);
-            writer.Write(value.ServerPort);
+            writer.WriteArrayHeader(0);
         }
 
         public global::Banchou.Network.NetworkState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -49,9 +46,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Network
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __NetworkId__ = default(int);
-            var __ServerIP__ = default(string);
-            var __ServerPort__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -59,15 +53,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Network
 
                 switch (key)
                 {
-                    case 0:
-                        __NetworkId__ = reader.ReadInt32();
-                        break;
-                    case 1:
-                        __ServerIP__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
-                    case 2:
-                        __ServerPort__ = reader.ReadInt32();
-                        break;
                     default:
                         reader.Skip();
                         break;

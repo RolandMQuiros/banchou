@@ -1,24 +1,29 @@
+using System;
 using System.Collections.Generic;
 using MessagePack;
 using UnityEngine;
 
 namespace Banchou.Player {
-    [MessagePackObject]
+    [MessagePackObject, Serializable]
     public class PlayerState : Substate<PlayerState> {
         [Key(0)] public readonly int PlayerId;
         [Key(1)] public readonly string PrefabKey;
-        [Key(2)] public int NetworkId { get; private set; }
-        [Key(3)] public PlayerInputStates Input { get; private set; } = new PlayerInputStates();
+
+        [IgnoreMember] public int NetworkId => _networkId;
+        [Key(2), SerializeField] private int _networkId;
+
+        [IgnoreMember] public PlayerInputStates Input => _input;
+        [Key(3), SerializeField] private PlayerInputStates _input = new PlayerInputStates();
 
         public PlayerState() { }
         public PlayerState(
-            int id,
+            int playerId,
             string prefabKey,
             int networkId = 0
         ) {
-            PlayerId = id;
+            PlayerId = playerId;
             PrefabKey = prefabKey;
-            NetworkId = networkId;
+            _networkId = networkId;
         }
 
         protected override void OnProcess() {
@@ -26,53 +31,72 @@ namespace Banchou.Player {
         }
     }
 
-    [MessagePackObject]
+    [MessagePackObject, Serializable]
     public class PlayerInputStates : Substate<PlayerInputStates> {
-        [Key(0)] public InputCommand Commands { get; private set; }
-        [Key(1)] public Vector3 Direction { get; private set; }
-        [IgnoreMember] public Vector2 Look { get; private set; }
-        [Key(2)] public long Sequence { get; private set; }
-        [Key(3)] public float When { get; private set; }
+        [IgnoreMember] public InputCommand Commands => _commands;
+        [Key(0), SerializeField] private InputCommand _commands;
 
-        public void PushMove(Vector3 direction, long sequence, float when) {
-            Direction = direction;
-            Sequence = sequence;
-            When = when;
+        [IgnoreMember] public Vector3 Direction => _direction;
+        [Key(1), SerializeField] private Vector3 _direction;
+
+        // Look input is not shared across the network
+        [IgnoreMember] public Vector2 Look => _look;
+        [SerializeField] private Vector2 _look;
+
+        [IgnoreMember] public long Sequence => _sequence;
+        [Key(2), SerializeField] private long _sequence;
+
+        [IgnoreMember] public float When => _when;
+        [Key(3), SerializeField] private float _when;
+
+        public PlayerInputStates PushMove(Vector3 direction, long sequence, float when) {
+            _direction = direction;
+            _sequence = sequence;
+            _when = when;
+
             Notify();
+            return this;
         }
 
-        public void PushLook(Vector2 look, long sequence, float when) {
-            Look = look;
-            Sequence = sequence;
-            When = when;
+        public PlayerInputStates PushLook(Vector2 look, long sequence, float when) {
+            _look = look;
+            _sequence = sequence;
+            _when = when;
+
             Notify();
+            return this;
         }
 
-        public void PushCommands(InputCommand commands, long sequence, float when) {
-            Commands = commands;
-            Sequence = sequence;
-            When = when;
+        public PlayerInputStates PushCommands(InputCommand commands, long sequence, float when) {
+            _commands = commands;
+            _sequence = sequence;
+            _when = when;
+
             Notify();
+            return this;
         }
     }
 
-    [MessagePackObject]
+    [MessagePackObject, Serializable]
     public class PlayersState : Substate<PlayersState> {
         [Key(0)] public Dictionary<int, PlayerState> Members { get; private set; } = new Dictionary<int, PlayerState>();
 
-        public void AddPlayer(int playerId, string prefabKey, int networkId = 0) {
+        public PlayersState AddPlayer(int playerId, string prefabKey, int networkId = 0) {
             Members[playerId] = new PlayerState(
-                id: playerId,
+                playerId: playerId,
                 prefabKey: prefabKey,
                 networkId: networkId
             );
+
             Notify();
+            return this;
         }
 
-        public void RemovePlayer(int playerId) {
+        public PlayersState RemovePlayer(int playerId) {
             if (Members.Remove(playerId)) {
                 Notify();
             }
+            return this;
         }
     }
 

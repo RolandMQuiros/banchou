@@ -45,10 +45,7 @@ namespace Banchou.Board.Part {
                                     position: pawn.Position,
                                     rotation: Quaternion.LookRotation(pawn.Forward),
                                     parent: transform,
-                                    additionalBindings: new object[] {
-                                        (GetPawnId)(() => id),
-                                        pawn
-                                    }
+                                    additionalBindings: (GetPawnId)(() => id)
                                 );
                             }
                         }
