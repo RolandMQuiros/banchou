@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using MessagePack;
+using UniRx;
 using UnityEngine;
 
 namespace Banchou.Player {
     [MessagePackObject, Serializable]
-    public class PlayerState : Substate<PlayerState> {
+    public class PlayerState : Notifiable<PlayerState> {
         [Key(0)] public readonly int PlayerId;
         [Key(1)] public readonly string PrefabKey;
 
@@ -25,14 +26,10 @@ namespace Banchou.Player {
             PrefabKey = prefabKey;
             _networkId = networkId;
         }
-
-        protected override void OnProcess() {
-            Input.Process();
-        }
     }
 
     [MessagePackObject, Serializable]
-    public class PlayerInputStates : Substate<PlayerInputStates> {
+    public class PlayerInputStates : Notifiable<PlayerInputStates> {
         [IgnoreMember] public InputCommand Commands => _commands;
         [Key(0), SerializeField] private InputCommand _commands;
 
@@ -78,22 +75,22 @@ namespace Banchou.Player {
     }
 
     [MessagePackObject, Serializable]
-    public class PlayersState : Substate<PlayersState> {
-        [Key(0)] public Dictionary<int, PlayerState> Members { get; private set; } = new Dictionary<int, PlayerState>();
+    public class PlayersState : Notifiable<PlayersState> {
+        [IgnoreMember] public IReadOnlyReactiveDictionary<int, PlayerState> Members => _members;
+        [Key(0)] private ReactiveDictionary<int, PlayerState> _members = new ReactiveDictionary<int, PlayerState>();
 
         public PlayersState AddPlayer(int playerId, string prefabKey, int networkId = 0) {
-            Members[playerId] = new PlayerState(
+            _members[playerId] = new PlayerState(
                 playerId: playerId,
                 prefabKey: prefabKey,
                 networkId: networkId
             );
-
             Notify();
             return this;
         }
 
         public PlayersState RemovePlayer(int playerId) {
-            if (Members.Remove(playerId)) {
+            if (_members.Remove(playerId)) {
                 Notify();
             }
             return this;

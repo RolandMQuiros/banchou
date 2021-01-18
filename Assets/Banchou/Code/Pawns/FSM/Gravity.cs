@@ -30,11 +30,11 @@ namespace Banchou.Pawn.Part {
             ObserveStateUpdate
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    if (pawn.IsGrounded) {
+                    if (pawn.Spatial.IsGrounded) {
                         accumulated = Vector3.zero;
                     } else {
                         accumulated += _acceleration * getDeltaTime() * getDeltaTime();
-                        pawn.Move(accumulated, getTime());
+                        pawn.Spatial.Move(accumulated, getTime());
                     }
                 })
                 .AddTo(this);

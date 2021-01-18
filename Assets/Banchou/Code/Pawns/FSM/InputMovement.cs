@@ -20,8 +20,8 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private string _velocityForwardOut = string.Empty;
 
         public void Construct(
+            GameState state,
             PawnState pawn,
-            IObservable<GameState> observeState,
             Animator animator,
             GetTime getTime,
             GetDeltaTime getDeltaTime
@@ -35,7 +35,10 @@ namespace Banchou.Pawn.FSM {
             var rightSpeed = 0f;
 
             ObserveStateUpdate
-                .WithLatestFrom(observeState.ObservePawnInput(pawn.PawnId), (_, input) => input)
+                .WithLatestFrom(
+                    state.ObservePawnInput(pawn.PawnId),
+                    (_, input) => input
+                )
                 .Where(input => input != null)
                 .Select(input => input.Direction * _movementSpeed)
                 .Where(velocity => velocity != Vector3.zero)
@@ -43,7 +46,7 @@ namespace Banchou.Pawn.FSM {
                 .Subscribe(
                     velocity => {
                         var offset = velocity * getDeltaTime();
-                        pawn.Move(offset, getTime());
+                        pawn.Spatial.Move(offset, getTime());
 
                         // Write to output variables
                         if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {
@@ -53,12 +56,12 @@ namespace Banchou.Pawn.FSM {
                             }
 
                             if (rightSpeedOut != 0) {
-                                rightSpeed = Mathf.MoveTowards(rightSpeed, Vector3.Dot(velocity, pawn.Right), _acceleration);
+                                rightSpeed = Mathf.MoveTowards(rightSpeed, Vector3.Dot(velocity, pawn.Spatial.Right), _acceleration);
                                 animator.SetFloat(rightSpeedOut, rightSpeed);
                             }
 
                             if (forwardSpeedOut != 0) {
-                                forwardSpeed = Mathf.MoveTowards(forwardSpeed, Vector3.Dot(velocity, pawn.Forward), _acceleration);
+                                forwardSpeed = Mathf.MoveTowards(forwardSpeed, Vector3.Dot(velocity, pawn.Spatial.Forward), _acceleration);
                                 animator.SetFloat(forwardSpeedOut, forwardSpeed);
                             }
                         }

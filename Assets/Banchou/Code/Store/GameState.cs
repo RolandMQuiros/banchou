@@ -8,7 +8,7 @@ using Banchou.Player;
 
 namespace Banchou {
     [MessagePackObject, Serializable]
-    public class GameState : Substate<GameState> {
+    public class GameState : Notifiable<GameState> {
         [IgnoreMember] public NetworkState Network => _network;
         [Key(0), SerializeField] private NetworkState _network = new NetworkState();
 
@@ -17,11 +17,6 @@ namespace Banchou {
 
         [IgnoreMember] public PlayersState Players => _players;
         [Key(2), SerializeField] private PlayersState _players = new PlayersState();
-
-        protected override void OnProcess() {
-            _board.Process();
-            _players.Process();
-        }
 
         public GameState SyncGame(GameState other) {
             _board.SyncGame(other);

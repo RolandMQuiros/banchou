@@ -10,7 +10,7 @@ namespace Banchou.Network {
     }
 
     [Serializable]
-    public class RollbackState : Substate<RollbackState> {
+    public class RollbackState : Notifiable<RollbackState> {
         [IgnoreMember] public RollbackPhase Phase => _phase;
         [Key(0), SerializeField] private RollbackPhase _phase;
 

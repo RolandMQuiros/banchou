@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Banchou.Network {
 
     [MessagePackObject, Serializable]
-    public class NetworkState : Substate<NetworkState> {
+    public class NetworkState : Notifiable<NetworkState> {
         [IgnoreMember] public int NetworkId => _networkId;
         [Key(0), SerializeField] private int _networkId;
 

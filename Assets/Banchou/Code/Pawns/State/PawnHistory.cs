@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
-    public class PawnHistory : Substate<PawnHistory> {
+    public class PawnHistory : Notifiable<PawnHistory> {
         [IgnoreMember] public FrameData Front => _frames[_frontIndex];
         [IgnoreMember] public FrameData Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
         [Key(0), SerializeField] private FrameData[] _frames;
@@ -26,7 +26,7 @@ namespace Banchou.Pawn {
             _frontIndex = 0;
         }
 
-        public PawnHistory Copy(PawnHistory other) {
+        public PawnHistory Sync(PawnHistory other) {
             _frames = other._frames;
             _frontIndex = other._frontIndex;
 

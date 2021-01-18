@@ -15,10 +15,6 @@ namespace Banchou {
                 .Bind<GetDeltaTime>(GetLocalDeltaTime);
         }
 
-        private void LateUpdate() {
-            _store.GetState().Process();
-        }
-
         private float GetLocalTime() {
             return Time.fixedTime;
         }

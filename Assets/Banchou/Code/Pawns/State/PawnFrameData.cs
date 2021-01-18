@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
-    public class FrameData : Substate<FrameData> {
+    public class FrameData : Notifiable<FrameData> {
         [IgnoreMember] public Vector3 Position => _position;
         [Key(0), SerializeField] private Vector3 _position;
 

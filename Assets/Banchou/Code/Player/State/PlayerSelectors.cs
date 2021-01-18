@@ -1,21 +1,16 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UniRx;
 
 namespace Banchou.Player {
     public static class PlayersSelectors {
-        public static IObservable<PlayersState> ObservePlayers(this IObservable<GameState> observeState) {
-            return observeState
-                .SelectMany(state => state.Players.Observe());
+        public static IObservable<PlayersState> ObservePlayers(this GameState state) {
+            return state.Players.Observe();
         }
 
-        public static IObservable<GameState> OnPlayersChanged(this IObservable<GameState> observeState) {
-            return observeState
-                .SelectMany(state => state.Players.Observe().Select(_ => state));
-        }
-
-        public static IObservable<PlayerState> ObservePlayer(this IObservable<GameState> observeState, int playerId) {
-            return observeState
+        public static IObservable<PlayerState> ObservePlayer(this GameState state, int playerId) {
+            return state
                 .ObservePlayers()
                 .SelectMany(players => {
                     PlayerState player;
@@ -26,19 +21,19 @@ namespace Banchou.Player {
                 });
         }
 
-        public static IObservable<GameState> OnPlayerChanged(this IObservable<GameState> observeState, int playerId) {
-            return observeState
-                .OnPlayersChanged()
-                .SelectMany(state => {
-                    var player = state.GetPlayer(playerId);
-                    if (player != null) {
-                        return player.Observe().Select(_ => state);
-                    }
-                    return Observable.Empty<GameState>();
-                });
+        public static IObservable<PlayerState> ObserveAddedPlayers(this GameState state) {
+            return state.Players.Members
+                .ObserveAdd()
+                .Select(pair => pair.Value);
         }
 
-        public static IDictionary<int, PlayerState> GetPlayers(this GameState state) {
+        public static IObservable<PlayerState> ObserveRemovedPlayers(this GameState state) {
+            return state.Players.Members
+                .ObserveRemove()
+                .Select(pair => pair.Value);
+        }
+
+        public static IReadOnlyReactiveDictionary<int, PlayerState> GetPlayers(this GameState state) {
             return state.Players.Members;
         }
 
@@ -49,7 +44,7 @@ namespace Banchou.Player {
         }
 
         public static IEnumerable<int> GetPlayerIds(this GameState state) {
-            return state.Players.Members.Keys;
+            return state.GetPlayers().Select(p => p.Key);
         }
 
         public static string GetPlayerPrefabKey(this GameState state, int playerId) {

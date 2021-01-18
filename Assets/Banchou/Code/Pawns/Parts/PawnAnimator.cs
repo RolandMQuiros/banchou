@@ -27,7 +27,7 @@ namespace Banchou.Pawn.Part {
             FrameData frame;
             _pawn.History.Push(out frame);
 
-            frame.StartFrame(_animator.layerCount, _pawn.Position, _pawn.Forward);
+            frame.StartFrame(_animator.layerCount, _pawn.Spatial.Position, _pawn.Spatial.Forward);
 
             // Save layer values
             for (int layer = 0; layer < _animator.layerCount; layer++) {

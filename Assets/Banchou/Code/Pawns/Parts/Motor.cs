@@ -5,7 +5,7 @@ namespace Banchou.Pawn.Part {
     public class Motor : MonoBehaviour {
         [SerializeField] private LayerMask _terrainMask = new LayerMask();
 
-        private PawnState _pawn;
+        private PawnSpatial _spatial;
         private Rigidbody _rigidbody;
         private GetTime _getTime;
         private bool _isGrounded = false;
@@ -17,7 +17,7 @@ namespace Banchou.Pawn.Part {
             Rigidbody rigidbody,
             GetTime getTime
         ) {
-            _pawn = pawn;
+            _spatial = pawn.Spatial;
             _rigidbody = rigidbody;
             _getTime = getTime;
         }
@@ -25,18 +25,18 @@ namespace Banchou.Pawn.Part {
         private void FixedUpdate() {
             Vector3 Snap(Vector3 vec) => Snapping.Snap(vec, Vector3.one * 0.001f);
 
-            if (Snap(_rigidbody.position) != Snap(_pawn.Position)) {
-                _pawn.Moved(Snap(_rigidbody.position), _isGrounded, _getTime(), cancelMomentum: _moved);
+            if (Snap(_rigidbody.position) != Snap(_spatial.Position)) {
+                _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _getTime(), cancelMomentum: _moved);
             }
             _moved = false;
 
-            if (_pawn.Velocity != Vector3.zero) {
+            if (_spatial.Velocity != Vector3.zero) {
                 // _contacts.Sort(ContactSorter);
-                var projected = _pawn.Velocity.ProjectOnContacts(_pawn.Up, _contacts);
-                _rigidbody.MovePosition(_pawn.Position + projected);
+                var projected = _spatial.Velocity.ProjectOnContacts(_spatial.Up, _contacts);
+                _rigidbody.MovePosition(_spatial.Position + projected);
                 _moved = true;
             } else {
-                _rigidbody.position = _pawn.Position;
+                _rigidbody.position = _spatial.Position;
             }
 
             _contacts.Clear();

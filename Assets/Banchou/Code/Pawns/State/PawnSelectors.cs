@@ -1,14 +1,12 @@
 using System;
 using UniRx;
-using UnityEngine;
-
 using Banchou.Board;
 using Banchou.Player;
 
 namespace Banchou.Pawn {
     public static class PawnSelectors {
-        public static IObservable<PawnState> ObservePawn(this IObservable<GameState> observeState, int pawnId) {
-            return observeState
+        public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) {
+            return state
                 .ObserveBoard()
                 .SelectMany(board => {
                     PawnState pawn;
@@ -19,27 +17,13 @@ namespace Banchou.Pawn {
                 });
         }
 
-        public static IObservable<GameState> OnPawnChanged(this IObservable<GameState> observeState, int pawnId) {
-            return observeState
-                .OnBoardChanged()
-                .SelectMany(
-                    state => {
-                        var pawn = state.GetPawn(pawnId);
-                        if (pawn != null) {
-                            return pawn.Observe().Select(_ => state);
-                        }
-                        return Observable.Empty<GameState>();
-                    }
-                );
-        }
-
-        public static IObservable<PlayerInputStates> ObservePawnInput(this IObservable<GameState> observeState, int pawnId) {
-            return observeState
+        public static IObservable<PlayerInputStates> ObservePawnInput(this GameState state, int pawnId) {
+            return state
                 .ObservePawn(pawnId)
                 .Select(pawn => pawn.PlayerId)
                 .DistinctUntilChanged()
                 .Where(playerId => playerId != default)
-                .SelectMany(playerId => observeState.ObservePlayer(playerId))
+                .SelectMany(playerId => state.ObservePlayer(playerId))
                 .Where(player => player?.Input != null)
                 .SelectMany(player => player.Input.Observe());
         }
@@ -58,41 +42,6 @@ namespace Banchou.Pawn {
 
         public static PlayerState GetPawnPlayer(this GameState state, int pawnId) {
             return state.GetPlayer(state.GetPawnPlayerId(pawnId));
-        }
-
-        public static string GetPawnPrefabKey(this GameState state, int pawnId) {
-            return state.GetPawn(pawnId)?.PrefabKey;
-        }
-
-        public static (Vector3 Position, Vector3 Forward, Vector3 Up, Vector3 Velocity) GetPawnSpatial(this GameState state, int pawnId) {
-            var pawn = state.GetPawn(pawnId);
-            if (pawn == null) {
-                return (
-                    Position: Vector3.zero,
-                    Forward: Vector3.zero,
-                    Up: Vector3.zero,
-                    Velocity: Vector3.zero
-                );
-            }
-            return (
-                Position: pawn.Position,
-                Forward: pawn.Forward,
-                Up: pawn.Up,
-                Velocity: pawn.Velocity
-            );
-        }
-
-        public static Vector3 GetPawnPosition(this GameState state, int pawnId) {
-            return state.GetPawn(pawnId)?.Position ?? Vector3.zero;
-        }
-
-        public static Quaternion GetPawnRotation(this GameState state, int pawnId) {
-            var pawn = state.GetPawn(pawnId);
-            if (pawn == null) {
-                return Quaternion.identity;
-            } else {
-                return Quaternion.LookRotation(pawn.Forward, pawn.Up);
-            }
         }
     }
 }

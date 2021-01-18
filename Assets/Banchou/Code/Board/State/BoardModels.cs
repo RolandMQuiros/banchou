@@ -1,35 +1,30 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using MessagePack;
 using UnityEngine;
+using UniRx;
 
 using Banchou.Pawn;
 
 namespace Banchou.Board {
-    [MessagePackObject]
-    public class BoardState : Substate<BoardState> {
-        [IgnoreMember] public IReadOnlyCollection<string> LoadedScenes => _loadedScenes;
-        [Key(0)] private HashSet<string> _loadedScenes = new HashSet<string>();
+    [MessagePackObject, Serializable]
+    public class BoardState : Notifiable<BoardState> {
+        [IgnoreMember] public IReadOnlyReactiveCollection<string> LoadedScenes => _loadedScenes;
+        [Key(0), SerializeField] private ReactiveCollection<string> _loadedScenes = new ReactiveCollection<string>();
 
-        [IgnoreMember] public IReadOnlyCollection<string> LoadingScenes => _loadingScenes;
-        [Key(1)] private HashSet<string> _loadingScenes = new HashSet<string>();
+        [IgnoreMember] public IReadOnlyReactiveCollection<string> LoadingScenes => _loadingScenes;
+        [Key(1), SerializeField] private ReactiveCollection<string> _loadingScenes = new ReactiveCollection<string>();
 
-        [IgnoreMember] public IReadOnlyDictionary<int, PawnState> Pawns => _pawns;
-        [Key(2), SerializeField] private Dictionary<int, PawnState> _pawns = new Dictionary<int, PawnState>();
-        [IgnoreMember] public float LastUpdated => _lastUpdated;
-        [Key(3), SerializeField] private float _lastUpdated;
+        [IgnoreMember] public IReadOnlyReactiveDictionary<int, PawnState> Pawns => _pawns;
+        [Key(2), SerializeField] private ReactiveDictionary<int, PawnState> _pawns = new ReactiveDictionary<int, PawnState>();
 
-        protected override void OnProcess() {
-            // foreach (var pawn in Pawns.Values) {
-            //     pawn.Process();
-            // }
-        }
+        [IgnoreMember] public IReadOnlyReactiveProperty<float> LastUpdated => _lastUpdated;
+        [Key(3), SerializeField] private FloatReactiveProperty _lastUpdated = new FloatReactiveProperty();
 
         public BoardState SyncGame(GameState sync) {
             PatchPawns(sync.Board);
-            foreach (var pawn in Pawns.Values) {
-                pawn.SyncGame(sync);
+            foreach (var pawn in Pawns) {
+                pawn.Value.SyncGame(sync);
             }
             Notify();
             return this;
@@ -44,7 +39,8 @@ namespace Banchou.Board {
         }
 
         public BoardState SceneLoaded(string sceneName) {
-            if (_loadingScenes.Remove(sceneName) && _loadedScenes.Add(sceneName)) {
+            if (_loadingScenes.Remove(sceneName) && !_loadedScenes.Contains(sceneName)) {
+                _loadedScenes.Add(sceneName);
                 Notify();
             }
             return this;
@@ -75,7 +71,7 @@ namespace Banchou.Board {
             );
 
             _pawns.Add(pawnId, pawn);
-            _lastUpdated = when;
+            _lastUpdated.Value = when;
 
             Notify();
             return this;
@@ -87,7 +83,7 @@ namespace Banchou.Board {
 
         public BoardState RemovePawn(int pawnId, float when) {
             _pawns.Remove(pawnId);
-            _lastUpdated = when;
+            _lastUpdated.Value = when;
 
             Notify();
             return this;
@@ -95,22 +91,22 @@ namespace Banchou.Board {
 
         public BoardState ClearPawns(float when) {
             _pawns.Clear();
-            _lastUpdated = when;
+            _lastUpdated.Value = when;
 
             Notify();
             return this;
         }
 
         private void PatchPawns(BoardState other) {
-            var otherPawnIds = other.Pawns.Keys;
+            var otherPawnIds = other.Pawns.Select(p => p.Key);
 
             // Add missing pawns
-            foreach (var added in otherPawnIds.Except(Pawns.Keys)) {
+            foreach (var added in otherPawnIds.Except(Pawns.Select(p => p.Key))) {
                 _pawns[added] = other.Pawns[added];
             }
 
             // Remove extraneous pawns
-            foreach (var removed in Pawns.Keys.Except(otherPawnIds)) {
+            foreach (var removed in Pawns.Select(p => p.Key).Except(otherPawnIds)) {
                 _pawns.Remove(removed);
             }
         }
