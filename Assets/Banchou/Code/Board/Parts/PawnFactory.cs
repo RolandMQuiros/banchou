@@ -6,7 +6,6 @@ using UniRx;
 using UnityEngine;
 
 using Banchou.Pawn;
-using Banchou.Board;
 using Banchou.DependencyInjection;
 
 namespace Banchou.Board.Part {
@@ -20,13 +19,15 @@ namespace Banchou.Board.Part {
         [SerializeField] private NamedPrefab[] _catalog = null;
 
         public void Construct(
-            GameState state,
+            BoardState board,
             Instantiator instantiate
         ) {
             var catalog = _catalog.ToDictionary(n => n.Key, n => n.Prefab);
             var spawned = new Dictionary<int, GameObject>();
 
-            state.ObserveAddedPawns()
+            board.Pawns
+                .ObserveAdd()
+                .Select(add => add.Value)
                 .CatchIgnore()
                 .Subscribe(pawn => {
                     var prefabKey = pawn.PrefabKey;
@@ -43,7 +44,9 @@ namespace Banchou.Board.Part {
                 })
                 .AddTo(this);
 
-            state.ObserveRemovedPawns()
+            board.Pawns
+                .ObserveRemove()
+                .Select(add => add.Value)
                 .CatchIgnore()
                 .Subscribe(pawn => {
                     GameObject.Destroy(spawned[pawn.PawnId]);

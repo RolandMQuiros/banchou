@@ -11,15 +11,6 @@ namespace Banchou.Board {
             return state.Board.Observe();
         }
 
-        public static IObservable<GameState> OnBoardChanged(this GameState state) {
-            return state.Board.Observe().Select(_ => state);
-        }
-
-        public static IObservable<IReadOnlyReactiveCollection<string>> ObserveLoadingScenes(this GameState state) {
-            return state.ObserveBoard()
-                .Select(board => board.LoadingScenes);
-        }
-
         public static IObservable<PawnState> ObserveAddedPawns(this GameState state) {
             return state.GetPawns()
                 .ObserveAdd()

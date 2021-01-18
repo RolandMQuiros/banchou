@@ -27,7 +27,7 @@ namespace Banchou.Tools {
 
         public override void OnInspectorGUI() {
             if (Application.isPlaying) {
-                var state = _store.GetState();
+                var state = _store.State;
 
                 _stopwatch.Restart();
                 var bytes = MessagePackSerializer.Serialize(state, _messagePackOptions);

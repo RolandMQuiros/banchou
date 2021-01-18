@@ -9,8 +9,7 @@ namespace Banchou {
 
         public DiContainer InstallBindings(DiContainer container) {
             return container
-                .Bind<GameState>(_store.GetState())
-                .Bind<IObservable<GameState>>(_store.ObserveState())
+                .Bind<GameState>(_store.State)
                 .Bind<GetTime>(GetLocalTime)
                 .Bind<GetDeltaTime>(GetLocalDeltaTime);
         }

@@ -10,22 +10,29 @@ using UnityEngine.SceneManagement;
 namespace Banchou.Board.Part {
     public class SceneLoader : MonoBehaviour {
         public void Construct(
-            IObservable<GameState> observeState,
             BoardState board
         ) {
-            var currentlyLoading = new HashSet<string>();
-
             IEnumerator LoadScene(BoardState board, string sceneName) {
-                currentlyLoading.Add(sceneName);
                 yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-                currentlyLoading.Remove(sceneName);
                 board.SceneLoaded(sceneName);
             }
 
-            board.Observe()
-                .SelectMany(_ => board.LoadingScenes)
-                .Where(scene => !currentlyLoading.Contains(scene))
+            IEnumerator UnloadScene(BoardState board, string sceneName) {
+                yield return SceneManager.UnloadSceneAsync(sceneName);
+            }
+
+            board.LoadingScenes
+                .ObserveAdd()
+                .Select(add => add.Value)
                 .SelectMany(scene => Observable.FromCoroutine(() => LoadScene(board, scene)))
+                .CatchIgnoreLog()
+                .Subscribe()
+                .AddTo(this);
+
+            board.LoadedScenes
+                .ObserveRemove()
+                .Select(remove => remove.Value)
+                .SelectMany(scene => Observable.FromCoroutine(() => UnloadScene(board, scene)))
                 .CatchIgnoreLog()
                 .Subscribe()
                 .AddTo(this);
