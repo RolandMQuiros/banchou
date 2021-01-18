@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 7452233527634030865}
   - component: {fileID: 7452233527634030959}
   - component: {fileID: 251798335}
+  - component: {fileID: 892755104}
+  - component: {fileID: 892755105}
   m_Layer: 0
   m_Name: Banchou Board
   m_TagString: Untagged
@@ -162,6 +164,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef4f59f2e3b24a48b313feb6e994b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &892755104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452233527634030958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2e26306e49b71498fd74b39da6cfb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &892755105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452233527634030958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72d1212ec886aea42bb60dd4800992ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7452233527691460127
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +198,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7452233527691460096}
   - component: {fileID: 7452233527691460097}
+  - component: {fileID: 654590813}
   m_Layer: 0
   m_Name: Pawns/
   m_TagString: Untagged
@@ -208,3 +235,19 @@ MonoBehaviour:
   _catalog:
   - Key: Erho
     Prefab: {fileID: 6705674067414742367, guid: 00dd4c3246211a540b1bbd2e4a926497, type: 3}
+--- !u!114 &654590813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452233527691460127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5eb80d8e62d9d145bb50fb783c0f731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionMode: 0
+  m_RotationMode: 0
+  m_UpdateMethod: 2
+  m_Targets: []

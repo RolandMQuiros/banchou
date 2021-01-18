@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using MessagePack;
@@ -8,21 +9,51 @@ using Banchou.Pawn;
 namespace Banchou.Board {
     [MessagePackObject]
     public class BoardState : Substate<BoardState> {
-        [Key(0)] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
-        [Key(1)] public float LastUpdated { get; private set; }
+        [IgnoreMember] public IReadOnlyCollection<string> LoadedScenes => _loadedScenes;
+        [Key(0)] private HashSet<string> _loadedScenes = new HashSet<string>();
+
+        [IgnoreMember] public IReadOnlyCollection<string> LoadingScenes => _loadingScenes;
+        [Key(1)] private HashSet<string> _loadingScenes = new HashSet<string>();
+
+        [IgnoreMember] public IReadOnlyDictionary<int, PawnState> Pawns => _pawns;
+        [Key(2), SerializeField] private Dictionary<int, PawnState> _pawns = new Dictionary<int, PawnState>();
+        [IgnoreMember] public float LastUpdated => _lastUpdated;
+        [Key(3), SerializeField] private float _lastUpdated;
 
         protected override void OnProcess() {
-            foreach (var pawn in Pawns.Values) {
-                pawn.Process();
-            }
+            // foreach (var pawn in Pawns.Values) {
+            //     pawn.Process();
+            // }
         }
 
-        public BoardState SyncGame(GameState sync, float when) {
+        public BoardState SyncGame(GameState sync) {
             PatchPawns(sync.Board);
             foreach (var pawn in Pawns.Values) {
-                pawn.SyncGame(sync, when);
+                pawn.SyncGame(sync);
             }
             Notify();
+            return this;
+        }
+
+        public BoardState LoadScene(string sceneName) {
+            if (!_loadingScenes.Contains(sceneName) && !_loadedScenes.Contains(sceneName)) {
+                _loadedScenes.Add(sceneName);
+                Notify();
+            }
+            return this;
+        }
+
+        public BoardState SceneLoaded(string sceneName) {
+            if (_loadingScenes.Remove(sceneName) && _loadedScenes.Add(sceneName)) {
+                Notify();
+            }
+            return this;
+        }
+
+        public BoardState UnloadScene(string sceneName) {
+            if (_loadingScenes.Remove(sceneName) || _loadedScenes.Remove(sceneName)) {
+                Notify();
+            }
             return this;
         }
 
@@ -43,8 +74,8 @@ namespace Banchou.Board {
                 lastUpdated: when
             );
 
-            Pawns.Add(pawnId, pawn);
-            LastUpdated = when;
+            _pawns.Add(pawnId, pawn);
+            _lastUpdated = when;
 
             Notify();
             return this;
@@ -55,16 +86,16 @@ namespace Banchou.Board {
         }
 
         public BoardState RemovePawn(int pawnId, float when) {
-            Pawns.Remove(pawnId);
-            LastUpdated = when;
+            _pawns.Remove(pawnId);
+            _lastUpdated = when;
 
             Notify();
             return this;
         }
 
         public BoardState ClearPawns(float when) {
-            Pawns.Clear();
-            LastUpdated = when;
+            _pawns.Clear();
+            _lastUpdated = when;
 
             Notify();
             return this;
@@ -75,12 +106,12 @@ namespace Banchou.Board {
 
             // Add missing pawns
             foreach (var added in otherPawnIds.Except(Pawns.Keys)) {
-                Pawns[added] = other.Pawns[added];
+                _pawns[added] = other.Pawns[added];
             }
 
             // Remove extraneous pawns
             foreach (var removed in Pawns.Keys.Except(otherPawnIds)) {
-                Pawns.Remove(removed);
+                _pawns.Remove(removed);
             }
         }
     }
