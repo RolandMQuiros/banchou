@@ -1,0 +1,22 @@
+{
+    "name": "Banchou.Test",
+    "rootNamespace": "",
+    "references": [
+        "GUID:63f2d9a1f897022409c231390397de84",
+        "GUID:a80ed6b7bde3b5f4381e4ae00cd20c75",
+        "GUID:bbde805d927e795439d7a746d1749cab",
+        "GUID:5a46ad82eac024e4fbb6a0516a5def17",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

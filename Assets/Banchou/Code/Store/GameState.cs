@@ -25,7 +25,7 @@ namespace Banchou {
 
         public GameState SyncGame(GameState other) {
             _board.SyncGame(other);
-            _players.SyncGame(other);
+            // _players.SyncGame(other);
             return this;
         }
     }

@@ -23,15 +23,19 @@ namespace Banchou.Pawn.Part {
         }
 
         private void FixedUpdate() {
-            _pawn.Moved(_rigidbody.position, _isGrounded, _getTime(), cancelMomentum: _moved);
+            Vector3 Snap(Vector3 vec) => Snapping.Snap(vec, Vector3.one * 0.001f);
+
+            if (Snap(_rigidbody.position) != Snap(_pawn.Position)) {
+                _pawn.Moved(Snap(_rigidbody.position), _isGrounded, _getTime(), cancelMomentum: _moved);
+            }
             _moved = false;
 
-            if (_pawn.IsContinuous && _pawn.Velocity != Vector3.zero) {
+            if (_pawn.Velocity != Vector3.zero) {
                 // _contacts.Sort(ContactSorter);
                 var projected = _pawn.Velocity.ProjectOnContacts(_pawn.Up, _contacts);
-                _rigidbody.MovePosition(_rigidbody.position + projected);
+                _rigidbody.MovePosition(_pawn.Position + projected);
                 _moved = true;
-            } else if (!_pawn.IsContinuous) {
+            } else {
                 _rigidbody.position = _pawn.Position;
             }
 

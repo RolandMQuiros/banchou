@@ -14,38 +14,36 @@
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Banchou.Serialization.Formatters.Banchou.Board
+namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 {
     using System;
     using System.Buffers;
     using MessagePack;
 
-    public sealed class BoardStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Board.BoardState>
+    public sealed class ConnectClientFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.ConnectClient>
     {
 
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Board.BoardState value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.ConnectClient value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            if (value == null)
-            {
-                writer.WriteNil();
-                return;
-            }
-
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(0);
+            writer.WriteArrayHeader(2);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.ConnectionKey, options);
+            writer.Write(value.ClientConnectionTime);
         }
 
-        public global::Banchou.Board.BoardState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Network.Message.ConnectClient Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
-                return null;
+                throw new InvalidOperationException("typecode is null, struct not supported");
             }
 
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __ConnectionKey__ = default(string);
+            var __ClientConnectionTime__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -53,13 +51,21 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
 
                 switch (key)
                 {
+                    case 0:
+                        __ConnectionKey__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __ClientConnectionTime__ = reader.ReadSingle();
+                        break;
                     default:
                         reader.Skip();
                         break;
                 }
             }
 
-            var ____result = new global::Banchou.Board.BoardState();
+            var ____result = new global::Banchou.Network.Message.ConnectClient();
+            ____result.ConnectionKey = __ConnectionKey__;
+            ____result.ClientConnectionTime = __ClientConnectionTime__;
             reader.Depth--;
             return ____result;
         }

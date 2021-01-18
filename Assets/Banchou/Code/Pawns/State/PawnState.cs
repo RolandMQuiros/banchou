@@ -69,7 +69,7 @@ namespace Banchou.Pawn {
             History.Process();
         }
 
-        public PawnState SyncGame(GameState sync, float when) {
+        public PawnState SyncGame(GameState sync) {
             PawnState other;
             if (sync.Board.Pawns.TryGetValue(PawnId, out other)) {
                 _playerId = other._playerId;
