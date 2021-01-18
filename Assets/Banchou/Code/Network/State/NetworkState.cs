@@ -1,32 +1,33 @@
 using System;
 using System.Collections.Generic;
-using MessagePack;
 using UnityEngine;
 
 namespace Banchou.Network {
-
-    [MessagePackObject, Serializable]
+    [Serializable]
     public class NetworkState : Notifiable<NetworkState> {
-        [IgnoreMember] public int NetworkId => _networkId;
-        [Key(0), SerializeField] private int _networkId;
+        public int NetworkId => _networkId;
+        [SerializeField] private int _networkId;
 
-        [IgnoreMember] public string ServerIP => _serverIP;
-        [Key(1), SerializeField] private string _serverIP;
+        public string ServerIP => _serverIP;
+        [SerializeField] private string _serverIP;
 
-        [IgnoreMember] public int ServerPort => _serverPort;
-        [Key(2), SerializeField] private int _serverPort;
+        public int ServerPort => _serverPort;
+        [SerializeField] private int _serverPort;
 
-        [IgnoreMember] public float ServerTimeOffset => _serverTimeOffset;
-        [Key(3), SerializeField] private float _serverTimeOffset;
+        public float ServerTimeOffset => _serverTimeOffset;
+        [SerializeField] private float _serverTimeOffset;
 
-        [IgnoreMember] public int TickRate => _tickRate;
-        [Key(4), SerializeField] private int _tickRate = 20;
+        public int TickRate => _tickRate;
+        [SerializeField] private int _tickRate = 20;
 
-        [IgnoreMember] public RollbackState Rollback => _rollback;
-        [Key(4), SerializeField] private RollbackState _rollback;
+        public NetworkStats Stats => _stats;
+        [SerializeField] private NetworkStats _stats = new NetworkStats();
 
-        [IgnoreMember] public IReadOnlyList<int> Clients => _clients;
-        [Key(5), SerializeField] private List<int> _clients = new List<int>();
+        public RollbackState Rollback => _rollback;
+        [SerializeField] private RollbackState _rollback;
+
+        public IReadOnlyList<int> Clients => _clients;
+        [SerializeField] private List<int> _clients = new List<int>();
 
         public NetworkState ClientConnected(int clientNetworkId) {
             _clients.Add(clientNetworkId);

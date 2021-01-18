@@ -6,12 +6,11 @@ using LiteNetLib;
 using MessagePack;
 using MessagePack.Resolvers;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 
 using Banchou.Network.Message;
 using Banchou.Player;
-// using Banchou.Serialization.Resolvers;
+using Banchou.Serialization.Resolvers;
 
 namespace Banchou.Network.Part {
     public class NetworkAgent : MonoBehaviour {
@@ -37,7 +36,7 @@ namespace Banchou.Network.Part {
                 .Standard
                 .WithCompression(MessagePackCompression.Lz4BlockArray)
                 .WithResolver(CompositeResolver.Create(
-                    // BanchouResolver.Instance,
+                    BanchouResolver.Instance,
                     MessagePack.Unity.UnityResolver.Instance,
                     StandardResolver.Instance
                 ));

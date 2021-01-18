@@ -1,5 +1,4 @@
 using System;
-using MessagePack;
 using UnityEngine;
 
 namespace Banchou.Network {
@@ -11,14 +10,14 @@ namespace Banchou.Network {
 
     [Serializable]
     public class RollbackState : Notifiable<RollbackState> {
-        [IgnoreMember] public RollbackPhase Phase => _phase;
-        [Key(0), SerializeField] private RollbackPhase _phase;
+        public RollbackPhase Phase => _phase;
+        [SerializeField] private RollbackPhase _phase;
 
-        [IgnoreMember] public float CorrectionTime => _correctionTime;
-        [Key(1), SerializeField] private float _correctionTime;
+        public float CorrectionTime => _correctionTime;
+        [SerializeField] private float _correctionTime;
 
-        [IgnoreMember] public float DeltaTime => _deltaTime;
-        [Key(2), SerializeField] private float _deltaTime;
+        public float DeltaTime => _deltaTime;
+        [SerializeField] private float _deltaTime;
 
         public RollbackState StartRollback(float correctionTime, float deltaTime) {
             _phase = RollbackPhase.Rewinding;

@@ -13,7 +13,7 @@ namespace Banchou.Board.Part {
                     prefabKey: "Local Player",
                     networkId: 0
                 );
-                for (int i = 1; i <= 1; i++) {
+                for (int i = 1; i <= 100; i++) {
                     state.Board.AddPawn(
                         pawnId: i,
                         prefabKey: "Erho",
