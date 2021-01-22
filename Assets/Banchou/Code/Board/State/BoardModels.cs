@@ -22,10 +22,37 @@ namespace Banchou.Board {
         [Key(3), SerializeField] private FloatReactiveProperty _lastUpdated = new FloatReactiveProperty();
 
         public BoardState SyncGame(BoardState sync) {
-            PatchPawns(sync);
+            // Add all of the incoming board's scenes to our loading queue, unless they've already been loaded
+            var scenesToLoad = sync.ActiveScenes.Concat(sync.LoadingScenes).Except(_activeScenes);
+            // Unload all scenes that aren't in play on the incoming board
+            var scenesToRemove = _activeScenes.Except(scenesToLoad);
+
+            foreach (var scene in scenesToLoad) {
+                _loadingScenes.Add(scene);
+            }
+
+            foreach (var scene in scenesToRemove) {
+                _activeScenes.Remove(scene);
+            }
+
+
+            var incomingPawnIds = sync.Pawns.Select(p => p.Key);
+
+            // Add missing pawns
+            foreach (var added in incomingPawnIds.Except(Pawns.Select(p => p.Key))) {
+                _pawns[added] = sync.Pawns[added];
+            }
+
+            // Remove extraneous pawns
+            foreach (var removed in Pawns.Select(p => p.Key).Except(incomingPawnIds)) {
+                _pawns.Remove(removed);
+            }
+
+            // Propagate sync to remaining pawns
             foreach (var pawn in Pawns) {
                 pawn.Value.SyncGame(sync.Pawns[pawn.Key]);
             }
+
             Notify();
             return this;
         }
@@ -95,20 +122,6 @@ namespace Banchou.Board {
 
             Notify();
             return this;
-        }
-
-        private void PatchPawns(BoardState other) {
-            var otherPawnIds = other.Pawns.Select(p => p.Key);
-
-            // Add missing pawns
-            foreach (var added in otherPawnIds.Except(Pawns.Select(p => p.Key))) {
-                _pawns[added] = other.Pawns[added];
-            }
-
-            // Remove extraneous pawns
-            foreach (var removed in Pawns.Select(p => p.Key).Except(otherPawnIds)) {
-                _pawns.Remove(removed);
-            }
         }
     }
 }

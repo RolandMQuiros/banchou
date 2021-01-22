@@ -12,7 +12,7 @@ namespace Banchou.Prototyping.Part {
         private GameState _state;
         private GetTime _getTime;
 
-        private int _port;
+        private int _port = 9050;
         private int _minPing;
         private int _maxPing;
         public bool Rollback { get; set; }

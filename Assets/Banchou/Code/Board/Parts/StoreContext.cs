@@ -14,6 +14,10 @@ namespace Banchou {
                 .Bind<GetDeltaTime>(GetLocalDeltaTime);
         }
 
+        private void FixedUpdate() {
+            _store.State.SetLocalTime(Time.fixedUnscaledTime, Time.fixedUnscaledDeltaTime);
+        }
+
         private float GetLocalTime() {
             return Time.fixedTime;
         }

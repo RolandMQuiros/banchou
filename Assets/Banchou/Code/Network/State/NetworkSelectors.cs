@@ -16,6 +16,18 @@ namespace Banchou.Network {
             return state.Network.Rollback;
         }
 
+        public static RollbackPhase GetRollbackPhase(this GameState state) {
+            return state.GetRollback().Phase;
+        }
+
+        public static float GetCorrectionTime(this GameState state) {
+            return state.GetRollback().CorrectionTime;
+        }
+
+        public static float GetCorrectionDelta(this GameState state) {
+            return state.GetRollback().DeltaTime;
+        }
+
         public static IPEndPoint GetServerEndpoint(this GameState state) {
             return new IPEndPoint(IPAddress.Parse(state.Network.ServerIP), state.Network.ServerPort);
         }

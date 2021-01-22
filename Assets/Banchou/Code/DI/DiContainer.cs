@@ -142,7 +142,7 @@ namespace Banchou.DependencyInjection {
         /// <param name="additionalBindings">Bindings not necessarily included in the hierarchy contexts</param>
         public static void ApplyBindings(this Transform transform, params object[] additionalBindings) {
             foreach (var xform in transform.BreadthFirstTraversal()) {
-                var contexts = transform.FindContexts();
+                var contexts = xform.FindContexts();
                 var components = xform.gameObject
                     .GetComponents<Component>()
                     .SelectMany(c => Expand(c))
@@ -174,6 +174,7 @@ namespace Banchou.DependencyInjection {
                 // Traverse the hierarchy from bottom to top, while traversing each gameObject's contexts from top to bottom
                 // This lets multiple contexts on a single gameObject depend on each other in a predictable way
                 var contexts = climb.GetComponents<IContext>().Reverse();
+                var allcomponents = climb.GetComponents<MonoBehaviour>();
                 foreach (var context in contexts) {
                     stack.Push(context);
                 }
