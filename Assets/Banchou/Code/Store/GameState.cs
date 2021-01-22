@@ -19,8 +19,8 @@ namespace Banchou {
         [Key(1), SerializeField] private PlayersState _players = new PlayersState();
 
         public GameState SyncGame(GameState other) {
-            _board.SyncGame(other);
-            // _players.SyncGame(other);
+            _board.SyncGame(other.Board);
+            _players.SyncGame(other.Players);
             return this;
         }
     }

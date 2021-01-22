@@ -60,7 +60,7 @@ namespace Banchou.Pawn {
             return this;
         }
 
-        public PawnSpatial Teleport(Vector3 position, float when, bool cancelMomentum = true) {
+        public PawnSpatial Teleport(Vector3 position, Vector3 forward, float when, bool cancelMomentum = true) {
             _position = position;
             _velocity = cancelMomentum ? Vector3.zero : _velocity;
             _isContinuous = false;

@@ -36,6 +36,10 @@ namespace Banchou.Pawn {
             return null;
         }
 
+        public static PawnSpatial GetPawnSpatial(this GameState state, int pawnId) {
+            return state.GetPawn(pawnId)?.Spatial;
+        }
+
         public static int GetPawnPlayerId(this GameState state, int pawnId) {
             return state.GetPawn(pawnId)?.PlayerId ?? 0;
         }

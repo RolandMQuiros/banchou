@@ -124,8 +124,6 @@ namespace Banchou.Network.Part {
                     var syncClient = MessagePackSerializer.Deserialize<Connected>(envelope.Payload, _messagePackOptions);
                     _network.ConnectedToServer(
                         clientNetworkId: syncClient.ClientNetworkId,
-                        ip: fromPeer.EndPoint.Address.ToString(),
-                        port: fromPeer.EndPoint.Port,
                         serverTimeOffset: CalculateTimeOffset(
                             syncClient.ClientTime,
                             syncClient.ServerReceiptTime,

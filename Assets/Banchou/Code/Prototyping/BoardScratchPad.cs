@@ -1,20 +1,23 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Banchou.Board.Part {
+using Banchou.Board;
+using Banchou.Player;
+
+namespace Banchou.Prototyping.Part {
     public class BoardScratchPad : MonoBehaviour {
         public void Construct(
             GameState state,
             GetTime getTime
         ) {
             IEnumerator RunTest() {
-                state.Players.AddPlayer(
+                state.AddPlayer(
                     playerId: 1,
                     prefabKey: "Local Player",
                     networkId: 0
                 );
                 for (int i = 1; i <= 100; i++) {
-                    state.Board.AddPawn(
+                    state.AddPawn(
                         pawnId: i,
                         prefabKey: "Erho",
                         playerId: 1,

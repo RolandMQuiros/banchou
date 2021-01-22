@@ -39,13 +39,30 @@ namespace Banchou.Pawn {
             _lastUpdated = lastUpdated;
         }
 
-        public PawnState SyncGame(GameState sync) {
-            PawnState other;
-            if (sync.Board.Pawns.TryGetValue(PawnId, out other)) {
-                _playerId = other._playerId;
-                _spatial.Sync(other._spatial);
-                _history.Sync(other._history);
-                _lastUpdated = other._lastUpdated;
+        public PawnState SyncGame(PawnState sync) {
+            _playerId = sync._playerId;
+            _spatial.Sync(sync._spatial);
+            _history.Sync(sync._history);
+            _lastUpdated = sync._lastUpdated;
+            Notify();
+            return this;
+        }
+
+        public PawnState Rollback(float correctionTime) {
+            FrameData targetFrame;
+            do { _history.Pop(out targetFrame); }
+            while (targetFrame.When > correctionTime);
+
+            _spatial.Teleport(targetFrame.Position, targetFrame.Forward, targetFrame.When, true);
+
+            Notify();
+            return this;
+        }
+
+        public PawnState AttachPlayer(int playerId, float when) {
+            if (playerId != _playerId) {
+                _playerId = playerId;
+                _lastUpdated = when;
                 Notify();
             }
             return this;

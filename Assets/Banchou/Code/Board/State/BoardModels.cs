@@ -21,10 +21,10 @@ namespace Banchou.Board {
         [IgnoreMember] public IReadOnlyReactiveProperty<float> LastUpdated => _lastUpdated;
         [Key(3), SerializeField] private FloatReactiveProperty _lastUpdated = new FloatReactiveProperty();
 
-        public BoardState SyncGame(GameState sync) {
-            PatchPawns(sync.Board);
+        public BoardState SyncGame(BoardState sync) {
+            PatchPawns(sync);
             foreach (var pawn in Pawns) {
-                pawn.Value.SyncGame(sync);
+                pawn.Value.SyncGame(sync.Pawns[pawn.Key]);
             }
             Notify();
             return this;

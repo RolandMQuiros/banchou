@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using MessagePack;
 using UniRx;
 using UnityEngine;
@@ -25,6 +25,11 @@ namespace Banchou.Player {
             PlayerId = playerId;
             PrefabKey = prefabKey;
             _networkId = networkId;
+        }
+
+        public PlayerState SyncGame(PlayerState other) {
+            _input.SyncGame(other.Input);
+            return this;
         }
     }
 
@@ -72,6 +77,16 @@ namespace Banchou.Player {
             Notify();
             return this;
         }
+
+        public PlayerInputStates SyncGame(PlayerInputStates sync) {
+            _commands = sync._commands;
+            _direction = sync._direction;
+            _look = sync._look;
+            _sequence = sync._sequence;
+            _when = sync._when;
+            Notify();
+            return this;
+        }
     }
 
     [MessagePackObject, Serializable]
@@ -93,6 +108,26 @@ namespace Banchou.Player {
             if (_members.Remove(playerId)) {
                 Notify();
             }
+            return this;
+        }
+
+        public PlayersState SyncGame(PlayersState sync) {
+            var playerIds = _members.Select(p => p.Key);
+            var syncPlayerIds = sync.Members.Select(p => p.Key);
+
+            foreach (var added in syncPlayerIds.Except(playerIds)) {
+                _members[added] = sync.Members[added];
+            }
+
+            foreach (var removed in playerIds.Except(syncPlayerIds)) {
+                _members.Remove(removed);
+            }
+
+            foreach (var playerId in playerIds.Intersect(syncPlayerIds)) {
+                _members[playerId].SyncGame(sync.Members[playerId]);
+            }
+
+            Notify();
             return this;
         }
     }
