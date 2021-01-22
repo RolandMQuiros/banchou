@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 
 using UniRx;
@@ -24,17 +22,21 @@ namespace Banchou.Board.Part {
             board.LoadingScenes
                 .ObserveAdd()
                 .Select(add => add.Value)
-                .SelectMany(scene => Observable.FromCoroutine(() => LoadScene(board, scene)))
+                .StartWith(board.LoadingScenes)
+                .Do(add => Debug.Log($"Loading Board scene \"{add}\""))
                 .CatchIgnoreLog()
-                .Subscribe()
+                .Subscribe(scene => {
+                    StartCoroutine(LoadScene(board, scene));
+                })
                 .AddTo(this);
 
-            board.LoadedScenes
+            board.ActiveScenes
                 .ObserveRemove()
                 .Select(remove => remove.Value)
-                .SelectMany(scene => Observable.FromCoroutine(() => UnloadScene(board, scene)))
                 .CatchIgnoreLog()
-                .Subscribe()
+                .Subscribe(scene => {
+                    StartCoroutine(UnloadScene(board, scene));
+                })
                 .AddTo(this);
         }
     }

@@ -25,6 +25,7 @@ namespace Banchou.Player.Part {
 
             state.ObserveAddedPlayers()
                 .CatchIgnore()
+                .DelayFrame(0, FrameCountType.EndOfFrame)
                 .Subscribe(player => {
                     var prefabKey = player.PrefabKey;
                     GameObject prefab;

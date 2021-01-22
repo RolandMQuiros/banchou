@@ -4,6 +4,15 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Banchou/Scenes/Multiplayer Test.unity
+    guid: 00e72e35bd74d784aa75f09cdb4aa1e0
+  - enabled: 1
+    path: Assets/Banchou/Scenes/Banchou Board.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Banchou/Scenes/Levels/Sandbox.unity
+    guid: 1c5fca364bf2c9b45ba02fd4385839e5
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 8c0703782da2dd04184bc06980cc7844, type: 2}

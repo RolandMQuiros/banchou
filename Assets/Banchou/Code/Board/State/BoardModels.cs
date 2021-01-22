@@ -9,8 +9,8 @@ using Banchou.Pawn;
 namespace Banchou.Board {
     [MessagePackObject, Serializable]
     public class BoardState : Notifiable<BoardState> {
-        [IgnoreMember] public IReadOnlyReactiveCollection<string> LoadedScenes => _loadedScenes;
-        [Key(0), SerializeField] private ReactiveCollection<string> _loadedScenes = new ReactiveCollection<string>();
+        [IgnoreMember] public IReadOnlyReactiveCollection<string> ActiveScenes => _activeScenes;
+        [Key(0), SerializeField] private ReactiveCollection<string> _activeScenes = new ReactiveCollection<string>();
 
         [IgnoreMember] public IReadOnlyReactiveCollection<string> LoadingScenes => _loadingScenes;
         [Key(1), SerializeField] private ReactiveCollection<string> _loadingScenes = new ReactiveCollection<string>();
@@ -31,23 +31,23 @@ namespace Banchou.Board {
         }
 
         public BoardState LoadScene(string sceneName) {
-            if (!_loadingScenes.Contains(sceneName) && !_loadedScenes.Contains(sceneName)) {
-                _loadedScenes.Add(sceneName);
+            if (!_loadingScenes.Contains(sceneName) && !_activeScenes.Contains(sceneName)) {
+                _loadingScenes.Add(sceneName);
                 Notify();
             }
             return this;
         }
 
         public BoardState SceneLoaded(string sceneName) {
-            if (_loadingScenes.Remove(sceneName) && !_loadedScenes.Contains(sceneName)) {
-                _loadedScenes.Add(sceneName);
+            if (_loadingScenes.Remove(sceneName) && !_activeScenes.Contains(sceneName)) {
+                _activeScenes.Add(sceneName);
                 Notify();
             }
             return this;
         }
 
         public BoardState UnloadScene(string sceneName) {
-            if (_loadingScenes.Remove(sceneName) || _loadedScenes.Remove(sceneName)) {
+            if (_loadingScenes.Remove(sceneName) || _activeScenes.Remove(sceneName)) {
                 Notify();
             }
             return this;

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UniRx;
 using Banchou.Board;
 using Banchou.Player;
@@ -26,6 +27,19 @@ namespace Banchou.Pawn {
                 .SelectMany(playerId => state.ObservePlayer(playerId))
                 .Where(player => player?.Input != null)
                 .SelectMany(player => player.Input.Observe());
+        }
+
+        public static IObservable<PawnState> ObserveAddedPawns(this GameState state) {
+            return state.GetPawns()
+                .ObserveAdd()
+                .Select(add => add.Value)
+                .StartWith(state.GetPawns().Select(pair => pair.Value));
+        }
+
+        public static IObservable<PawnState> ObserveRemovedPawns(this GameState state) {
+            return state.GetPawns()
+                .ObserveRemove()
+                .Select(removed => removed.Value);
         }
 
         public static PawnState GetPawn(this GameState state, int pawnId) {

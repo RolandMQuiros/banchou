@@ -3,12 +3,11 @@ using UnityEngine.InputSystem;
 
 namespace Banchou.Player.Part {
     public class PlayerInputDispatcher : MonoBehaviour {
-        [SerializeField] private Transform _camera;
-
         private PlayerInput _source;
 
         private PlayerInputStates _input;
         private GetTime _getTime;
+        private Transform _camera;
 
         private long _sequence = 0L;
         private Vector2 _moveInput;
@@ -23,7 +22,7 @@ namespace Banchou.Player.Part {
         ) {
             _input = player.Input;
             _getTime = getTime;
-            _camera = _camera == null ? Camera.main.transform : _camera;
+            _camera = Camera.main.transform;
 
             _source = GetComponent<PlayerInput>();
             _source.onActionTriggered += HandleAction;

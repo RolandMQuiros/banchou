@@ -24,7 +24,8 @@ namespace Banchou.Player {
         public static IObservable<PlayerState> ObserveAddedPlayers(this GameState state) {
             return state.Players.Members
                 .ObserveAdd()
-                .Select(pair => pair.Value);
+                .Select(pair => pair.Value)
+                .StartWith(state.Players.Members.Select(pair => pair.Value));
         }
 
         public static IObservable<PlayerState> ObserveRemovedPlayers(this GameState state) {

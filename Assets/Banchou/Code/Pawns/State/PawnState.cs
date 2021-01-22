@@ -7,8 +7,8 @@ namespace Banchou.Pawn {
 
     [MessagePackObject, Serializable]
     public class PawnState : Notifiable<PawnState> {
-        [Key(0)] public readonly int PawnId;
-        [Key(1)] public readonly string PrefabKey;
+        [Key(0), SerializeField] public readonly int PawnId;
+        [Key(1), SerializeField] public readonly string PrefabKey;
 
         [IgnoreMember] public int PlayerId => _playerId;
         [Key(2), SerializeField] private int _playerId;

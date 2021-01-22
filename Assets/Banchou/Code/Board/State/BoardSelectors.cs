@@ -14,7 +14,8 @@ namespace Banchou.Board {
         public static IObservable<PawnState> ObserveAddedPawns(this GameState state) {
             return state.GetPawns()
                 .ObserveAdd()
-                .Select(pair => pair.Value);
+                .Select(pair => pair.Value)
+                .StartWith(state.GetPawns().Select(pair => pair.Value));
         }
 
         public static IObservable<PawnState> ObserveRemovedPawns(this GameState state) {
@@ -29,6 +30,14 @@ namespace Banchou.Board {
 
         public static IEnumerable<int> GetPawnIds(this GameState state) {
             return state.GetPawns().Select(p => p.Key);
+        }
+
+        public static bool AreScenesLoading(this GameState state) {
+            return state.Board.LoadingScenes.Any();
+        }
+
+        public static bool IsSceneLoaded(this GameState state, string sceneName) {
+            return state.Board.ActiveScenes.Contains(sceneName);
         }
     }
 }
