@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using MessagePack;
-using UniRx;
 using UnityEngine;
 
 using Banchou.Board;
 using Banchou.Network;
+using Banchou.Pawn;
 using Banchou.Player;
 
 namespace Banchou {
@@ -32,6 +33,12 @@ namespace Banchou {
         public GameState SyncGame(GameState other) {
             Board.SyncGame(other.Board);
             Players.SyncGame(other.Players);
+            return this;
+        }
+
+        public GameState SyncBoard(IList<PawnState> pawns, IList<PlayerState> players) {
+            Board.SyncBoard(pawns);
+            Players.SyncBoard(players);
             return this;
         }
 

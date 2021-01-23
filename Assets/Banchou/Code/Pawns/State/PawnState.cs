@@ -10,16 +10,16 @@ namespace Banchou.Pawn {
         [Key(0)] public readonly int PawnId;
         [Key(1)] public readonly string PrefabKey;
         [Key(2)][field: SerializeField] public int PlayerId { get; private set; }
-        [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; } = new PawnSpatial();
-        [IgnoreMember][field: SerializeField] public PawnHistory History { get; private set; } = new PawnHistory();
-        [Key(4)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
+        [Key(4)][field: SerializeField] public PawnHistory History { get; private set; }
+        [Key(5)][field: SerializeField] public float LastUpdated { get; private set; }
 
         #region Serialization constructors
-        public PawnState() { }
-        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, float lastUpdated) {
+        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, PawnHistory history, float lastUpdated) {
             PawnId = pawnId;
             PrefabKey = prefabKey;
             Spatial = spatial;
+            History = history;
             LastUpdated = lastUpdated;
         }
         #endregion
@@ -37,10 +37,11 @@ namespace Banchou.Pawn {
             PrefabKey = prefabKey;
             PlayerId = playerId;
             Spatial = new PawnSpatial(position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
+            History = new PawnHistory();
             LastUpdated = lastUpdated;
         }
 
-        public PawnState SyncGame(PawnState sync) {
+        public PawnState Sync(PawnState sync) {
             PlayerId = sync.PlayerId;
             Spatial.Sync(sync.Spatial);
             History.Sync(sync.History);

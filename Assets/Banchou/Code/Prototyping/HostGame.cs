@@ -40,13 +40,16 @@ namespace Banchou.Prototyping.Part {
             _state
                 .StartServer(_port, 20, _minPing, _maxPing)
                 .LoadScene("Sandbox")
-                .AddPlayer(1, "Local Player")
-                .AddPawn(
-                    pawnId: 1,
+                .AddPlayer(1, "Local Player");
+
+            for (int i = 1; i <= 15; i++) {
+                _state.AddPawn(
+                    pawnId: i,
                     prefabKey: "Erho",
                     playerId: 1,
                     position: new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
                 );
+            }
         }
     }
 }

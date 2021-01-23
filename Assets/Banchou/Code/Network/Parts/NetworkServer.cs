@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ using UniRx;
 using UnityEngine;
 
 using Banchou.Network.Message;
+using Banchou.Board;
 using Banchou.Player;
 
 namespace Banchou.Network.Part {
@@ -145,7 +147,7 @@ namespace Banchou.Network.Part {
                     );
                     fromPeer.Send(response, DeliveryMethod.Unreliable);
                 } break;
-                case PayloadType.Sync: {
+                case PayloadType.SyncGame: {
                     var sync = MessagePackSerializer.Deserialize<GameState>(envelope.Payload, _messagePackOptions);
                     _state.SyncGame(sync);
                 } break;
@@ -154,7 +156,14 @@ namespace Banchou.Network.Part {
 
         private void SendSync() {
             if (_clients.Count > 0) {
-                var sync = Envelope.CreateMessage<GameState>(PayloadType.Sync, _state, _messagePackOptions);
+                var sync = Envelope.CreateMessage<SyncBoard>(
+                    PayloadType.SyncBoard,
+                    new SyncBoard {
+                        Pawns = _state.GetPawns().Values.ToList(),
+                        Players = _state.GetPlayers().Values.ToList()
+                    },
+                    _messagePackOptions
+                );
                 foreach (var client in _clients.Values) {
                     client.Send(sync, DeliveryMethod.Unreliable);
                 }

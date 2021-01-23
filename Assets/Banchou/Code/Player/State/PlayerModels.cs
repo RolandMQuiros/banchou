@@ -32,8 +32,8 @@ namespace Banchou.Player {
             NetworkId = networkId;
         }
 
-        public PlayerState SyncGame(PlayerState other) {
-            Input.SyncGame(other.Input);
+        public PlayerState Sync(PlayerState other) {
+            Input.Sync(other.Input);
             return this;
         }
     }
@@ -86,7 +86,7 @@ namespace Banchou.Player {
             return this;
         }
 
-        public PlayerInputStates SyncGame(PlayerInputStates sync) {
+        public PlayerInputStates Sync(PlayerInputStates sync) {
             Commands = sync.Commands;
             Direction = sync.Direction;
             Look = sync.Look;
@@ -146,10 +146,20 @@ namespace Banchou.Player {
             }
 
             foreach (var playerId in playerIds.Intersect(syncPlayerIds)) {
-                _members[playerId].SyncGame(sync.Members[playerId]);
+                _members[playerId].Sync(sync.Members[playerId]);
             }
 
             Notify();
+            return this;
+        }
+
+        public PlayersState SyncBoard(IList<PlayerState> incoming) {
+            for (int i = 0; i < incoming.Count; i++) {
+                PlayerState player;
+                if (Members.TryGetValue(incoming[i].PlayerId, out player)) {
+                    player.Sync(incoming[i]);
+                }
+            }
             return this;
         }
     }

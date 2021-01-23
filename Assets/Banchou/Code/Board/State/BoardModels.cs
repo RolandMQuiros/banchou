@@ -79,10 +79,20 @@ namespace Banchou.Board {
 
             // Propagate sync to remaining pawns
             foreach (var pawn in Pawns) {
-                pawn.Value.SyncGame(sync.Pawns[pawn.Key]);
+                pawn.Value.Sync(sync.Pawns[pawn.Key]);
             }
 
             Notify();
+            return this;
+        }
+
+        public BoardState SyncBoard(IList<PawnState> incoming) {
+            for (int i = 0; i < incoming.Count; i++) {
+                PawnState pawn;
+                if (Pawns.TryGetValue(incoming[i].PawnId, out pawn)) {
+                    pawn.Sync(incoming[i]);
+                }
+            }
             return this;
         }
 

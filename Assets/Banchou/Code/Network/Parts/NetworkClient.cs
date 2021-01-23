@@ -99,9 +99,13 @@ namespace Banchou.Network.Part {
                         )
                     );
                 } break;
-                case PayloadType.Sync: {
+                case PayloadType.SyncGame: {
                     var sync = MessagePackSerializer.Deserialize<GameState>(envelope.Payload, _messagePackOptions);
                     _state.SyncGame(sync);
+                } break;
+                case PayloadType.SyncBoard: {
+                    var sync = MessagePackSerializer.Deserialize<SyncBoard>(envelope.Payload, _messagePackOptions);
+                    _state.SyncBoard(sync.Pawns, sync.Players);
                 } break;
             }
         }

@@ -1,7 +1,8 @@
-using System.Diagnostics;
+using System.Collections.Generic;
 using MessagePack;
 using UnityEngine;
 
+using Banchou.Pawn;
 using Banchou.Player;
 
 namespace Banchou.Network.Message {
@@ -11,7 +12,8 @@ namespace Banchou.Network.Message {
         TimeRequest,
         TimeResponse,
         InputUnit,
-        Sync
+        SyncGame,
+        SyncBoard
     }
 
     [MessagePackObject]
@@ -57,5 +59,20 @@ namespace Banchou.Network.Message {
     public struct TimeResponse {
         [Key(0)] public float ClientTime;
         [Key(1)] public float ServerTime;
+    }
+
+    [MessagePackObject]
+    public struct InputUnit {
+        [Key(0)] public int PlayerId;
+        [Key(2)] public InputCommand Commands;
+        [Key(3)] public Vector3 Move;
+        [Key(4)] public long Sequence;
+        [Key(5)] public float When;
+    }
+
+    [MessagePackObject]
+    public struct SyncBoard {
+        [Key(0)] public List<PawnState> Pawns;
+        [Key(1)] public List<PlayerState> Players;
     }
 }

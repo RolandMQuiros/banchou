@@ -14,8 +14,6 @@ namespace Banchou.Player.Part {
         private Vector2 _lookInput;
         private InputCommand _commandsInput;
 
-        private InputUnit _lastUnit;
-
         public void Construct(
             PlayerState player,
             GetTime getTime

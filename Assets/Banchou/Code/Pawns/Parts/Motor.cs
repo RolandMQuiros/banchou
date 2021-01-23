@@ -9,8 +9,8 @@ namespace Banchou.Pawn.Part {
         private PawnSpatial _spatial;
         private Rigidbody _rigidbody;
         private bool _isGrounded = false;
-        private float _interpolationTime = 0f;
-        private List<Vector3> _contacts = new List<Vector3>();
+        private bool _moved = false;
+        [SerializeField] private List<Vector3> _contacts = new List<Vector3>(30);
 
         public void Construct(
             GameState state,
@@ -23,9 +23,8 @@ namespace Banchou.Pawn.Part {
         }
 
         private void FixedUpdate() {
-            if (Snap(_rigidbody.position) != Snap(_spatial.Position)) {
-                _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _state.GetTime());
-            }
+            _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _state.GetTime(), _moved);
+            _moved = false;
 
             switch (_spatial.Style) {
                 case PawnSpatial.MovementStyle.Offset: {
@@ -33,6 +32,7 @@ namespace Banchou.Pawn.Part {
                         // _contacts.Sort(ContactSorter);
                         var projected = _spatial.Velocity.ProjectOnContacts(_spatial.Up, _contacts);
                         _rigidbody.MovePosition(_spatial.Position + projected);
+                        _moved = true;
                     }
                 } break;
                 case PawnSpatial.MovementStyle.Instantaneous: {

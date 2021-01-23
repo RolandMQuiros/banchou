@@ -1,24 +1,24 @@
 using System;
 using System.Collections.Generic;
+using MessagePack;
+using UnityEngine;
 
 namespace Banchou.Pawn {
-    [Serializable]
+    [MessagePackObject, Serializable]
     public class PawnHistory : Notifiable<PawnHistory> {
-        public FrameData Front => _frames[_frontIndex];
-        public FrameData Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
-        public IReadOnlyList<FrameData> Frames => _frames;
-        private FrameData[] _frames;
-        private int _frontIndex = 0;
+        [Key(0)] public FrameData Front => _frames[_frontIndex];
+        [IgnoreMember] public FrameData Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
+        [IgnoreMember] public IReadOnlyList<FrameData> Frames => _frames;
+        [SerializeField] private FrameData[] _frames;
+        [SerializeField] private int _frontIndex = 0;
 
-        public PawnHistory() {
-            _frames = new FrameData[7];
-            for (int i = 0; i < _frames.Length; i++) {
-                _frames[i] = new FrameData();
-            }
-            _frontIndex = 0;
+        #region Serialization constructors
+        public PawnHistory(FrameData front) {
+            _frames = new FrameData[] { front };
         }
+        #endregion
 
-        public PawnHistory(int frames) {
+        public PawnHistory(int frames = 7) {
             _frames = new FrameData[frames];
             for (int i = 0; i < _frames.Length; i++) {
                 _frames[i] = new FrameData();
@@ -27,10 +27,11 @@ namespace Banchou.Pawn {
         }
 
         public PawnHistory Sync(PawnHistory other) {
-            _frames = other._frames;
-            _frontIndex = other._frontIndex;
-
-            Notify();
+            var back = (_frontIndex - _frames.Length) % _frames.Length;
+            while (Front.When > other.Front.When && _frontIndex != back) {
+                _frontIndex = (_frontIndex - 1) % _frames.Length;
+            }
+            _frames[_frontIndex] = other.Front;
             return this;
         }
 
