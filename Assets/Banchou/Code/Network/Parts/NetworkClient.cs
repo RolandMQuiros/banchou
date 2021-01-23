@@ -63,6 +63,10 @@ namespace Banchou.Network.Part {
         }
 
         private void OnReceive(NetPeer fromPeer, NetPacketReader dataReader, DeliveryMethod deliveryMethod) {
+            if (_state.GetNetworkMode() != NetworkMode.Client) {
+                return;
+            }
+
             var envelope = MessagePackSerializer.Deserialize<Envelope>(dataReader.GetRemainingBytes(), _messagePackOptions);
 
             // Deserialize payload

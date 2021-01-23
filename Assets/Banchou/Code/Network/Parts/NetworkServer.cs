@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Collections.Generic;
 
@@ -34,6 +35,17 @@ namespace Banchou.Network.Part {
             _eventListener.PeerConnectedEvent += OnPeerConnected;
             _eventListener.NetworkReceiveEvent += OnReceive;
 
+            _state.Network
+                .Observe()
+                .Where(network => network.Mode == NetworkMode.Server)
+                .Select(network => network.TickRate)
+                .DistinctUntilChanged()
+                .SelectMany(tickRate => Observable.Interval(TimeSpan.FromSeconds(1.0 / tickRate)))
+                .Where(_ => _clients.Count > 0)
+                .CatchIgnoreLog()
+                .Subscribe(_ => SendSync())
+                .AddTo(this);
+
             _state.Network.Observe()
                 .Where(network => network.Mode == NetworkMode.Server)
                 .Select(network => network.ServerPort)
@@ -58,6 +70,10 @@ namespace Banchou.Network.Part {
         }
 
         private void OnConnectionRequest(ConnectionRequest request) {
+            if (_state.GetNetworkMode() != NetworkMode.Server) {
+                return;
+            }
+
             Debug.Log($"Connection request from {request.RemoteEndPoint}");
 
             var connectData = MessagePackSerializer.Deserialize<ConnectClient>(request.Data.GetRemainingBytes(), _messagePackOptions);
@@ -73,6 +89,10 @@ namespace Banchou.Network.Part {
         }
 
         private void OnPeerConnected(NetPeer peer) {
+            if (_state.GetNetworkMode() != NetworkMode.Server) {
+                return;
+            }
+
             Debug.Log($"Setting up client connection from {peer.EndPoint}");
 
             // Generate a new network ID
@@ -101,6 +121,10 @@ namespace Banchou.Network.Part {
         }
 
         private void OnReceive(NetPeer fromPeer, NetPacketReader dataReader, DeliveryMethod deliveryMethod) {
+            if (_state.GetNetworkMode() != NetworkMode.Server) {
+                return;
+            }
+
             var envelope = MessagePackSerializer.Deserialize<Envelope>(dataReader.GetRemainingBytes(), _messagePackOptions);
 
             // Deserialize payload
@@ -128,7 +152,7 @@ namespace Banchou.Network.Part {
             }
         }
 
-        private void SendSync(long tick) {
+        private void SendSync() {
             if (_clients.Count > 0) {
                 var sync = Envelope.CreateMessage<GameState>(PayloadType.Sync, _state, _messagePackOptions);
                 foreach (var client in _clients.Values) {

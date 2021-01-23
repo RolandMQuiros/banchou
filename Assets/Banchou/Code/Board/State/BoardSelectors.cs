@@ -11,21 +11,51 @@ namespace Banchou.Board {
             return state.Board.Observe();
         }
 
+        public static IObservable<string> ObserveAddedScenes(this GameState state) {
+            return Observable
+                .FromEvent<string>(
+                    h => state.Board.SceneAdded += h,
+                    h => state.Board.SceneAdded -= h
+                )
+                .StartWith(state.Board.LoadingScenes)
+                .Do(scene => {
+                    UnityEngine.Debug.Log(scene);
+                });
+        }
+
+        public static IObservable<string> ObserveRemovedScenes(this GameState state) {
+            return Observable
+                .FromEvent<string>(
+                    h => state.Board.SceneRemoved += h,
+                    h => state.Board.SceneRemoved -= h
+                );
+        }
+
         public static IObservable<PawnState> ObserveAddedPawns(this GameState state) {
-            return state.GetPawns()
-                .ObserveAdd()
-                .Select(pair => pair.Value)
-                .StartWith(state.GetPawns().Select(pair => pair.Value));
+            return Observable
+                .FromEvent<PawnState>(
+                    h => state.Board.PawnAdded += h,
+                    h => state.Board.PawnAdded -= h
+                )
+                .StartWith(state.GetPawns().Values);
         }
 
         public static IObservable<PawnState> ObserveRemovedPawns(this GameState state) {
-            return state.GetPawns()
-                .ObserveRemove()
-                .Select(pair => pair.Value);
+            return Observable
+                .FromEvent<PawnState>(
+                    h => state.Board.PawnRemoved += h,
+                    h => state.Board.PawnRemoved -= h
+                );
         }
 
-        public static IReadOnlyReactiveDictionary<int, PawnState> GetPawns(this GameState state) {
+        public static IReadOnlyDictionary<int, PawnState> GetPawns(this GameState state) {
             return state.Board.Pawns;
+        }
+
+        public static PawnState GetPawn(this GameState state, int pawnId) {
+            PawnState pawn = null;
+            state.GetPawns().TryGetValue(pawnId, out pawn);
+            return pawn;
         }
 
         public static IEnumerable<int> GetPawnIds(this GameState state) {

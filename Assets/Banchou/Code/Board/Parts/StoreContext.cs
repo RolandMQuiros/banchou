@@ -6,6 +6,11 @@ using Banchou.DependencyInjection;
 namespace Banchou {
     public class StoreContext : MonoBehaviour, IContext {
         [SerializeField] private GameStateStore _store = null;
+        [SerializeField] private GameState _state = null;
+
+        public void Construct() {
+            _state = _store.State;
+        }
 
         public DiContainer InstallBindings(DiContainer container) {
             return container

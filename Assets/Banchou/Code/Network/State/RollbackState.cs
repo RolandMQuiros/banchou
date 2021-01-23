@@ -11,7 +11,7 @@ namespace Banchou.Network {
     [Serializable]
     public class RollbackState : Notifiable<RollbackState> {
         public RollbackPhase Phase => _phase;
-        [SerializeField] private RollbackPhase _phase;
+        [SerializeField] private RollbackPhase _phase = RollbackPhase.Complete;
 
         public float CorrectionTime => _correctionTime;
         [SerializeField] private float _correctionTime;

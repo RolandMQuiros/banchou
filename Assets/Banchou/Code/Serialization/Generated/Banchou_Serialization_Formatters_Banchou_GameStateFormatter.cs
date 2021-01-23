@@ -33,7 +33,11 @@ namespace Banchou.Serialization.Formatters.Banchou
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(0);
+            writer.WriteArrayHeader(4);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Serialize(ref writer, value.Board, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Serialize(ref writer, value.Players, options);
+            writer.Write(value.LocalTime);
+            writer.Write(value.DeltaTime);
         }
 
         public global::Banchou.GameState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -46,6 +50,10 @@ namespace Banchou.Serialization.Formatters.Banchou
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __Board__ = default(global::Banchou.Board.BoardState);
+            var __Players__ = default(global::Banchou.Player.PlayersState);
+            var __LocalTime__ = default(float);
+            var __DeltaTime__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -53,13 +61,25 @@ namespace Banchou.Serialization.Formatters.Banchou
 
                 switch (key)
                 {
+                    case 0:
+                        __Board__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __Players__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __LocalTime__ = reader.ReadSingle();
+                        break;
+                    case 3:
+                        __DeltaTime__ = reader.ReadSingle();
+                        break;
                     default:
                         reader.Skip();
                         break;
                 }
             }
 
-            var ____result = new global::Banchou.GameState();
+            var ____result = new global::Banchou.GameState(__Board__, __Players__, __LocalTime__, __DeltaTime__);
             reader.Depth--;
             return ____result;
         }

@@ -1,38 +1,33 @@
 using System;
 using System.Collections.Generic;
-using MessagePack;
 using UnityEngine;
 
 namespace Banchou.Pawn {
-    [MessagePackObject, Serializable]
+    [Serializable]
     public class FrameData : Notifiable<FrameData> {
-        [IgnoreMember] public Vector3 Position => _position;
-        [Key(0), SerializeField] private Vector3 _position;
+        [field: SerializeField] public Vector3 Position { get; private set; }
+        [field: SerializeField] public Vector3 Forward { get; private set; }
 
-        [IgnoreMember] public Vector3 Forward => _forward;
-        [Key(1), SerializeField] private Vector3 _forward;
+        public ReadOnlyMemory<int> StateHashes => _stateHashes;
+        [SerializeField] private int[] _stateHashes;
 
-        [IgnoreMember] public ReadOnlyMemory<int> StateHashes => _stateHashes;
-        [Key(2), SerializeField] private int[] _stateHashes;
+        public ReadOnlyMemory<float> NormalizedTimes => _normalizedTimes;
+        [SerializeField] private float[] _normalizedTimes;
 
-        [IgnoreMember] public ReadOnlyMemory<float> NormalizedTimes => _normalizedTimes;
-        [Key(3), SerializeField] private float[] _normalizedTimes;
+        public IReadOnlyDictionary<int, float> Floats => _floats;
+        [SerializeField] private Dictionary<int, float> _floats = new Dictionary<int, float>();
 
-        [IgnoreMember] public IReadOnlyDictionary<int, float> Floats => _floats;
-        [Key(4)] private Dictionary<int, float> _floats = new Dictionary<int, float>();
+        public IReadOnlyDictionary<int, int> Ints => _ints;
+        [SerializeField] private Dictionary<int, int> _ints = new Dictionary<int, int>();
 
-        [IgnoreMember] public IReadOnlyDictionary<int, int> Ints => _ints;
-        [Key(5)] private Dictionary<int, int> _ints = new Dictionary<int, int>();
+        public IReadOnlyDictionary<int, bool> Bools => _bools;
+        [SerializeField] private Dictionary<int, bool> _bools = new Dictionary<int, bool>();
 
-        [IgnoreMember] public IReadOnlyDictionary<int, bool> Bools => _bools;
-        [Key(6)] private Dictionary<int, bool> _bools = new Dictionary<int, bool>();
-
-        [IgnoreMember] public float When => _when;
-        [Key(7), SerializeField] private float _when;
+        [field: SerializeField] public float When { get; private set; }
 
         public FrameData StartFrame(int layerCount, Vector3 position, Vector3 forward) {
-            _position = position;
-            _forward = forward;
+            Position = position;
+            Forward = forward;
 
             if (_stateHashes == null) {
                 _stateHashes = new int[layerCount];
@@ -75,7 +70,7 @@ namespace Banchou.Pawn {
         }
 
         public FrameData FinishFrame(float when) {
-            _when = when;
+            When = when;
             Notify();
             return this;
         }

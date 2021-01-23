@@ -12,6 +12,10 @@ namespace Banchou.Network {
             return state.ObserveNetwork().Select(_ => state);
         }
 
+        public static NetworkMode GetNetworkMode(this GameState state) {
+            return state.Network.Mode;
+        }
+
         public static RollbackState GetRollback(this GameState state) {
             return state.Network.Rollback;
         }
@@ -29,7 +33,8 @@ namespace Banchou.Network {
         }
 
         public static IPEndPoint GetServerEndpoint(this GameState state) {
-            return new IPEndPoint(IPAddress.Parse(state.Network.ServerIP), state.Network.ServerPort);
+            var ip = IPAddress.Parse(state.Network.ServerIP);
+            return new IPEndPoint(ip, state.Network.ServerPort);
         }
 
         public static bool IsSimulatingLatency(this GameState state) {

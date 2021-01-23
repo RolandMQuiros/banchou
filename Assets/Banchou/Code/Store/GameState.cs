@@ -1,5 +1,6 @@
 using System;
 using MessagePack;
+using UniRx;
 using UnityEngine;
 
 using Banchou.Board;
@@ -9,30 +10,34 @@ using Banchou.Player;
 namespace Banchou {
     [MessagePackObject, Serializable]
     public class GameState : Notifiable<GameState> {
-        [IgnoreMember] public NetworkState Network => _network;
-        [IgnoreMember, SerializeField] private NetworkState _network = new NetworkState();
+        [IgnoreMember][field:SerializeField] public NetworkState Network { get; private set; } = new NetworkState();
+        [Key(0)][field:SerializeField] public BoardState Board { get; private set; } = new BoardState();
+        [Key(1)][field:SerializeField] public PlayersState Players { get; private set; } = new PlayersState();
+        [Key(2)][field:SerializeField] public float LocalTime { get; private set; }
+        [Key(3)][field:SerializeField] public float DeltaTime { get; private set; }
 
-        [IgnoreMember] public BoardState Board => _board;
-        [Key(0), SerializeField] private BoardState _board = new BoardState();
-
-        [IgnoreMember] public PlayersState Players => _players;
-        [Key(1), SerializeField] private PlayersState _players = new PlayersState();
-
-        [IgnoreMember] public float LocalTime => _localTime;
-        [Key(2), SerializeField] private float _localTime;
-
-        [IgnoreMember] public float DeltaTime => _deltaTime;
-        [Key(3), SerializeField] private float _deltaTime;
+        public GameState() { }
+        public GameState(
+            BoardState board,
+            PlayersState players,
+            float localTime,
+            float deltaTime
+        ) {
+            Board = board;
+            Players = players;
+            LocalTime = localTime;
+            DeltaTime = deltaTime;
+        }
 
         public GameState SyncGame(GameState other) {
-            _board.SyncGame(other.Board);
-            _players.SyncGame(other.Players);
+            Board.SyncGame(other.Board);
+            Players.SyncGame(other.Players);
             return this;
         }
 
         public GameState SetLocalTime(float localTime, float deltaTime) {
-            _localTime = localTime;
-            _deltaTime = deltaTime;
+            LocalTime = localTime;
+            DeltaTime = deltaTime;
             // Don't bother notifying for this
             return this;
         }

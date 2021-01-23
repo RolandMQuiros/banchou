@@ -29,19 +29,6 @@ namespace Banchou.Pawn {
                 .SelectMany(player => player.Input.Observe());
         }
 
-        public static IObservable<PawnState> ObserveAddedPawns(this GameState state) {
-            return state.GetPawns()
-                .ObserveAdd()
-                .Select(add => add.Value)
-                .StartWith(state.GetPawns().Select(pair => pair.Value));
-        }
-
-        public static IObservable<PawnState> ObserveRemovedPawns(this GameState state) {
-            return state.GetPawns()
-                .ObserveRemove()
-                .Select(removed => removed.Value);
-        }
-
         public static PawnState GetPawn(this GameState state, int pawnId) {
             PawnState pawn;
             if (state.Board.Pawns.TryGetValue(pawnId, out pawn)) {

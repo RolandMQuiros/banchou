@@ -7,22 +7,23 @@ namespace Banchou.Pawn {
 
     [MessagePackObject, Serializable]
     public class PawnState : Notifiable<PawnState> {
-        [Key(0), SerializeField] public readonly int PawnId;
-        [Key(1), SerializeField] public readonly string PrefabKey;
+        [Key(0)] public readonly int PawnId;
+        [Key(1)] public readonly string PrefabKey;
+        [Key(2)][field: SerializeField] public int PlayerId { get; private set; }
+        [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; } = new PawnSpatial();
+        [IgnoreMember][field: SerializeField] public PawnHistory History { get; private set; } = new PawnHistory();
+        [Key(4)][field: SerializeField] public float LastUpdated { get; private set; }
 
-        [IgnoreMember] public int PlayerId => _playerId;
-        [Key(2), SerializeField] private int _playerId;
-
-        [IgnoreMember] public PawnSpatial Spatial => _spatial;
-        [Key(3), SerializeField] private PawnSpatial _spatial;
-
-        [IgnoreMember] public PawnHistory History => _history;
-        [Key(9), SerializeField] private PawnHistory _history = new PawnHistory();
-
-        [IgnoreMember] public float LastUpdated => _lastUpdated;
-        [Key(10), SerializeField] private float _lastUpdated;
-
+        #region Serialization constructors
         public PawnState() { }
+        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, float lastUpdated) {
+            PawnId = pawnId;
+            PrefabKey = prefabKey;
+            Spatial = spatial;
+            LastUpdated = lastUpdated;
+        }
+        #endregion
+
         public PawnState(
             int pawnId,
             string prefabKey,
@@ -34,44 +35,45 @@ namespace Banchou.Pawn {
         ) {
             PawnId = pawnId;
             PrefabKey = prefabKey;
-            _playerId = playerId;
-            _spatial = new PawnSpatial(position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
-            _lastUpdated = lastUpdated;
+            PlayerId = playerId;
+            Spatial = new PawnSpatial(position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
+            LastUpdated = lastUpdated;
         }
 
         public PawnState SyncGame(PawnState sync) {
-            _playerId = sync._playerId;
-            _spatial.Sync(sync._spatial);
-            _history.Sync(sync._history);
-            _lastUpdated = sync._lastUpdated;
+            PlayerId = sync.PlayerId;
+            Spatial.Sync(sync.Spatial);
+            History.Sync(sync.History);
+            LastUpdated = sync.LastUpdated;
             Notify();
             return this;
         }
 
         public PawnState Rollback(float correctionTime) {
             FrameData targetFrame;
-            do { _history.Pop(out targetFrame); }
+            do { History.Pop(out targetFrame); }
             while (targetFrame.When > correctionTime);
 
-            _spatial.Teleport(targetFrame.Position, targetFrame.Forward, targetFrame.When, true);
+            Spatial.Teleport(targetFrame.Position, targetFrame.When, instant: true);
+            Spatial.Rotate(targetFrame.Forward, targetFrame.When);
 
             Notify();
             return this;
         }
 
         public PawnState AttachPlayer(int playerId, float when) {
-            if (playerId != _playerId) {
-                _playerId = playerId;
-                _lastUpdated = when;
+            if (playerId != PlayerId) {
+                PlayerId = playerId;
+                LastUpdated = when;
                 Notify();
             }
             return this;
         }
 
         public PawnState RemovePlayer(int playerId, float when) {
-            if (playerId == _playerId) {
-                _playerId = default;
-                _lastUpdated = when;
+            if (playerId == PlayerId) {
+                PlayerId = default;
+                LastUpdated = when;
                 Notify();
             }
             return this;

@@ -12,18 +12,18 @@ namespace Banchou.Board {
             return state;
         }
 
-        public static GameState AddPawn(this GameState state, int pawnId, string prefabKey, int playerId, Vector3 position, float when) {
-            state.Board.AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, when);
+        public static GameState AddPawn(this GameState state, int pawnId, string prefabKey, int playerId, Vector3 position) {
+            state.Board.AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, state.GetTime());
             return state;
         }
 
-        public static GameState RemovePawn(this GameState state, int pawnId, float when) {
-            state.Board.RemovePawn(pawnId, when);
+        public static GameState RemovePawn(this GameState state, int pawnId) {
+            state.Board.RemovePawn(pawnId, state.GetTime());
             return state;
         }
 
-        public static GameState ClearPawns(this GameState state, float when) {
-            state.Board.ClearPawns(when);
+        public static GameState ClearPawns(this GameState state) {
+            state.Board.ClearPawns(state.GetTime());
             return state;
         }
     }

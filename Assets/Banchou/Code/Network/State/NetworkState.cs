@@ -13,37 +13,16 @@ namespace Banchou.Network {
     public class NetworkState : Notifiable<NetworkState> {
         public const string Localhost = "127.0.0.1";
         public const int DefaultPort = 9050;
-
-        public int NetworkId => _networkId;
-        [SerializeField] private int _networkId;
-
-        public NetworkMode Mode => _mode;
-        [SerializeField] private NetworkMode _mode = NetworkMode.Local;
-
-        public string ServerIP => _serverIP;
-        [SerializeField] private string _serverIP;
-
-        public int ServerPort => _serverPort;
-        [SerializeField] private int _serverPort;
-
-        public float ServerTimeOffset => _serverTimeOffset;
-        [SerializeField] private float _serverTimeOffset;
-
-        public int TickRate => _tickRate;
-        [SerializeField] private int _tickRate = 20;
-
-        public int SimulateMinLatency => _simulateMinLatency;
-        [SerializeField] private int _simulateMinLatency = 0;
-
-        public int SimulateMaxLatency => _simulateMaxLatency;
-        [SerializeField] private int _simulateMaxLatency = 0;
-
-        public NetworkStats Stats => _stats;
-        [SerializeField] private NetworkStats _stats = new NetworkStats();
-
-        public RollbackState Rollback => _rollback;
-        [SerializeField] private RollbackState _rollback;
-
+        [field: SerializeField] public int NetworkId { get; private set; }
+        [field: SerializeField] public NetworkMode Mode { get; private set; } = NetworkMode.Local;
+        [field: SerializeField] public string ServerIP { get; private set; }
+        [field: SerializeField] public int ServerPort { get; private set;}
+        [field: SerializeField] public float ServerTimeOffset { get; private set; }
+        [field: SerializeField] public int TickRate { get; private set; }
+        [field: SerializeField] public int SimulateMinLatency  { get; private set; }
+        [field: SerializeField] public int SimulateMaxLatency  { get; private set; }
+        [field: SerializeField] public NetworkStats Stats  { get; private set; } = new NetworkStats();
+        [field: SerializeField] public RollbackState Rollback  { get; private set; } = new RollbackState();
         public IReadOnlyList<int> Clients => _clients;
         [SerializeField] private List<int> _clients = new List<int>();
 
@@ -59,20 +38,19 @@ namespace Banchou.Network {
             int simulateMinLatency = 0,
             int simulateMaxLatency = 0
         ) {
-            _mode = NetworkMode.Client;
-            _serverIP = ip;
-            _serverPort = port;
+            Mode = NetworkMode.Client;
+            ServerIP = ip;
+            ServerPort = port;
 
-            _simulateMinLatency = Math.Max(0, simulateMinLatency);
-            _simulateMaxLatency = Math.Max(_simulateMinLatency, simulateMaxLatency);
+            SimulateMinLatency = Math.Max(0, simulateMinLatency);
+            SimulateMaxLatency = Math.Max(SimulateMinLatency, simulateMaxLatency);
 
             return this;
         }
 
         public NetworkState ConnectedToServer(int clientNetworkId, float serverTimeOffset) {
-            _networkId = clientNetworkId;
-            _serverTimeOffset = serverTimeOffset;
-            _rollback = new RollbackState();
+            NetworkId = clientNetworkId;
+            ServerTimeOffset = serverTimeOffset;
             Notify();
             return this;
         }
@@ -83,20 +61,20 @@ namespace Banchou.Network {
             int simulateMinLatency = 0,
             int simulateMaxLatency = 0
         ) {
-            _mode = NetworkMode.Server;
-            _networkId = 0;
-            _serverIP = Localhost;
-            _serverPort = port;
-            _tickRate = tickRate;
-            _simulateMinLatency = simulateMinLatency;
-            _simulateMaxLatency = Math.Max(_simulateMinLatency, simulateMaxLatency);
+            Mode = NetworkMode.Server;
+            NetworkId = 0;
+            ServerIP = Localhost;
+            ServerPort = port;
+            TickRate = tickRate;
+            SimulateMinLatency = simulateMinLatency;
+            SimulateMaxLatency = Math.Max(SimulateMinLatency, simulateMaxLatency);
 
             Notify();
             return this;
         }
 
         public NetworkState UpdateServerTime(float serverTimeOffset) {
-            _serverTimeOffset = serverTimeOffset;
+            ServerTimeOffset = serverTimeOffset;
             Notify();
             return this;
         }

@@ -33,7 +33,11 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(0);
+            writer.WriteArrayHeader(4);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyList<string>>().Serialize(ref writer, value.ActiveScenes, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyList<string>>().Serialize(ref writer, value.LoadingScenes, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyDictionary<int, global::Banchou.Pawn.PawnState>>().Serialize(ref writer, value.Pawns, options);
+            writer.Write(value.LastUpdated);
         }
 
         public global::Banchou.Board.BoardState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -46,6 +50,10 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __ActiveScenes__ = default(global::System.Collections.Generic.IReadOnlyList<string>);
+            var __LoadingScenes__ = default(global::System.Collections.Generic.IReadOnlyList<string>);
+            var __Pawns__ = default(global::System.Collections.Generic.IReadOnlyDictionary<int, global::Banchou.Pawn.PawnState>);
+            var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -53,13 +61,25 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
 
                 switch (key)
                 {
+                    case 0:
+                        __ActiveScenes__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyList<string>>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __LoadingScenes__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyList<string>>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __Pawns__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyDictionary<int, global::Banchou.Pawn.PawnState>>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __LastUpdated__ = reader.ReadSingle();
+                        break;
                     default:
                         reader.Skip();
                         break;
                 }
             }
 
-            var ____result = new global::Banchou.Board.BoardState();
+            var ____result = new global::Banchou.Board.BoardState(__ActiveScenes__, __LoadingScenes__, __Pawns__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

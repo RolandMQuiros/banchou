@@ -1,14 +1,14 @@
 using System;
-using MessagePack;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Banchou.Pawn {
-    [MessagePackObject, Serializable]
+    [Serializable]
     public class PawnHistory : Notifiable<PawnHistory> {
-        [IgnoreMember] public FrameData Front => _frames[_frontIndex];
-        [IgnoreMember] public FrameData Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
-        [Key(0), SerializeField] private FrameData[] _frames;
-        [Key(1), SerializeField] private int _frontIndex;
+        public FrameData Front => _frames[_frontIndex];
+        public FrameData Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
+        public IReadOnlyList<FrameData> Frames => _frames;
+        private FrameData[] _frames;
+        private int _frontIndex = 0;
 
         public PawnHistory() {
             _frames = new FrameData[7];

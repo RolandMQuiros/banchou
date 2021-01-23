@@ -19,14 +19,7 @@ namespace Banchou.Network.Message {
         [Key(0)] public PayloadType PayloadType;
         [Key(1)] public byte[] Payload;
 
-#if DEBUG
-        private static Stopwatch _serializationPerformance = new Stopwatch();
-#endif
-
         public static byte[] CreateMessage<T>(PayloadType payloadType, T payload, MessagePackSerializerOptions options) {
-#if DEBUG
-            _serializationPerformance.Restart();
-#endif
             var message = MessagePackSerializer.Serialize(
                 new Envelope {
                     PayloadType = payloadType,
@@ -34,10 +27,6 @@ namespace Banchou.Network.Message {
                 },
                 options
             );
-#if DEBUG
-            _serializationPerformance.Stop();
-            UnityEngine.Debug.Log($"Serialized {typeof(T).FullName} to {message.Length} bytes in {_serializationPerformance.ElapsedTicks} nanoseconds");
-#endif
             return message;
         }
     }

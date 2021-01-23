@@ -33,7 +33,15 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(0);
+            writer.WriteArrayHeader(8);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Position, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Forward, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Up, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Velocity, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.TeleportTarget, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnSpatial.MovementStyle>().Serialize(ref writer, value.Style, options);
+            writer.Write(value.IsGrounded);
+            writer.Write(value.LastUpdated);
         }
 
         public global::Banchou.Pawn.PawnSpatial Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -46,6 +54,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __Position__ = default(global::UnityEngine.Vector3);
+            var __Forward__ = default(global::UnityEngine.Vector3);
+            var __Up__ = default(global::UnityEngine.Vector3);
+            var __Velocity__ = default(global::UnityEngine.Vector3);
+            var __TeleportTarget__ = default(global::UnityEngine.Vector3);
+            var __Style__ = default(global::Banchou.Pawn.PawnSpatial.MovementStyle);
+            var __IsGrounded__ = default(bool);
+            var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -53,13 +69,37 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
                 switch (key)
                 {
+                    case 0:
+                        __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 1:
+                        __Forward__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __Up__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 3:
+                        __Velocity__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 4:
+                        __TeleportTarget__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 5:
+                        __Style__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnSpatial.MovementStyle>().Deserialize(ref reader, options);
+                        break;
+                    case 6:
+                        __IsGrounded__ = reader.ReadBoolean();
+                        break;
+                    case 7:
+                        __LastUpdated__ = reader.ReadSingle();
+                        break;
                     default:
                         reader.Skip();
                         break;
                 }
             }
 
-            var ____result = new global::Banchou.Pawn.PawnSpatial();
+            var ____result = new global::Banchou.Pawn.PawnSpatial(__Position__, __Forward__, __Up__, __Velocity__, __TeleportTarget__, __Style__, __IsGrounded__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

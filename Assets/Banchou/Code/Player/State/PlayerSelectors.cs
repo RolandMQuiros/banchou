@@ -22,19 +22,23 @@ namespace Banchou.Player {
         }
 
         public static IObservable<PlayerState> ObserveAddedPlayers(this GameState state) {
-            return state.Players.Members
-                .ObserveAdd()
-                .Select(pair => pair.Value)
-                .StartWith(state.Players.Members.Select(pair => pair.Value));
+            return Observable
+                .FromEvent<PlayerState>(
+                    h => state.Players.PlayerAdded += h,
+                    h => state.Players.PlayerAdded -= h
+                )
+                .StartWith(state.Players.Members.Values);
         }
 
         public static IObservable<PlayerState> ObserveRemovedPlayers(this GameState state) {
-            return state.Players.Members
-                .ObserveRemove()
-                .Select(pair => pair.Value);
+            return Observable
+                .FromEvent<PlayerState>(
+                    h => state.Players.PlayerRemoved += h,
+                    h => state.Players.PlayerRemoved -= h
+                );
         }
 
-        public static IReadOnlyReactiveDictionary<int, PlayerState> GetPlayers(this GameState state) {
+        public static IReadOnlyDictionary<int, PlayerState> GetPlayers(this GameState state) {
             return state.Players.Members;
         }
 

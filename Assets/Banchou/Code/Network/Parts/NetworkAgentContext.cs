@@ -8,11 +8,13 @@ using Banchou.Serialization.Resolvers;
 
 namespace Banchou.Network.Part {
     public class NetworkAgentContext : MonoBehaviour, IContext {
+        [SerializeField] private NetworkState _network;
         private EventBasedNetListener _eventListener;
         private NetManager _netManager;
         private MessagePackSerializerOptions _messagePackOptions;
 
         public void Construct(GameState state) {
+            _network = state.Network;
             _eventListener = new EventBasedNetListener();
             _netManager = new NetManager(_eventListener);
             _messagePackOptions = MessagePackSerializerOptions

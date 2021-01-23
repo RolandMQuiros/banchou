@@ -37,15 +37,15 @@ namespace Banchou.Prototyping.Part {
         public void Host() {
             SceneManager.LoadScene("Banchou Board", LoadSceneMode.Single);
 
-            _state.StartServer(_port, 20, _minPing, _maxPing)
+            _state
+                .StartServer(_port, 20, _minPing, _maxPing)
                 .LoadScene("Sandbox")
                 .AddPlayer(1, "Local Player")
                 .AddPawn(
                     pawnId: 1,
                     prefabKey: "Erho",
                     playerId: 1,
-                    position: new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f)),
-                    when: _getTime()
+                    position: new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
                 );
         }
     }

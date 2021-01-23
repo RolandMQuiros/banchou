@@ -8,34 +8,30 @@ using UnityEngine.SceneManagement;
 namespace Banchou.Board.Part {
     public class SceneLoader : MonoBehaviour {
         public void Construct(
-            BoardState board
+            GameState state
         ) {
             IEnumerator LoadScene(BoardState board, string sceneName) {
                 yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
                 board.SceneLoaded(sceneName);
             }
 
-            IEnumerator UnloadScene(BoardState board, string sceneName) {
+            IEnumerator UnloadScene(string sceneName) {
                 yield return SceneManager.UnloadSceneAsync(sceneName);
             }
 
-            board.LoadingScenes
-                .ObserveAdd()
-                .Select(add => add.Value)
-                .StartWith(board.LoadingScenes)
+            state.ObserveAddedScenes()
                 .Do(add => Debug.Log($"Loading Board scene \"{add}\""))
                 .CatchIgnoreLog()
                 .Subscribe(scene => {
-                    StartCoroutine(LoadScene(board, scene));
+                    StartCoroutine(LoadScene(state.Board, scene));
                 })
                 .AddTo(this);
 
-            board.ActiveScenes
-                .ObserveRemove()
-                .Select(remove => remove.Value)
+            state.ObserveRemovedScenes()
+                .Do(removed => Debug.Log($"Unloaded Board scene \"{removed}\""))
                 .CatchIgnoreLog()
                 .Subscribe(scene => {
-                    StartCoroutine(UnloadScene(board, scene));
+                    StartCoroutine(UnloadScene(scene));
                 })
                 .AddTo(this);
         }
