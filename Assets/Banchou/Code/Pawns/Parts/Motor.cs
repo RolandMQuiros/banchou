@@ -23,7 +23,12 @@ namespace Banchou.Pawn.Part {
         }
 
         private void FixedUpdate() {
-            _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _state.GetTime(), _moved);
+            var rigidbodySnapped = Snap(_rigidbody.position);
+            var spatialSnapped = Snap(_spatial.Position);
+
+            if (rigidbodySnapped != spatialSnapped) {
+                _spatial.Moved(rigidbodySnapped, _isGrounded, _state.GetTime(), _moved);
+            }
             _moved = false;
 
             switch (_spatial.Style) {
@@ -31,15 +36,15 @@ namespace Banchou.Pawn.Part {
                     if (_spatial.Velocity != Vector3.zero) {
                         // _contacts.Sort(ContactSorter);
                         var projected = _spatial.Velocity.ProjectOnContacts(_spatial.Up, _contacts);
-                        _rigidbody.MovePosition(_spatial.Position + projected);
+                        _rigidbody.MovePosition(Snap(_spatial.Position) + projected);
                         _moved = true;
                     }
                 } break;
                 case PawnSpatial.MovementStyle.Instantaneous: {
-                    _rigidbody.position = _spatial.TeleportTarget;
+                    _rigidbody.position = Snap(_spatial.TeleportTarget);
                 } break;
                 case PawnSpatial.MovementStyle.Interpolated: {
-                    _rigidbody.position = Vector3.Slerp(_spatial.Position, _spatial.TeleportTarget, 0.5f);
+                    _rigidbody.position = Vector3.Slerp(Snap(_spatial.Position), Snap(_spatial.TeleportTarget), 0.5f);
                 } break;
             }
 

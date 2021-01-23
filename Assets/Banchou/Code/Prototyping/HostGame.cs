@@ -38,7 +38,7 @@ namespace Banchou.Prototyping.Part {
             SceneManager.LoadScene("Banchou Board", LoadSceneMode.Single);
 
             _state
-                .StartServer(_port, 20, _minPing, _maxPing)
+                .StartServer(_port, 10, _minPing, _maxPing)
                 .LoadScene("Sandbox")
                 .AddPlayer(1, "Local Player");
 

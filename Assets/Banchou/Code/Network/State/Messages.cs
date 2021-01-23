@@ -72,7 +72,7 @@ namespace Banchou.Network.Message {
 
     [MessagePackObject]
     public struct SyncBoard {
-        [Key(0)] public List<PawnState> Pawns;
-        [Key(1)] public List<PlayerState> Players;
+        [Key(0)] public IEnumerable<PawnState> Pawns;
+        [Key(1)] public IEnumerable<PlayerState> Players;
     }
 }

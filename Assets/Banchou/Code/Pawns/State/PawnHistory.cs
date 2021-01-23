@@ -18,7 +18,7 @@ namespace Banchou.Pawn {
         }
         #endregion
 
-        public PawnHistory(int frames = 7) {
+        public PawnHistory(int frames = 80) {
             _frames = new FrameData[frames];
             for (int i = 0; i < _frames.Length; i++) {
                 _frames[i] = new FrameData();

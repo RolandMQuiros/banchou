@@ -86,11 +86,11 @@ namespace Banchou.Board {
             return this;
         }
 
-        public BoardState SyncBoard(IList<PawnState> incoming) {
-            for (int i = 0; i < incoming.Count; i++) {
+        public BoardState SyncBoard(IEnumerable<PawnState> incoming) {
+            foreach (var incomingPawn in incoming) {
                 PawnState pawn;
-                if (Pawns.TryGetValue(incoming[i].PawnId, out pawn)) {
-                    pawn.Sync(incoming[i]);
+                if (Pawns.TryGetValue(incomingPawn.PawnId, out pawn)) {
+                    pawn.Sync(incomingPawn);
                 }
             }
             return this;

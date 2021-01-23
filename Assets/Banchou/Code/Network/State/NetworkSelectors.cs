@@ -12,6 +12,11 @@ namespace Banchou.Network {
             return state.ObserveNetwork().Select(_ => state);
         }
 
+        public static IObservable<int> ObserveTickRate(this GameState state) {
+            return state.ObserveNetwork()
+                .Select(network => network.TickRate);
+        }
+
         public static NetworkMode GetNetworkMode(this GameState state) {
             return state.Network.Mode;
         }

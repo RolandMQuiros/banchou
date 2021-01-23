@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Collections.Generic;
@@ -9,8 +8,6 @@ using UniRx;
 using UnityEngine;
 
 using Banchou.Network.Message;
-using Banchou.Board;
-using Banchou.Player;
 
 namespace Banchou.Network.Part {
     public class NetworkServer : MonoBehaviour {
@@ -36,17 +33,6 @@ namespace Banchou.Network.Part {
             _eventListener.ConnectionRequestEvent += OnConnectionRequest;
             _eventListener.PeerConnectedEvent += OnPeerConnected;
             _eventListener.NetworkReceiveEvent += OnReceive;
-
-            _state.Network
-                .Observe()
-                .Where(network => network.Mode == NetworkMode.Server)
-                .Select(network => network.TickRate)
-                .DistinctUntilChanged()
-                .SelectMany(tickRate => Observable.Interval(TimeSpan.FromSeconds(1.0 / tickRate)))
-                .Where(_ => _clients.Count > 0)
-                .CatchIgnoreLog()
-                .Subscribe(_ => SendSync())
-                .AddTo(this);
 
             _state.Network.Observe()
                 .Where(network => network.Mode == NetworkMode.Server)
@@ -151,22 +137,6 @@ namespace Banchou.Network.Part {
                     var sync = MessagePackSerializer.Deserialize<GameState>(envelope.Payload, _messagePackOptions);
                     _state.SyncGame(sync);
                 } break;
-            }
-        }
-
-        private void SendSync() {
-            if (_clients.Count > 0) {
-                var sync = Envelope.CreateMessage<SyncBoard>(
-                    PayloadType.SyncBoard,
-                    new SyncBoard {
-                        Pawns = _state.GetPawns().Values.ToList(),
-                        Players = _state.GetPlayers().Values.ToList()
-                    },
-                    _messagePackOptions
-                );
-                foreach (var client in _clients.Values) {
-                    client.Send(sync, DeliveryMethod.Unreliable);
-                }
             }
         }
     }

@@ -153,11 +153,11 @@ namespace Banchou.Player {
             return this;
         }
 
-        public PlayersState SyncBoard(IList<PlayerState> incoming) {
-            for (int i = 0; i < incoming.Count; i++) {
+        public PlayersState SyncBoard(IEnumerable<PlayerState> incoming) {
+            foreach (var incomingPlayer in incoming) {
                 PlayerState player;
-                if (Members.TryGetValue(incoming[i].PlayerId, out player)) {
-                    player.Sync(incoming[i]);
+                if (Members.TryGetValue(incomingPlayer.PlayerId, out player)) {
+                    player.Sync(incomingPlayer);
                 }
             }
             return this;

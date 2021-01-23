@@ -2,18 +2,24 @@ using System;
 using UniRx;
 
 namespace Banchou {
-    public abstract class Notifiable<T> where T : Notifiable<T> {
-        public event Action<T> Changed;
+    public abstract class Notifiable<TNotifier> where TNotifier : Notifiable<TNotifier> {
+        public event Action<TNotifier> Changed;
 
-        public virtual IObservable<T> Observe() {
-            return Observable.FromEvent<T>(
+        public virtual IObservable<TNotifier> Observe() {
+            return Observable.FromEvent<TNotifier>(
                 h => Changed += h,
                 h => Changed -= h
-            ).StartWith((T)this);
+            ).StartWith((TNotifier)this);
+        }
+
+        public virtual IObservable<T> OnChange<T>(T emit) {
+            return Observe()
+                .Select(_ => emit)
+                .StartWith(emit);
         }
 
         protected void Notify() {
-            Changed?.Invoke((T)this);
+            Changed?.Invoke((TNotifier)this);
         }
     }
 }

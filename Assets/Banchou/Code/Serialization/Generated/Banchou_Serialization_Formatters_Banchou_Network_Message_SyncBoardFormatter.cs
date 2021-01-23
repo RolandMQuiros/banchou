@@ -28,8 +28,8 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
         {
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Pawn.PawnState>>().Serialize(ref writer, value.Pawns, options);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Player.PlayerState>>().Serialize(ref writer, value.Players, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::Banchou.Pawn.PawnState>>().Serialize(ref writer, value.Pawns, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::Banchou.Player.PlayerState>>().Serialize(ref writer, value.Players, options);
         }
 
         public global::Banchou.Network.Message.SyncBoard Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -42,8 +42,8 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Pawns__ = default(global::System.Collections.Generic.List<global::Banchou.Pawn.PawnState>);
-            var __Players__ = default(global::System.Collections.Generic.List<global::Banchou.Player.PlayerState>);
+            var __Pawns__ = default(global::System.Collections.Generic.IEnumerable<global::Banchou.Pawn.PawnState>);
+            var __Players__ = default(global::System.Collections.Generic.IEnumerable<global::Banchou.Player.PlayerState>);
 
             for (int i = 0; i < length; i++)
             {
@@ -52,10 +52,10 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
                 switch (key)
                 {
                     case 0:
-                        __Pawns__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Pawn.PawnState>>().Deserialize(ref reader, options);
+                        __Pawns__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::Banchou.Pawn.PawnState>>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __Players__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<global::Banchou.Player.PlayerState>>().Deserialize(ref reader, options);
+                        __Players__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IEnumerable<global::Banchou.Player.PlayerState>>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

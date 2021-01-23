@@ -109,6 +109,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _store: {fileID: 11400000, guid: 07aa97ba65ce23b46bec2cfa52b234fe, type: 2}
+  _state:
+    <Network>k__BackingField:
+      <NetworkId>k__BackingField: 0
+      <Mode>k__BackingField: 0
+      <ServerIP>k__BackingField: 
+      <ServerPort>k__BackingField: 0
+      <ServerTimeOffset>k__BackingField: 0
+      <TickRate>k__BackingField: 0
+      <SimulateMinLatency>k__BackingField: 0
+      <SimulateMaxLatency>k__BackingField: 0
+      <Stats>k__BackingField:
+        _ping: 0
+        _lastUpdated: 0
+      <Rollback>k__BackingField:
+        _phase: 0
+        _correctionTime: 0
+        _deltaTime: 0
+      _clients: 
+    <Board>k__BackingField:
+      _activeScenes: []
+      _loadingScenes: []
+      <LastUpdated>k__BackingField: 0
+    <LocalTime>k__BackingField: 0
+    <DeltaTime>k__BackingField: 0
 --- !u!114 &251798335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,8 +146,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board:
-    _lastUpdated:
-      value: 0
+    _activeScenes: []
+    _loadingScenes: []
+    <LastUpdated>k__BackingField: 0
 --- !u!114 &892755104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +248,7 @@ GameObject:
   - component: {fileID: 2853979317725063240}
   - component: {fileID: 3927985299743992673}
   - component: {fileID: 7434542355400157796}
+  - component: {fileID: 8275880617359388932}
   m_Layer: 0
   m_Name: Network Agent
   m_TagString: Untagged
@@ -256,6 +282,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7c1271999367b42bcafdb83f5590c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _network:
+    <NetworkId>k__BackingField: 0
+    <Mode>k__BackingField: 0
+    <ServerIP>k__BackingField: 
+    <ServerPort>k__BackingField: 0
+    <ServerTimeOffset>k__BackingField: 0
+    <TickRate>k__BackingField: 0
+    <SimulateMinLatency>k__BackingField: 0
+    <SimulateMaxLatency>k__BackingField: 0
+    <Stats>k__BackingField:
+      _ping: 0
+      _lastUpdated: 0
+    <Rollback>k__BackingField:
+      _phase: 0
+      _correctionTime: 0
+      _deltaTime: 0
+    _clients: 
 --- !u!114 &3927985299743992673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,5 +321,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11d2a768bf90a354f89397c39b072d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8275880617359388932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263784288705235552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2ff9519c9f5c641ad9480043bd61ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
