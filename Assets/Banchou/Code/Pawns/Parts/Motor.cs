@@ -22,21 +22,17 @@ namespace Banchou.Pawn.Part {
             _rigidbody = rigidbody;
         }
 
-        private void FixedUpdate() {
-            var rigidbodySnapped = Snap(_rigidbody.position);
-            var spatialSnapped = Snap(_spatial.Position);
-
-            if (rigidbodySnapped != spatialSnapped) {
-                _spatial.Moved(rigidbodySnapped, _isGrounded, _state.GetTime(), _moved);
+        public void Step() {
+            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero) {
+                _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _state.GetTime(), _moved);
             }
             _moved = false;
 
             switch (_spatial.Style) {
                 case PawnSpatial.MovementStyle.Offset: {
                     if (_spatial.Velocity != Vector3.zero) {
-                        // _contacts.Sort(ContactSorter);
                         var projected = _spatial.Velocity.ProjectOnContacts(_spatial.Up, _contacts);
-                        _rigidbody.MovePosition(Snap(_spatial.Position) + projected);
+                        _rigidbody.MovePosition(_spatial.Position + projected);
                         _moved = true;
                     }
                 } break;
@@ -44,12 +40,16 @@ namespace Banchou.Pawn.Part {
                     _rigidbody.position = Snap(_spatial.TeleportTarget);
                 } break;
                 case PawnSpatial.MovementStyle.Interpolated: {
-                    _rigidbody.position = Vector3.Slerp(Snap(_spatial.Position), Snap(_spatial.TeleportTarget), 0.5f);
+                    _rigidbody.position = Vector3.Slerp(_spatial.Position, _spatial.TeleportTarget, 0.5f);
                 } break;
             }
 
             _contacts.Clear();
             _isGrounded = false;
+        }
+
+        private void FixedUpdate() {
+            Step();
         }
 
         private void OnCollisionStay(Collision collision) {
@@ -64,11 +64,6 @@ namespace Banchou.Pawn.Part {
 
         private void OnCollisionEnter(Collision collision) {
             OnCollisionStay(collision);
-        }
-
-        private int ContactSorter(Vector3 first, Vector3 second) {
-            var diff = Vector3.Dot(first, _rigidbody.transform.up) - Vector3.Dot(second, _rigidbody.transform.up);
-            return (int)Mathf.Sign(diff);
         }
 
         private Vector3 Snap(Vector3 vec) => Snapping.Snap(vec, Vector3.one * 0.001f);
