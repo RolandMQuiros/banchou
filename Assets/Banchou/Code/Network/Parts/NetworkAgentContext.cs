@@ -1,6 +1,7 @@
 using LiteNetLib;
 using MessagePack;
 using MessagePack.Resolvers;
+using UniRx;
 using UnityEngine;
 
 using Banchou.DependencyInjection;
@@ -27,6 +28,15 @@ namespace Banchou.Network.Part {
                         StandardResolver.Instance
                     )
                 );
+
+            state.ObserveNetwork()
+                .CatchIgnoreLog()
+                .Subscribe(network => {
+                    _netManager.SimulateLatency = network.SimulateMinLatency > 0 || network.SimulateMaxLatency > 0;
+                    _netManager.SimulationMinLatency = network.SimulateMinLatency;
+                    _netManager.SimulationMaxLatency = network.SimulateMaxLatency;
+                })
+                .AddTo(this);
         }
 
         public DiContainer InstallBindings(DiContainer container) {
