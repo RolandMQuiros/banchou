@@ -84,9 +84,9 @@ namespace Banchou.Network.Part {
                     );
                     _state.SyncGame(connected.State);
                 } break;
-                case PayloadType.InputUnit: {
-                    var inputUnit = MessagePackSerializer.Deserialize<InputUnit>(envelope.Payload, _messagePackOptions);
-                    // handle rollbacks
+                case PayloadType.PlayerInput: {
+                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(envelope.Payload, _messagePackOptions);
+                    _state.SyncInput(input);
                 } break;
                 case PayloadType.TimeResponse: {
                     var response = MessagePackSerializer.Deserialize<TimeResponse>(envelope.Payload, _messagePackOptions);

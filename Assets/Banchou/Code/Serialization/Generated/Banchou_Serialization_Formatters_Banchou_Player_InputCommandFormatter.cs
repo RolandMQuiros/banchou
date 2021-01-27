@@ -21,12 +21,12 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
     {
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.InputCommand value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            writer.Write((Byte)value);
+            writer.Write((Int32)value);
         }
 
         public global::Banchou.Player.InputCommand Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
-            return (global::Banchou.Player.InputCommand)reader.ReadByte();
+            return (global::Banchou.Player.InputCommand)reader.ReadInt32();
         }
     }
 }

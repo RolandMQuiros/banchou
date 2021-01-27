@@ -18,11 +18,12 @@ namespace Banchou.Pawn {
                 });
         }
 
-        public static IObservable<PlayerInputStates> ObservePawnInput(this GameState state, int pawnId) {
+        public static IObservable<PlayerInputState> ObservePawnInput(this GameState state, int pawnId) {
             return state
                 .ObservePawn(pawnId)
                 .Select(pawn => pawn.PlayerId)
                 .DistinctUntilChanged()
+                .CombineLatest(state.ObservePlayers(), (playerId, _) => playerId)
                 .Where(playerId => playerId != default)
                 .SelectMany(playerId => state.ObservePlayer(playerId))
                 .Where(player => player?.Input != null)

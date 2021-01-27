@@ -11,7 +11,7 @@ namespace Banchou.Network.Message {
         Connected,
         TimeRequest,
         TimeResponse,
-        InputUnit,
+        PlayerInput,
         SyncGame,
         SyncBoard
     }
@@ -21,7 +21,7 @@ namespace Banchou.Network.Message {
         [Key(0)] public PayloadType PayloadType;
         [Key(1)] public byte[] Payload;
 
-        public static byte[] CreateMessage<T>(PayloadType payloadType, T payload, MessagePackSerializerOptions options) {
+        public static byte[] CreateMessage<T>(PayloadType payloadType, in T payload, MessagePackSerializerOptions options) {
             var message = MessagePackSerializer.Serialize(
                 new Envelope {
                     PayloadType = payloadType,
@@ -59,15 +59,6 @@ namespace Banchou.Network.Message {
     public struct TimeResponse {
         [Key(0)] public float ClientTime;
         [Key(1)] public float ServerTime;
-    }
-
-    [MessagePackObject]
-    public struct InputUnit {
-        [Key(0)] public int PlayerId;
-        [Key(2)] public InputCommand Commands;
-        [Key(3)] public Vector3 Move;
-        [Key(4)] public long Sequence;
-        [Key(5)] public float When;
     }
 
     [MessagePackObject]

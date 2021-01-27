@@ -11,18 +11,17 @@ namespace Banchou.Pawn {
         [Key(1)] public readonly string PrefabKey;
         [Key(2)][field: SerializeField] public int PlayerId { get; private set; }
         [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
-        [Key(4)][field: SerializeField] public PawnHistory History { get; private set; }
-        [Key(5)][field: SerializeField] public float LastUpdated { get; private set; }
+        [IgnoreMember][field: SerializeField] public PawnHistory History { get; private set; }
+        [Key(4)][field: SerializeField] public float LastUpdated { get; private set; }
 
-        #region Serialization constructors
-        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, PawnHistory history, float lastUpdated) {
+        [SerializationConstructor]
+        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, float lastUpdated) {
             PawnId = pawnId;
             PrefabKey = prefabKey;
+            PlayerId = playerId;
             Spatial = spatial;
-            History = history;
             LastUpdated = lastUpdated;
         }
-        #endregion
 
         public PawnState(
             int pawnId,
@@ -41,12 +40,24 @@ namespace Banchou.Pawn {
             LastUpdated = lastUpdated;
         }
 
+        public PawnState(in PawnState other) {
+            PawnId = other.PawnId;
+            PrefabKey = other.PrefabKey;
+            PlayerId = other.PlayerId;
+            Spatial = other.Spatial ?? new PawnSpatial();
+            History = other.History ?? new PawnHistory();
+            LastUpdated = other.LastUpdated;
+        }
+
         public PawnState Sync(PawnState sync) {
-            PlayerId = sync.PlayerId;
             Spatial.Sync(sync.Spatial);
-            History.Sync(sync.History);
+            // History.Sync(sync.History);
             LastUpdated = sync.LastUpdated;
-            Notify();
+
+            if (sync.PlayerId != PlayerId) {
+                PlayerId = sync.PlayerId;
+                Notify();
+            }
             return this;
         }
 

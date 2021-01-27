@@ -14,34 +14,28 @@ namespace Banchou.Board {
         public event Action<PawnState> PawnAdded;
         public event Action<PawnState> PawnRemoved;
 
-        [Key(0)] public IReadOnlyList<string> ActiveScenes => _activeScenes;
-        [SerializeField] private List<string> _activeScenes = new List<string>();
-
-        [Key(1)] public IReadOnlyList<string> LoadingScenes => _loadingScenes;
-        [SerializeField] private List<string> _loadingScenes = new List<string>();
-
-        [Key(2)] public IReadOnlyDictionary<int, PawnState> Pawns => _pawns;
-        [SerializeField] private Dictionary<int, PawnState> _pawns = new Dictionary<int, PawnState>();
-
+        [Key(0)][field: SerializeField] public List<string> ActiveScenes { get; private set; } = new List<string>();
+        [Key(1)][field: SerializeField] public List<string> LoadingScenes { get; private set; } = new List<string>();
+        [Key(2)][field: SerializeField] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
         [Key(3)][field: SerializeField] public float LastUpdated { get; private set; }
 
-        #region Serialization Constructors
         public BoardState() { }
+
+        [SerializationConstructor]
         public BoardState(
-            IReadOnlyList<string> activeScenes,
-            IReadOnlyList<string> loadingScenes,
-            IReadOnlyDictionary<int, PawnState> pawns,
+            List<string> activeScenes,
+            List<string> loadingScenes,
+            Dictionary<int, PawnState> pawns,
             float lastUpdated
         ) {
-            _activeScenes = new List<string>(activeScenes);
-            _loadingScenes = new List<string>(loadingScenes);
-            _pawns = pawns.ToDictionary(p => p.Key,  p => p.Value);
+            ActiveScenes = activeScenes;
+            LoadingScenes = loadingScenes;
+            Pawns = pawns;
             LastUpdated = lastUpdated;
         }
-        #endregion
 
         public BoardState SyncGame(BoardState sync) {
-            var localScenes = _loadingScenes.Concat(_activeScenes).Distinct();
+            var localScenes = LoadingScenes.Concat(ActiveScenes).Distinct();
             var remoteScenes = sync.LoadingScenes.Concat(sync.ActiveScenes);
 
             // Add all of the incoming board's scenes to our loading queue, unless they've already been loaded
@@ -51,12 +45,12 @@ namespace Banchou.Board {
             var scenesToRemove = localScenes.Except(remoteScenes).ToList();
 
             foreach (var scene in scenesToLoad) {
-                _loadingScenes.Add(scene);
+                LoadingScenes.Add(scene);
                 SceneAdded?.Invoke(scene);
             }
 
             foreach (var scene in scenesToRemove) {
-                if (_activeScenes.Remove(scene)) {
+                if (ActiveScenes.Remove(scene)) {
                     SceneRemoved?.Invoke(scene);
                 }
             }
@@ -64,16 +58,16 @@ namespace Banchou.Board {
             var incomingPawnIds = sync.Pawns.Keys;
 
             // Add missing pawns
-            foreach (var added in incomingPawnIds.Except(_pawns.Keys)) {
+            foreach (var added in incomingPawnIds.Except(Pawns.Keys)) {
                 var pawn = sync.Pawns[added];
-                _pawns[added] = pawn;
+                Pawns[added] = new PawnState(pawn);
                 PawnAdded?.Invoke(pawn);
             }
 
             // Remove extraneous pawns
-            foreach (var removed in _pawns.Keys.Except(incomingPawnIds)) {
-                var pawn = _pawns[removed];
-                _pawns.Remove(removed);
+            foreach (var removed in Pawns.Keys.Except(incomingPawnIds)) {
+                var pawn = Pawns[removed];
+                Pawns.Remove(removed);
                 PawnRemoved?.Invoke(pawn);
             }
 
@@ -97,8 +91,8 @@ namespace Banchou.Board {
         }
 
         public BoardState LoadScene(string sceneName) {
-            if (!_loadingScenes.Contains(sceneName) && !_activeScenes.Contains(sceneName)) {
-                _loadingScenes.Add(sceneName);
+            if (!LoadingScenes.Contains(sceneName) && !ActiveScenes.Contains(sceneName)) {
+                LoadingScenes.Add(sceneName);
                 SceneAdded?.Invoke(sceneName);
                 Notify();
             }
@@ -106,15 +100,15 @@ namespace Banchou.Board {
         }
 
         public BoardState SceneLoaded(string sceneName) {
-            if (_loadingScenes.Remove(sceneName) && !_activeScenes.Contains(sceneName)) {
-                _activeScenes.Add(sceneName);
+            if (LoadingScenes.Remove(sceneName) && !ActiveScenes.Contains(sceneName)) {
+                ActiveScenes.Add(sceneName);
                 Notify();
             }
             return this;
         }
 
         public BoardState UnloadScene(string sceneName) {
-            if (_loadingScenes.Remove(sceneName) || _activeScenes.Remove(sceneName)) {
+            if (LoadingScenes.Remove(sceneName) || ActiveScenes.Remove(sceneName)) {
                 SceneRemoved?.Invoke(sceneName);
                 Notify();
             }
@@ -138,7 +132,7 @@ namespace Banchou.Board {
                 lastUpdated: when
             );
 
-            _pawns.Add(pawnId, pawn);
+            Pawns.Add(pawnId, pawn);
             LastUpdated = when;
 
             PawnAdded?.Invoke(pawn);
@@ -152,7 +146,7 @@ namespace Banchou.Board {
 
         public BoardState RemovePawn(int pawnId, float when) {
             PawnState pawn;
-            if (_pawns.TryGetValue(pawnId, out pawn) && _pawns.Remove(pawnId)) {
+            if (Pawns.TryGetValue(pawnId, out pawn) && Pawns.Remove(pawnId)) {
                 LastUpdated = when;
                 PawnRemoved?.Invoke(pawn);
                 Notify();
@@ -161,13 +155,13 @@ namespace Banchou.Board {
         }
 
         public BoardState ClearPawns(float when) {
-            if (_pawns.Any()) {
+            if (Pawns.Any()) {
                 if (PawnRemoved != null) {
-                    foreach (var pawn in _pawns.Values) {
+                    foreach (var pawn in Pawns.Values) {
                         PawnRemoved(pawn);
                     }
                 }
-                _pawns.Clear();
+                Pawns.Clear();
                 LastUpdated = when;
                 Notify();
             }

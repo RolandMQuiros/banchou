@@ -3,6 +3,8 @@ using System.Linq;
 using System.Collections.Generic;
 using UniRx;
 
+using Banchou.Network;
+
 namespace Banchou.Player {
     public static class PlayersSelectors {
         public static IObservable<PlayersState> ObservePlayers(this GameState state) {
@@ -19,6 +21,15 @@ namespace Banchou.Player {
                     }
                     return Observable.Empty<PlayerState>();
                 });
+        }
+
+        public static IObservable<PlayerInputState> ObserveLocalPlayerInput(this GameState state) {
+            return state
+                .ObservePlayers()
+                .SelectMany(players => players.Members.Values)
+                .SelectMany(player => player.Observe())
+                .Where(player => player.NetworkId == state.GetNetworkId())
+                .SelectMany(player => player.Input.Observe());
         }
 
         public static IObservable<PlayerState> ObserveAddedPlayers(this GameState state) {

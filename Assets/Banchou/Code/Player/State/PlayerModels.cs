@@ -10,17 +10,15 @@ namespace Banchou.Player {
         [Key(0)] public readonly int PlayerId;
         [Key(1)] public readonly string PrefabKey;
         [Key(2)][field: SerializeField] public int NetworkId { get; private set; }
-        [Key(3)] public PlayerInputStates Input { get; private set; } = new PlayerInputStates();
+        [Key(3)][field: SerializeField] public PlayerInputState Input { get; private set; }
 
-        #region Serialization constructors
-        public PlayerState() { }
-        public PlayerState(int playerId, string prefabKey, int networkId, PlayerInputStates input) {
+        [SerializationConstructor]
+        public PlayerState(int playerId, string prefabKey, int networkId, PlayerInputState input) {
             PlayerId = playerId;
             PrefabKey = prefabKey;
             NetworkId = networkId;
             Input = input;
         }
-        #endregion
 
         public PlayerState(
             int playerId,
@@ -30,6 +28,7 @@ namespace Banchou.Player {
             PlayerId = playerId;
             PrefabKey = prefabKey;
             NetworkId = networkId;
+            Input = new PlayerInputState(playerId);
         }
 
         public PlayerState Sync(PlayerState other) {
@@ -39,27 +38,41 @@ namespace Banchou.Player {
     }
 
     [MessagePackObject, Serializable]
-    public class PlayerInputStates : Notifiable<PlayerInputStates> {
-        [Key(0)][field: SerializeField] public InputCommand Commands { get; private set; }
-        [Key(1)][field: SerializeField] public Vector3 Direction { get; private set; }
+    public class PlayerInputState : Notifiable<PlayerInputState> {
+        [Key(0)] public readonly int PlayerId;
+        [Key(1)][field: SerializeField] public InputCommand Commands { get; private set; }
+        [Key(2)][field: SerializeField] public Vector3 Direction { get; private set; }
 
         // Look input is not shared across the network
-        [IgnoreMember] public Vector2 Look { get; private set; }
-        [Key(2)][field: SerializeField] public long Sequence { get; private set; }
-        [Key(3)][field: SerializeField] public float When { get; private set; }
+        [IgnoreMember][field: SerializeField] public Vector2 Look { get; private set; }
+        [Key(3)][field: SerializeField] public long Sequence { get; private set; }
+        [Key(4)][field: SerializeField] public float When { get; private set; }
 
-        #region Serialization constructors
-        public PlayerInputStates() { }
-        public PlayerInputStates(InputCommand commands, Vector3 direction, Vector2 look, long sequence, float when) {
+        public PlayerInputState(int playerId) {
+            PlayerId = playerId;
+        }
+
+        [SerializationConstructor]
+        public PlayerInputState(int playerId, InputCommand commands, Vector3 direction, long sequence, float when) {
+            PlayerId = playerId;
+            Commands = commands;
+            Direction = direction;
+            Sequence = sequence;
+            When = when;
+        }
+
+        public PlayerInputState Push(InputCommand commands, Vector3 direction, Vector2 look, long sequence, float when) {
             Commands = commands;
             Direction = direction;
             Look = look;
             Sequence = sequence;
             When = when;
-        }
-        #endregion
 
-        public PlayerInputStates PushMove(Vector3 direction, long sequence, float when) {
+            Notify();
+            return this;
+        }
+
+        public PlayerInputState PushMove(Vector3 direction, long sequence, float when) {
             Direction = direction;
             Sequence = sequence;
             When = when;
@@ -68,16 +81,16 @@ namespace Banchou.Player {
             return this;
         }
 
-        public PlayerInputStates PushLook(Vector2 look, long sequence, float when) {
+        public PlayerInputState PushLook(Vector2 look, long sequence, float when) {
             Look = look;
             Sequence = sequence;
             When = when;
 
-            Notify();
+            // Notify();
             return this;
         }
 
-        public PlayerInputStates PushCommands(InputCommand commands, long sequence, float when) {
+        public PlayerInputState PushCommands(InputCommand commands, long sequence, float when) {
             Commands = commands;
             Sequence = sequence;
             When = when;
@@ -86,7 +99,7 @@ namespace Banchou.Player {
             return this;
         }
 
-        public PlayerInputStates Sync(PlayerInputStates sync) {
+        public PlayerInputState Sync(PlayerInputState sync) {
             Commands = sync.Commands;
             Direction = sync.Direction;
             Look = sync.Look;
@@ -102,15 +115,14 @@ namespace Banchou.Player {
         public event Action<PlayerState> PlayerAdded;
         public event Action<PlayerState> PlayerRemoved;
 
-        [Key(0)] public IReadOnlyDictionary<int, PlayerState> Members => _members;
-        [Key(0)] private Dictionary<int, PlayerState> _members = new Dictionary<int, PlayerState>();
+        [Key(0)][field: SerializeField] public Dictionary<int, PlayerState> Members { get; private set; } = new Dictionary<int, PlayerState>();
 
-        #region Serialization constructors
         public PlayersState() { }
-        public PlayersState(IReadOnlyDictionary<int, PlayerState> members) {
-            _members = members.ToDictionary(p => p.Key, p => p.Value);
+
+        [SerializationConstructor]
+        public PlayersState(Dictionary<int, PlayerState> members) {
+            Members = members;
         }
-        #endregion
 
         public PlayersState AddPlayer(int playerId, string prefabKey, int networkId = 0) {
             var player = new PlayerState(
@@ -118,7 +130,7 @@ namespace Banchou.Player {
                 prefabKey: prefabKey,
                 networkId: networkId
             );
-            _members[playerId] = player;
+            Members[playerId] = player;
             PlayerAdded?.Invoke(player);
             Notify();
             return this;
@@ -126,7 +138,7 @@ namespace Banchou.Player {
 
         public PlayersState RemovePlayer(int playerId) {
             PlayerState player;
-            if (_members.TryGetValue(playerId, out player) && _members.Remove(playerId)) {
+            if (Members.TryGetValue(playerId, out player) && Members.Remove(playerId)) {
                 PlayerRemoved?.Invoke(player);
                 Notify();
             }
@@ -134,19 +146,19 @@ namespace Banchou.Player {
         }
 
         public PlayersState SyncGame(PlayersState sync) {
-            var playerIds = _members.Select(p => p.Key);
+            var playerIds = Members.Select(p => p.Key);
             var syncPlayerIds = sync.Members.Select(p => p.Key);
 
             foreach (var added in syncPlayerIds.Except(playerIds)) {
-                _members[added] = sync.Members[added];
+                Members[added] = sync.Members[added];
             }
 
             foreach (var removed in playerIds.Except(syncPlayerIds)) {
-                _members.Remove(removed);
+                Members.Remove(removed);
             }
 
             foreach (var playerId in playerIds.Intersect(syncPlayerIds)) {
-                _members[playerId].Sync(sync.Members[playerId]);
+                Members[playerId].Sync(sync.Members[playerId]);
             }
 
             Notify();

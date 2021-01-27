@@ -5,7 +5,7 @@ namespace Banchou.Player.Part {
     public class PlayerInputDispatcher : MonoBehaviour {
         private PlayerInput _source;
 
-        private PlayerInputStates _input;
+        private PlayerInputState _input;
         private GetTime _getTime;
         private Transform _camera;
 

@@ -17,6 +17,10 @@ namespace Banchou.Network {
                 .Select(network => network.TickRate);
         }
 
+        public static int GetNetworkId(this GameState state) {
+            return state.Network.NetworkId;
+        }
+
         public static NetworkMode GetNetworkMode(this GameState state) {
             return state.Network.Mode;
         }

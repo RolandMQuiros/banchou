@@ -34,7 +34,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyDictionary<int, global::Banchou.Player.PlayerState>>().Serialize(ref writer, value.Members, options);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>>().Serialize(ref writer, value.Members, options);
         }
 
         public global::Banchou.Player.PlayersState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -47,7 +47,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Members__ = default(global::System.Collections.Generic.IReadOnlyDictionary<int, global::Banchou.Player.PlayerState>);
+            var __Members__ = default(global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>);
 
             for (int i = 0; i < length; i++)
             {
@@ -56,7 +56,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                 switch (key)
                 {
                     case 0:
-                        __Members__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.IReadOnlyDictionary<int, global::Banchou.Player.PlayerState>>().Deserialize(ref reader, options);
+                        __Members__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

@@ -13,8 +13,7 @@ namespace Banchou.Prototyping.Part {
             IEnumerator RunTest() {
                 state.AddPlayer(
                     playerId: 1,
-                    prefabKey: "Local Player",
-                    networkId: 0
+                    prefabKey: "Local Player"
                 );
                 for (int i = 1; i <= 100; i++) {
                     state.AddPawn(

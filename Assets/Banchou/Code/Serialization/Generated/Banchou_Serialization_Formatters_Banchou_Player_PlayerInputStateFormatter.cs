@@ -14,43 +14,48 @@
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Banchou.Serialization.Formatters.Banchou.Network.Message
+namespace Banchou.Serialization.Formatters.Banchou.Player
 {
     using System;
     using System.Buffers;
     using MessagePack;
 
-    public sealed class InputUnitFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.InputUnit>
+    public sealed class PlayerInputStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.PlayerInputState>
     {
 
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.InputUnit value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.PlayerInputState value, global::MessagePack.MessagePackSerializerOptions options)
         {
+            if (value == null)
+            {
+                writer.WriteNil();
+                return;
+            }
+
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(6);
+            writer.WriteArrayHeader(5);
             writer.Write(value.PlayerId);
-            writer.WriteNil();
             formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputCommand>().Serialize(ref writer, value.Commands, options);
-            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Move, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Direction, options);
             writer.Write(value.Sequence);
             writer.Write(value.When);
         }
 
-        public global::Banchou.Network.Message.InputUnit Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Player.PlayerInputState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
-                throw new InvalidOperationException("typecode is null, struct not supported");
+                return null;
             }
 
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __PlayerId__ = default(int);
             var __Commands__ = default(global::Banchou.Player.InputCommand);
-            var __Move__ = default(global::UnityEngine.Vector3);
+            var __Direction__ = default(global::UnityEngine.Vector3);
             var __Sequence__ = default(long);
             var __When__ = default(float);
+            var __PlayerId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -58,20 +63,20 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 
                 switch (key)
                 {
-                    case 0:
-                        __PlayerId__ = reader.ReadInt32();
-                        break;
-                    case 2:
+                    case 1:
                         __Commands__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputCommand>().Deserialize(ref reader, options);
                         break;
-                    case 3:
-                        __Move__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                    case 2:
+                        __Direction__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 4:
+                    case 3:
                         __Sequence__ = reader.ReadInt64();
                         break;
-                    case 5:
+                    case 4:
                         __When__ = reader.ReadSingle();
+                        break;
+                    case 0:
+                        __PlayerId__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -79,12 +84,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
                 }
             }
 
-            var ____result = new global::Banchou.Network.Message.InputUnit();
-            ____result.PlayerId = __PlayerId__;
-            ____result.Commands = __Commands__;
-            ____result.Move = __Move__;
-            ____result.Sequence = __Sequence__;
-            ____result.When = __When__;
+            var ____result = new global::Banchou.Player.PlayerInputState(__PlayerId__, __Commands__, __Direction__, __Sequence__, __When__);
             reader.Depth--;
             return ____result;
         }

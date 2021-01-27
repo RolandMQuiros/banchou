@@ -8,7 +8,7 @@ using UniRx;
 using UnityEngine;
 
 using Banchou.Network.Message;
-
+using Banchou.Player;
 namespace Banchou.Network.Part {
     public class NetworkServer : MonoBehaviour {
         private GameState _state;
@@ -17,7 +17,6 @@ namespace Banchou.Network.Part {
         private MessagePackSerializerOptions _messagePackOptions;
         private NetPeer _server;
         private Dictionary<IPEndPoint, ConnectClient> _connectingClients = new Dictionary<IPEndPoint, ConnectClient>();
-        private Dictionary<int, NetPeer> _clients = new Dictionary<int, NetPeer>();
 
         public void Construct(
             GameState state,
@@ -84,9 +83,8 @@ namespace Banchou.Network.Part {
             Debug.Log($"Setting up client connection from {peer.EndPoint}");
 
             // Generate a new network ID
-            var newNetworkId = peer.Id;
+            var newNetworkId = peer.Id + 1;
             _state.Network.ClientConnected(newNetworkId);
-            _clients[newNetworkId] = peer;
 
             var connectData = _connectingClients[peer.EndPoint];
             _connectingClients.Remove(peer.EndPoint);
@@ -117,9 +115,9 @@ namespace Banchou.Network.Part {
 
             // Deserialize payload
             switch (envelope.PayloadType) {
-                case PayloadType.InputUnit: {
-                    var inputUnit = MessagePackSerializer.Deserialize<InputUnit>(envelope.Payload, _messagePackOptions);
-                    // handle rollbacks
+                case PayloadType.PlayerInput: {
+                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(envelope.Payload, _messagePackOptions);
+                    _state.SyncInput(input);
                 } break;
                 case PayloadType.TimeRequest: {
                     var request = MessagePackSerializer.Deserialize<TimeRequest>(envelope.Payload, _messagePackOptions);

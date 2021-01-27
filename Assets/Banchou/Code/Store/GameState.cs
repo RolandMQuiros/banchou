@@ -37,8 +37,8 @@ namespace Banchou {
         }
 
         public GameState SyncBoard(IEnumerable<PawnState> pawns, IEnumerable<PlayerState> players) {
-            Board.SyncBoard(pawns);
             Players.SyncBoard(players);
+            Board.SyncBoard(pawns);
             return this;
         }
 

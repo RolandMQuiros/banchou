@@ -58,26 +58,32 @@ namespace Banchou.Pawn {
         }
 
         public PawnSpatial Move(Vector3 velocity, float when) {
-            Velocity += velocity;
-            Style = MovementStyle.Offset;
-            LastUpdated = when;
+            if (velocity != Vector3.zero) {
+                Velocity += velocity;
+                Style = MovementStyle.Offset;
+                LastUpdated = when;
 
-            Notify();
+                Notify();
+            }
             return this;
         }
 
         public PawnSpatial Teleport(Vector3 position, float when, bool instant = false) {
-            TeleportTarget = position;
-            Style = instant ? MovementStyle.Instantaneous : MovementStyle.Interpolated;
-            LastUpdated = when;
+            if (position != TeleportTarget) {
+                TeleportTarget = position;
+                Style = instant ? MovementStyle.Instantaneous : MovementStyle.Interpolated;
+                LastUpdated = when;
 
-            Notify();
+                Notify();
+            }
             return this;
         }
 
         public PawnSpatial Rotate(Vector3 forward, float when) {
-            Forward = forward;
-            Notify();
+            if (Forward != forward) {
+                Forward = forward;
+                Notify();
+            }
             return this;
         }
 

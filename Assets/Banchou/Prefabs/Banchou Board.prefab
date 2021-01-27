@@ -128,8 +128,8 @@ MonoBehaviour:
         _deltaTime: 0
       _clients: 
     <Board>k__BackingField:
-      _activeScenes: []
-      _loadingScenes: []
+      <ActiveScenes>k__BackingField: []
+      <LoadingScenes>k__BackingField: []
       <LastUpdated>k__BackingField: 0
     <LocalTime>k__BackingField: 0
     <DeltaTime>k__BackingField: 0
@@ -146,8 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board:
-    _activeScenes: []
-    _loadingScenes: []
+    <ActiveScenes>k__BackingField: []
+    <LoadingScenes>k__BackingField: []
     <LastUpdated>k__BackingField: 0
 --- !u!114 &892755104
 MonoBehaviour:
@@ -220,6 +220,8 @@ MonoBehaviour:
   _catalog:
   - Key: Erho
     Prefab: {fileID: 6705674067414742367, guid: 00dd4c3246211a540b1bbd2e4a926497, type: 3}
+  - Key: Isaac
+    Prefab: {fileID: 703140213875462517, guid: 96473dbe03c6b654e91efc8a408f0859, type: 3}
 --- !u!114 &654590813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,6 +251,7 @@ GameObject:
   - component: {fileID: 3927985299743992673}
   - component: {fileID: 7434542355400157796}
   - component: {fileID: 8275880617359388932}
+  - component: {fileID: 7452233527718040146}
   m_Layer: 0
   m_Name: Network Agent
   m_TagString: Untagged
@@ -333,5 +336,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: de2ff9519c9f5c641ad9480043bd61ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7452233527718040146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8263784288705235552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af362a91867bf724d95bb990ce1c476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

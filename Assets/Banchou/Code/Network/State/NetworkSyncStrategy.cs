@@ -30,7 +30,7 @@ namespace Banchou.Network {
                 .Where(network => network.Mode == NetworkMode.Server)
                 // Calculate the interval from the tick rate
                 .Select(network => TimeSpan.FromSeconds(1.0 / network.TickRate))
-                .SelectMany(interval => Observable.Interval(interval))
+                .SelectMany(interval => Observable.Timer(TimeSpan.Zero, interval))
                 .Where(_ => netManager.ConnectedPeersCount > 0);
 
             // Watch for changes from every player
@@ -79,10 +79,7 @@ namespace Banchou.Network {
                     };
 
                     var message = Envelope.CreateMessage(PayloadType.SyncBoard, sync, messagePackOptions);
-                    for (int p = 0; p < netManager.ConnectedPeersCount; p++) {
-                        var peer = netManager.GetPeerById(p);
-                        peer.Send(message, DeliveryMethod.Unreliable);
-                    }
+                    netManager.SendToAll(message, DeliveryMethod.Unreliable);
 
                     pawnBuffer.Clear();
                     playerBuffer.Clear();
