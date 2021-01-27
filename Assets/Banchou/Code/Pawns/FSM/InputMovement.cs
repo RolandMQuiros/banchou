@@ -41,7 +41,6 @@ namespace Banchou.Pawn.FSM {
                 )
                 .Where(input => input != null)
                 .Select(input => input.Direction * _movementSpeed)
-                .Where(velocity => velocity != Vector3.zero)
                 .CatchIgnoreLog()
                 .Subscribe(
                     velocity => {

@@ -259,6 +259,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 982885074, guid: 215f507ec29977f498cb62832180f451, type: 3}
+      propertyPath: _catalog.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 982885074, guid: 215f507ec29977f498cb62832180f451, type: 3}
+      propertyPath: _catalog.Array.data[1].Key
+      value: Local Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 982885074, guid: 215f507ec29977f498cb62832180f451, type: 3}
+      propertyPath: _catalog.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 2338477261493368109, guid: a056c61b64b477149b749a04be38a5ae, type: 3}
     - target: {fileID: 7452233527634030864, guid: 215f507ec29977f498cb62832180f451, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -307,5 +319,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Banchou Board
       objectReference: {fileID: 0}
+    - target: {fileID: 7452233527691460097, guid: 215f507ec29977f498cb62832180f451, type: 3}
+      propertyPath: _catalog.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452233527691460097, guid: 215f507ec29977f498cb62832180f451, type: 3}
+      propertyPath: _catalog.Array.data[1].Key
+      value: Isaac
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452233527691460097, guid: 215f507ec29977f498cb62832180f451, type: 3}
+      propertyPath: _catalog.Array.data[1].Prefab
+      value: 
+      objectReference: {fileID: 703140213875462517, guid: 96473dbe03c6b654e91efc8a408f0859, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 215f507ec29977f498cb62832180f451, type: 3}

@@ -14,7 +14,7 @@ namespace Banchou.Pawn {
         [Key(0)][field: SerializeField] public Vector3 Position { get; private set; }
         [Key(1)][field: SerializeField] public Vector3 Forward { get; private set; }
         [Key(2)][field: SerializeField] public Vector3 Up { get; private set; }
-        [IgnoreMember] public Vector3 Right => Vector3.Cross(Forward, Up);
+        [IgnoreMember] public Vector3 Right => Vector3.Cross(Up, Forward);
         [Key(3)][field: SerializeField] public Vector3 Velocity { get; private set; }
         [Key(4)][field: SerializeField] public Vector3 TeleportTarget { get; private set; }
         [Key(5)][field: SerializeField] public MovementStyle Style { get; private set; }
