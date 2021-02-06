@@ -11,19 +11,20 @@ namespace Banchou.Pawn {
             Interpolated
         }
 
-        [Key(0)][field: SerializeField] public Vector3 Position { get; private set; }
-        [Key(1)][field: SerializeField] public Vector3 Forward { get; private set; }
-        [Key(2)][field: SerializeField] public Vector3 Up { get; private set; }
+        [Key(0)] public readonly int PawnId;
+        [Key(1)][field: SerializeField] public Vector3 Position { get; private set; }
+        [Key(2)][field: SerializeField] public Vector3 Forward { get; private set; }
+        [Key(3)][field: SerializeField] public Vector3 Up { get; private set; }
         [IgnoreMember] public Vector3 Right => Vector3.Cross(Up, Forward);
-        [Key(3)][field: SerializeField] public Vector3 Velocity { get; private set; }
-        [Key(4)][field: SerializeField] public Vector3 TeleportTarget { get; private set; }
-        [Key(5)][field: SerializeField] public MovementStyle Style { get; private set; }
-        [Key(6)][field: SerializeField] public bool IsGrounded { get; private set; }
-        [Key(7)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(4)][field: SerializeField] public Vector3 Velocity { get; private set; }
+        [Key(5)][field: SerializeField] public Vector3 TeleportTarget { get; private set; }
+        [Key(6)][field: SerializeField] public MovementStyle Style { get; private set; }
+        [Key(7)][field: SerializeField] public bool IsGrounded { get; private set; }
+        [Key(8)][field: SerializeField] public float LastUpdated { get; private set; }
 
-        #region Serialization Constructors
-        public PawnSpatial() { }
-        public PawnSpatial(Vector3 position, Vector3 forward, Vector3 up, Vector3 velocity, Vector3 teleportTarget, MovementStyle style, bool isGrounded, float lastUpdated) {
+        [SerializationConstructor]
+        public PawnSpatial(int pawnId, Vector3 position, Vector3 forward, Vector3 up, Vector3 velocity, Vector3 teleportTarget, MovementStyle style, bool isGrounded, float lastUpdated) {
+            PawnId = pawnId;
             Position = position;
             Forward = forward;
             Up = up;
@@ -33,14 +34,19 @@ namespace Banchou.Pawn {
             IsGrounded = isGrounded;
             LastUpdated = lastUpdated;
         }
-        #endregion
+
+        public PawnSpatial(int pawnId) {
+            PawnId = pawnId;
+        }
 
         public PawnSpatial(
+            int pawnId,
             Vector3 position,
             Vector3 forward,
             Vector3 up,
             float when
         ) {
+            PawnId = pawnId;
             Position = position;
             Forward = forward;
             Up = up;

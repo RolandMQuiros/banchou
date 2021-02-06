@@ -2,13 +2,18 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     public static class PawnActions {
-        public static GameState AttachPlayerToPawn(this GameState state, int pawnId, int playerId, float when) {
-            state.GetPawn(pawnId)?.AttachPlayer(playerId, when);
+        public static GameState AttachPlayerToPawn(this GameState state, int pawnId, int playerId) {
+            state.GetPawn(pawnId)?.AttachPlayer(playerId, state.GetTime());
             return state;
         }
 
-        public static GameState MovePawn(this GameState state, int pawnId, Vector3 velocity, float when) {
-            state.GetPawnSpatial(pawnId)?.Move(velocity, when);
+        public static GameState MovePawn(this GameState state, int pawnId, Vector3 velocity) {
+            state.GetPawnSpatial(pawnId)?.Move(velocity, state.GetTime());
+            return state;
+        }
+
+        public static GameState SyncSpatial(this GameState state, PawnSpatial sync) {
+            state.GetPawn(sync.PawnId)?.Spatial?.Sync(sync);
             return state;
         }
     }

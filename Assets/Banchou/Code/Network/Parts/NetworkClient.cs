@@ -5,6 +5,7 @@ using UniRx;
 using UnityEngine;
 
 using Banchou.Network.Message;
+using Banchou.Pawn;
 using Banchou.Player;
 
 namespace Banchou.Network.Part {
@@ -84,10 +85,6 @@ namespace Banchou.Network.Part {
                     );
                     _state.SyncGame(connected.State);
                 } break;
-                case PayloadType.PlayerInput: {
-                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(envelope.Payload, _messagePackOptions);
-                    _state.SyncInput(input);
-                } break;
                 case PayloadType.TimeResponse: {
                     var response = MessagePackSerializer.Deserialize<TimeResponse>(envelope.Payload, _messagePackOptions);
                     _state.Network.UpdateServerTime(
@@ -103,9 +100,13 @@ namespace Banchou.Network.Part {
                     var sync = MessagePackSerializer.Deserialize<GameState>(envelope.Payload, _messagePackOptions);
                     _state.SyncGame(sync);
                 } break;
-                case PayloadType.SyncBoard: {
-                    var sync = MessagePackSerializer.Deserialize<SyncBoard>(envelope.Payload, _messagePackOptions);
-                    _state.SyncBoard(sync.Pawns, sync.Players);
+                case PayloadType.SyncSpatial: {
+                    var sync = MessagePackSerializer.Deserialize<PawnSpatial>(envelope.Payload, _messagePackOptions);
+                    _state.SyncSpatial(sync);
+                } break;
+                case PayloadType.PlayerInput: {
+                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(envelope.Payload, _messagePackOptions);
+                    _state.SyncInput(input);
                 } break;
             }
         }

@@ -13,7 +13,8 @@ namespace Banchou.Network.Message {
         TimeResponse,
         PlayerInput,
         SyncGame,
-        SyncBoard
+        SyncBoard,
+        SyncSpatial
     }
 
     [MessagePackObject]
@@ -59,11 +60,5 @@ namespace Banchou.Network.Message {
     public struct TimeResponse {
         [Key(0)] public float ClientTime;
         [Key(1)] public float ServerTime;
-    }
-
-    [MessagePackObject]
-    public struct SyncBoard {
-        [Key(0)] public IEnumerable<PawnState> Pawns;
-        [Key(1)] public IEnumerable<PlayerState> Players;
     }
 }

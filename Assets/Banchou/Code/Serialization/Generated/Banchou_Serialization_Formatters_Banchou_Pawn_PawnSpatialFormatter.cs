@@ -33,7 +33,8 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(8);
+            writer.WriteArrayHeader(9);
+            writer.Write(value.PawnId);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Position, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Forward, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Up, options);
@@ -62,6 +63,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             var __Style__ = default(global::Banchou.Pawn.PawnSpatial.MovementStyle);
             var __IsGrounded__ = default(bool);
             var __LastUpdated__ = default(float);
+            var __PawnId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -69,29 +71,32 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
                 switch (key)
                 {
-                    case 0:
+                    case 1:
                         __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 1:
+                    case 2:
                         __Forward__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 2:
+                    case 3:
                         __Up__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 3:
+                    case 4:
                         __Velocity__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 4:
+                    case 5:
                         __TeleportTarget__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 5:
+                    case 6:
                         __Style__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnSpatial.MovementStyle>().Deserialize(ref reader, options);
                         break;
-                    case 6:
+                    case 7:
                         __IsGrounded__ = reader.ReadBoolean();
                         break;
-                    case 7:
+                    case 8:
                         __LastUpdated__ = reader.ReadSingle();
+                        break;
+                    case 0:
+                        __PawnId__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -99,7 +104,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                 }
             }
 
-            var ____result = new global::Banchou.Pawn.PawnSpatial(__Position__, __Forward__, __Up__, __Velocity__, __TeleportTarget__, __Style__, __IsGrounded__, __LastUpdated__);
+            var ____result = new global::Banchou.Pawn.PawnSpatial(__PawnId__, __Position__, __Forward__, __Up__, __Velocity__, __TeleportTarget__, __Style__, __IsGrounded__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

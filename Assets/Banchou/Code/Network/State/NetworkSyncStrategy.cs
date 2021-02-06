@@ -33,56 +33,19 @@ namespace Banchou.Network {
                 .SelectMany(interval => Observable.Timer(TimeSpan.Zero, interval))
                 .Where(_ => netManager.ConnectedPeersCount > 0);
 
-            // Watch for changes from every player
-            var playerBuffer = new List<PlayerState>(state.GetPlayers().Count);
-            state.ObservePlayers()
-                .SelectMany(_ => state.GetPlayers().Values)
-                .SelectMany(
-                    player => player.Observe()
-                        .Merge(player.Input.OnChange(player))
-                        .Sample(observeInterval)
-                )
-                .CatchIgnoreLog()
-                .Subscribe(player => {
-                    if (!playerBuffer.Contains(player)) {
-                        playerBuffer.Add(player);
-                    }
-                })
-                .AddTo(this);
-
             // Watch for changes from every pawn
             var pawnBuffer = new List<PawnState>(state.GetPawns().Count);
             state.ObserveBoard()
                 .SelectMany(_ => state.GetPawns().Values)
                 .SelectMany(
-                    pawn => pawn.Observe()
-                        .Merge(pawn.Spatial.OnChange(pawn))
+                    pawn => pawn.Spatial.Observe()
                         .Sample(observeInterval)
                 )
                 .CatchIgnoreLog()
-                .Subscribe(pawn => {
-                    if (!pawnBuffer.Contains(pawn)) {
-                        pawnBuffer.Add(pawn);
-                    }
-                })
-                .AddTo(this);
-
-            // On the tick interval, if any pawn or player changes were detected, create a SyncBoard message
-            observeInterval
                 .Where(_ => netManager.ConnectedPeersCount > 0)
-                .Where(_ => playerBuffer.Any() || pawnBuffer.Any())
-                .CatchIgnoreLog()
-                .Subscribe(_ => {
-                    var sync = new SyncBoard {
-                        Pawns = pawnBuffer,
-                        Players = playerBuffer
-                    };
-
-                    var message = Envelope.CreateMessage(PayloadType.SyncBoard, sync, messagePackOptions);
+                .Subscribe(spatial => {
+                    var message = Envelope.CreateMessage(PayloadType.SyncSpatial, spatial, messagePackOptions);
                     netManager.SendToAll(message, DeliveryMethod.Unreliable);
-
-                    pawnBuffer.Clear();
-                    playerBuffer.Clear();
                 })
                 .AddTo(this);
         }

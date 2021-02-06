@@ -35,7 +35,7 @@ namespace Banchou.Pawn {
             PawnId = pawnId;
             PrefabKey = prefabKey;
             PlayerId = playerId;
-            Spatial = new PawnSpatial(position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
+            Spatial = new PawnSpatial(pawnId, position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
             History = new PawnHistory();
             LastUpdated = lastUpdated;
         }
@@ -44,7 +44,7 @@ namespace Banchou.Pawn {
             PawnId = other.PawnId;
             PrefabKey = other.PrefabKey;
             PlayerId = other.PlayerId;
-            Spatial = other.Spatial ?? new PawnSpatial();
+            Spatial = other.Spatial ?? new PawnSpatial(PawnId);
             History = other.History ?? new PawnHistory();
             LastUpdated = other.LastUpdated;
         }
