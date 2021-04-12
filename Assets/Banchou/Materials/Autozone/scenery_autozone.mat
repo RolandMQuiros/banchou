@@ -22,10 +22,10 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: scenery_autozone
   m_Shader: {fileID: -6465566751694194690, guid: 4424a54f5969296418ade209a19c5f37, type: 3}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_ShaderKeywords: _EMISSION
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
@@ -77,7 +77,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7e2ce6988ca5eab4ab747c22972e41ab, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 2800000, guid: ea058aa495e12b54d9b37016750be5ad, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -158,6 +162,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - BOOLEAN_CB657038B25E4DD5A4306704365AC04B: 0
+    - BOOLEAN_F07285F37BE848E28FB7FD63B6DE36F7: 0
     - Vector1_1a5ea40814644afcbebf214b063303cd: 0
     - Vector1_1bd6f75d948a485292fc8e855b49a6fc: 1
     - Vector1_2df225ff917640198b3a8e29c27030eb: 1
@@ -196,7 +201,8 @@ Material:
     - baseMetallic: 0
     - baseSmoothness: 0
     - ditherWeight: 1
-    - emissiveIntensity: 4
+    - emissiveIntensity: 16
+    - lightmapWeight: 1
     - lutCellCount: 16
     - lutWeight: 0
     - overallTransparency: 1
@@ -207,12 +213,13 @@ Material:
     - vertexDitherWeight: 1
     m_Colors:
     - Color_706514ac835948e48d83ad628fa9e6b1: {r: 0, g: 0, b: 0, a: 0}
-    - Color_e01ee4386932439195c7dcaa27f2ad19: {r: 0.85882354, g: 0.6039216, b: 0.6252991, a: 0}
+    - Color_e01ee4386932439195c7dcaa27f2ad19: {r: 0.5849056, g: 0.27865788, b: 0.44100603, a: 0}
     - Color_f1853fc9549544efa9f0d899e36ec908: {r: 0.62352943, g: 0.66437876, b: 0.69803923, a: 0}
     - Vector3_918a3012ad53487cbe526fd1cce659ea: {r: 0, g: 0, b: 0, a: 0}
-    - _BaseColor: {r: 1024, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 2.37969, g: 2.37969, b: 2.37969, a: 1}
     - _BaseEmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - shadowColor: {r: 0.5283019, g: 0.3065148, b: 0.37257898, a: 0}
   m_BuildTextureStacks: []
