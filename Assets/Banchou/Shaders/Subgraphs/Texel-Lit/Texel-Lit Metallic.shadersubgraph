@@ -14,6 +14,12 @@
         },
         {
             "m_Id": "8802e352a88e494cb86056e3363de8d0"
+        },
+        {
+            "m_Id": "5d1d1ebcb0fe44c4af90212fd4ed2223"
+        },
+        {
+            "m_Id": "14ed3a688c344f25927fdf5ee31d480d"
         }
     ],
     "m_Keywords": [],
@@ -489,6 +495,29 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector3ShaderProperty",
+    "m_ObjectId": "14ed3a688c344f25927fdf5ee31d480d",
+    "m_Guid": {
+        "m_GuidSerialized": "a9b13228-4ec5-4eb9-9ea7-320c847034a0"
+    },
+    "m_Name": "View",
+    "m_DefaultReferenceName": "Vector3_14ed3a688c344f25927fdf5ee31d480d",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.SampleTexture2DNode",
     "m_ObjectId": "16e2f337e88d455eb5230aa53c341ef9",
@@ -871,6 +900,29 @@
         "w": 1.0
     },
     "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector3ShaderProperty",
+    "m_ObjectId": "5d1d1ebcb0fe44c4af90212fd4ed2223",
+    "m_Guid": {
+        "m_GuidSerialized": "5a0037be-36e6-47a0-9991-e7ca0ea31f8d"
+    },
+    "m_Name": "Normal",
+    "m_DefaultReferenceName": "Vector3_5d1d1ebcb0fe44c4af90212fd4ed2223",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0,
@@ -1665,9 +1717,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -36.0,
-            "y": -8.0,
-            "width": 120.0,
+            "x": -45.9999885559082,
+            "y": -8.00001049041748,
+            "width": 120.00000762939453,
             "height": 149.0
         }
     },

@@ -220,6 +220,7 @@ Material:
     - _BaseEmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LightmapDitherBase: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - shadowColor: {r: 0.5283019, g: 0.3065148, b: 0.37257898, a: 0}
   m_BuildTextureStacks: []
