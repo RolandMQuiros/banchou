@@ -1,6 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Collections.Generic;
 
 using LiteNetLib;
 using MessagePack;
@@ -33,7 +34,7 @@ namespace Banchou.Network.Part {
             _eventListener.PeerConnectedEvent += OnPeerConnected;
             _eventListener.NetworkReceiveEvent += OnReceive;
 
-            _state.Network.Observe()
+            _state.ObserveNetwork()
                 .Where(network => network.Mode == NetworkMode.Server)
                 .Select(network => network.ServerPort)
                 .DistinctUntilChanged()
@@ -91,7 +92,7 @@ namespace Banchou.Network.Part {
 
             var gameStateBytes = MessagePackSerializer.Serialize(_state.Board, _messagePackOptions);
 
-            var syncClientMessage = Envelope.CreateMessage(
+            peer.SendPayload(
                 PayloadType.Connected,
                 new Connected {
                     ClientNetworkId = newNetworkId,
@@ -100,10 +101,9 @@ namespace Banchou.Network.Part {
                     ServerReceiptTime = connectData.ServerReceiptTime,
                     ServerTransmissionTime = _state.LocalTime
                 },
+                DeliveryMethod.ReliableOrdered,
                 _messagePackOptions
             );
-
-            peer.Send(syncClientMessage, DeliveryMethod.ReliableOrdered);
         }
 
         private void OnReceive(NetPeer fromPeer, NetPacketReader dataReader, DeliveryMethod deliveryMethod) {
@@ -111,28 +111,30 @@ namespace Banchou.Network.Part {
                 return;
             }
 
-            var envelope = MessagePackSerializer.Deserialize<Envelope>(dataReader.GetRemainingBytes(), _messagePackOptions);
+            var payloadType = (PayloadType)dataReader.GetByte();
+            var payload = dataReader.GetRemainingBytesSegment();
+
 
             // Deserialize payload
-            switch (envelope.PayloadType) {
+            switch (payloadType) {
                 case PayloadType.PlayerInput: {
-                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(envelope.Payload, _messagePackOptions);
+                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(payload, _messagePackOptions);
                     _state.SyncInput(input);
                 } break;
                 case PayloadType.TimeRequest: {
-                    var request = MessagePackSerializer.Deserialize<TimeRequest>(envelope.Payload, _messagePackOptions);
-                    var response = Envelope.CreateMessage(
+                    var request = MessagePackSerializer.Deserialize<TimeRequest>(payload, _messagePackOptions);
+                    fromPeer.SendPayload(
                         PayloadType.TimeResponse,
                         new TimeResponse {
                             ClientTime = request.ClientTime,
                             ServerTime = _state.GetLocalTime()
                         },
+                        DeliveryMethod.Unreliable,
                         _messagePackOptions
                     );
-                    fromPeer.Send(response, DeliveryMethod.Unreliable);
                 } break;
                 case PayloadType.SyncGame: {
-                    var sync = MessagePackSerializer.Deserialize<GameState>(envelope.Payload, _messagePackOptions);
+                    var sync = MessagePackSerializer.Deserialize<GameState>(payload, _messagePackOptions);
                     _state.SyncGame(sync);
                 } break;
             }

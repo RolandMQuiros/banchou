@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
     public sealed class BoardStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Board.BoardState>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Board.BoardState value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
@@ -57,9 +56,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 0:
                         __ActiveScenes__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<string>>().Deserialize(ref reader, options);

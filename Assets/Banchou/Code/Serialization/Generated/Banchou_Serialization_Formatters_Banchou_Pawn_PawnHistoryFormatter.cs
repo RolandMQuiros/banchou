@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
     public sealed class PawnHistoryFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Pawn.PawnHistory>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Pawn.PawnHistory value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
@@ -51,9 +50,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 0:
                         __Front__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.FrameData>().Deserialize(ref reader, options);

@@ -1,3 +1,5 @@
+using System;
+
 using LiteNetLib;
 using LiteNetLib.Utils;
 using MessagePack;
@@ -68,12 +70,13 @@ namespace Banchou.Network.Part {
                 return;
             }
 
-            var envelope = MessagePackSerializer.Deserialize<Envelope>(dataReader.GetRemainingBytes(), _messagePackOptions);
+            var payloadType = (PayloadType)dataReader.GetByte();
+            var payload = dataReader.GetRemainingBytesSegment();
 
             // Deserialize payload
-            switch (envelope.PayloadType) {
+            switch (payloadType) {
                 case PayloadType.Connected: {
-                    var connected = MessagePackSerializer.Deserialize<Connected>(envelope.Payload, _messagePackOptions);
+                    var connected = MessagePackSerializer.Deserialize<Connected>(payload, _messagePackOptions);
                     _state.Network.ConnectedToServer(
                         clientNetworkId: connected.ClientNetworkId,
                         serverTimeOffset: CalculateTimeOffset(
@@ -86,7 +89,7 @@ namespace Banchou.Network.Part {
                     _state.SyncGame(connected.State);
                 } break;
                 case PayloadType.TimeResponse: {
-                    var response = MessagePackSerializer.Deserialize<TimeResponse>(envelope.Payload, _messagePackOptions);
+                    var response = MessagePackSerializer.Deserialize<TimeResponse>(payload, _messagePackOptions);
                     _state.Network.UpdateServerTime(
                         serverTimeOffset: CalculateTimeOffset(
                             response.ClientTime,
@@ -97,15 +100,15 @@ namespace Banchou.Network.Part {
                     );
                 } break;
                 case PayloadType.SyncGame: {
-                    var sync = MessagePackSerializer.Deserialize<GameState>(envelope.Payload, _messagePackOptions);
+                    var sync = MessagePackSerializer.Deserialize<GameState>(payload, _messagePackOptions);
                     _state.SyncGame(sync);
                 } break;
                 case PayloadType.SyncSpatial: {
-                    var sync = MessagePackSerializer.Deserialize<PawnSpatial>(envelope.Payload, _messagePackOptions);
+                    var sync = MessagePackSerializer.Deserialize<PawnSpatial>(payload, _messagePackOptions);
                     _state.SyncSpatial(sync);
                 } break;
                 case PayloadType.PlayerInput: {
-                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(envelope.Payload, _messagePackOptions);
+                    var input = MessagePackSerializer.Deserialize<PlayerInputState>(payload, _messagePackOptions);
                     _state.SyncInput(input);
                 } break;
             }

@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
     public sealed class ConnectedFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.Connected>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.Connected value, global::MessagePack.MessagePackSerializerOptions options)
         {
             IFormatterResolver formatterResolver = options.Resolver;
@@ -53,9 +52,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 0:
                         __ClientNetworkId__ = reader.ReadInt32();

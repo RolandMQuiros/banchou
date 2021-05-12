@@ -18,8 +18,12 @@ namespace Banchou.Network.Part {
                 .CatchIgnoreLog()
                 .Where(_ => netManager.ConnectedPeersCount > 0)
                 .Subscribe(input => {
-                    var message = Envelope.CreateMessage(PayloadType.PlayerInput, input, messagePackOptions);
-                    netManager.SendToAll(message, DeliveryMethod.ReliableOrdered);
+                    netManager.SendPayloadToAll(
+                        PayloadType.PlayerInput,
+                        input,
+                        DeliveryMethod.ReliableOrdered,
+                        messagePackOptions
+                    );
                 })
                 .AddTo(this);
         }

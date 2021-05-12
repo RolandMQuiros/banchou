@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
     public sealed class FrameDataFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Pawn.FrameData>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Pawn.FrameData value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
@@ -65,9 +64,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 0:
                         __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);

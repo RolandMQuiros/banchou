@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
     public sealed class PlayerStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.PlayerState>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.PlayerState value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
@@ -57,9 +56,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 2:
                         __NetworkId__ = reader.ReadInt32();

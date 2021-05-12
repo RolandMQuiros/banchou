@@ -23,10 +23,8 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
     public sealed class TimeResponseFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.TimeResponse>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.TimeResponse value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
             writer.Write(value.ClientTime);
             writer.Write(value.ServerTime);
@@ -40,16 +38,13 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
             }
 
             options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __ClientTime__ = default(float);
             var __ServerTime__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 0:
                         __ClientTime__ = reader.ReadSingle();

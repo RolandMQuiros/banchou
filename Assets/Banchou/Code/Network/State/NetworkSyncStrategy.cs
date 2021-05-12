@@ -44,8 +44,12 @@ namespace Banchou.Network {
                 .CatchIgnoreLog()
                 .Where(_ => netManager.ConnectedPeersCount > 0)
                 .Subscribe(spatial => {
-                    var message = Envelope.CreateMessage(PayloadType.SyncSpatial, spatial, messagePackOptions);
-                    netManager.SendToAll(message, DeliveryMethod.Unreliable);
+                    netManager.SendPayloadToAll(
+                        PayloadType.SyncSpatial,
+                        spatial,
+                        DeliveryMethod.Unreliable,
+                        messagePackOptions
+                    );
                 })
                 .AddTo(this);
         }

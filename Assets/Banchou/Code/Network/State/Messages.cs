@@ -1,12 +1,8 @@
-using System.Collections.Generic;
+using System.IO;
 using MessagePack;
-using UnityEngine;
-
-using Banchou.Pawn;
-using Banchou.Player;
 
 namespace Banchou.Network.Message {
-    public enum PayloadType {
+    public enum PayloadType : byte {
         ConnectClient,
         Connected,
         TimeRequest,
@@ -15,23 +11,6 @@ namespace Banchou.Network.Message {
         SyncGame,
         SyncBoard,
         SyncSpatial
-    }
-
-    [MessagePackObject]
-    public struct Envelope {
-        [Key(0)] public PayloadType PayloadType;
-        [Key(1)] public byte[] Payload;
-
-        public static byte[] CreateMessage<T>(PayloadType payloadType, in T payload, MessagePackSerializerOptions options) {
-            var message = MessagePackSerializer.Serialize(
-                new Envelope {
-                    PayloadType = payloadType,
-                    Payload = MessagePackSerializer.Serialize(payload, options)
-                },
-                options
-            );
-            return message;
-        }
     }
 
     [MessagePackObject]

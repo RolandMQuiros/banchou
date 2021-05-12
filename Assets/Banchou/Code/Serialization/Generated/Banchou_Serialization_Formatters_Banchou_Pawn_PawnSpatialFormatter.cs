@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
     public sealed class PawnSpatialFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Pawn.PawnSpatial>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Pawn.PawnSpatial value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
@@ -67,9 +66,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 1:
                         __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);

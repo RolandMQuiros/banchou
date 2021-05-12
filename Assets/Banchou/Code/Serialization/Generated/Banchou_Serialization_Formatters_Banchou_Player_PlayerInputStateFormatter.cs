@@ -23,7 +23,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
     public sealed class PlayerInputStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Player.PlayerInputState>
     {
 
-
         public void Serialize(ref MessagePackWriter writer, global::Banchou.Player.PlayerInputState value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
@@ -59,9 +58,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
 
             for (int i = 0; i < length; i++)
             {
-                var key = i;
-
-                switch (key)
+                switch (i)
                 {
                     case 1:
                         __Commands__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputCommand>().Deserialize(ref reader, options);
