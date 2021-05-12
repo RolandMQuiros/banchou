@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: e818a601fe7fb7d49af511abcf5d5222, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _AdditionalLightsDithered_66246bad0bb54a05827fb371749aaf19_Texture2D45cfedd0c0e143b7834ef738470d6fa1_345673974:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -69,6 +73,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LUT:
+        m_Texture: {fileID: 2800000, guid: fe20407ea29102c42bfaeeaa8020588d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -120,7 +128,7 @@ Material:
     - Vector1_32dc7b1532344c78af17ff4a4013a666: 16
     - Vector1_61209b9a8bb6443ca86f83ffc98157f9: 32
     - Vector1_7e1f30d42580437ba4f2104eecf21a4f: 0.5
-    - Vector1_8c9c17d3385549d78032b50b26df56c9: 0
+    - Vector1_8c9c17d3385549d78032b50b26df56c9: 0.5
     - Vector1_946917bf0b974210b5feffea9df8cdc1: 16
     - Vector1_cfedd2be57354475a893bf289783c84b: 1
     - Vector1_d2159d39110a4f289515d351917fd02b: 1
@@ -128,6 +136,7 @@ Material:
     - Vector1_fce5ccce74d34ff397405397fcdbec43: 0
     - _AlphaClip: 0
     - _Blend: 0
+    - _BouncedRimLightStep: 0.5
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -140,6 +149,9 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _LUTCells: 32
+    - _LUTWeight: 0
+    - _MainRimLightStep: 0.5
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -156,7 +168,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_0609b16fd8bf4018bd60dd118309c557: {r: 0.111294046, g: 0.42360264, b: 0.5754717, a: 0}
     - Color_1252e06a080548c6af00c33719cf09d4: {r: 0.5448113, g: 0.4464667, b: 0.745283, a: 0}
+    - Color_34134ea6efdb479093b67e1d90e13d5f: {r: 1, g: 0.98796254, b: 0.3537736, a: 0}
     - Color_5a47a47356024d9f852a5f4e10da64d5: {r: 0.3446066, g: 0.4168957, b: 0.6037736, a: 0}
     - Color_5ba6a6a11b5d4402a7aa2b59df15e0d5: {r: 1, g: 0.925188, b: 0.6179246, a: 0}
     - Color_982a913d4e084fd9b52efc2f2f802698: {r: 0.09211465, g: 0.29660818, b: 0.4339623, a: 0}
@@ -166,7 +180,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseColor: {r: 0.2627451, g: 0.8862745, b: 0.8155137, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowColor: {r: 0.6836601, g: 0.5944731, b: 0.6886792, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColour: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
