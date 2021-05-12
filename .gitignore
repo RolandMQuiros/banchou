@@ -74,8 +74,8 @@ crashlytics-build.properties
 /[Aa]ssets/Asset Store/*
 
 # TextMeshPro
-/[Aa]ssets/TextMesh Pro/
-/[Aa]ssets/TextMesh Pro.meta
+/[Aa]ssets/[Pp]lugins/TextMesh Pro/
+/[Aa]ssets/[Pp]lugins/TextMesh Pro.meta
 
 # NuGet packages
 /[Aa]ssets/Packages/
@@ -86,3 +86,12 @@ crashlytics-build.properties
 # VSCode
 .vscode
 
+# Asset Store Packages
+
+# Wire Builder
+/[Aa]ssets/Plugins/WireBuilder
+/[Aa]ssets/Plugins/WireBuilder.meta
+
+# Mesh Combiner
+/[Aa]ssets/Plugins/MeshCombiner
+/[Aa]ssets/Plugins/MeshCombiner.meta
