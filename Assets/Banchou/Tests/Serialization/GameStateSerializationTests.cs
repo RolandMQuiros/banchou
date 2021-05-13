@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using NUnit.Framework;
 
 using MessagePack;
@@ -7,10 +9,11 @@ using UnityEngine;
 using UnityEngine.TestTools;
 
 using Banchou.Board;
-using Banchou.Network;
+using Banchou.Network.Message;
 using Banchou.Player;
 using Banchou.Serialization.Resolvers;
 
+using Random = UnityEngine.Random;
 using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace Banchou.Test {
@@ -93,6 +96,28 @@ namespace Banchou.Test {
             Assert.AreEqual(state.Input.Direction, deser.Input.Direction);
             Assert.AreEqual(state.Input.Sequence, deser.Input.Sequence);
             Assert.AreEqual(state.Input.When, deser.Input.When);
+        }
+
+        [Test]
+        public void MemoryStreamSerialization() {
+            var connectMessage = new ConnectClient {
+                ConnectionKey = "asdf",
+                ClientConnectionTime = 1234f
+            };
+            var serializationBuffer = new MemoryStream(65536);
+
+            serializationBuffer.WriteByte((byte)PayloadType.ConnectClient);
+            MessagePackSerializer.Serialize<ConnectClient>(
+                serializationBuffer,
+                connectMessage,
+                _messagePackOptions
+            );
+
+            var payload = new ReadOnlyMemory<byte>(serializationBuffer.GetBuffer(), 1, (int)serializationBuffer.Length - 1);
+            var deserialized = MessagePackSerializer.Deserialize<ConnectClient>(payload, _messagePackOptions);
+
+            Assert.AreEqual(PayloadType.ConnectClient, (PayloadType)serializationBuffer.GetBuffer()[0]);
+            Assert.AreEqual(connectMessage, deserialized);
         }
     }
 }
