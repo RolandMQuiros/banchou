@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3867,6 +3867,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _store: {fileID: 11400000, guid: 07aa97ba65ce23b46bec2cfa52b234fe, type: 2}
+  _state:
+    <Network>k__BackingField:
+      <NetworkId>k__BackingField: 0
+      <Mode>k__BackingField: 0
+      <ServerIP>k__BackingField: 
+      <ServerPort>k__BackingField: 0
+      <ServerTimeOffset>k__BackingField: 0
+      <TickRate>k__BackingField: 0
+      <SimulateMinLatency>k__BackingField: 0
+      <SimulateMaxLatency>k__BackingField: 0
+      <Stats>k__BackingField:
+        _ping: 0
+        _lastUpdated: 0
+      <Rollback>k__BackingField:
+        _phase: 0
+        _correctionTime: 0
+        _deltaTime: 0
+      _clients: 
+    <Board>k__BackingField:
+      <ActiveScenes>k__BackingField: []
+      <LoadingScenes>k__BackingField: []
+      <LastUpdated>k__BackingField: 0
+    <LocalTime>k__BackingField: 0
+    <DeltaTime>k__BackingField: 0
 --- !u!4 &1833360556
 Transform:
   m_ObjectHideFlags: 0
@@ -3895,8 +3919,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _board:
-    _activeScenes: []
-    _loadingScenes: []
+    <ActiveScenes>k__BackingField: []
+    <LoadingScenes>k__BackingField: []
     <LastUpdated>k__BackingField: 0
 --- !u!1 &1936247336
 GameObject:

@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace Banchou {
     public class FSMBehaviour : StateMachineBehaviour, ICollection<IDisposable> {
-        public bool IsStateActive { get; private set; }
+        public bool IsStateActive => _activeStates.Count > 0;
 
         private List<IDisposable> _streams = new List<IDisposable>();
         protected ICollection<IDisposable> Streams { get => _streams; }
@@ -25,9 +25,10 @@ namespace Banchou {
         protected Subject<FSMUnit> ObserveStateExit = new Subject<FSMUnit>();
 
         private float _previousTime = 0f;
+        private HashSet<int> _activeStates = new HashSet<int>();
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
-            IsStateActive = true;
+            _activeStates.Add(stateInfo.fullPathHash);
             ObserveStateEnter.OnNext(new FSMUnit {
                 StateInfo = stateInfo,
                 LayerIndex = layerIndex,
@@ -37,7 +38,7 @@ namespace Banchou {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
-            IsStateActive = false;
+            _activeStates.Remove(stateInfo.fullPathHash);
             ObserveStateExit.OnNext(new FSMUnit {
                 StateInfo = stateInfo,
                 LayerIndex = layerIndex,
@@ -58,7 +59,7 @@ namespace Banchou {
         }
 
         private void OnDisable() {
-            IsStateActive = false;
+            _activeStates.Clear();
         }
 
         protected virtual void OnDestroy() {

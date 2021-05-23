@@ -8,7 +8,8 @@ namespace Banchou.Player {
         HeavyAttack = 2,
         LockOn = 4,
         LockOff = 8,
-        ShortJump = 16,
-        Jump = 256
+        ToggleLock = 16,
+        ShortJump = 32,
+        Jump = 64
     }
 }

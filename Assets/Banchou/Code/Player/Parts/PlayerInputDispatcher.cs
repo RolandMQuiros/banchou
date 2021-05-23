@@ -3,16 +3,17 @@ using UnityEngine.InputSystem;
 
 namespace Banchou.Player.Part {
     public class PlayerInputDispatcher : MonoBehaviour {
-        private PlayerInput _source;
+        [SerializeField, Range(0f, 1f)] private float _lockTapTime = 0.2f;
 
+        private PlayerInput _source;
         private PlayerInputState _input;
         private GetTime _getTime;
         private Transform _camera;
-
         private long _sequence = 0L;
         private Vector2 _moveInput;
         private Vector2 _lookInput;
         private InputCommand _commandsInput;
+        private float _timeAtLockPress = 0f;
 
         public void Construct(
             PlayerState player,
@@ -32,15 +33,27 @@ namespace Banchou.Player.Part {
 
         private void HandleAction(InputAction.CallbackContext callbackContext) {
             switch (callbackContext.action.name) {
-                case "Move":
-                    DispatchMovement(callbackContext);
-                    break;
-                case "Look":
-                    DispatchLook(callbackContext);
-                    break;
-                case "Light Attack":
-                    DispatchLightAttack(callbackContext);
-                    break;
+                case "Move": {
+                    var direction = callbackContext.ReadValue<Vector2>();
+                    _moveInput = direction;
+                } break;
+                case "Look": {
+                    var direction = callbackContext.ReadValue<Vector2>();
+                    _lookInput = direction;
+                } break;
+                case "Light Attack": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.LightAttack;
+                    }
+                } break;
+                case "Lock On": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.LockOn;
+                        _timeAtLockPress = _getTime();
+                    } else if (callbackContext.canceled && _getTime() > _timeAtLockPress + _lockTapTime) {
+                        _commandsInput |= InputCommand.LockOff;
+                    }
+                } break;
             }
         }
 
@@ -60,21 +73,14 @@ namespace Banchou.Player.Part {
             }
         }
 
-        private void Update() {
+        private void LateUpdate() {
             var move = _moveInput.CameraPlaneProject(_camera);
             var look = Snapping.Snap(_lookInput, Vector3.one * 0.25f);
 
-            if (move != _input.Direction) {
-                _input.PushMove(move, ++_sequence, _getTime());
+            if (move != _input.Direction || look != _input.Look || _commandsInput != InputCommand.None) {
+                _input.Push(_commandsInput, move, look, ++_sequence, _getTime());
             }
 
-            if (look != _input.Look) {
-                _input.PushLook(look, ++_sequence, _getTime());
-            }
-
-            if (_commandsInput != InputCommand.None) {
-                _input.PushCommands(_commandsInput, ++_sequence, _getTime());
-            }
             _commandsInput = InputCommand.None;
         }
     }

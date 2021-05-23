@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     public delegate int GetPawnId();
-
     [MessagePackObject, Serializable]
     public class PawnState : Notifiable<PawnState> {
         [Key(0)] public readonly int PawnId;

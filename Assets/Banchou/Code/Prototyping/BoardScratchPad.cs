@@ -15,7 +15,7 @@ namespace Banchou.Prototyping.Part {
                     playerId: 1,
                     prefabKey: "Local Player"
                 );
-                for (int i = 1; i <= 100; i++) {
+                for (int i = 1; i <= 1; i++) {
                     state.AddPawn(
                         pawnId: i,
                         prefabKey: "Erho",

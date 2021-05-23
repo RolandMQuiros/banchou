@@ -38,5 +38,17 @@ namespace Banchou {
 
             return projected;
         }
+
+        public static int DirectionSector(this Vector2 vec, float sectorAngle, float start) {
+            var sectorCount = Mathf.Ceil(2f * Mathf.PI / sectorAngle);
+            var sector = -1;
+            if (vec != Vector2.zero) {
+                var vectorAngle = Mathf.Atan2(vec.y, vec.x);
+                for (var a = start; a < 2f * Mathf.PI && a < vectorAngle; a += sectorAngle) {
+                    sector++;
+                }
+            }
+            return sector;
+        }
     }
 }

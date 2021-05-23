@@ -221,5 +221,17 @@ namespace Banchou.Player {
         }
     }
 
+    public enum PlayerStickState : byte {
+        Neutral = 5,
+        Forward = 6,
+        ForwardRight = 3,
+        Right = 2,
+        BackRight = 1,
+        Back = 4,
+        BackLeft = 7,
+        Left = 8,
+        ForwardLeft = 9
+    }
+
     public delegate int GetPlayerId();
 }

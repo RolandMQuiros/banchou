@@ -9,6 +9,12 @@ ModelImporter:
   - first:
       74: 3665071597889117301
     second: rig|Pose 1
+  - first:
+      74: 2364062894210784538
+    second: rig|Combat-Light-2
+  - first:
+      74: -5395061259704943928
+    second: rig|Combat-Light-3
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -31,8 +37,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
-      human bone 'Head' not found\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 

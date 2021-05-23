@@ -15,15 +15,14 @@ namespace Banchou.Board.Part {
             public string Key;
             public GameObject Prefab;
         }
-
         [SerializeField] private NamedPrefab[] _catalog = null;
 
         public void Construct(
             GameState state,
-            Instantiator instantiate
+            Instantiator instantiate,
+            IDictionary<int, GameObject> pawnObjects
         ) {
             var catalog = _catalog.ToDictionary(n => n.Key, n => n.Prefab);
-            var spawned = new Dictionary<int, GameObject>();
 
             state.ObserveAddedPawns()
                 .DelayFrame(0, FrameCountType.EndOfFrame)
@@ -33,7 +32,7 @@ namespace Banchou.Board.Part {
                     var prefabKey = pawn.PrefabKey;
                     GameObject prefab;
                     if (catalog.TryGetValue(prefabKey, out prefab)) {
-                        spawned[pawn.PawnId] = instantiate(
+                        pawnObjects[pawn.PawnId] = instantiate(
                             prefab,
                             position: pawn.Spatial.Position,
                             rotation: Quaternion.LookRotation(pawn.Spatial.Forward),
@@ -47,7 +46,8 @@ namespace Banchou.Board.Part {
             state.ObserveRemovedPawns()
                 .CatchIgnore()
                 .Subscribe(pawn => {
-                    GameObject.Destroy(spawned[pawn.PawnId]);
+                    GameObject.Destroy(pawnObjects[pawn.PawnId]);
+                    pawnObjects.Remove(pawn.PawnId);
                 })
                 .AddTo(this);
         }

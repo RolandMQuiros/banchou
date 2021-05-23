@@ -16,8 +16,12 @@ namespace Banchou.Pawn.FSM {
         [Header("Animation Parameters")]
         [SerializeField, Tooltip("Animation parameter to write movement speed")]
         private string _movementSpeedOut = string.Empty;
-        [SerializeField] private string _velocityRightOut = string.Empty;
-        [SerializeField] private string _velocityForwardOut = string.Empty;
+        [SerializeField, Tooltip("Animation parameter to write lateral movement speed")]
+        private string _velocityRightOut = string.Empty;
+        [SerializeField, Tooltip("Animation parameter to write forward movement speed")]
+        private string _velocityForwardOut = string.Empty;
+        [SerializeField, Tooltip("True to clear all parameters to zero on state exit")]
+        private bool _clearOutOnExit = true;
 
         public void Construct(
             GameState state,
@@ -67,6 +71,16 @@ namespace Banchou.Pawn.FSM {
                     }
                 )
                 .AddTo(this);
+
+            if (_clearOutOnExit) {
+                ObserveStateExit
+                    .Subscribe(_ => {
+                        animator.SetFloat(speedOut, 0f);
+                        animator.SetFloat(rightSpeedOut, 0f);
+                        animator.SetFloat(forwardSpeedOut, 0f);
+                    })
+                    .AddTo(this);
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Isaac
+  m_Name: Character_Isaac
   m_Shader: {fileID: -6465566751694194690, guid: a27a919d57e12ae4fbfcbb4d92f07b7a, type: 3}
   m_ShaderKeywords: _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
@@ -151,7 +151,7 @@ Material:
     - _GlossyReflections: 0
     - _LUTCells: 32
     - _LUTWeight: 0
-    - _MainRimLightStep: 0.5
+    - _MainRimLightStep: 0.1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -170,7 +170,7 @@ Material:
     m_Colors:
     - Color_0609b16fd8bf4018bd60dd118309c557: {r: 0.111294046, g: 0.42360264, b: 0.5754717, a: 0}
     - Color_1252e06a080548c6af00c33719cf09d4: {r: 0.5448113, g: 0.4464667, b: 0.745283, a: 0}
-    - Color_34134ea6efdb479093b67e1d90e13d5f: {r: 1, g: 0.98796254, b: 0.3537736, a: 0}
+    - Color_34134ea6efdb479093b67e1d90e13d5f: {r: 1, g: 0.90688604, b: 0.3066038, a: 0}
     - Color_5a47a47356024d9f852a5f4e10da64d5: {r: 0.3446066, g: 0.4168957, b: 0.6037736, a: 0}
     - Color_5ba6a6a11b5d4402a7aa2b59df15e0d5: {r: 1, g: 0.925188, b: 0.6179246, a: 0}
     - Color_982a913d4e084fd9b52efc2f2f802698: {r: 0.09211465, g: 0.29660818, b: 0.4339623, a: 0}

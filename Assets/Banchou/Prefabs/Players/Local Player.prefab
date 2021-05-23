@@ -46,11 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player:
-    _networkId: 0
-    _input:
-      _commands: 0
-      _direction: {x: 0, y: 0, z: 0}
-      _look: {x: 0, y: 0}
+    <NetworkId>k__BackingField: 0
+    <Input>k__BackingField:
+      <Commands>k__BackingField: 0
+      <Direction>k__BackingField: {x: 0, y: 0, z: 0}
+      <Look>k__BackingField: {x: 0, y: 0}
+      <Sequence>k__BackingField: 0
+      <When>k__BackingField: 0
 --- !u!114 &2338477261493368107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,4 +183,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585063eff9acc10469d325d9b7cc9549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
+  _lockTapTime: 0.25

@@ -42,7 +42,7 @@ namespace Banchou.Prototyping.Part {
                 .LoadScene("Sandbox")
                 .AddPlayer(1, "Local Player");
 
-            for (int i = 1; i <= 15; i++) {
+            for (int i = 1; i <= 1; i++) {
                 _state.AddPawn(
                     pawnId: i,
                     prefabKey: "Isaac",
