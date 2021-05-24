@@ -53,7 +53,6 @@ namespace Banchou.Pawn {
                 .DistinctUntilChanged()
                 .Merge(
                     state.ObservePawnInput(pawnId)
-                        .DistinctUntilChanged(input => input.Commands)
                         .Select(input => (
                             Command: input.Commands,
                             When: input.When

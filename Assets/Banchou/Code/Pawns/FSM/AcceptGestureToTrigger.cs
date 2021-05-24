@@ -42,9 +42,11 @@ namespace Banchou.Pawn.FSM {
                         sequenceIndex = 0;
                     }
 
-                    if (unitPair.Current.When - unitPair.Previous.When >= _inputLifetime) {
+                    var sequenceStarted = sequenceIndex > 0;
+                    var previousCommandTooOld = unitPair.Current.When - unitPair.Previous.When >= _inputLifetime;
+                    if (sequenceStarted && previousCommandTooOld) {
                         return 0;
-                    } else if (unitPair.Current.Command == _inputSequence[sequenceIndex]) {
+                    } else if ((unitPair.Current.Command & _inputSequence[sequenceIndex]) != InputCommand.None) {
                         return sequenceIndex + 1;
                     }
 
