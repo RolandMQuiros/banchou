@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,11 +15,12 @@ namespace Banchou.Pawn.FSM {
         but also AIs inputting commands kinda rules.
     */
     public class AcceptGestureToTrigger : FSMBehaviour {
-        [SerializeField, Tooltip("Sequence of stick inputs preceding the command")]
-        private PlayerStickState[] _sequence;
 
-        [SerializeField, Tooltip("Commands input after the stick sequence to set the trigger")]
-        private InputCommand _acceptedCommand;
+        [SerializeField, Tooltip("Sequence of inputs needed to fire the trigger")]
+        private InputCommand[] _inputSequence;
+
+        [SerializeField, Tooltip("Lifetime of stick inputs in the buffer, in seconds")]
+        private float _inputLifetime = 0.1666667f; // Approximately 10 frames
 
         [SerializeField, Tooltip("The name of the output trigger parameter to set if the gesture was input correctly")]
         private string _outputParameter;
@@ -28,28 +30,27 @@ namespace Banchou.Pawn.FSM {
             GetPawnId getPawnId,
             Animator animator
         ) {
-            var outputHash = Animator.StringToHash(_outputParameter);
-            var sequenceBuffered = state
-                .ObservePawnInput(getPawnId())
-                .Select(input => input.Direction)
-                // Project stick direction to 2D, with Pawn's forward direction mapped to up, right to right
-                .WithLatestFrom(
-                    state.ObservePawnSpatial(getPawnId()),
-                    (direction, spatial) => new Vector2(
-                        Vector3.Dot(direction, spatial.Right),
-                        Vector3.Dot(direction, spatial.Forward)
-                    ).DirectionToStick()
-                )
-                .DistinctUntilChanged()
-                .Buffer(_sequence.Length, 1)
-                .Select(buffer => buffer.SequenceEqual(_sequence));
+            if (_inputSequence.Length == 0) return;
 
-            state.ObservePawnInput(getPawnId())
-                .Where(_ => IsStateActive)
-                .Select(input => input.Commands)
-                .Where(command => (command & _acceptedCommand) != InputCommand.None)
-                .WithLatestFrom(sequenceBuffered, (_, buffered) => buffered)
-                .Where(buffered => buffered)
+            var outputHash = Animator.StringToHash(_outputParameter);
+
+            state.ObservePawnInputCommands(getPawnId())
+                .Where(unit => (unit.Command & InputCommandMasks.Gestures) != InputCommand.None)
+                .Pairwise()
+                .Scan(0, (sequenceIndex, unitPair) => {
+                    if (sequenceIndex >= _inputSequence.Length) {
+                        sequenceIndex = 0;
+                    }
+
+                    if (unitPair.Current.When - unitPair.Previous.When >= _inputLifetime) {
+                        return 0;
+                    } else if (unitPair.Current.Command == _inputSequence[sequenceIndex]) {
+                        return sequenceIndex + 1;
+                    }
+
+                    return sequenceIndex;
+                })
+                .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length)
                 .Subscribe(_ => {
                     animator.SetTrigger(outputHash);
                 })

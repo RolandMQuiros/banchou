@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UniRx;
+using UnityEngine;
 using Banchou.Board;
 using Banchou.Player;
 
@@ -34,6 +35,30 @@ namespace Banchou.Pawn {
                 .SelectMany(playerId => state.ObservePlayer(playerId))
                 .Where(player => player?.Input != null)
                 .SelectMany(player => player.Input.Observe());
+        }
+
+        public static IObservable<(InputCommand Command, float When)> ObservePawnInputCommands(this GameState state, int pawnId) {
+            return state.ObservePawnInput(pawnId)
+                .DistinctUntilChanged(input => input.Direction)
+                .WithLatestFrom(
+                    state.ObservePawnSpatial(pawnId),
+                    (input, spatial) => (
+                        Command: new Vector2(
+                            Vector3.Dot(input.Direction, spatial.Right),
+                            Vector3.Dot(input.Direction, spatial.Forward)
+                        ).DirectionToStick(),
+                        When: input.When
+                    )
+                )
+                .DistinctUntilChanged()
+                .Merge(
+                    state.ObservePawnInput(pawnId)
+                        .DistinctUntilChanged(input => input.Commands)
+                        .Select(input => (
+                            Command: input.Commands,
+                            When: input.When
+                        ))
+                );
         }
 
         public static PawnState GetPawn(this GameState state, int pawnId) {
