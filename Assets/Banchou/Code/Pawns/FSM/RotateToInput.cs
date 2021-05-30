@@ -41,9 +41,7 @@ namespace Banchou.Pawn.FSM {
             GameState state,
             PawnState pawn,
             Animator animator,
-            Rigidbody rigidbody,
-            GetTime getTime,
-            GetDeltaTime getDeltaTime
+            Rigidbody rigidbody
         ) {
             // The object's final facing unit vector angle
             var faceDirection = Vector3.zero;
@@ -68,7 +66,7 @@ namespace Banchou.Pawn.FSM {
                         // more easily execute Pull Attacks
                         var faceMotionDot = Vector3.Dot(direction, faceDirection);
                         if (faceMotionDot <= _flipDirectionThreshold && flipTimer < _flipDelay) {
-                            flipTimer += getDeltaTime();
+                            flipTimer += state.GetDeltaTime();
                         } else {
                             faceDirection = direction.normalized;
                             flipTimer = 0f;
@@ -79,16 +77,16 @@ namespace Banchou.Pawn.FSM {
 
                     if (faceDirection != Vector3.zero) {
                         if (_snap) {
-                            pawn.Spatial.Rotate(faceDirection, getTime());
+                            pawn.Spatial.Rotate(faceDirection, state.GetTime());
                         } else {
                             pawn.Spatial.Rotate(
                                 Vector3.RotateTowards(
                                     rigidbody.transform.forward,
                                     faceDirection,
-                                    _rotationSpeed * getDeltaTime(),
+                                    _rotationSpeed * state.GetDeltaTime(),
                                     0f
                                 ),
-                                getTime()
+                                state.GetTime()
                             );
                         }
                     }
@@ -100,7 +98,7 @@ namespace Banchou.Pawn.FSM {
                     .Subscribe(_ => {
                         // Snap to the facing direction on state exit.
                         // Helps face the character in the intended direction when jumping mid-turn.
-                        pawn.Spatial.Rotate(faceDirection, getTime());
+                        pawn.Spatial.Rotate(faceDirection, state.GetTime());
                     })
                     .AddTo(this);
             }

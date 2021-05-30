@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dd5d9ff7c145d409b4997885e59941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _acceptedCommands: 12
+  _acceptedCommands: 12288
   _acceptFromStateTime: 0
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0
@@ -188,7 +188,7 @@ MonoBehaviour:
   _snapOnExit: 1
   _flipDelay: 0.35
   _flipMagnitudeThreshold: 0.75
-  _flipDirectionThreshold: 0.85
+  _flipDirectionThreshold: 0.5
   _startTime: 0
   _endTime: 1
 --- !u!114 &-5747003424713393020
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c17323bcbf858743a210e08cc624908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 10
+  _movementSpeed: 8
   _acceleration: 10
   _movementSpeedOut: Speed
   _velocityRightOut: Lateral Speed
@@ -226,6 +226,21 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+--- !u!114 &-3163248836728090527
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e05f1635e36ee41a229b650e8c77a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputSequence: 01000000040000000200000000010000
+  _inputLifetime: 0.1666667
+  _outputParameter: 6L
 --- !u!1101 &-2828601849356536637
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -310,8 +325,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e05f1635e36ee41a229b650e8c77a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sequence: 05040506
-  _acceptedCommand: 1
+  _inputSequence: 01000000400000008000000000010000
+  _inputLifetime: 0.16666667
   _outputParameter: 6L
 --- !u!91 &9100000
 AnimatorController:
@@ -327,31 +342,31 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lateral Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lock On
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 6L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -487,6 +502,7 @@ AnimatorStateMachine:
   m_StateMachineBehaviours:
   - {fileID: -6235814510065309808}
   - {fileID: -165041445210770685}
+  - {fileID: -3163248836728090527}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 70, z: 0}
   m_ExitPosition: {x: 50, y: 270, z: 0}
@@ -535,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1dd5d9ff7c145d409b4997885e59941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _acceptedCommands: 4
+  _acceptedCommands: 4096
   _acceptFromStateTime: 0
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UniRx;
@@ -33,9 +31,10 @@ namespace Banchou.Pawn.FSM {
             if (_inputSequence.Length == 0) return;
 
             var outputHash = Animator.StringToHash(_outputParameter);
+            var commandMask = _inputSequence.Aggregate((prev, next) => prev | next);
 
             state.ObservePawnInputCommands(getPawnId())
-                .Where(unit => (unit.Command & InputCommandMasks.Gestures) != InputCommand.None)
+                .Where(unit => (unit.Command & commandMask) != InputCommand.None)
                 .Pairwise()
                 .Scan(0, (sequenceIndex, unitPair) => {
                     if (sequenceIndex >= _inputSequence.Length) {

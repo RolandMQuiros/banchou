@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class PawnAnimator : MonoBehaviour {
+        private GameState _state;
         private PawnState _pawn;
         private Animator _animator;
-        private GetTime _getTime;
         private List<AnimatorControllerParameter> _cachedParameters;
 
         public void Construct(
+            GameState state,
             PawnState pawn,
-            Animator animator,
-            GetTime getTime
+            Animator animator
         ) {
+            _state = state;
             _pawn = pawn;
             _animator = animator;
-            _getTime = getTime;
 
             // Accessing Animator.parameters or Animator.GetParameter seems to generate garbage
             // so let's get this out of the way early
@@ -54,7 +54,7 @@ namespace Banchou.Pawn.Part {
                 }
             }
 
-            frame.FinishFrame(_getTime());
+            frame.FinishFrame(_state.GetTime());
         }
     }
 }

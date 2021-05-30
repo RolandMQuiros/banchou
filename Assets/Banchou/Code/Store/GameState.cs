@@ -49,7 +49,4 @@ namespace Banchou {
             return this;
         }
     }
-
-    public delegate float GetTime();
-    public delegate float GetDeltaTime();
 }

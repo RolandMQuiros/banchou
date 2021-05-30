@@ -1,8 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UniRx;
-
-using Banchou.Player;
 
 namespace Banchou.Pawn.FSM {
     public class InputMovement : FSMBehaviour {
@@ -26,9 +23,7 @@ namespace Banchou.Pawn.FSM {
         public void Construct(
             GameState state,
             PawnState pawn,
-            Animator animator,
-            GetTime getTime,
-            GetDeltaTime getDeltaTime
+            Animator animator
         ) {
             var speedOut = Animator.StringToHash(_movementSpeedOut);
             var rightSpeedOut = Animator.StringToHash(_velocityRightOut);
@@ -48,8 +43,8 @@ namespace Banchou.Pawn.FSM {
                 .CatchIgnoreLog()
                 .Subscribe(
                     velocity => {
-                        var offset = velocity * getDeltaTime();
-                        pawn.Spatial.Move(offset, getTime());
+                        var offset = velocity * state.GetDeltaTime();
+                        pawn.Spatial.Move(offset, state.GetTime());
 
                         // Write to output variables
                         if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {

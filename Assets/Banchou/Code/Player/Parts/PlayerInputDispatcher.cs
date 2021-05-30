@@ -7,7 +7,7 @@ namespace Banchou.Player.Part {
 
         private PlayerInput _source;
         private PlayerInputState _input;
-        private GetTime _getTime;
+        private GameState _state;
         private Transform _camera;
         private long _sequence = 0L;
         private Vector2 _moveInput;
@@ -17,10 +17,10 @@ namespace Banchou.Player.Part {
 
         public void Construct(
             PlayerState player,
-            GetTime getTime
+            GameState state
         ) {
             _input = player.Input;
-            _getTime = getTime;
+            _state = state;
             _camera = Camera.main.transform;
 
             _source = GetComponent<PlayerInput>();
@@ -49,8 +49,8 @@ namespace Banchou.Player.Part {
                 case "Lock On": {
                     if (callbackContext.performed) {
                         _commandsInput |= InputCommand.LockOn;
-                        _timeAtLockPress = _getTime();
-                    } else if (callbackContext.canceled && _getTime() > _timeAtLockPress + _lockTapTime) {
+                        _timeAtLockPress = _state.GetTime();
+                    } else if (callbackContext.canceled && _state.GetTime() > _timeAtLockPress + _lockTapTime) {
                         _commandsInput |= InputCommand.LockOff;
                     }
                 } break;
@@ -78,7 +78,7 @@ namespace Banchou.Player.Part {
             var look = Snapping.Snap(_lookInput, Vector3.one * 0.25f);
 
             if (move != _input.Direction || look != _input.Look || _commandsInput != InputCommand.None) {
-                _input.Push(_commandsInput, move, look, ++_sequence, _getTime());
+                _input.Push(_commandsInput, move, look, ++_sequence, _state.GetTime());
             }
 
             _commandsInput = InputCommand.None;

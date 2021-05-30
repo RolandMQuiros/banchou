@@ -7,8 +7,7 @@ using Banchou.Player;
 namespace Banchou.Prototyping.Part {
     public class BoardScratchPad : MonoBehaviour {
         public void Construct(
-            GameState state,
-            GetTime getTime
+            GameState state
         ) {
             IEnumerator RunTest() {
                 state.AddPlayer(

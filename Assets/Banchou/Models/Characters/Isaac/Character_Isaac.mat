@@ -151,7 +151,7 @@ Material:
     - _GlossyReflections: 0
     - _LUTCells: 32
     - _LUTWeight: 0
-    - _MainRimLightStep: 0.1
+    - _MainRimLightStep: 0.5
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1

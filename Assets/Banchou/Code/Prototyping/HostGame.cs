@@ -10,16 +10,14 @@ using Random = UnityEngine.Random;
 namespace Banchou.Prototyping.Part {
     public class HostGame : MonoBehaviour {
         private GameState _state;
-        private GetTime _getTime;
 
         private int _port = 9050;
         private int _minPing;
         private int _maxPing;
         public bool Rollback { get; set; }
 
-        public void Construct(GameState state, GetTime getTime) {
+        public void Construct(GameState state) {
             _state = state;
-            _getTime = getTime;
         }
 
         public void ParsePort(string input) {
@@ -47,7 +45,7 @@ namespace Banchou.Prototyping.Part {
                     pawnId: i,
                     prefabKey: "Isaac",
                     playerId: 1,
-                    position: new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
+                    position: Vector3.up * 2f// new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
                 );
             }
         }

@@ -7,9 +7,8 @@ namespace Banchou.Pawn.Part {
         [SerializeField] private bool _clearSpeedOnEnter = false;
         [SerializeField] private bool _clearSpeedOnExit = false;
         public void Construct(
-            PawnState pawn,
-            GetDeltaTime getDeltaTime,
-            GetTime getTime
+            GameState state,
+            PawnState pawn
         ) {
             var accumulated = Vector3.zero;
 
@@ -33,8 +32,8 @@ namespace Banchou.Pawn.Part {
                     if (pawn.Spatial.IsGrounded) {
                         accumulated = Vector3.zero;
                     } else {
-                        accumulated += _acceleration * getDeltaTime() * getDeltaTime();
-                        pawn.Spatial.Move(accumulated, getTime());
+                        accumulated += _acceleration * state.GetDeltaTime() * state.GetDeltaTime();
+                        pawn.Spatial.Move(accumulated, state.GetTime());
                     }
                 })
                 .AddTo(this);
