@@ -18,8 +18,9 @@ namespace Banchou {
                 .StartWith(emit);
         }
 
-        protected void Notify() {
+        protected TNotifier Notify() {
             Changed?.Invoke((TNotifier)this);
+            return (TNotifier)this;
         }
     }
 }
