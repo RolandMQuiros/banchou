@@ -32,10 +32,11 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(4);
+            writer.WriteArrayHeader(5);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<string>>().Serialize(ref writer, value.ActiveScenes, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<string>>().Serialize(ref writer, value.LoadingScenes, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>>().Serialize(ref writer, value.Pawns, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStates>().Serialize(ref writer, value.Combatants, options);
             writer.Write(value.LastUpdated);
         }
 
@@ -52,6 +53,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
             var __ActiveScenes__ = default(global::System.Collections.Generic.List<string>);
             var __LoadingScenes__ = default(global::System.Collections.Generic.List<string>);
             var __Pawns__ = default(global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>);
+            var __Combatants__ = default(global::Banchou.Combatant.CombatantStates);
             var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
@@ -68,6 +70,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
                         __Pawns__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>>().Deserialize(ref reader, options);
                         break;
                     case 3:
+                        __Combatants__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStates>().Deserialize(ref reader, options);
+                        break;
+                    case 4:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
@@ -76,7 +81,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Board
                 }
             }
 
-            var ____result = new global::Banchou.Board.BoardState(__ActiveScenes__, __LoadingScenes__, __Pawns__, __LastUpdated__);
+            var ____result = new global::Banchou.Board.BoardState(__ActiveScenes__, __LoadingScenes__, __Pawns__, __Combatants__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

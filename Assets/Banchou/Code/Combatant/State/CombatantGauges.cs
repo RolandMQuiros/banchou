@@ -7,35 +7,34 @@ namespace Banchou.Combatant {
     [MessagePackObject]
     public class CombatantGauges : Notifiable<CombatantGauges> {
         [Key(0)][field: SerializeField] public int Health { get; private set; } = 0;
-        [Key(1)][field: SerializeField] public Vector3 Knockback { get; private set; } = Vector3.zero;
+        [Key(1)][field: SerializeField] public float LastUpdated { get; private set; } = 0f;
 
         [SerializationConstructor]
-        public CombatantGauges(int health, Vector3 knockback) {
+        public CombatantGauges(int health, float lastUpdated) {
             Health = health;
-            Knockback = knockback;
+            LastUpdated = lastUpdated;
         }
 
         public CombatantGauges(int health) {
             Health = health;
         }
 
-        public CombatantGauges Set(int health, Vector3 knockback) {
+        public CombatantGauges Set(int health, float when) {
             Health = health;
-            Knockback = knockback;
-            Notify();
-            return this;
+            LastUpdated = when;
+            return Notify();
         }
 
-        public CombatantGauges SetHealth(int health) {
+        public CombatantGauges SetHealth(int health, float when) {
             Health = health;
-            Notify();
-            return this;
+            LastUpdated = when;
+            return Notify();
         }
 
-        public CombatantGauges SetKnockback(Vector3 knockback) {
-            Knockback = knockback;
-            Notify();
-            return this;
+        public CombatantGauges Damage(int damage, float when) {
+            Health = Mathf.Max(0, Health - damage);
+            LastUpdated = when;
+            return Notify();
         }
     }
 }

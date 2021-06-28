@@ -13,9 +13,15 @@ namespace Banchou.Combatant {
         [Key(0)][field:SerializeField]
         public Dictionary<int, CombatantState> Members { get; private set; } = new Dictionary<int, CombatantState>();
 
+        public CombatantStates() { }
+
         [SerializationConstructor]
         public CombatantStates(Dictionary<int, CombatantState> members) {
             Members = members;
+        }
+
+        public CombatantStates SetCombatant(int pawnId) {
+            return this;
         }
     }
 }

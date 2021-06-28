@@ -31,10 +31,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 return;
             }
 
-            IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
             writer.Write(value.Health);
-            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
+            writer.Write(value.LastUpdated);
         }
 
         public global::Banchou.Combatant.CombatantGauges Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -45,10 +44,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             }
 
             options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __Health__ = default(int);
-            var __Knockback__ = default(global::UnityEngine.Vector3);
+            var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
@@ -58,7 +56,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                         __Health__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();
@@ -66,7 +64,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.CombatantGauges(__Health__, __Knockback__);
+            var ____result = new global::Banchou.Combatant.CombatantGauges(__Health__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

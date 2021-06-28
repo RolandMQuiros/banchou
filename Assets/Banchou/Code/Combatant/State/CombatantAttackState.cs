@@ -13,6 +13,7 @@ namespace Banchou.Combatant {
         [Key(2)][field: SerializeField]
         public float LastUpdated { get; private set; } = 0f;
 
+        public CombatantAttackState() { }
 
         [SerializationConstructor]
         public CombatantAttackState(int attackId, CombatantAttackPhase phase, float lastUpdated) {

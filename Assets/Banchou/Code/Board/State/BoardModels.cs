@@ -5,6 +5,7 @@ using MessagePack;
 using UnityEngine;
 
 using Banchou.Pawn;
+using Banchou.Combatant;
 
 namespace Banchou.Board {
     [MessagePackObject, Serializable]
@@ -17,7 +18,8 @@ namespace Banchou.Board {
         [Key(0)][field: SerializeField] public List<string> ActiveScenes { get; private set; } = new List<string>();
         [Key(1)][field: SerializeField] public List<string> LoadingScenes { get; private set; } = new List<string>();
         [Key(2)][field: SerializeField] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
-        [Key(3)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(3)][field: SerializeField] public CombatantStates Combatants { get; private set; } = new CombatantStates();
+        [Key(4)][field: SerializeField] public float LastUpdated { get; private set; }
 
         public BoardState() { }
 
@@ -26,11 +28,13 @@ namespace Banchou.Board {
             List<string> activeScenes,
             List<string> loadingScenes,
             Dictionary<int, PawnState> pawns,
+            CombatantStates combatants,
             float lastUpdated
         ) {
             ActiveScenes = activeScenes;
             LoadingScenes = loadingScenes;
             Pawns = pawns;
+            Combatants = combatants;
             LastUpdated = lastUpdated;
         }
 

@@ -1,4 +1,3 @@
-using System.IO;
 using MessagePack;
 
 namespace Banchou.Network.Message {

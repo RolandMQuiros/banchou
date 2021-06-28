@@ -31,6 +31,26 @@ namespace Banchou.Combatant {
         public CombatantState(CombatantStats stats) {
             Stats = stats;
             Gauges = new CombatantGauges(Stats.MaxHealth);
+            Attack = new CombatantAttackState();
+            Defense = new CombatantDefenseState();
+        }
+
+        public CombatantState Hit(int strength, CombatantBlockDirection incoming, Vector3 knockback, float when) {
+            var blocked = (Defense.BlockDirection & incoming) != CombatantBlockDirection.Neutral;
+            var countered = Attack.Phase == CombatantAttackPhase.Starting;
+            var damage = strength;
+
+            if (blocked) {
+                strength /= 4;
+                knockback /= 4f;
+            } else if (countered) {
+                Attack.Finish(when);
+            }
+
+            Gauges.Damage(strength, when);
+            Defense.Push(knockback, when);
+
+            return Notify();
         }
     }
 }

@@ -32,8 +32,11 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(2);
+            writer.WriteArrayHeader(5);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantBlockDirection>().Serialize(ref writer, value.BlockDirection, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
+            writer.Write(value.StunTimestamp);
+            writer.Write(value.CounteredTimestamp);
             writer.Write(value.LastUpdated);
         }
 
@@ -48,6 +51,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __BlockDirection__ = default(global::Banchou.Combatant.CombatantBlockDirection);
+            var __Knockback__ = default(global::UnityEngine.Vector3);
+            var __StunTimestamp__ = default(float);
+            var __CounteredTimestamp__ = default(float);
             var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
@@ -58,6 +64,15 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                         __BlockDirection__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantBlockDirection>().Deserialize(ref reader, options);
                         break;
                     case 1:
+                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 2:
+                        __StunTimestamp__ = reader.ReadSingle();
+                        break;
+                    case 3:
+                        __CounteredTimestamp__ = reader.ReadSingle();
+                        break;
+                    case 4:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
@@ -66,7 +81,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.CombatantDefenseState();
+            var ____result = new global::Banchou.Combatant.CombatantDefenseState(__BlockDirection__, __Knockback__, __StunTimestamp__, __CounteredTimestamp__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }
