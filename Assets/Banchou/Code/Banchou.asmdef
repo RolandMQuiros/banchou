@@ -2,13 +2,18 @@
     "name": "Banchou",
     "rootNamespace": "",
     "references": [
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b",
         "GUID:343deaaf83e0cee4ca978e7df0b80d21",
         "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",
         "GUID:a80ed6b7bde3b5f4381e4ae00cd20c75",
         "GUID:bbde805d927e795439d7a746d1749cab",
-        "GUID:5a46ad82eac024e4fbb6a0516a5def17"
+        "GUID:5a46ad82eac024e4fbb6a0516a5def17",
+        "GUID:831409e8f9d13b5479a3baef9822ad34",
+        "GUID:57c32fc907df0f54e8e6e8f0d2488336",
+        "GUID:a738238285a7a8246af046cbf977522f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

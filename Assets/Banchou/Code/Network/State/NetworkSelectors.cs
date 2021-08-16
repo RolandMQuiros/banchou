@@ -17,33 +17,17 @@ namespace Banchou.Network {
                 .Select(network => network.TickRate);
         }
 
-        public static int GetNetworkId(this GameState state) {
-            return state.Network.NetworkId;
-        }
-
-        public static NetworkMode GetNetworkMode(this GameState state) {
-            return state.Network.Mode;
-        }
-
-        public static RollbackState GetRollback(this GameState state) {
-            return state.Network.Rollback;
-        }
-
-        public static RollbackPhase GetRollbackPhase(this GameState state) {
-            return state.GetRollback().Phase;
-        }
-
-        public static float GetCorrectionTime(this GameState state) {
-            return state.GetRollback().CorrectionTime;
-        }
-
-        public static float GetCorrectionDelta(this GameState state) {
-            return state.GetRollback().DeltaTime;
-        }
-
-        public static IPEndPoint GetServerEndpoint(this GameState state) {
-            var ip = IPAddress.Parse(state.Network.ServerIP);
-            return new IPEndPoint(ip, state.Network.ServerPort);
+        public static int GetNetworkId(this GameState state) => state.Network.NetworkId;
+        public static NetworkMode GetNetworkMode(this GameState state) => state.Network.Mode;
+        public static RollbackState GetRollback(this GameState state) => state.Network.Rollback;
+        public static RollbackPhase GetRollbackPhase(this GameState state) => state.GetRollback().Phase;
+        public static float GetCorrectionTime(this GameState state) => state.GetRollback().CorrectionTime;
+        public static float GetCorrectionDelta(this GameState state) => state.GetRollback().DeltaTime;
+        public static string GetHostName(this GameState state) => state.Network.HostName;
+        public static string GetRoomName(this GameState state) => state.Network.RoomName;
+        public static IPEndPoint GetHostEndpoint(this GameState state) {
+            IPAddress.TryParse(state.Network.HostName, out var ip);
+            return new IPEndPoint(ip, state.Network.HostPort);
         }
 
         public static bool IsSimulatingLatency(this GameState state) {

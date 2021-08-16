@@ -1,13 +1,13 @@
 namespace Banchou.Network {
     public static class NetworkActions {
-        public static GameState StartServer(
+        public static GameState StartHost(
             this GameState state,
             int port,
             int tickRate,
             int simulateMinLatency = 0,
             int simulateMaxLatency = 0
         ) {
-            state.Network.StartServer(port, tickRate, simulateMinLatency, simulateMaxLatency);
+            state.Network.StartHost(port, tickRate, simulateMinLatency, simulateMaxLatency);
             return state;
         }
 
@@ -15,10 +15,11 @@ namespace Banchou.Network {
             this GameState state,
             string ip,
             int port,
+            string roomName,
             int simulateMinLatency = 0,
             int simulateMaxLatency = 0
         ) {
-            state.Network.ConnectToServer(ip, port, simulateMinLatency, simulateMaxLatency);
+            state.Network.ConnectToHost(ip, port, roomName, simulateMinLatency, simulateMaxLatency);
             return state;
         }
 

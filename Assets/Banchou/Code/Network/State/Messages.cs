@@ -31,12 +31,12 @@ namespace Banchou.Network.Message {
     // https://gamedev.stackexchange.com/questions/93477/how-to-keep-server-client-clocks-in-sync-for-precision-networked-games-like-quak
     [MessagePackObject]
     public struct TimeRequest {
-        [Key(0)] public float ClientTime;
+        [Key(0)] public int ClientTime;
     }
 
     [MessagePackObject]
     public struct TimeResponse {
-        [Key(0)] public float ClientTime;
-        [Key(1)] public float ServerTime;
+        [Key(0)] public int ClientTime;
+        [Key(1)] public int ServerTime;
     }
 }

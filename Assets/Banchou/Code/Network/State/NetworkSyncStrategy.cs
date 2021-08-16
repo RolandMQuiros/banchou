@@ -1,40 +1,37 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
-using LiteNetLib;
+using ExitGames.Client.Photon;
 using MessagePack;
+using Photon.Pun;
+using Photon.Realtime;
 using UniRx;
 using UnityEngine;
 
 using Banchou.Board;
 using Banchou.Network.Message;
-using Banchou.Pawn;
-using Banchou.Player;
 
 namespace Banchou.Network {
     public class NetworkSyncStrategy : MonoBehaviour {
-        private GameState _state;
-        private NetManager _netManager;
-        private MessagePackSerializerOptions _messagePackOptions;
-
         public void Construct(
             GameState state,
-            NetManager netManager,
             MessagePackSerializerOptions messagePackOptions
         ) {
             // Check for changes in the network state...
             var observeInterval = state.ObserveNetwork()
                 // ...but only if the current session is for a server
-                .Where(network => network.Mode == NetworkMode.Server)
+                .Where(network => network.Mode == NetworkMode.Host)
                 // Calculate the interval from the tick rate
                 .Select(network => TimeSpan.FromSeconds(1.0 / network.TickRate))
-                .SelectMany(interval => Observable.Timer(TimeSpan.Zero, interval))
-                .Where(_ => netManager.ConnectedPeersCount > 0);
+                .SelectMany(interval => Observable.Timer(TimeSpan.Zero, interval));
+
+            var memoryStream = new MemoryStream(1024);
+            var eventOptions = new RaiseEventOptions {
+                Receivers = ReceiverGroup.Others
+            };
 
             // Watch for changes from every pawn
-            var pawnBuffer = new List<PawnState>(state.GetPawns().Count);
             state.ObserveBoard()
                 .SelectMany(_ => state.GetPawns().Values)
                 .SelectMany(
@@ -42,13 +39,14 @@ namespace Banchou.Network {
                         .Sample(observeInterval)
                 )
                 .CatchIgnoreLog()
-                .Where(_ => netManager.ConnectedPeersCount > 0)
                 .Subscribe(spatial => {
-                    netManager.SendPayloadToAll(
-                        PayloadType.SyncSpatial,
-                        spatial,
-                        DeliveryMethod.Unreliable,
-                        messagePackOptions
+                    memoryStream.SetLength(0);
+                    MessagePackSerializer.Serialize(memoryStream, spatial, messagePackOptions);
+                    PhotonNetwork.RaiseEvent(
+                        (byte)PayloadType.SyncSpatial,
+                        memoryStream.GetBuffer(),
+                        eventOptions,
+                        SendOptions.SendUnreliable
                     );
                 })
                 .AddTo(this);

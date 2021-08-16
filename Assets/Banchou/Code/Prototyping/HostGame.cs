@@ -5,8 +5,6 @@ using Banchou.Board;
 using Banchou.Network;
 using Banchou.Player;
 
-using Random = UnityEngine.Random;
-
 namespace Banchou.Prototyping.Part {
     public class HostGame : MonoBehaviour {
         private GameState _state;
@@ -36,14 +34,14 @@ namespace Banchou.Prototyping.Part {
             SceneManager.LoadScene("Banchou Board", LoadSceneMode.Single);
 
             _state
-                .StartServer(_port, 1, _minPing, _maxPing)
-                .LoadScene("Sandbox")
+                .StartHost(_port, 1, _minPing, _maxPing)
+                .LoadScene("Level/Sandbox")
                 .AddPlayer(1, "Local Player");
 
             for (int i = 1; i <= 1; i++) {
                 _state.AddPawn(
                     pawnId: i,
-                    prefabKey: "Isaac",
+                    prefabKey: "Pawn/Isaac",
                     playerId: 1,
                     position: Vector3.up * 2f// new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
                 );

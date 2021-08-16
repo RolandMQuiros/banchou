@@ -1410,7 +1410,7 @@
         "b": 0.6132075786590576,
         "a": 0.0
     },
-    "m_ColorMode": 0
+    "m_ColorMode": 1
 }
 
 {
@@ -2594,7 +2594,7 @@
     },
     "m_Name": "Main Rim Light Color",
     "m_DefaultReferenceName": "Color_34134ea6efdb479093b67e1d90e13d5f",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "MainRimLightColor",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
@@ -2606,7 +2606,7 @@
         "b": 1.0,
         "a": 0.0
     },
-    "m_ColorMode": 0
+    "m_ColorMode": 1
 }
 
 {
@@ -3092,10 +3092,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1134.0,
-            "y": 1305.0,
-            "width": 206.00001525878907,
-            "height": 132.00001525878907
+            "x": -1398.0,
+            "y": 1309.0,
+            "width": 206.0,
+            "height": 132.0
         }
     },
     "m_Slots": [
@@ -3110,7 +3110,7 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 1
+    "m_Space": 2
 }
 
 {
@@ -3399,8 +3399,8 @@
     "m_ObjectId": "4b7a230b1cc342a6904eae2c05300326",
     "m_Title": "Rim Lights",
     "m_Position": {
-        "x": -1159.0,
-        "y": 1196.0
+        "x": -1423.0,
+        "y": 1167.0
     }
 }
 

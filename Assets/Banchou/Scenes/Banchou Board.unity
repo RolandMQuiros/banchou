@@ -375,5 +375,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Banchou Board
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8275880617359388932, guid: 215f507ec29977f498cb62832180f451, type: 3}
+    - {fileID: 3927985299743992673, guid: 215f507ec29977f498cb62832180f451, type: 3}
+    - {fileID: 2853979317725063240, guid: 215f507ec29977f498cb62832180f451, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 215f507ec29977f498cb62832180f451, type: 3}

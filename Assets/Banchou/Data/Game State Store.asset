@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 535d16bb981d05d4482e23705cb75999, type: 3}
   m_Name: Game State Store
   m_EditorClassIdentifier: 
+  _version: 0.0.1

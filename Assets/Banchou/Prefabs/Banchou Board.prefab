@@ -76,7 +76,7 @@ Transform:
   m_Children:
   - {fileID: 457480810}
   m_Father: {fileID: 7452233527634030864}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7452233527274664064
 GameObject:
@@ -107,7 +107,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7452233527634030864}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &982885074
 MonoBehaviour:
@@ -121,9 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2fda522e5f9b474e836da8dabdb64bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _catalog:
-  - Key: Local Player
-    Prefab: {fileID: 2338477261493368109, guid: a056c61b64b477149b749a04be38a5ae, type: 3}
 --- !u!1 &7452233527634030958
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +135,7 @@ GameObject:
   - component: {fileID: 251798335}
   - component: {fileID: 892755104}
   - component: {fileID: 728556726057783070}
+  - component: {fileID: 6042312405693453489}
   m_Layer: 0
   m_Name: Banchou Board
   m_TagString: Untagged
@@ -156,7 +154,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6750273151228307841}
   - {fileID: 7452233527274664065}
   - {fileID: 7452233527691460096}
   - {fileID: 968638561}
@@ -252,6 +249,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c3b937d321727b4489bad68219b00bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6042312405693453489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452233527634030958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11d2a768bf90a354f89397c39b072d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7452233527691460127
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,7 +290,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7452233527634030864}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7452233527691460097
 MonoBehaviour:
@@ -293,122 +302,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3cfbc665cf8eed049b34232846ebe09e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _catalog:
-  - Key: Erho
-    Prefab: {fileID: 6705674067414742367, guid: 00dd4c3246211a540b1bbd2e4a926497, type: 3}
-  - Key: Isaac
-    Prefab: {fileID: 703140213875462517, guid: d272aa4fa72e18e45b3d3f4ebc662fd2, type: 3}
---- !u!1 &8263784288705235552
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6750273151228307841}
-  - component: {fileID: 2853979317725063240}
-  - component: {fileID: 3927985299743992673}
-  - component: {fileID: 7434542355400157796}
-  - component: {fileID: 8275880617359388932}
-  - component: {fileID: 7452233527718040146}
-  m_Layer: 0
-  m_Name: Network Agent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6750273151228307841
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263784288705235552}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7452233527634030864}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2853979317725063240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263784288705235552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c7c1271999367b42bcafdb83f5590c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _network:
-    <NetworkId>k__BackingField: 0
-    <Mode>k__BackingField: 0
-    <ServerIP>k__BackingField: 
-    <ServerPort>k__BackingField: 0
-    <ServerTimeOffset>k__BackingField: 0
-    <TickRate>k__BackingField: 0
-    <SimulateMinLatency>k__BackingField: 0
-    <SimulateMaxLatency>k__BackingField: 0
-    <Stats>k__BackingField:
-      _ping: 0
-      _lastUpdated: 0
-    <Rollback>k__BackingField:
-      _phase: 0
-      _correctionTime: 0
-      _deltaTime: 0
-    _clients: 
---- !u!114 &3927985299743992673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263784288705235552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 155a92ab2e8cf7e41b03e34daff8782d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7434542355400157796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263784288705235552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11d2a768bf90a354f89397c39b072d99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8275880617359388932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263784288705235552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de2ff9519c9f5c641ad9480043bd61ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7452233527718040146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263784288705235552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af362a91867bf724d95bb990ce1c476c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

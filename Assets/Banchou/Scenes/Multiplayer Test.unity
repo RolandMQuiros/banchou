@@ -3871,9 +3871,10 @@ MonoBehaviour:
     <Network>k__BackingField:
       <NetworkId>k__BackingField: 0
       <Mode>k__BackingField: 0
-      <ServerIP>k__BackingField: 
-      <ServerPort>k__BackingField: 0
-      <ServerTimeOffset>k__BackingField: 0
+      <HostName>k__BackingField: 
+      <HostPort>k__BackingField: 0
+      <HostTimeOffset>k__BackingField: 0
+      <RoomName>k__BackingField: 
       <TickRate>k__BackingField: 0
       <SimulateMinLatency>k__BackingField: 0
       <SimulateMaxLatency>k__BackingField: 0
@@ -3885,6 +3886,7 @@ MonoBehaviour:
         _correctionTime: 0
         _deltaTime: 0
       _clients: 
+    <Version>k__BackingField: 
     <Board>k__BackingField:
       <ActiveScenes>k__BackingField: []
       <LoadingScenes>k__BackingField: []

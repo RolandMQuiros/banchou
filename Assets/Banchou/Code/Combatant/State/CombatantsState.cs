@@ -9,7 +9,6 @@ namespace Banchou.Combatant {
         public event Action<CombatantState> Added;
         public event Action<CombatantState> Removed;
 
-
         [Key(0)][field:SerializeField]
         public Dictionary<int, CombatantState> Members { get; private set; } = new Dictionary<int, CombatantState>();
 
@@ -20,7 +19,8 @@ namespace Banchou.Combatant {
             Members = members;
         }
 
-        public CombatantStates SetCombatant(int pawnId) {
+        public CombatantStates SetCombatant(int pawnId, CombatantStats stats) {
+
             return this;
         }
     }

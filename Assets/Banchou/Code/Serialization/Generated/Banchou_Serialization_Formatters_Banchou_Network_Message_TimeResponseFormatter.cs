@@ -39,18 +39,18 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 
             options.Security.DepthStep(ref reader);
             var length = reader.ReadArrayHeader();
-            var __ClientTime__ = default(float);
-            var __ServerTime__ = default(float);
+            var __ClientTime__ = default(int);
+            var __ServerTime__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __ClientTime__ = reader.ReadSingle();
+                        __ClientTime__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __ServerTime__ = reader.ReadSingle();
+                        __ServerTime__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();

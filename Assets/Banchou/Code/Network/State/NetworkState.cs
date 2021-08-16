@@ -6,23 +6,24 @@ namespace Banchou.Network {
     public enum NetworkMode : byte {
         Local,
         Client,
-        Server
+        Host
     }
 
     [Serializable]
     public class NetworkState : Notifiable<NetworkState> {
-        public const string Localhost = "127.0.0.1";
-        public const int DefaultPort = 9050;
+        public const string Localhost = null;//"127.0.0.1";
+        public const int DefaultPort = 0;
         [field: SerializeField] public int NetworkId { get; private set; }
         [field: SerializeField] public NetworkMode Mode { get; private set; } = NetworkMode.Local;
-        [field: SerializeField] public string ServerIP { get; private set; }
-        [field: SerializeField] public int ServerPort { get; private set;}
-        [field: SerializeField] public float ServerTimeOffset { get; private set; }
+        [field: SerializeField] public string HostName { get; private set; }
+        [field: SerializeField] public int HostPort { get; private set;}
+        [field: SerializeField] public int HostTimeOffset { get; private set; }
+        [field: SerializeField] public string RoomName { get; private set; }
         [field: SerializeField] public int TickRate { get; private set; }
         [field: SerializeField] public int SimulateMinLatency  { get; private set; }
         [field: SerializeField] public int SimulateMaxLatency  { get; private set; }
-        [field: SerializeField] public NetworkStats Stats  { get; private set; } = new NetworkStats();
         [field: SerializeField] public RollbackState Rollback  { get; private set; } = new RollbackState();
+        [field: SerializeField] public NetworkStats Stats  { get; private set; } = new NetworkStats();
         public IReadOnlyList<int> Clients => _clients;
         [SerializeField] private List<int> _clients = new List<int>();
 
@@ -32,15 +33,17 @@ namespace Banchou.Network {
             return this;
         }
 
-        public NetworkState ConnectToServer(
+        public NetworkState ConnectToHost(
             string ip,
             int port,
+            string roomName = null,
             int simulateMinLatency = 0,
             int simulateMaxLatency = 0
         ) {
             Mode = NetworkMode.Client;
-            ServerIP = ip;
-            ServerPort = port;
+            HostName = ip;
+            HostPort = port;
+            RoomName = roomName;
 
             SimulateMinLatency = Math.Max(0, simulateMinLatency);
             SimulateMaxLatency = Math.Max(SimulateMinLatency, simulateMaxLatency);
@@ -48,35 +51,31 @@ namespace Banchou.Network {
             return this;
         }
 
-        public NetworkState ConnectedToServer(int clientNetworkId, float serverTimeOffset) {
+        public NetworkState ConnectedToHost(int clientNetworkId, int serverTimeOffset) {
             NetworkId = clientNetworkId;
-            ServerTimeOffset = serverTimeOffset;
-            Notify();
+            HostTimeOffset = serverTimeOffset;
+            return Notify();
+        }
+
+        public NetworkState ConnectedToRoom(string roomName) {
+            RoomName = roomName;
             return this;
         }
 
-        public NetworkState StartServer(
+        public NetworkState StartHost(
             int port,
             int tickRate,
             int simulateMinLatency = 0,
             int simulateMaxLatency = 0
         ) {
-            Mode = NetworkMode.Server;
+            Mode = NetworkMode.Host;
             NetworkId = 0;
-            ServerIP = Localhost;
-            ServerPort = port;
+            HostName = Localhost;
+            HostPort = port;
             TickRate = tickRate;
             SimulateMinLatency = simulateMinLatency;
             SimulateMaxLatency = Math.Max(SimulateMinLatency, simulateMaxLatency);
-
-            Notify();
-            return this;
-        }
-
-        public NetworkState UpdateServerTime(float serverTimeOffset) {
-            ServerTimeOffset = serverTimeOffset;
-            Notify();
-            return this;
+            return Notify();
         }
     }
 }

@@ -12,22 +12,32 @@ namespace Banchou {
     [MessagePackObject, Serializable]
     public class GameState : Notifiable<GameState> {
         [IgnoreMember][field:SerializeField] public NetworkState Network { get; private set; } = new NetworkState();
-        [Key(0)][field:SerializeField] public BoardState Board { get; private set; } = new BoardState();
-        [Key(1)][field:SerializeField] public PlayersState Players { get; private set; } = new PlayersState();
-        [Key(2)][field:SerializeField] public float LocalTime { get; private set; }
-        [Key(3)][field:SerializeField] public float DeltaTime { get; private set; }
+        [Key(0)][field:SerializeField] public string Version { get; private set; }
+        [Key(1)][field:SerializeField] public BoardState Board { get; private set; } = new BoardState();
+        [Key(2)][field:SerializeField] public PlayersState Players { get; private set; } = new PlayersState();
+        [Key(3)][field:SerializeField] public float LocalTime { get; private set; }
+        [Key(4)][field:SerializeField] public float DeltaTime { get; private set; }
 
         public GameState() { }
+
+        [SerializationConstructor]
         public GameState(
+            string version,
             BoardState board,
             PlayersState players,
             float localTime,
             float deltaTime
         ) {
+            Version = version;
             Board = board;
             Players = players;
             LocalTime = localTime;
             DeltaTime = deltaTime;
+        }
+
+        public GameState SetVersion(string version) {
+            Version = version;
+            return Notify();
         }
 
         public GameState SyncGame(GameState other) {

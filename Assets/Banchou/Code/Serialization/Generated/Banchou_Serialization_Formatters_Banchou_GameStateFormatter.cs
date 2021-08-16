@@ -32,7 +32,8 @@ namespace Banchou.Serialization.Formatters.Banchou
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(4);
+            writer.WriteArrayHeader(5);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Version, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Serialize(ref writer, value.Board, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Serialize(ref writer, value.Players, options);
             writer.Write(value.LocalTime);
@@ -49,6 +50,7 @@ namespace Banchou.Serialization.Formatters.Banchou
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __Version__ = default(string);
             var __Board__ = default(global::Banchou.Board.BoardState);
             var __Players__ = default(global::Banchou.Player.PlayersState);
             var __LocalTime__ = default(float);
@@ -59,15 +61,18 @@ namespace Banchou.Serialization.Formatters.Banchou
                 switch (i)
                 {
                     case 0:
-                        __Board__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Deserialize(ref reader, options);
+                        __Version__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __Players__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Deserialize(ref reader, options);
+                        __Board__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Board.BoardState>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __LocalTime__ = reader.ReadSingle();
+                        __Players__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.PlayersState>().Deserialize(ref reader, options);
                         break;
                     case 3:
+                        __LocalTime__ = reader.ReadSingle();
+                        break;
+                    case 4:
                         __DeltaTime__ = reader.ReadSingle();
                         break;
                     default:
@@ -76,7 +81,7 @@ namespace Banchou.Serialization.Formatters.Banchou
                 }
             }
 
-            var ____result = new global::Banchou.GameState(__Board__, __Players__, __LocalTime__, __DeltaTime__);
+            var ____result = new global::Banchou.GameState(__Version__, __Board__, __Players__, __LocalTime__, __DeltaTime__);
             reader.Depth--;
             return ____result;
         }
