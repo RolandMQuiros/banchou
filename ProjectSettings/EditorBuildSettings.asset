@@ -15,4 +15,5 @@ EditorBuildSettings:
     path: Assets/Banchou/Scenes/Levels/Sandbox.unity
     guid: 1c5fca364bf2c9b45ba02fd4385839e5
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 9e37c954cba86c14c95454dfbd7ba224, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 8c0703782da2dd04184bc06980cc7844, type: 2}

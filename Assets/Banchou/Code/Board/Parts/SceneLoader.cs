@@ -1,8 +1,10 @@
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 using UniRx;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace Banchou.Board.Part {
@@ -10,20 +12,20 @@ namespace Banchou.Board.Part {
         public void Construct(
             GameState state
         ) {
-            IEnumerator LoadScene(BoardState board, string sceneName) {
-                yield return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-                board.SceneLoaded(sceneName);
-            }
-
-            IEnumerator UnloadScene(string sceneName) {
-                yield return SceneManager.UnloadSceneAsync(sceneName);
-            }
+            var instances = new Dictionary<string, SceneInstance>();
 
             state.ObserveAddedScenes()
                 .Do(add => Debug.Log($"Loading Board scene \"{add}\""))
+                .SelectMany(scene => {
+                    var load = Addressables.LoadSceneAsync(scene, LoadSceneMode.Additive);
+                    return load.ToObservable()
+                        .Select(_ => (scene, load.Result));
+                })
                 .CatchIgnoreLog()
-                .Subscribe(scene => {
-                    StartCoroutine(LoadScene(state.Board, scene));
+                .Subscribe(args => {
+                    var (scene, instance) = args;
+                    state.Board.SceneLoaded(scene);
+                    instances[scene] = instance;
                 })
                 .AddTo(this);
 
@@ -31,7 +33,7 @@ namespace Banchou.Board.Part {
                 .Do(removed => Debug.Log($"Unloaded Board scene \"{removed}\""))
                 .CatchIgnoreLog()
                 .Subscribe(scene => {
-                    StartCoroutine(UnloadScene(scene));
+                    Addressables.UnloadSceneAsync(instances[scene]);
                 })
                 .AddTo(this);
         }

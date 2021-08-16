@@ -59,8 +59,7 @@ namespace Banchou.Pawn {
             Up = other.Up;
             IsGrounded = other.IsGrounded;
             LastUpdated = other.LastUpdated;
-            Notify();
-            return this;
+            return Notify();
         }
 
         public PawnSpatial Move(Vector3 velocity, float when) {
@@ -99,8 +98,7 @@ namespace Banchou.Pawn {
             IsGrounded = isGrounded;
             LastUpdated = when;
 
-            Notify();
-            return this;
+            return Notify();
         }
     }
 }
