@@ -1,5 +1,8 @@
+using System.Collections;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UniRx;
 
 using Banchou.Board;
 using Banchou.Network;
@@ -31,21 +34,26 @@ namespace Banchou.Prototyping.Part {
         }
 
         public void Host() {
-            SceneManager.LoadScene("Banchou Board", LoadSceneMode.Single);
+            IEnumerator Run() {
+                yield return SceneManager.LoadSceneAsync("Banchou Board", LoadSceneMode.Single);
 
-            _state
-                .StartHost(_port, 1, _minPing, _maxPing)
-                .LoadScene("Level/Sandbox")
-                .AddPlayer(1, "Local Player");
+                _state
+                    .StartHost("TestRoom", 1, _minPing, _maxPing)
+                    .LoadScene("Level/Sandbox");
+                yield return new WaitUntil(() => _state.IsConnected());
+                _state.AddPlayer(1, "Local Player");
 
-            for (int i = 1; i <= 1; i++) {
-                _state.AddPawn(
-                    pawnId: i,
-                    prefabKey: "Pawn/Isaac",
-                    playerId: 1,
-                    position: Vector3.up * 2f// new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
-                );
+                for (int i = 1; i <= 1; i++) {
+                    _state.AddPawn(
+                        pawnId: i,
+                        prefabKey: "Pawn/Isaac",
+                        playerId: 1,
+                        position: Vector3.up * 2f// new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
+                    );
+                }
             }
+
+            Observable.FromCoroutine(Run).Subscribe();
         }
     }
 }

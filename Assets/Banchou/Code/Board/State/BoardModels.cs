@@ -122,6 +122,7 @@ namespace Banchou.Board {
         public BoardState AddPawn(
             int pawnId,
             string prefabKey,
+            int networkId,
             int playerId,
             Vector3 position,
             Vector3 forward,
@@ -130,6 +131,7 @@ namespace Banchou.Board {
             var pawn = new PawnState(
                 pawnId: pawnId,
                 playerId: playerId,
+                networkId: networkId,
                 prefabKey: prefabKey,
                 position: position,
                 forward: forward,
@@ -142,10 +144,6 @@ namespace Banchou.Board {
             PawnAdded?.Invoke(pawn);
             Notify();
             return this;
-        }
-
-        public BoardState AddPawn(int pawnId, string prefabKey, int playerId, Vector3 position, float when) {
-            return AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, when);
         }
 
         public BoardState RemovePawn(int pawnId, float when) {

@@ -1,4 +1,7 @@
+using Photon.Pun;
 using UnityEngine;
+
+using Banchou.Network;
 
 namespace Banchou.Board {
     public static class BoardActions {
@@ -13,7 +16,20 @@ namespace Banchou.Board {
         }
 
         public static GameState AddPawn(this GameState state, int pawnId, string prefabKey, int playerId, Vector3 position) {
-            state.Board.AddPawn(pawnId, prefabKey, playerId, position, Vector3.forward, state.GetTime());
+            switch (state.GetNetworkMode()) {
+                case NetworkMode.Host:
+                case NetworkMode.Local:
+                    state.Board.AddPawn(
+                        pawnId,
+                        prefabKey,
+                        networkId: PhotonNetwork.AllocateViewID(true),
+                        playerId,
+                        position,
+                        Vector3.forward,
+                        state.GetTime()
+                    );
+                    break;
+            }
             return state;
         }
 

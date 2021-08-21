@@ -14,6 +14,7 @@ namespace Banchou.Network {
         public const string Localhost = null;//"127.0.0.1";
         public const int DefaultPort = 0;
         [field: SerializeField] public int NetworkId { get; private set; }
+        [field: SerializeField] public int HostNetworkId { get; private set; }
         [field: SerializeField] public NetworkMode Mode { get; private set; } = NetworkMode.Local;
         [field: SerializeField] public string HostName { get; private set; }
         [field: SerializeField] public int HostPort { get; private set;}
@@ -51,8 +52,9 @@ namespace Banchou.Network {
             return this;
         }
 
-        public NetworkState ConnectedToHost(int clientNetworkId, int serverTimeOffset) {
+        public NetworkState ConnectedToHost(int clientNetworkId, int hostNetworkId, int serverTimeOffset) {
             NetworkId = clientNetworkId;
+            HostNetworkId = hostNetworkId;
             HostTimeOffset = serverTimeOffset;
             return Notify();
         }
@@ -72,6 +74,21 @@ namespace Banchou.Network {
             NetworkId = 0;
             HostName = Localhost;
             HostPort = port;
+            TickRate = tickRate;
+            SimulateMinLatency = simulateMinLatency;
+            SimulateMaxLatency = Math.Max(SimulateMinLatency, simulateMaxLatency);
+            return Notify();
+        }
+
+        public NetworkState StartHost(
+            string roomName,
+            int tickRate,
+            int simulateMinLatency = 0,
+            int simulateMaxLatency = 0
+        ) {
+            Mode = NetworkMode.Host;
+            NetworkId = 0;
+            RoomName = roomName;
             TickRate = tickRate;
             SimulateMinLatency = simulateMinLatency;
             SimulateMaxLatency = Math.Max(SimulateMinLatency, simulateMaxLatency);

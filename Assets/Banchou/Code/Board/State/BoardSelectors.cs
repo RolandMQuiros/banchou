@@ -17,10 +17,7 @@ namespace Banchou.Board {
                     h => state.Board.SceneAdded += h,
                     h => state.Board.SceneAdded -= h
                 )
-                .StartWith(state.Board.LoadingScenes)
-                .Do(scene => {
-                    UnityEngine.Debug.Log(scene);
-                });
+                .StartWith(state.Board.LoadingScenes);
         }
 
         public static IObservable<string> ObserveRemovedScenes(this GameState state) {

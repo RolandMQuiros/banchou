@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 
 using MessagePack;
 using Photon.Pun;
@@ -16,7 +13,6 @@ namespace Banchou.Network.Part {
     public class NetworkAgent : MonoBehaviourPunCallbacks {
         private GameState _state;
         private MessagePackSerializerOptions _messagePackOptions;
-        private Dictionary<IPEndPoint, ConnectClient> _connectingClients = new Dictionary<IPEndPoint, ConnectClient>();
         private MemoryStream _buffer = new MemoryStream(1024);
 
         public void Construct(
@@ -27,25 +23,49 @@ namespace Banchou.Network.Part {
             _messagePackOptions = messagePackOptions;
 
             _state.ObserveNetwork()
-                .Where(network => network.Mode == NetworkMode.Host)
+                .Select(network => network.Mode)
                 .DistinctUntilChanged()
                 .CatchIgnoreLog()
-                .Subscribe(_ => StartHost())
+                .Subscribe(networkMode => {
+                    switch (networkMode) {
+                        case NetworkMode.Host:
+                            StartHost();
+                            break;
+                        case NetworkMode.Local:
+                            StartLocal();
+                            break;
+                        case NetworkMode.Client:
+                            StartClient();
+                            break;
+                    }
+                })
                 .AddTo(this);
         }
 
         private void StartHost() {
-            if (_state.GetNetworkMode() == NetworkMode.Host && !PhotonNetwork.IsMasterClient) {
+            if (
+                _state.IsConnected() &&
+                _state.GetNetworkMode() == NetworkMode.Host &&
+                !PhotonNetwork.IsMasterClient
+            ) {
                 PhotonNetwork.Disconnect();
             }
-
-            if (string.IsNullOrWhiteSpace(_state.GetHostName())) {
-                PhotonNetwork.ConnectUsingSettings();
-            }
+            
+            PhotonNetwork.ConnectUsingSettings();
         }
-        
-        public override void OnJoinedLobby() {
-            if (_state.GetNetworkMode() == NetworkMode.Host) {
+
+        private void StartLocal() {
+            PhotonNetwork.OfflineMode = true;
+        }
+
+        private void StartClient() {
+            
+        }
+
+        public override void OnConnectedToMaster() {
+            if (_state.GetNetworkMode() != NetworkMode.Host) {
+                throw new Exception("OnConnectedToMaster called on a non-host actor");
+            } else {
                 PhotonNetwork.JoinOrCreateRoom(
                     _state.GetRoomName(),
                     new Photon.Realtime.RoomOptions(),
@@ -54,15 +74,10 @@ namespace Banchou.Network.Part {
             }
         }
 
-        public override void OnConnectedToMaster() {
-            if (_state.GetNetworkMode() != NetworkMode.Host) {
-                throw new Exception("OnConnectedToMaster called on a non-host actor");
-            }
-        }
-
         public override void OnJoinedRoom() {
             _state.Network.ConnectedToHost(
                 photonView.ControllerActorNr,
+                PhotonNetwork.MasterClient.ActorNumber,
                 PhotonNetwork.ServerTimestamp - Environment.TickCount
             );
         }

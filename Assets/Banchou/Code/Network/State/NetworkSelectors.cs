@@ -18,6 +18,7 @@ namespace Banchou.Network {
         }
 
         public static int GetNetworkId(this GameState state) => state.Network.NetworkId;
+        public static bool IsConnected(this GameState state) => state.GetNetworkId() != 0;
         public static NetworkMode GetNetworkMode(this GameState state) => state.Network.Mode;
         public static RollbackState GetRollback(this GameState state) => state.Network.Rollback;
         public static RollbackPhase GetRollbackPhase(this GameState state) => state.GetRollback().Phase;

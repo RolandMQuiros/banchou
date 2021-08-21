@@ -1,6 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
+
+using Photon.Pun;
 
 using UniRx;
 using UnityEngine;
@@ -10,13 +10,23 @@ using Banchou.Pawn;
 using Banchou.DependencyInjection;
 
 namespace Banchou.Board.Part {
-    public class PawnFactory : MonoBehaviour {
+    public class PawnFactory : MonoBehaviourPunCallbacks {
+        private GameState _state;
+        private Instantiator _instantiate;
+        private IDictionary<int, GameObject> _pawnObjects;
+
         public void Construct(
             GameState state,
             Instantiator instantiate,
             IDictionary<int, GameObject> pawnObjects
         ) {
-            state.ObserveAddedPawns()
+            _state = state;
+            _instantiate = instantiate;
+            _pawnObjects = pawnObjects;
+        }
+
+        public override void OnJoinedRoom() {
+            _state.ObserveAddedPawns()
                 .DelayFrame(0, FrameCountType.EndOfFrame)
                 .Do(pawn => Debug.Log($"Creating Pawn (Id: {pawn.PawnId})"))
                 .SelectMany(pawn => {
@@ -27,21 +37,28 @@ namespace Banchou.Board.Part {
                 .CatchIgnore()
                 .Subscribe(args => {
                     var (pawn, prefab) = args;
-                    pawnObjects[pawn.PawnId] = instantiate(
+                    var instance = _instantiate(
                         prefab,
                         position: pawn.Spatial.Position,
                         rotation: Quaternion.LookRotation(pawn.Spatial.Forward),
                         parent: transform,
                         additionalBindings: (GetPawnId)(() => pawn.PawnId)
                     );
+
+                    var photonView = instance.GetComponent<PhotonView>();
+                    if (photonView != null) {
+                        photonView.ViewID = pawn.NetworkId;
+                    }
+
+                    _pawnObjects[pawn.PawnId] = instance;
                 })
                 .AddTo(this);
 
-            state.ObserveRemovedPawns()
+            _state.ObserveRemovedPawns()
                 .CatchIgnore()
                 .Subscribe(pawn => {
-                    Destroy(pawnObjects[pawn.PawnId]);
-                    pawnObjects.Remove(pawn.PawnId);
+                    Destroy(_pawnObjects[pawn.PawnId]);
+                    _pawnObjects.Remove(pawn.PawnId);
                 })
                 .AddTo(this);
         }

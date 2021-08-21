@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 892755104}
   - component: {fileID: 728556726057783070}
   - component: {fileID: 6042312405693453489}
+  - component: {fileID: 7452233527718040146}
   m_Layer: 0
   m_Name: Banchou Board
   m_TagString: Untagged
@@ -172,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363d1b3724a53eb45b39e64814b03bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _target: 1
 --- !u!114 &7452233527634030959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,21 +190,24 @@ MonoBehaviour:
   _state:
     <Network>k__BackingField:
       <NetworkId>k__BackingField: 0
+      <HostNetworkId>k__BackingField: 0
       <Mode>k__BackingField: 0
-      <ServerIP>k__BackingField: 
-      <ServerPort>k__BackingField: 0
-      <ServerTimeOffset>k__BackingField: 0
+      <HostName>k__BackingField: 
+      <HostPort>k__BackingField: 0
+      <HostTimeOffset>k__BackingField: 0
+      <RoomName>k__BackingField: 
       <TickRate>k__BackingField: 0
       <SimulateMinLatency>k__BackingField: 0
       <SimulateMaxLatency>k__BackingField: 0
-      <Stats>k__BackingField:
-        _ping: 0
-        _lastUpdated: 0
       <Rollback>k__BackingField:
         _phase: 0
         _correctionTime: 0
         _deltaTime: 0
+      <Stats>k__BackingField:
+        _ping: 0
+        _lastUpdated: 0
       _clients: 
+    <Version>k__BackingField: 
     <Board>k__BackingField:
       <ActiveScenes>k__BackingField: []
       <LoadingScenes>k__BackingField: []
@@ -261,6 +266,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d2a768bf90a354f89397c39b072d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7452233527718040146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7452233527634030958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &7452233527691460127
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,17 @@ namespace Banchou.Network {
             state.Network.StartHost(port, tickRate, simulateMinLatency, simulateMaxLatency);
             return state;
         }
+        
+        public static GameState StartHost(
+            this GameState state,
+            string roomName,
+            int tickRate,
+            int simulateMinLatency = 0,
+            int simulateMaxLatency = 0
+        ) {
+            state.Network.StartHost(roomName, tickRate, simulateMinLatency, simulateMaxLatency);
+            return state;
+        }
 
         public static GameState ConnectToServer(
             this GameState state,

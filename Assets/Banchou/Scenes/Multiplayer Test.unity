@@ -3854,6 +3854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363d1b3724a53eb45b39e64814b03bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _target: 1
 --- !u!114 &1833360555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3870,6 +3871,7 @@ MonoBehaviour:
   _state:
     <Network>k__BackingField:
       <NetworkId>k__BackingField: 0
+      <HostNetworkId>k__BackingField: 0
       <Mode>k__BackingField: 0
       <HostName>k__BackingField: 
       <HostPort>k__BackingField: 0
@@ -3878,13 +3880,13 @@ MonoBehaviour:
       <TickRate>k__BackingField: 0
       <SimulateMinLatency>k__BackingField: 0
       <SimulateMaxLatency>k__BackingField: 0
-      <Stats>k__BackingField:
-        _ping: 0
-        _lastUpdated: 0
       <Rollback>k__BackingField:
         _phase: 0
         _correctionTime: 0
         _deltaTime: 0
+      <Stats>k__BackingField:
+        _ping: 0
+        _lastUpdated: 0
       _clients: 
     <Version>k__BackingField: 
     <Board>k__BackingField:
