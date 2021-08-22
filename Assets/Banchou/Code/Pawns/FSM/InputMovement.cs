@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UniRx;
 
+using Banchou.Player;
+
 namespace Banchou.Pawn.FSM {
     public class InputMovement : FSMBehaviour {
         [Header("Movement")]
@@ -20,61 +22,67 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Tooltip("True to clear all parameters to zero on state exit")]
         private bool _clearOutOnExit = true;
 
+        private GameState _state;
+        private PlayerInputState _input;
+        private PawnSpatial _spatial;
+        
+        private float _speed = 0f;
+        private float _forwardSpeed = 0f;
+        private float _rightSpeed = 0f;
+        
+        private int _speedOut = 0;
+        private int _rightSpeedOut = 0;
+        private int _forwardSpeedOut = 0;
+
         public void Construct(
             GameState state,
-            PawnState pawn,
+            GetPawnId getPawnId,
             Animator animator
         ) {
-            var speedOut = Animator.StringToHash(_movementSpeedOut);
-            var rightSpeedOut = Animator.StringToHash(_velocityRightOut);
-            var forwardSpeedOut = Animator.StringToHash(_velocityForwardOut);
-
-            var speed = 0f;
-            var forwardSpeed = 0f;
-            var rightSpeed = 0f;
-
-            ObserveStateUpdate
-                .WithLatestFrom(
-                    state.ObservePawnInput(pawn.PawnId),
-                    (_, input) => input
-                )
-                .Where(input => input != null)
-                .Select(input => input.Direction * _movementSpeed)
+            _state = state;
+            _state.ObservePawnSpatial(getPawnId())
                 .CatchIgnoreLog()
-                .Subscribe(
-                    velocity => {
-                        var offset = velocity * state.GetDeltaTime();
-                        pawn.Spatial.Move(offset, state.GetTime());
-
-                        // Write to output variables
-                        if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {
-                            if (speedOut != 0) {
-                                speed = Mathf.MoveTowards(speed, velocity.magnitude, _acceleration);
-                                animator.SetFloat(speedOut, speed);
-                            }
-
-                            if (rightSpeedOut != 0) {
-                                rightSpeed = Mathf.MoveTowards(rightSpeed, Vector3.Dot(velocity, pawn.Spatial.Right), _acceleration);
-                                animator.SetFloat(rightSpeedOut, rightSpeed);
-                            }
-
-                            if (forwardSpeedOut != 0) {
-                                forwardSpeed = Mathf.MoveTowards(forwardSpeed, Vector3.Dot(velocity, pawn.Spatial.Forward), _acceleration);
-                                animator.SetFloat(forwardSpeedOut, forwardSpeed);
-                            }
-                        }
-                    }
-                )
+                .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
+            _state.ObservePawnInput(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(input => _input = input)
+                .AddTo(this);
+            
+            _speedOut = Animator.StringToHash(_movementSpeedOut);
+            _rightSpeedOut = Animator.StringToHash(_velocityRightOut);
+            _forwardSpeedOut = Animator.StringToHash(_velocityForwardOut);
+        }
 
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            var velocity = _input.Direction * _movementSpeed;
+            var offset = velocity * _state.GetDeltaTime();
+            _spatial.Move(offset, _state.GetTime());
+
+            // Write to output variables
+            if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {
+                if (_speedOut != 0) {
+                    _speed = Mathf.MoveTowards(_speed, velocity.magnitude, _acceleration);
+                    animator.SetFloat(_speedOut, _speed);
+                }
+
+                if (_rightSpeedOut != 0) {
+                    _rightSpeed = Mathf.MoveTowards(_rightSpeed, Vector3.Dot(velocity, _spatial.Right), _acceleration);
+                    animator.SetFloat(_rightSpeedOut, _rightSpeed);
+                }
+
+                if (_forwardSpeedOut != 0) {
+                    _forwardSpeed = Mathf.MoveTowards(_forwardSpeed, Vector3.Dot(velocity, _spatial.Forward), _acceleration);
+                    animator.SetFloat(_forwardSpeedOut, _forwardSpeed);
+                }
+            }
+        }
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             if (_clearOutOnExit) {
-                ObserveStateExit
-                    .Subscribe(_ => {
-                        animator.SetFloat(speedOut, 0f);
-                        animator.SetFloat(rightSpeedOut, 0f);
-                        animator.SetFloat(forwardSpeedOut, 0f);
-                    })
-                    .AddTo(this);
+                animator.SetFloat(_speedOut, 0f);
+                animator.SetFloat(_rightSpeedOut, 0f);
+                animator.SetFloat(_forwardSpeedOut, 0f);
             }
         }
     }
