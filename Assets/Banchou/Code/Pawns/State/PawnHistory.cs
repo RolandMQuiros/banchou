@@ -12,11 +12,10 @@ namespace Banchou.Pawn {
         [SerializeField] private FrameData[] _frames;
         [SerializeField] private int _frontIndex = 0;
 
-        #region Serialization constructors
+        [SerializationConstructor]
         public PawnHistory(FrameData front) {
             _frames = new FrameData[] { front };
         }
-        #endregion
 
         public PawnHistory(int frames = 80) {
             _frames = new FrameData[frames];
@@ -38,8 +37,7 @@ namespace Banchou.Pawn {
         public PawnHistory Push(out FrameData pushed) {
             _frontIndex = (_frontIndex + 1) % _frames.Length;
             pushed = _frames[_frontIndex];
-
-            Notify();
+            
             return this;
         }
 
@@ -51,8 +49,7 @@ namespace Banchou.Pawn {
         public PawnHistory Pop(out FrameData popped) {
             popped = _frames[_frontIndex];
             _frontIndex = (_frontIndex - 1) % _frames.Length;
-
-            Notify();
+            
             return this;
         }
 

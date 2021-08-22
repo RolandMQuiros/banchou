@@ -15,11 +15,11 @@ namespace Banchou.Pawn.Part {
         public void Construct(
             GameState state,
             PawnState pawn,
-            Rigidbody rigidbody
+            Rigidbody body
         ) {
             _state = state;
             _spatial = pawn.Spatial;
-            _rigidbody = rigidbody;
+            _rigidbody = body;
         }
 
         public void Step() {

@@ -46,6 +46,11 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.LightAttack;
                     }
                 } break;
+                case "Heavy Attack": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.HeavyAttack;
+                    }
+                } break;
                 case "Lock On": {
                     if (callbackContext.performed) {
                         _commandsInput |= InputCommand.LockOn;

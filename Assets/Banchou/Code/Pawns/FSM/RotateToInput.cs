@@ -1,6 +1,8 @@
 using UnityEngine;
 using UniRx;
 
+using Banchou.Player;
+
 namespace Banchou.Pawn.FSM {
     public class RotateToInput : FSMBehaviour {
         [SerializeField, Tooltip("How quickly, in degrees per second, the Object will rotate to face its motion vector")]
@@ -37,70 +39,82 @@ namespace Banchou.Pawn.FSM {
         private float _endTime = 1f;
         #endregion
 
+        private GameState _state;
+        private PawnSpatial _spatial;
+        private PlayerInputState _input;
+        private Rigidbody _body;
+        
+        // The object's final facing unit vector angle
+        private Vector3 _faceDirection = Vector3.zero;
+        private float _flipTimer = 0f;
+
         public void Construct(
             GameState state,
-            PawnState pawn,
-            Animator animator,
-            Rigidbody rigidbody
+            GetPawnId getPawnId,
+            Rigidbody body
         ) {
-            // The object's final facing unit vector angle
-            var faceDirection = Vector3.zero;
-            var flipTimer = 0f;
-            var flipMagnitudeThreshold = _flipMagnitudeThreshold * _flipDirectionThreshold;
-
-            ObserveStateEnter
-                .Subscribe(_ => {
-                    faceDirection = pawn.Spatial.Forward;
-                    flipTimer = 0f;
-                })
+            _state = state;
+            _body = body;
+            _state.ObservePawnSpatial(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(spatial => {  _spatial = spatial; })
                 .AddTo(this);
+            _state.ObservePawnInput(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(input => { _input = input; })
+                .AddTo(this);
+        }
 
-            ObserveStateUpdate
-                .Select(stateUnit => stateUnit.StateInfo.normalizedTime % 1)
-                .Where(time => time >= _startTime && time <= _endTime)
-                .WithLatestFrom(state.ObservePawnInput(pawn.PawnId).Select(input => input.Direction), (_, input) => input)
-                .Subscribe(direction => {
-                    if (direction.sqrMagnitude > flipMagnitudeThreshold) {
-                        // If the movement direction is different enough from the facing direction,
-                        // remain facing in the current direction for a short time. Allows the player to
-                        // more easily execute Pull Attacks
-                        var faceMotionDot = Vector3.Dot(direction, faceDirection);
-                        if (faceMotionDot <= _flipDirectionThreshold && flipTimer < _flipDelay) {
-                            flipTimer += state.GetDeltaTime();
-                        } else {
-                            faceDirection = direction.normalized;
-                            flipTimer = 0f;
-                        }
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _faceDirection = _spatial.Forward;
+            _flipTimer = 0f;
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            var stateTime = stateInfo.normalizedTime % 1;
+            if (stateTime >= _startTime && stateTime <= _endTime) {
+                var direction = _input.Direction;
+                var flipMagnitudeThreshold = _flipMagnitudeThreshold * _flipDirectionThreshold;
+                
+                if (direction.sqrMagnitude > flipMagnitudeThreshold) {
+                    // If the movement direction is different enough from the facing direction,
+                    // remain facing in the current direction for a short time. Allows the player to
+                    // more easily execute Pull Attacks
+                    var faceMotionDot = Vector3.Dot(direction, _faceDirection);
+                    if (faceMotionDot <= _flipDirectionThreshold && _flipTimer < _flipDelay) {
+                        _flipTimer += _state.GetDeltaTime();
+                    }
+                    else {
+                        _faceDirection = direction.normalized;
+                        _flipTimer = 0f;
+                    }
+                } else {
+                    _flipTimer = 0f;
+                }
+
+                if (_faceDirection != Vector3.zero) {
+                    if (_snap) {
+                        _spatial.Rotate(_faceDirection, _state.GetTime());
                     } else {
-                        flipTimer = 0f;
+                        _spatial.Rotate(
+                            Vector3.RotateTowards(
+                                _body.rotation * Vector3.forward,
+                                _faceDirection,
+                                _rotationSpeed * _state.GetDeltaTime(),
+                                0f
+                            ),
+                            _state.GetTime()
+                        );
                     }
+                }
+            }
+        }
 
-                    if (faceDirection != Vector3.zero) {
-                        if (_snap) {
-                            pawn.Spatial.Rotate(faceDirection, state.GetTime());
-                        } else {
-                            pawn.Spatial.Rotate(
-                                Vector3.RotateTowards(
-                                    rigidbody.transform.forward,
-                                    faceDirection,
-                                    _rotationSpeed * state.GetDeltaTime(),
-                                    0f
-                                ),
-                                state.GetTime()
-                            );
-                        }
-                    }
-                })
-                .AddTo(this);
-
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             if (_snapOnExit) {
-                ObserveStateExit
-                    .Subscribe(_ => {
-                        // Snap to the facing direction on state exit.
-                        // Helps face the character in the intended direction when jumping mid-turn.
-                        pawn.Spatial.Rotate(faceDirection, state.GetTime());
-                    })
-                    .AddTo(this);
+                // Snap to the facing direction on state exit.
+                // Helps face the character in the intended direction when jumping mid-turn.
+                _spatial.Rotate(_faceDirection, _state.GetTime());
             }
         }
     }

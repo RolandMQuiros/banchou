@@ -13,6 +13,7 @@ namespace Banchou.Network {
     public class NetworkState : Notifiable<NetworkState> {
         public const string Localhost = null;//"127.0.0.1";
         public const int DefaultPort = 0;
+        public const int MaxPlayers = 32;
         [field: SerializeField] public int NetworkId { get; private set; }
         [field: SerializeField] public int HostNetworkId { get; private set; }
         [field: SerializeField] public NetworkMode Mode { get; private set; } = NetworkMode.Local;

@@ -18,7 +18,7 @@ namespace Banchou.Pawn {
         [Key(6)][field: SerializeField] public Dictionary<int, bool> Bools { get; private set; }
         [Key(7)][field: SerializeField] public float When { get; private set; }
 
-        #region Serialization constructors
+        [SerializationConstructor]
         public FrameData(Vector3 position, Vector3 forward, int[] stateHashes, float[] normalizedTimes, Dictionary<int, float> floats, Dictionary<int, int> ints, Dictionary<int, bool> bools, float when) {
             Position = position;
             Forward = forward;
@@ -28,7 +28,6 @@ namespace Banchou.Pawn {
             Ints = ints;
             Bools = bools;
         }
-        #endregion
 
         public FrameData() {
             Floats = new Dictionary<int, float>();

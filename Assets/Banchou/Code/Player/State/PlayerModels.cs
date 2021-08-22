@@ -113,8 +113,7 @@ namespace Banchou.Player {
             Sequence = sequence;
             When = when;
 
-            Notify();
-            return this;
+            return Notify();
         }
 
         public PlayerInputState PushMove(Vector3 direction, long sequence, float when) {
@@ -122,8 +121,7 @@ namespace Banchou.Player {
             Sequence = sequence;
             When = when;
 
-            Notify();
-            return this;
+            return Notify();
         }
 
         public PlayerInputState PushLook(Vector2 look, long sequence, float when) {
@@ -131,7 +129,6 @@ namespace Banchou.Player {
             Sequence = sequence;
             When = when;
 
-            // Notify();
             return this;
         }
 
@@ -140,8 +137,7 @@ namespace Banchou.Player {
             Sequence = sequence;
             When = when;
 
-            Notify();
-            return this;
+            return Notify();
         }
 
         public PlayerInputState Sync(PlayerInputState sync) {
@@ -150,8 +146,7 @@ namespace Banchou.Player {
             Look = sync.Look;
             Sequence = sync.Sequence;
             When = sync.When;
-            Notify();
-            return this;
+            return Notify();
         }
     }
 
@@ -177,8 +172,7 @@ namespace Banchou.Player {
             );
             Members[playerId] = player;
             PlayerAdded?.Invoke(player);
-            Notify();
-            return this;
+            return Notify();
         }
 
         public PlayersState RemovePlayer(int playerId) {
@@ -206,8 +200,7 @@ namespace Banchou.Player {
                 Members[playerId].Sync(sync.Members[playerId]);
             }
 
-            Notify();
-            return this;
+            return Notify();
         }
 
         public PlayersState SyncBoard(IEnumerable<PlayerState> incoming) {

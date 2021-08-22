@@ -8,17 +8,15 @@ namespace Banchou.Pawn {
     public class PawnState : Notifiable<PawnState> {
         [Key(0)] public readonly int PawnId;
         [Key(1)] public readonly string PrefabKey;
-        [Key(2)] public readonly int NetworkId;
-        [Key(3)][field: SerializeField] public int PlayerId { get; private set; }
-        [Key(4)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
+        [Key(2)][field: SerializeField] public int PlayerId { get; private set; }
+        [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
         [IgnoreMember][field: SerializeField] public PawnHistory History { get; private set; }
-        [Key(5)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(4)][field: SerializeField] public float LastUpdated { get; private set; }
 
         [SerializationConstructor]
-        public PawnState(int pawnId, string prefabKey, int networkId, int playerId, PawnSpatial spatial, float lastUpdated) {
+        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, float lastUpdated) {
             PawnId = pawnId;
             PrefabKey = prefabKey;
-            NetworkId = networkId;
             PlayerId = playerId;
             Spatial = spatial;
             LastUpdated = lastUpdated;
@@ -27,7 +25,6 @@ namespace Banchou.Pawn {
         public PawnState(
             int pawnId,
             string prefabKey,
-            int networkId = 0,
             int playerId = 0,
             Vector3 position = default,
             Vector3? forward = null,
@@ -37,7 +34,6 @@ namespace Banchou.Pawn {
             PawnId = pawnId;
             PrefabKey = prefabKey;
             PlayerId = playerId;
-            NetworkId = networkId;
             Spatial = new PawnSpatial(pawnId, position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
             History = new PawnHistory();
             LastUpdated = lastUpdated;

@@ -25,6 +25,13 @@ namespace Banchou.Pawn {
                 .SelectMany(pawn => pawn.Spatial.Observe());
         }
 
+        public static IObservable<PawnSpatial> ObservePawnSpatials(this GameState state) {
+            return state.ObserveAddedPawns()
+                .Merge(state.ObserveRemovedPawns())
+                .SelectMany(_ => state.GetPawns().Values)
+                .SelectMany(pawn => pawn.Spatial.Observe());
+        }
+
         public static IObservable<PlayerInputState> ObservePawnInput(this GameState state, int pawnId) {
             return state
                 .ObservePawn(pawnId)

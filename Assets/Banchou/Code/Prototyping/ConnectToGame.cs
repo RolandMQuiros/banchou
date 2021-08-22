@@ -36,7 +36,7 @@ namespace Banchou.Prototyping.Part {
 
         public void Connect() {
             SceneManager.LoadScene("Banchou Board", LoadSceneMode.Single);
-            _state.ConnectToServer(null, 0, "testRoom", _minPing, _maxPing);
+            _state.ConnectToServer(null, 0, "TestRoom", _minPing, _maxPing);
         }
     }
 }

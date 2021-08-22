@@ -30,6 +30,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Heavy Attack",
+                    "type": "Button",
+                    "id": "274cada4-bc76-4463-b2bc-2f51de792dcb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Lock On",
                     "type": "Button",
                     "id": "9d5bd4d3-a889-4b08-bd73-5e29124433e0",
@@ -278,6 +286,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Lock On",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1c9c692-527e-4908-870d-703bf142a0aa",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Heavy Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2292b887-15fc-4aa2-b3a0-d1a78652a247",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Heavy Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -16,20 +16,14 @@ namespace Banchou.Board {
         }
 
         public static GameState AddPawn(this GameState state, int pawnId, string prefabKey, int playerId, Vector3 position) {
-            switch (state.GetNetworkMode()) {
-                case NetworkMode.Host:
-                case NetworkMode.Local:
-                    state.Board.AddPawn(
-                        pawnId,
-                        prefabKey,
-                        networkId: PhotonNetwork.AllocateViewID(true),
-                        playerId,
-                        position,
-                        Vector3.forward,
-                        state.GetTime()
-                    );
-                    break;
-            }
+            state.Board.AddPawn(
+                pawnId,
+                prefabKey,
+                playerId,
+                position,
+                Vector3.forward,
+                state.GetTime()
+            );
             return state;
         }
 
