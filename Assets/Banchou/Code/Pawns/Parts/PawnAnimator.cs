@@ -23,6 +23,10 @@ namespace Banchou.Pawn.Part {
             _cachedParameters = animator.parameters.ToList();
         }
 
+        private void OnAnimatorMove() {
+            // Needed to enable script control of the animator
+        }
+
         private void LateUpdate() {
             FrameData frame;
             _pawn.History.Push(out frame);

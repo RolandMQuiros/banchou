@@ -1,5 +1,4 @@
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {

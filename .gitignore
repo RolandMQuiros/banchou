@@ -95,3 +95,6 @@ crashlytics-build.properties
 # Mesh Combiner
 /[Aa]ssets/Plugins/MeshCombiner
 /[Aa]ssets/Plugins/MeshCombiner.meta
+
+# Third party assets
+/[Aa]ssets/ThirdParty

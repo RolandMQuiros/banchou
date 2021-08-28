@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UniRx;
@@ -13,28 +14,45 @@ namespace Banchou.Pawn.FSM {
         but also AIs inputting commands kinda rules.
     */
     public class AcceptGestureToTrigger : FSMBehaviour {
-
         [SerializeField, Tooltip("Sequence of inputs needed to fire the trigger")]
-        private InputCommand[] _inputSequence;
-
+        private InputCommand[] _inputSequence = null;
+        
         [SerializeField, Tooltip("Lifetime of stick inputs in the buffer, in seconds")]
-        private float _inputLifetime = 0.1666667f; // Approximately 10 frames
+        public float _inputLifetime = 0.1666667f; // Approximately 10 frames
+        
+        [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
+        private PlayerCommandGesture _overrideGesture = null;
+        
+        [SerializeField, Range(0f, 1f), Tooltip("The normalized state time after which the command is accepted")]
+        private float _acceptFromStateTime = 0f;
 
-        [SerializeField, Tooltip("The name of the output trigger parameter to set if the gesture was input correctly")]
-        private string _outputParameter;
+        [SerializeField, Range(0f, 1f), Tooltip("The normalized state time after which the command is no longer accepted")]
+        private float _acceptUntilStateTime = 1f;
+
+        [SerializeField, Range(0f, 1f), Tooltip("The normalized state time after which the triggers are set, if the gesture was accepted")]
+        private float _bufferUntilStateTime = 0f;
+        
+        [SerializeField, Tooltip("The name of the output trigger parameters to set if the gesture was input correctly")]
+        private string[] _outputParameters = null;
 
         public void Construct(
             GameState state,
             GetPawnId getPawnId,
             Animator animator
         ) {
+            if (_overrideGesture != null) {
+                _inputSequence = _overrideGesture.Sequence;
+                _inputLifetime = _overrideGesture.Lifetime;
+            }
+
             if (_inputSequence.Length == 0) return;
 
-            var outputHash = Animator.StringToHash(_outputParameter);
+            var outputHashes = _outputParameters.Select(Animator.StringToHash);
             var commandMask = _inputSequence.Aggregate((prev, next) => prev | next);
 
-            state.ObservePawnInputCommands(getPawnId())
+            var gestureInput = state.ObservePawnInputCommands(getPawnId())
                 .Where(unit => (unit.Command & commandMask) != InputCommand.None)
+                .StartWith((Command: InputCommand.Neutral, When: state.GetTime()))
                 .Pairwise()
                 .Scan(0, (sequenceIndex, unitPair) => {
                     if (sequenceIndex >= _inputSequence.Length) {
@@ -43,17 +61,29 @@ namespace Banchou.Pawn.FSM {
 
                     var sequenceStarted = sequenceIndex > 0;
                     var previousCommandTooOld = unitPair.Current.When - unitPair.Previous.When >= _inputLifetime;
+
                     if (sequenceStarted && previousCommandTooOld) {
                         return 0;
-                    } else if ((unitPair.Current.Command & _inputSequence[sequenceIndex]) != InputCommand.None) {
+                    }
+
+                    if ((unitPair.Current.Command & _inputSequence[sequenceIndex]) != InputCommand.None) {
                         return sequenceIndex + 1;
                     }
 
                     return sequenceIndex;
                 })
-                .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length)
+                .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length);
+
+            ObserveStateUpdate
+                .Select(args => args.StateInfo.normalizedTime % 1)
+                .Where(stateTime => stateTime >= _acceptFromStateTime && stateTime <= _acceptUntilStateTime)
+                .Sample(gestureInput)
+                .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    animator.SetTrigger(outputHash);
+                    Debug.Log($"Instance ID: {GetInstanceID()}");
+                    foreach (var hash in outputHashes) {
+                        animator.SetTrigger(hash);
+                    }
                 })
                 .AddTo(this);
         }

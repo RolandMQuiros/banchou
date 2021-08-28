@@ -32,7 +32,8 @@ namespace Banchou.Player {
 
         public static InputCommand DirectionToStick(this Vector2 vec) {
             var snapped = Snapping.Snap(vec, Vector2.one);
-            if      (snapped == Vector2.up          )  return InputCommand.Forward;
+            if      (snapped == Vector2.zero) return InputCommand.Neutral;
+            else if (snapped == Vector2.up          )  return InputCommand.Forward;
             else if (snapped == Vector2.one         )  return InputCommand.ForwardRight;
             else if (snapped == Vector2.right       )  return InputCommand.Right;
             else if (snapped == new Vector2(1f, -1f))  return InputCommand.BackRight;
