@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using UnityEngine;
 using UniRx;
@@ -44,14 +44,14 @@ namespace Banchou.Pawn.FSM {
                 _inputSequence = _overrideGesture.Sequence;
                 _inputLifetime = _overrideGesture.Lifetime;
             }
-
+            
             if (_inputSequence.Length == 0) return;
 
             var outputHashes = _outputParameters.Select(Animator.StringToHash);
             var commandMask = _inputSequence.Aggregate((prev, next) => prev | next);
 
             var gestureInput = state.ObservePawnInputCommands(getPawnId())
-                .Where(unit => (unit.Command & commandMask) != InputCommand.None)
+                .Where(unit => IsStateActive && (unit.Command & commandMask) != InputCommand.None)
                 .StartWith((Command: InputCommand.Neutral, When: state.GetTime()))
                 .Pairwise()
                 .Scan(0, (sequenceIndex, unitPair) => {
@@ -73,19 +73,28 @@ namespace Banchou.Pawn.FSM {
                     return sequenceIndex;
                 })
                 .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length);
-
+            
             ObserveStateUpdate
                 .Select(args => args.StateInfo.normalizedTime % 1)
-                .Where(stateTime => stateTime >= _acceptFromStateTime && stateTime <= _acceptUntilStateTime)
+                .Where(stateTime => stateTime >= _acceptFromStateTime && stateTime < _acceptUntilStateTime)
                 .Sample(gestureInput)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    Debug.Log($"Instance ID: {GetInstanceID()}");
                     foreach (var hash in outputHashes) {
                         animator.SetTrigger(hash);
                     }
                 })
                 .AddTo(this);
+
+            // ObserveStateEnter
+            //     .CatchIgnoreLog()
+            //     .Subscribe(args => {
+            //         Debug.Log($"Entering {GetInstanceID()}");
+            //         foreach (var hash in outputHashes) {
+            //             animator.ResetTrigger(hash);
+            //         }
+            //     })
+            //     .AddTo(this);
         }
     }
 }

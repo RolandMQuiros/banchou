@@ -38,10 +38,11 @@ namespace Banchou.Prototyping.Part {
                 yield return SceneManager.LoadSceneAsync("Banchou Board", LoadSceneMode.Single);
 
                 _state
-                    .StartHost("TestRoom", 1, _minPing, _maxPing)
-                    .LoadScene("Level/Sandbox");
-                yield return new WaitUntil(() => _state.IsConnected());
-                _state.AddPlayer(1, "Local Player");
+                    // .StartHost("TestRoom", 1, _minPing, _maxPing)
+                    .LoadScene("Level/Sandbox")
+                    .AddPlayer(1, "Local Player");
+                // yield return new WaitUntil(() => _state.IsConnected());
+                // _state.AddPlayer(1, "Local Player");
 
                 for (int i = 1; i <= 1; i++) {
                     _state.AddPawn(
@@ -50,6 +51,8 @@ namespace Banchou.Prototyping.Part {
                         playerId: 1,
                         position: Vector3.up * 2f// new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
                     );
+
+                    Debug.Log($"Added pawn {i}");
                 }
             }
 

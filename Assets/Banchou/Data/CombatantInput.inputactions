@@ -269,6 +269,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ab3b7120-effc-4f0c-8392-7461dc897711",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Light Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "493a4d95-62bb-4b61-8921-c34dd494bfd5",
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
@@ -307,6 +318,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
+                    "action": "Heavy Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c7c78c1b-dbaa-4dea-81f5-24fa792ffe5c",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Heavy Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
