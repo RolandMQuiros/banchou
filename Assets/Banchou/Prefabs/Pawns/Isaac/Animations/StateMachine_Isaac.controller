@@ -1010,7 +1010,7 @@ AnimatorStateTransition:
   m_ExitTime: 0
   m_HasExitTime: 0
   m_HasFixedDuration: 1
-  m_InterruptionSource: 1
+  m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
 --- !u!1101 &2258827502222883954
@@ -1067,7 +1067,7 @@ MonoBehaviour:
   _inputSequence: 00080000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _acceptFromStateTime: 0.4
+  _acceptFromStateTime: 0.25
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0
   _outputParameters:
@@ -1362,7 +1362,7 @@ MonoBehaviour:
   _inputSequence: 00080000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _acceptFromStateTime: 0.4
+  _acceptFromStateTime: 0.65
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0
   _outputParameters:
