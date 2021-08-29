@@ -53,7 +53,10 @@ AnimatorStateTransition:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 
-  m_Conditions: []
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: CONST_INSTANT_TRANSITION
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
   m_Solo: 0
@@ -62,8 +65,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-  m_ExitTime: 1e-12
-  m_HasExitTime: 1
+  m_ExitTime: 0
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
   m_OrderedInterruption: 1
@@ -148,12 +151,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 1691037916311552086}
-    second:
-    - {fileID: -5575883117614249652}
   - first: {fileID: 3814027666551150883}
     second:
     - {fileID: 3755905492270214881}
+  - first: {fileID: 1691037916311552086}
+    second:
+    - {fileID: -5575883117614249652}
   m_StateMachineBehaviours:
   - {fileID: 2411077801348676813}
   m_AnyStatePosition: {x: 30, y: 20, z: 0}
@@ -302,11 +305,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _acceptFromStateTime: 1
+  _acceptFromStateTime: 0.4
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0
   _outputParameters:
-  - 5L Mash
+  - 5L
 --- !u!1109 &-5575883117614249652
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -415,9 +418,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.16666667
   m_TransitionOffset: 0
-  m_ExitTime: 0.8
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
@@ -555,9 +558,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.16666667
   m_TransitionOffset: 0
-  m_ExitTime: 0.8
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 2
@@ -608,7 +611,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
@@ -712,60 +715,60 @@ AnimatorController:
   m_Name: StateMachine_Isaac
   serializedVersion: 5
   m_AnimatorParameters:
+  - m_Name: CONST_INSTANT_TRANSITION
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
+    m_Controller: {fileID: 9100000}
   - m_Name: Forward Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lateral Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lock On
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Ground Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 5L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: 5L Mash
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 5H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 6L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -794,11 +797,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _acceptFromStateTime: 1
+  _acceptFromStateTime: 0.4
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0
   _outputParameters:
-  - 5L Mash
+  - 5L
 --- !u!1102 &130383103759957112
 AnimatorState:
   serializedVersion: 6
@@ -1002,7 +1005,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.125
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
@@ -1019,7 +1022,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: 5L Mash
+    m_ConditionEvent: 5L
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7367227346229896778}
@@ -1061,7 +1064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e05f1635e36ee41a229b650e8c77a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputSequence: 00040000
+  _inputSequence: 00080000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _acceptFromStateTime: 0.4
@@ -1143,11 +1146,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _acceptFromStateTime: 1
+  _acceptFromStateTime: 0.4
   _acceptUntilStateTime: 1
   _bufferUntilStateTime: 0
   _outputParameters:
-  - 5L Mash
+  - 5L
 --- !u!1109 &3755905492270214881
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1356,7 +1359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e05f1635e36ee41a229b650e8c77a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputSequence: 00040000
+  _inputSequence: 00080000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _acceptFromStateTime: 0.4
@@ -1373,7 +1376,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: 5L Mash
+    m_ConditionEvent: 5L
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3777243424483599502}
@@ -1421,9 +1424,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.16666667
   m_TransitionOffset: 0
-  m_ExitTime: 0.8
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
@@ -1510,7 +1513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81e05f1635e36ee41a229b650e8c77a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputSequence: 0100000000010000
+  _inputSequence: 0200000000020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _acceptFromStateTime: 0
@@ -1534,7 +1537,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.7000009
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
@@ -1667,9 +1670,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.16666667
   m_TransitionOffset: 0
-  m_ExitTime: 0.8
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
@@ -1738,7 +1741,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.77941287
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
@@ -1805,7 +1808,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: 5L Mash
+    m_ConditionEvent: 5L
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5458215348805166276}

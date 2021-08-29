@@ -86,15 +86,14 @@ namespace Banchou.Pawn.FSM {
                 })
                 .AddTo(this);
 
-            // ObserveStateEnter
-            //     .CatchIgnoreLog()
-            //     .Subscribe(args => {
-            //         Debug.Log($"Entering {GetInstanceID()}");
-            //         foreach (var hash in outputHashes) {
-            //             animator.ResetTrigger(hash);
-            //         }
-            //     })
-            //     .AddTo(this);
+            ObserveStateEnter
+                .CatchIgnoreLog()
+                .Subscribe(args => {
+                    foreach (var hash in outputHashes) {
+                        animator.ResetTrigger(hash);
+                    }
+                })
+                .AddTo(this);
         }
     }
 }
