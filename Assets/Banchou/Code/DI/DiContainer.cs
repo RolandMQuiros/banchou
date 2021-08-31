@@ -3,15 +3,16 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Banchou.DependencyInjection {
     public sealed class DiContainer {
         private class Binding {
-            public object Instance = null;
-            public Func<Type, bool> Condition = null;
+            public object Instance;
+            public Func<Type, bool> Condition;
         }
 
-        private Dictionary<Type, Binding> _bindings = new Dictionary<Type, Binding>();
+        private readonly Dictionary<Type, Binding> _bindings = new Dictionary<Type, Binding>();
 
         public DiContainer(params object[] bindings) {
             Bind(this);
@@ -51,13 +52,14 @@ namespace Banchou.DependencyInjection {
         }
 
         public T Inject<T>(T target) {
-            if (target.GetType() == typeof(DiContainer)) {
+            if (target is DiContainer) {
                 throw new Exception("Cannot inject into a DiContainer");
             }
 
             var applicableBindings = _bindings
                 .Where(pair => pair.Value.Condition == null || pair.Value.Condition(target.GetType()))
-                .Select(pair => (Key: pair.Key, Value: pair.Value.Instance));
+                .Select(pair => (pair.Key, Value: pair.Value.Instance))
+                .ToList();
 
             if (!applicableBindings.Any()) {
                 return target;
@@ -79,7 +81,7 @@ namespace Banchou.DependencyInjection {
                         outerKeySelector: parameter => parameter.ParameterType,
                         innerKeySelector: pair => pair.Key,
                         resultSelector: (parameter, containerPairs) => (
-                            Parameter: parameter, Values: containerPairs.Select(pair => pair.Value)
+                            Parameter: parameter, Values: containerPairs.Select(pair => pair.Value).ToList()
                         )
                     )
                     .Select(pair => {
@@ -120,8 +122,8 @@ namespace Banchou.DependencyInjection {
         }
 
         private GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation, Transform parent, params object[] additionalBindings) {
-            var instance = GameObject.Instantiate(original, position, rotation, parent);
-            instance.transform.ApplyBindings(additionalBindings);
+            var instance = Object.Instantiate(original, position, rotation, parent);
+            instance.transform.ApplyBindings(this, additionalBindings);
             return instance;
         }
     }
@@ -133,83 +135,4 @@ namespace Banchou.DependencyInjection {
         Transform parent = null,
         params object[] additionalBindings
     );
-
-    public static class InjectionExtensions {
-        /// <summary>
-        /// Injects dependencies into every <see cref="Component"/> in this <see cref="Transform"/>'s hierarchy
-        /// </summary>
-        /// <param name="transform">The root Transform of the subtree</param>
-        /// <param name="additionalBindings">Bindings not necessarily included in the hierarchy contexts</param>
-        public static void ApplyBindings(this Transform transform, params object[] additionalBindings) {
-            foreach (var xform in transform.BreadthFirstTraversal()) {
-                var contexts = xform.FindContexts();
-                var components = xform.gameObject
-                    .GetComponents<Component>()
-                    .SelectMany(c => Expand(c))
-                    // Handle contexts first
-                    .OrderBy(c => c is IContext ? 0 : 1);
-
-                foreach (var component in components) {
-                    try {
-                        contexts.TakeWhile(context => context != component)
-                            .ToDiContainer(additionalBindings)
-                            .Inject(component);
-                    } catch (Exception error) {
-                        Debug.LogException(error);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the <see cref="IContext"/>s available to the current <see cref="Transform"/>, based on its position in
-        /// the scene hierarchy.
-        /// </summary>
-        /// <param name="transform">The target <see cref="Transform"/></param>
-        /// <returns>A collection of <see cref="IContext"/>s in order of closest in the scene tree, to the root</returns>
-        public static IList<IContext> FindContexts(this Transform transform) {
-            var climb = transform;
-            var stack = new Stack<IContext>();
-            while (climb != null) {
-                // Traverse the hierarchy from bottom to top, while traversing each gameObject's contexts from top to bottom
-                // This lets multiple contexts on a single gameObject depend on each other in a predictable way
-                var contexts = climb.GetComponents<IContext>().Reverse();
-                var allcomponents = climb.GetComponents<MonoBehaviour>();
-                foreach (var context in contexts) {
-                    stack.Push(context);
-                }
-                climb = climb.parent;
-            }
-            return stack.ToList();
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="DiContainer"/> from an ordered collection of <see cref="IContexts"/>
-        /// </summary>
-        /// <param name="contexts">An ordered collection of <see cref="IContext"/>s</param>
-        /// <returns>A <see cref="DiContainer"/> build from contexts</returns>
-        public static DiContainer ToDiContainer(this IEnumerable<IContext> contexts, params object[] additionalBindings) {
-            var container = new DiContainer(additionalBindings);
-            foreach (var context in contexts) {
-                container = context.InstallBindings(container);
-            }
-            return container;
-        }
-
-        /// <summary>
-        /// Expands a <see cref="Component"/> into subobjects that can receive dependency injections
-        /// </summary>
-        /// <param name="component">The target <see cref="Component"/></param>
-        /// <returns>An unordered collection of subobjects</returns>
-        public static IEnumerable<object> Expand(this Component component) {
-            yield return component;
-
-            var animator = component as Animator;
-            if (animator != null) {
-                foreach (var behaviour in animator.GetBehaviours<StateMachineBehaviour>()) {
-                    yield return behaviour;
-                }
-            }
-        }
-    }
 }

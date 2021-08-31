@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Banchou.DependencyInjection {
-    public class TreeInjector : MonoBehaviour {
+    public class GameObjectInjector : MonoBehaviour {
         private void Awake() {
             transform.ApplyBindings();
         }
