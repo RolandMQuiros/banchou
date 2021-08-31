@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using UnityEngine;
 using UniRx;
@@ -73,29 +72,13 @@ namespace Banchou.Pawn.FSM {
                     return sequenceIndex;
                 })
                 .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length);
-
-            gestureInput
-                .WithLatestFrom(ObserveStateEnter, (_, args) => args.StateInfo.normalizedTime % 1)
-                .CatchIgnoreLog()
-                .Subscribe(time => {
-                    Debug.Log($"Gesture input at {time} [{_acceptFromStateTime}..{_acceptUntilStateTime}]");
-                    if (time == 0f) {
-                        int x = 0;
-                    }
-                })
-                .AddTo(this);
-
-            var debugStateTime = 0f;
+            
             ObserveStateUpdate
                 .Select(args => args.StateInfo.normalizedTime % 1)
-                .Where(stateTime => {
-                    debugStateTime = stateTime;
-                    return stateTime >= _acceptFromStateTime && stateTime < _acceptUntilStateTime;
-                })
                 .Sample(gestureInput)
+                .Where(stateTime => stateTime >= _acceptFromStateTime && stateTime < _acceptUntilStateTime)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    Debug.Log($"Accepted at {debugStateTime}, [{_acceptFromStateTime}..{_acceptUntilStateTime}]");
                     foreach (var hash in outputHashes) {
                         animator.SetTrigger(hash);
                     }
