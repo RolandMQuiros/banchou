@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
@@ -14,12 +15,15 @@ namespace Banchou.Pawn.Part {
 
         public void Construct(
             GameState state,
-            PawnState pawn,
+            GetPawnId getPawnId,
             Rigidbody body
         ) {
             _state = state;
-            _spatial = pawn.Spatial;
             _rigidbody = body;
+            _state.ObservePawn(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(pawn => _spatial = pawn.Spatial)
+                .AddTo(this);
         }
 
         public void Step() {

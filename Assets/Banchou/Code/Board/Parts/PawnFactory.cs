@@ -11,11 +11,12 @@ namespace Banchou.Board.Part {
     public class PawnFactory : MonoBehaviour {
         public void Construct(
             GameState state,
-            Instantiator instantiate,
-            IDictionary<int, GameObject> pawnObjects
+            Instantiator instantiate
         ) {
+            var instances = new Dictionary<int, (GameObject Instance, string PrefabKey)>();
+            
             state.ObserveAddedPawns()
-                .DelayFrame(0, FrameCountType.EndOfFrame)
+                .Where(pawn => !string.IsNullOrEmpty(pawn.PrefabKey))
                 .Do(pawn => Debug.Log($"Creating Pawn (Id: {pawn.PawnId})"))
                 .SelectMany(pawn => {
                     var load = Addressables.LoadAssetAsync<GameObject>(pawn.PrefabKey);
@@ -25,23 +26,27 @@ namespace Banchou.Board.Part {
                 .CatchIgnore()
                 .Subscribe(args => {
                     var (pawn, prefab) = args;
-                    var instance = instantiate(
-                        prefab,
-                        position: pawn.Spatial.Position,
-                        rotation: Quaternion.LookRotation(pawn.Spatial.Forward),
-                        parent: transform,
-                        additionalBindings: (GetPawnId)(() => pawn.PawnId)
-                    );
-
-                    pawnObjects[pawn.PawnId] = instance;
-                })
-                .AddTo(this);
-
-            state.ObserveRemovedPawns()
-                .CatchIgnore()
-                .Subscribe(pawn => {
-                    Destroy(pawnObjects[pawn.PawnId]);
-                    pawnObjects.Remove(pawn.PawnId);
+                    
+                    // If an instance exists with the same prefab key, we can skip
+                    if (instances.TryGetValue(pawn.PawnId, out var old) && old.PrefabKey == pawn.PrefabKey) {
+                        Debug.Log($"Pawn instance for pawn ID {pawn.PawnId} with prefab key {pawn.PrefabKey} exists.");
+                    } else {
+                        // If an instance exists with a different prefab key, destroy it
+                        if (old.Instance != null) {
+                            Debug.Log($"Pawn {pawn.PawnId} instance with prefab key {old.PrefabKey} " +
+                                      $"replaced with {pawn.PrefabKey}");
+                            Destroy(old.Instance);
+                        }
+                        var instance = instantiate(
+                            prefab,
+                            position: pawn.Spatial.Position,
+                            rotation: Quaternion.LookRotation(pawn.Spatial.Forward),
+                            parent: transform,
+                            additionalBindings: (GetPawnId)(() => pawn.PawnId)
+                        );
+                    
+                        instances[pawn.PawnId] = (instance, pawn.PrefabKey);
+                    }
                 })
                 .AddTo(this);
         }

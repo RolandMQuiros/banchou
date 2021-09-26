@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
@@ -11,12 +12,15 @@ namespace Banchou.Pawn.Part {
 
         public void Construct(
             GameState state,
-            PawnState pawn,
+            GetPawnId getPawnId,
             Animator animator
         ) {
             _state = state;
-            _pawn = pawn;
             _animator = animator;
+            _state.ObservePawn(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(pawn => _pawn = pawn)
+                .AddTo(this);
 
             // Accessing Animator.parameters or Animator.GetParameter seems to generate garbage
             // so let's get this out of the way early

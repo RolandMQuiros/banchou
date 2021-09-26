@@ -39,8 +39,8 @@ namespace Banchou.Board {
         }
 
         public BoardState SyncGame(BoardState sync) {
-            var localScenes = LoadingScenes.Concat(ActiveScenes).Distinct();
-            var remoteScenes = sync.LoadingScenes.Concat(sync.ActiveScenes);
+            var localScenes = LoadingScenes.Concat(ActiveScenes).Distinct().ToList();
+            var remoteScenes = sync.LoadingScenes.Concat(sync.ActiveScenes).ToList();
 
             // Add all of the incoming board's scenes to our loading queue, unless they've already been loaded
             var scenesToLoad = remoteScenes.Except(localScenes);
@@ -120,28 +120,35 @@ namespace Banchou.Board {
         }
 
         public BoardState AddPawn(
-            int pawnId,
-            string prefabKey,
-            int playerId,
-            Vector3 position,
-            Vector3 forward,
-            float when
+            float when,
+            out PawnState pawn,
+            int pawnId = default,
+            string prefabKey = default,
+            int playerId = default,
+            Vector3 position = default,
+            Vector3 forward = default
         ) {
-            var pawn = new PawnState(
+            if (pawnId == default) {
+                // Find the first available pawn ID
+                var usedIds = Pawns.Keys.OrderBy(id => id).ToList();
+                for (pawnId = 1; pawnId <= usedIds.Count && pawnId == usedIds[pawnId - 1]; pawnId++) { }
+            }
+            
+            pawn = new PawnState(
                 pawnId: pawnId,
                 playerId: playerId,
                 prefabKey: prefabKey,
                 position: position,
-                forward: forward,
+                forward: forward == Vector3.zero ? Vector3.forward : forward,
                 lastUpdated: when
             );
 
-            Pawns.Add(pawnId, pawn);
+            // Add new pawn
+            Pawns[pawnId] = pawn;
             LastUpdated = when;
-
             PawnAdded?.Invoke(pawn);
-            Notify();
-            return this;
+            
+            return Notify();
         }
 
         public BoardState RemovePawn(int pawnId, float when) {

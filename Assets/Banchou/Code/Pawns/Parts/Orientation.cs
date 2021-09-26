@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
@@ -6,11 +7,15 @@ namespace Banchou.Pawn.Part {
         private Rigidbody _rigidbody;
 
         public void Construct(
-            PawnState pawn,
-            Rigidbody rigidbody
+            GameState state,
+            GetPawnId getPawnId,
+            Rigidbody body
         ) {
-            _spatial = pawn.Spatial;
-            _rigidbody = rigidbody;
+            state.ObservePawnSpatial(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(spatial => _spatial = spatial)
+                .AddTo(this);
+            _rigidbody = body;
         }
 
         private void FixedUpdate() {
