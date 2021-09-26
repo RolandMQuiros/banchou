@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MessagePack;
 using UnityEngine;
+// ReSharper disable EventNeverSubscribedTo.Global
 
 namespace Banchou.Combatant {
     [MessagePackObject]
@@ -19,9 +20,11 @@ namespace Banchou.Combatant {
             Members = members;
         }
 
-        public CombatantStates SetCombatant(int pawnId, CombatantStats stats) {
-
-            return this;
+        public CombatantStates SetCombatant(int pawnId, int maxHealth, out CombatantState combatant) {
+            combatant = new CombatantState(maxHealth);
+            Members[pawnId] = combatant;
+            Added?.Invoke(combatant);
+            return Notify();
         }
     }
 }

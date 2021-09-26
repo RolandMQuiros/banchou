@@ -15,20 +15,19 @@ namespace Banchou.DependencyInjection {
         private readonly Dictionary<Type, Binding> _bindings = new Dictionary<Type, Binding>();
 
         public DiContainer(params object[] bindings) {
-            Bind(this);
-            Bind<Instantiator>(Instantiate);
-
             foreach (var binding in bindings) {
                 _bindings[binding.GetType()] = new Binding {
                     Instance = binding
                 };
             }
+            
+            Bind(this);
+            Bind<Instantiator>(Instantiate);
         }
 
         public DiContainer(in DiContainer prev, params object[] bindings) {
-            var prevBindings = prev._bindings.Values.Concat(bindings);
-
-            foreach (var binding in prevBindings) {
+            _bindings = new Dictionary<Type, Binding>(prev._bindings);
+            foreach (var binding in bindings) {
                 _bindings[binding.GetType()] = new Binding {
                     Instance = binding
                 };

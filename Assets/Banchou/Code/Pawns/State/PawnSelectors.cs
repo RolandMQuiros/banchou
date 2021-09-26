@@ -8,7 +8,7 @@ using Banchou.Player;
 namespace Banchou.Pawn {
     public static class PawnSelectors {
         public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) {
-            return state
+            var observable = state
                 .ObserveBoard()
                 .SelectMany(board => {
                     PawnState pawn;
@@ -17,6 +17,13 @@ namespace Banchou.Pawn {
                     }
                     return Observable.Empty<PawnState>();
                 });
+            
+            var pawn = state.GetPawn(pawnId);
+            if (pawn != null) {
+                observable = observable.StartWith(pawn);
+            }
+            
+            return observable;
         }
 
         public static IObservable<PawnSpatial> ObservePawnSpatial(this GameState state, int pawnId) {

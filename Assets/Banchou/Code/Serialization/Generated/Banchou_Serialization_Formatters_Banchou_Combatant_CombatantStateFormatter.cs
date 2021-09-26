@@ -32,11 +32,15 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(4);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Serialize(ref writer, value.Stats, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantGauges>().Serialize(ref writer, value.Gauges, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackState>().Serialize(ref writer, value.Attack, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantDefenseState>().Serialize(ref writer, value.Defense, options);
+            writer.WriteArrayHeader(8);
+            writer.Write(value.Health);
+            writer.Write(value.MaxHealth);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackPhase>().Serialize(ref writer, value.AttackPhase, options);
+            writer.Write(value.GuardTime);
+            writer.Write(value.StunTime);
+            writer.Write(value.IsCountered);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
+            writer.Write(value.LastUpdated);
         }
 
         public global::Banchou.Combatant.CombatantState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -49,26 +53,42 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Stats__ = default(global::Banchou.Combatant.CombatantStats);
-            var __Gauges__ = default(global::Banchou.Combatant.CombatantGauges);
-            var __Attack__ = default(global::Banchou.Combatant.CombatantAttackState);
-            var __Defense__ = default(global::Banchou.Combatant.CombatantDefenseState);
+            var __Health__ = default(int);
+            var __MaxHealth__ = default(int);
+            var __AttackPhase__ = default(global::Banchou.Combatant.CombatantAttackPhase);
+            var __GuardTime__ = default(float);
+            var __StunTime__ = default(float);
+            var __IsCountered__ = default(bool);
+            var __Knockback__ = default(global::UnityEngine.Vector3);
+            var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __Stats__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Deserialize(ref reader, options);
+                        __Health__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __Gauges__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantGauges>().Deserialize(ref reader, options);
+                        __MaxHealth__ = reader.ReadInt32();
                         break;
                     case 2:
-                        __Attack__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackState>().Deserialize(ref reader, options);
+                        __AttackPhase__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackPhase>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __Defense__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantDefenseState>().Deserialize(ref reader, options);
+                        __GuardTime__ = reader.ReadSingle();
+                        break;
+                    case 4:
+                        __StunTime__ = reader.ReadSingle();
+                        break;
+                    case 5:
+                        __IsCountered__ = reader.ReadBoolean();
+                        break;
+                    case 6:
+                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 7:
+                        __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();
@@ -76,7 +96,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.CombatantState(__Stats__, __Gauges__, __Attack__);
+            var ____result = new global::Banchou.Combatant.CombatantState(__Health__, __MaxHealth__, __AttackPhase__, __GuardTime__, __StunTime__, __IsCountered__, __Knockback__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

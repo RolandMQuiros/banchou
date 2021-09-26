@@ -1,56 +1,117 @@
+using System;
 using MessagePack;
 using UnityEngine;
 
 namespace Banchou.Combatant {
-    [MessagePackObject]
+    [MessagePackObject, Serializable]
     public class CombatantState : Notifiable<CombatantState> {
-        [Key(0)][field: SerializeField]
-        public CombatantStats Stats { get; private set; }
-
-        [Key(1)][field: SerializeField]
-        public CombatantGauges Gauges { get; private set; }
-
-        [Key(2)][field: SerializeField]
-        public CombatantAttackState Attack { get; private set; }
-
-        [Key(3)][field: SerializeField]
-        public CombatantDefenseState Defense { get; private set; }
-
+        public const float KnockbackDeceleration = 10f;
+        [field: SerializeField, Key(0)] public int Health { get; private set; }
+        [field: SerializeField, Key(1)] public int MaxHealth { get; private set; }
+        [field: SerializeField, Key(2)] public CombatantAttackPhase AttackPhase { get; private set; }
+        [field: SerializeField, Key(3)] public float GuardTime { get; private set; }
+        [field: SerializeField, Key(4)] public float StunTime { get; private set; }
+        [field: SerializeField, Key(5)] public bool IsCountered { get; private set; }
+        [field: SerializeField, Key(6)] public Vector3 Knockback { get; private set; }
+        [field: SerializeField, Key(7)] public float LastUpdated { get; private set; }
 
         [SerializationConstructor]
         public CombatantState(
-            CombatantStats stats,
-            CombatantGauges gauges,
-            CombatantAttackState attack
+            int health,
+            int maxHealth,
+            CombatantAttackPhase attackPhase,
+            float guardTime,
+            float stunTime,
+            bool isCountered,
+            Vector3 knockback,
+            float lastUpdated
         ) {
-            Stats = stats;
-            Gauges = gauges;
-            Attack = attack;
+            Health = health;
+            MaxHealth = maxHealth;
+            AttackPhase = attackPhase;
+            GuardTime = guardTime;
+            StunTime = stunTime;
+            IsCountered = isCountered;
+            Knockback = knockback;
+            LastUpdated = lastUpdated;
         }
 
-        public CombatantState(CombatantStats stats) {
-            Stats = stats;
-            Gauges = new CombatantGauges(Stats.MaxHealth);
-            Attack = new CombatantAttackState();
-            Defense = new CombatantDefenseState();
+        public CombatantState(int maxHealth) {
+            Health = maxHealth;
+            MaxHealth = maxHealth;
         }
 
-        public CombatantState Hit(int strength, CombatantBlockDirection incoming, Vector3 knockback, float when) {
-            var blocked = (Defense.BlockDirection & incoming) != CombatantBlockDirection.Neutral;
-            var countered = Attack.Phase == CombatantAttackPhase.Starting;
-            var damage = strength;
+        public CombatantState SetAttackPhase(CombatantAttackPhase phase, float when) {
+            AttackPhase = phase;
+            LastUpdated = when;
+            return Notify();
+        }
 
-            if (blocked) {
-                strength /= 4;
-                knockback /= 4f;
-            } else if (countered) {
-                Attack.Finish(when);
+        public CombatantState Hit(
+            Vector3 pawnDirection,
+            Vector3 attackDirection,
+            Vector3 knockback,
+            float hitStun,
+            int damage,
+            float when
+        ) {
+            UpdateTimers(when);
+            if (GuardTime > 0f && Vector3.Dot(pawnDirection, attackDirection) < 0f) {
+                damage /= 2;
+                knockback /= 2f;
+                GuardTime -= damage * 0.1f;
+            } else if (AttackPhase == CombatantAttackPhase.Active) {
+                IsCountered = true;
+                StunTime = hitStun * 2f;
+            } else {
+                StunTime = hitStun;
             }
-
-            Gauges.Damage(strength, when);
-            Defense.Push(knockback, when);
+            
+            Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
+            Knockback = knockback;
 
             return Notify();
         }
+
+        public float GuardTimeAt(float when) => Mathf.Max(GuardTime - when - LastUpdated, 0f);
+        public float StunTimeAt(float when) => Mathf.Max(StunTime - when - LastUpdated, 0f);
+        public bool IsCounteredAt(float when) => IsCountered && StunTimeAt(when) > 0f;
+        public Vector3 KnockbackAt(float when) => Vector3.MoveTowards(
+            Knockback,
+            Vector3.zero,
+            (when - LastUpdated) * KnockbackDeceleration
+        );
+
+        public CombatantState Guard(float guardTime, float when) {
+            UpdateTimers(when);
+            if (AttackPhase == CombatantAttackPhase.Neutral) {
+                GuardTime = guardTime;
+            }
+            return Notify();
+        }
+
+        public CombatantState Unguard(float when) {
+            UpdateTimers(when);
+            if (GuardTime > 0f) {
+                GuardTime = 0f;
+            }
+            return Notify();
+        }
+
+        private CombatantState UpdateTimers(float when) {
+            GuardTime = GuardTimeAt(when);
+            StunTime = StunTimeAt(when);
+            IsCountered = IsCounteredAt(when);
+            Knockback = KnockbackAt(when);
+            LastUpdated = when;
+            return this;
+        }
+    }
+    
+    public enum CombatantAttackPhase {
+        Neutral,
+        Starting,
+        Active,
+        Recover
     }
 }

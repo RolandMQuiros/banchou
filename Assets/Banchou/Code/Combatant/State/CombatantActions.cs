@@ -1,33 +1,59 @@
-using UnityEngine;
 using Banchou.Pawn;
+using UnityEngine;
 
 namespace Banchou.Combatant {
     public static class CombatantActions {
-        public static CombatantState GetCombatant(this GameState state, int pawnId) {
-            CombatantState combatant;
-            state.Board.Combatants.Members.TryGetValue(pawnId, out combatant);
-            return combatant;
-        }
-
-        public static CombatantState HitCombatant(
+        public static GameState SetCombatant(
             this GameState state,
-            int targetPawnId,
-            int strength,
-            Vector3 direction,
-            Vector3 knockBack
+            out CombatantState combatant,
+            int pawnId,
+            int maxHealth
         ) {
-            var target = state.GetCombatant(targetPawnId);
-            var targetSpatial = state.GetPawnSpatial(targetPawnId);
-            if (target != null && targetSpatial != null) {
-                var planarDirection = Vector3.ProjectOnPlane(direction, targetSpatial.Up);
-                var incomingDirection = new Vector2(
-                    Vector3.Dot(direction, targetSpatial.Forward),
-                    Vector3.Dot(direction, targetSpatial.Right)
-                ).DirectionToBlock();
-                return target.Hit(strength, incomingDirection, knockBack, state.GetTime());
+            if (state.GetPawn(pawnId) == null) {
+                Debug.LogError($"No Pawn {pawnId} found for combatant");
+                combatant = null;
+            } else {
+                state.Board.Combatants.SetCombatant(pawnId, maxHealth, out combatant);
             }
-            return null;
+            return state;
+        }
+        
+        public static GameState HitCombatant(
+            this GameState state,
+            int attackerPawnId,
+            int defenderPawnId,
+            Vector3 knockback,
+            float hitStun,
+            int damage
+        ) {
+            var attacker = state.GetPawnSpatial(attackerPawnId);
+            var defender = state.GetPawnSpatial(defenderPawnId);
+            
+            if (attacker == null) {
+                Debug.LogError($"No Pawn {attackerPawnId} found for combatant");
+            }
+            
+            if (defender == null) {
+                Debug.LogError($"No Pawn {defenderPawnId} found for combatant");
+            }
+            
+            if (attacker != null && defender != null) {
+                var attackDirection = attacker.Position - defender.Position;
+                state.GetCombatant(defenderPawnId)?
+                    .Hit(defender.Forward, attackDirection, knockback, hitStun, damage, state.GetTime());
+            }
+            return state;
         }
 
+        public static GameState CombatantGuard(this GameState state, int pawnId, float guardTime) {
+            var spatial = state.GetPawnSpatial(pawnId);
+            if (spatial == null) {
+                Debug.LogError($"No Pawn {pawnId} found for combatant");
+            } else {
+                state.GetCombatant(pawnId)?
+                    .Guard(guardTime, state.GetTime());
+            }
+            return state;
+        }
     }
 }

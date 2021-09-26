@@ -1,9 +1,6 @@
-using System.Linq;
 using UnityEngine;
-
 using Banchou.Board;
 using Banchou.DependencyInjection;
-using UniRx;
 
 namespace Banchou.Pawn.Part {
     public class PawnContext : MonoBehaviour, IContext {

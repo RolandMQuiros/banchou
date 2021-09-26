@@ -36,6 +36,7 @@ namespace Banchou.Prototyping.Part {
         public void Host() {
             IEnumerator Run() {
                 yield return SceneManager.LoadSceneAsync("Banchou Board", LoadSceneMode.Single);
+                yield return new WaitForEndOfFrame(); // Let the Awakes run
 
                 _state
                     // .StartHost("TestRoom", 1, _minPing, _maxPing)
@@ -44,15 +45,15 @@ namespace Banchou.Prototyping.Part {
                 // yield return new WaitUntil(() => _state.IsConnected());
                 // _state.AddPlayer(1, "Local Player");
 
-                for (int i = 1; i <= 1; i++) {
+                for (int i = 0; i < 10; i++) {
                     _state.AddPawn(
-                        pawnId: i,
+                        out var pawn,
+                        pawnId: 1,
                         prefabKey: "Pawn/Isaac",
                         playerId: 1,
-                        position: Vector3.up * 2f// new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
+                        position: Vector3.up * 2f
                     );
-
-                    Debug.Log($"Added pawn {i}");
+                    Debug.Log($"Added pawn {pawn.PawnId}");
                 }
             }
 
