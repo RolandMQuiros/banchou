@@ -6,14 +6,14 @@ namespace Banchou.Combatant {
     [MessagePackObject, Serializable]
     public class CombatantState : Notifiable<CombatantState> {
         public const float KnockbackDeceleration = 10f;
-        [field: SerializeField, Key(0)] public int Health { get; private set; }
-        [field: SerializeField, Key(1)] public int MaxHealth { get; private set; }
-        [field: SerializeField, Key(2)] public CombatantAttackPhase AttackPhase { get; private set; }
-        [field: SerializeField, Key(3)] public float GuardTime { get; private set; }
-        [field: SerializeField, Key(4)] public float StunTime { get; private set; }
-        [field: SerializeField, Key(5)] public bool IsCountered { get; private set; }
-        [field: SerializeField, Key(6)] public Vector3 Knockback { get; private set; }
-        [field: SerializeField, Key(7)] public float LastUpdated { get; private set; }
+        [Key(0)][field: SerializeField] public int Health { get; private set; }
+        [Key(1)][field: SerializeField] public int MaxHealth { get; private set; }
+        [Key(2)][field: SerializeField] public CombatantAttackPhase AttackPhase { get; private set; }
+        [Key(3)][field: SerializeField] public float GuardTime { get; private set; }
+        [Key(4)][field: SerializeField] public float StunTime { get; private set; }
+        [Key(5)][field: SerializeField] public bool IsCountered { get; private set; }
+        [Key(6)][field: SerializeField] public Vector3 Knockback { get; private set; }
+        [Key(7)][field: SerializeField] public float LastUpdated { get; private set; }
 
         [SerializationConstructor]
         public CombatantState(

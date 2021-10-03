@@ -70,7 +70,7 @@ namespace Banchou.Serialization.Resolvers
                 { typeof(global::Banchou.Network.Message.Connected), 16 },
                 { typeof(global::Banchou.Network.Message.TimeRequest), 17 },
                 { typeof(global::Banchou.Network.Message.TimeResponse), 18 },
-                { typeof(global::Banchou.Pawn.FrameData), 19 },
+                { typeof(global::Banchou.Pawn.PawnAnimatorFrame), 19 },
                 { typeof(global::Banchou.Pawn.PawnHistory), 20 },
                 { typeof(global::Banchou.Pawn.PawnSpatial), 21 },
                 { typeof(global::Banchou.Pawn.PawnState), 22 },
@@ -109,7 +109,7 @@ namespace Banchou.Serialization.Resolvers
                 case 16: return new Banchou.Serialization.Formatters.Banchou.Network.Message.ConnectedFormatter();
                 case 17: return new Banchou.Serialization.Formatters.Banchou.Network.Message.TimeRequestFormatter();
                 case 18: return new Banchou.Serialization.Formatters.Banchou.Network.Message.TimeResponseFormatter();
-                case 19: return new Banchou.Serialization.Formatters.Banchou.Pawn.FrameDataFormatter();
+                case 19: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnAnimatorFrameFormatter();
                 case 20: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnHistoryFormatter();
                 case 21: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnSpatialFormatter();
                 case 22: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnStateFormatter();

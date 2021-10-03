@@ -6,21 +6,21 @@ using UnityEngine;
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
     public class PawnHistory : Notifiable<PawnHistory> {
-        [Key(0)] public FrameData Front => _frames[_frontIndex];
-        [IgnoreMember] public FrameData Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
-        [IgnoreMember] public IReadOnlyList<FrameData> Frames => _frames;
-        [SerializeField] private FrameData[] _frames;
+        [Key(0)] public PawnAnimatorFrame Front => _frames[_frontIndex];
+        [IgnoreMember] public PawnAnimatorFrame Back => _frames[(_frontIndex - _frames.Length) % _frames.Length];
+        [IgnoreMember] public IReadOnlyList<PawnAnimatorFrame> Frames => _frames;
+        [SerializeField] private PawnAnimatorFrame[] _frames;
         [SerializeField] private int _frontIndex = 0;
 
         [SerializationConstructor]
-        public PawnHistory(FrameData front) {
-            _frames = new FrameData[] { front };
+        public PawnHistory(PawnAnimatorFrame front) {
+            _frames = new PawnAnimatorFrame[] { front };
         }
 
         public PawnHistory(int frames = 80) {
-            _frames = new FrameData[frames];
+            _frames = new PawnAnimatorFrame[frames];
             for (int i = 0; i < _frames.Length; i++) {
-                _frames[i] = new FrameData();
+                _frames[i] = new PawnAnimatorFrame();
             }
             _frontIndex = 0;
         }
@@ -34,7 +34,7 @@ namespace Banchou.Pawn {
             return this;
         }
 
-        public PawnHistory Push(out FrameData pushed) {
+        public PawnHistory Push(out PawnAnimatorFrame pushed) {
             _frontIndex = (_frontIndex + 1) % _frames.Length;
             pushed = _frames[_frontIndex];
             
@@ -42,11 +42,11 @@ namespace Banchou.Pawn {
         }
 
         public PawnHistory Push() {
-            FrameData pushed;
+            PawnAnimatorFrame pushed;
             return Push(out pushed);
         }
 
-        public PawnHistory Pop(out FrameData popped) {
+        public PawnHistory Pop(out PawnAnimatorFrame popped) {
             popped = _frames[_frontIndex];
             _frontIndex = (_frontIndex - 1) % _frames.Length;
             
@@ -54,7 +54,7 @@ namespace Banchou.Pawn {
         }
 
         public PawnHistory Pop() {
-            FrameData popped;
+            PawnAnimatorFrame popped;
             return Pop(out popped);
         }
     }

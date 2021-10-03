@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Banchou.Pawn.Part {
     public class PawnAnimator : MonoBehaviour {
         private GameState _state;
-        private PawnState _pawn;
+        private PawnAnimatorFrame _frame;
         private Animator _animator;
         private List<AnimatorControllerParameter> _cachedParameters;
 
@@ -19,7 +19,7 @@ namespace Banchou.Pawn.Part {
             _animator = animator;
             _state.ObservePawn(getPawnId())
                 .CatchIgnoreLog()
-                .Subscribe(pawn => _pawn = pawn)
+                .Subscribe(pawn => _frame = pawn.AnimatorFrame)
                 .AddTo(this);
 
             // Accessing Animator.parameters or Animator.GetParameter seems to generate garbage
@@ -32,10 +32,7 @@ namespace Banchou.Pawn.Part {
         }
 
         private void LateUpdate() {
-            FrameData frame;
-            _pawn.History.Push(out frame);
-
-            frame.StartFrame(_animator.layerCount, _pawn.Spatial.Position, _pawn.Spatial.Forward);
+            _frame.StartFrame(_animator.layerCount);
 
             // Save layer values
             for (int layer = 0; layer < _animator.layerCount; layer++) {
@@ -43,7 +40,7 @@ namespace Banchou.Pawn.Part {
                 var nextStateInfo = _animator.GetNextAnimatorStateInfo(layer);
                 var targetStateInfo = nextStateInfo.fullPathHash == 0 ? currentStateInfo : nextStateInfo;
 
-                frame.SetLayerData(layer, targetStateInfo.fullPathHash, targetStateInfo.normalizedTime);
+                _frame.SetLayerData(layer, targetStateInfo.fullPathHash, targetStateInfo.normalizedTime);
             }
 
             // Save parameter values
@@ -51,18 +48,17 @@ namespace Banchou.Pawn.Part {
                 var parameter = _cachedParameters[p];
                 switch (parameter.type) {
                     case AnimatorControllerParameterType.Float:
-                        frame.SetFloat(parameter.nameHash, _animator.GetFloat(parameter.nameHash));
+                        _frame.SetFloat(parameter.nameHash, _animator.GetFloat(parameter.nameHash));
                         break;
                     case AnimatorControllerParameterType.Int:
-                        frame.SetInt(parameter.nameHash, _animator.GetInteger(parameter.nameHash));
+                        _frame.SetInt(parameter.nameHash, _animator.GetInteger(parameter.nameHash));
                         break;
                     case AnimatorControllerParameterType.Bool:
-                        frame.SetBool(parameter.nameHash, _animator.GetBool(parameter.nameHash));
+                        _frame.SetBool(parameter.nameHash, _animator.GetBool(parameter.nameHash));
                         break;
                 }
             }
-
-            frame.FinishFrame(_state.GetTime());
+            _frame.FinishFrame(_state.GetTime());
         }
     }
 }

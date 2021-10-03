@@ -54,6 +54,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __PawnId__ = default(int);
             var __Position__ = default(global::UnityEngine.Vector3);
             var __Forward__ = default(global::UnityEngine.Vector3);
             var __Up__ = default(global::UnityEngine.Vector3);
@@ -62,12 +63,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             var __Style__ = default(global::Banchou.Pawn.PawnSpatial.MovementStyle);
             var __IsGrounded__ = default(bool);
             var __LastUpdated__ = default(float);
-            var __PawnId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
+                    case 0:
+                        __PawnId__ = reader.ReadInt32();
+                        break;
                     case 1:
                         __Position__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
@@ -91,9 +94,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                         break;
                     case 8:
                         __LastUpdated__ = reader.ReadSingle();
-                        break;
-                    case 0:
-                        __PawnId__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();

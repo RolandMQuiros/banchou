@@ -156,7 +156,8 @@ namespace Banchou.Board {
             if (Pawns.TryGetValue(pawnId, out pawn) && Pawns.Remove(pawnId)) {
                 LastUpdated = when;
                 PawnRemoved?.Invoke(pawn);
-                Notify();
+                Combatants.Remove(pawnId);
+                return Notify();
             }
             return this;
         }

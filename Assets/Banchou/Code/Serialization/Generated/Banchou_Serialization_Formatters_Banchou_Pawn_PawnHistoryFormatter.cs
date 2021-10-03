@@ -33,7 +33,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(1);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.FrameData>().Serialize(ref writer, value.Front, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnAnimatorFrame>().Serialize(ref writer, value.Front, options);
         }
 
         public global::Banchou.Pawn.PawnHistory Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -46,14 +46,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Front__ = default(global::Banchou.Pawn.FrameData);
+            var __Front__ = default(global::Banchou.Pawn.PawnAnimatorFrame);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __Front__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.FrameData>().Deserialize(ref reader, options);
+                        __Front__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnAnimatorFrame>().Deserialize(ref reader, options);
                         break;
                     default:
                         reader.Skip();

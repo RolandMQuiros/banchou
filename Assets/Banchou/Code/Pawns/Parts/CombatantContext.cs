@@ -6,7 +6,6 @@ using Banchou.Combatant;
 namespace Banchou.Pawn.Part {
     public class CombatantContext : MonoBehaviour {
         [SerializeField] private int _maxHealth = 100;
-        [SerializeField] private float _weight = 1f;
         [SerializeField] private CombatantState _combatant;
         
         public void Construct(GameState state, GetPawnId getPawnId) {

@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
-    public class PawnSpatial : Notifiable<PawnSpatial> {
+    public class PawnSpatial : Notifiable<PawnSpatial>, IRecordable<PawnSpatial> {
         public enum MovementStyle : byte {
             Offset,
             Instantaneous,
             Interpolated
         }
 
-        [Key(0)] public readonly int PawnId;
+        [Key(0)][field: SerializeField] public int PawnId { get; private set; }
         [Key(1)][field: SerializeField] public Vector3 Position { get; private set; }
         [Key(2)][field: SerializeField] public Vector3 Forward { get; private set; }
         [Key(3)][field: SerializeField] public Vector3 Up { get; private set; }
@@ -21,9 +21,20 @@ namespace Banchou.Pawn {
         [Key(6)][field: SerializeField] public MovementStyle Style { get; private set; }
         [Key(7)][field: SerializeField] public bool IsGrounded { get; private set; }
         [Key(8)][field: SerializeField] public float LastUpdated { get; private set; }
+        [IgnoreMember] private History<PawnSpatial> _history;
 
         [SerializationConstructor]
-        public PawnSpatial(int pawnId, Vector3 position, Vector3 forward, Vector3 up, Vector3 velocity, Vector3 teleportTarget, MovementStyle style, bool isGrounded, float lastUpdated) {
+        public PawnSpatial(
+            int pawnId,
+            Vector3 position,
+            Vector3 forward,
+            Vector3 up,
+            Vector3 velocity,
+            Vector3 teleportTarget,
+            MovementStyle style,
+            bool isGrounded,
+            float lastUpdated
+        ) {
             PawnId = pawnId;
             Position = position;
             Forward = forward;
@@ -33,10 +44,12 @@ namespace Banchou.Pawn {
             Style = style;
             IsGrounded = isGrounded;
             LastUpdated = lastUpdated;
+            _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
         }
 
         public PawnSpatial(int pawnId) {
             PawnId = pawnId;
+            _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
         }
 
         public PawnSpatial(
@@ -50,6 +63,7 @@ namespace Banchou.Pawn {
             Position = position;
             Forward = forward;
             Up = up;
+            _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
         }
 
         public PawnSpatial Sync(PawnSpatial other) {
@@ -67,8 +81,7 @@ namespace Banchou.Pawn {
                 Velocity += velocity;
                 Style = MovementStyle.Offset;
                 LastUpdated = when;
-
-                Notify();
+                return Notify();
             }
             return this;
         }
@@ -78,8 +91,7 @@ namespace Banchou.Pawn {
                 TeleportTarget = position;
                 Style = instant ? MovementStyle.Instantaneous : MovementStyle.Interpolated;
                 LastUpdated = when;
-
-                Notify();
+                return Notify();
             }
             return this;
         }
@@ -87,6 +99,7 @@ namespace Banchou.Pawn {
         public PawnSpatial Rotate(Vector3 forward, float when) {
             if (Forward != forward) {
                 Forward = forward;
+                LastUpdated = when;
                 Notify();
             }
             return this;
@@ -100,5 +113,24 @@ namespace Banchou.Pawn {
 
             return Notify();
         }
+        
+        #region History
+        protected override PawnSpatial Notify() {
+            _history.PushFrame(this, LastUpdated);
+            return base.Notify();
+        }
+        
+        public void Set(PawnSpatial from) {
+            PawnId = from.PawnId;
+            Position = from.Position;
+            Forward = from.Forward;
+            Up = from.Up;
+            Velocity = from.Velocity;
+            TeleportTarget = from.TeleportTarget;
+            Style = from.Style;
+            IsGrounded = from.IsGrounded;
+            LastUpdated = from.LastUpdated;
+        }
+        #endregion
     }
 }

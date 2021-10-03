@@ -20,11 +20,20 @@ namespace Banchou.Combatant {
             Members = members;
         }
 
-        public CombatantStates SetCombatant(int pawnId, int maxHealth, out CombatantState combatant) {
+        public CombatantStates Set(int pawnId, int maxHealth, out CombatantState combatant) {
             combatant = new CombatantState(maxHealth);
             Members[pawnId] = combatant;
             Added?.Invoke(combatant);
             return Notify();
+        }
+
+        public CombatantStates Remove(int pawnId) {
+            if (Members.TryGetValue(pawnId, out var combatant) && Members.Remove(pawnId)) {
+                Removed?.Invoke(combatant);
+                return Notify();
+            }
+
+            return this;
         }
     }
 }

@@ -99,8 +99,8 @@ namespace Banchou.Network.Part {
                 case NetworkMode.Host:
                     PhotonNetwork.JoinOrCreateRoom(
                         _state.GetRoomName(),
-                        new Photon.Realtime.RoomOptions(),
-                        Photon.Realtime.TypedLobby.Default
+                        new RoomOptions(),
+                        TypedLobby.Default
                     );
                     break;
                 case NetworkMode.Client:

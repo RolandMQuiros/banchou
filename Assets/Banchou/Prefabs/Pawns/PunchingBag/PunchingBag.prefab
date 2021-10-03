@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8800561442160583271}
   - component: {fileID: 6952295661100396989}
   - component: {fileID: 7141537125015397197}
+  - component: {fileID: 794025375420777298}
   m_Layer: 0
   m_Name: PunchingBag
   m_TagString: Untagged
@@ -133,6 +134,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _contacts: []
+--- !u!114 &794025375420777298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184506192632776674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageScale: 1
+  _knockbackScale: 1
+  _hitStunScale: 1
 --- !u!1 &2352110603259870147
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +159,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5522515138030694031}
   - component: {fileID: 3364090409099077010}
-  - component: {fileID: 2270304821210385719}
   m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
@@ -179,18 +194,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2270304821210385719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2352110603259870147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6081919536696013468
 GameObject:
   m_ObjectHideFlags: 0

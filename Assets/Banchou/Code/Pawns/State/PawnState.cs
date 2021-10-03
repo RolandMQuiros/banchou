@@ -10,15 +10,23 @@ namespace Banchou.Pawn {
         [Key(1)] public readonly string PrefabKey;
         [Key(2)][field: SerializeField] public int PlayerId { get; private set; }
         [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
-        [IgnoreMember][field: SerializeField] public PawnHistory History { get; private set; }
-        [Key(4)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(4)][field: SerializeField] public PawnAnimatorFrame AnimatorFrame { get; private set; }
+        [Key(5)][field: SerializeField] public float LastUpdated { get; private set; }
 
         [SerializationConstructor]
-        public PawnState(int pawnId, string prefabKey, int playerId, PawnSpatial spatial, float lastUpdated) {
+        public PawnState(
+            int pawnId,
+            string prefabKey,
+            int playerId,
+            PawnSpatial spatial,
+            PawnAnimatorFrame animatorFrame,
+            float lastUpdated
+        ) {
             PawnId = pawnId;
             PrefabKey = prefabKey;
             PlayerId = playerId;
             Spatial = spatial;
+            AnimatorFrame = animatorFrame;
             LastUpdated = lastUpdated;
         }
 
@@ -35,7 +43,6 @@ namespace Banchou.Pawn {
             PrefabKey = prefabKey;
             PlayerId = playerId;
             Spatial = new PawnSpatial(pawnId, position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
-            History = new PawnHistory();
             LastUpdated = lastUpdated;
         }
 
@@ -44,7 +51,6 @@ namespace Banchou.Pawn {
             PrefabKey = other.PrefabKey;
             PlayerId = other.PlayerId;
             Spatial = other.Spatial ?? new PawnSpatial(PawnId);
-            History = other.History ?? new PawnHistory();
             LastUpdated = other.LastUpdated;
         }
 
@@ -55,20 +61,8 @@ namespace Banchou.Pawn {
 
             if (sync.PlayerId != PlayerId) {
                 PlayerId = sync.PlayerId;
-                Notify();
+                return Notify();
             }
-            return this;
-        }
-
-        public PawnState Rollback(float correctionTime) {
-            FrameData targetFrame;
-            do { History.Pop(out targetFrame); }
-            while (targetFrame.When > correctionTime);
-
-            Spatial.Teleport(targetFrame.Position, targetFrame.When, instant: true);
-            Spatial.Rotate(targetFrame.Forward, targetFrame.When);
-
-            Notify();
             return this;
         }
 
@@ -76,7 +70,7 @@ namespace Banchou.Pawn {
             if (playerId != PlayerId) {
                 PlayerId = playerId;
                 LastUpdated = when;
-                Notify();
+                return Notify();
             }
             return this;
         }
@@ -85,7 +79,7 @@ namespace Banchou.Pawn {
             if (playerId == PlayerId) {
                 PlayerId = default;
                 LastUpdated = when;
-                Notify();
+                return Notify();
             }
             return this;
         }

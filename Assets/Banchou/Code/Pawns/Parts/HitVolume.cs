@@ -1,32 +1,23 @@
-using Banchou.Combatant;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class HitVolume : MonoBehaviour {
-        [SerializeField] private int _damage;
-        [SerializeField] private float _hitStun;
-        [SerializeField] private float _pauseTime;
-        [SerializeField] private float _knockback;
-
-        private GameState _state;
-        private int _pawnId;
-
-        public void Construct(GameState state, GetPawnId getPawnId) {
-            _state = state;
-            _pawnId = getPawnId();
-        }
+        public int PawnId { get; private set; }
+        [field: SerializeField] public int Damage { get; private set; }
+        [field: SerializeField] public float HitStun { get; private set; }
+        [field: SerializeField] public float HitLag { get; private set; }
         
-        private void OnTriggerEnter(Collider other) {
-            var hitVolume = other.GetComponent<HurtVolume>();
-            if (hitVolume != null && hitVolume.PawnId != _pawnId) {
-                _state.HitCombatant(
-                    _pawnId,
-                    hitVolume.PawnId,
-                    _knockback * transform.forward,
-                    _hitStun,
-                    _damage
-                );
-            }
+        [SerializeField] private Vector3 _knockback;
+        public Vector3 Knockback => _transform.TransformVector(_knockback);
+
+        [field: SerializeField] private Vector3 _recoil;
+        public Vector3 Recoil => _transform.TransformVector(_recoil);
+
+        private Transform _transform;
+
+        public void Construct(GetPawnId getPawnId) {
+            PawnId = getPawnId();
+            _transform = transform;
         }
     }
 }

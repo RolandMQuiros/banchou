@@ -48,7 +48,7 @@ namespace Banchou.Prototyping.Part {
                 for (int i = 0; i < 10; i++) {
                     _state.AddPawn(
                         out var pawn,
-                        pawnId: 1,
+                        pawnId: i,
                         prefabKey: "Pawn/Isaac",
                         playerId: 1,
                         position: Vector3.up * 2f

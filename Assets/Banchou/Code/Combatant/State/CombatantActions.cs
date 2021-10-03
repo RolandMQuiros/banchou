@@ -13,11 +13,11 @@ namespace Banchou.Combatant {
                 Debug.LogError($"No Pawn {pawnId} found for combatant");
                 combatant = null;
             } else {
-                state.Board.Combatants.SetCombatant(pawnId, maxHealth, out combatant);
+                state.Board.Combatants.Set(pawnId, maxHealth, out combatant);
             }
             return state;
         }
-        
+
         public static GameState HitCombatant(
             this GameState state,
             int attackerPawnId,
