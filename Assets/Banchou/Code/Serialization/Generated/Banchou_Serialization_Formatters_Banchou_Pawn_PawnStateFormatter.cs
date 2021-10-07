@@ -32,13 +32,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(6);
+            writer.WriteArrayHeader(7);
             writer.Write(value.PawnId);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.PrefabKey, options);
             writer.Write(value.PlayerId);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnSpatial>().Serialize(ref writer, value.Spatial, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnAnimatorFrame>().Serialize(ref writer, value.AnimatorFrame, options);
             writer.Write(value.LastUpdated);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantState>().Serialize(ref writer, value.Combatant, options);
         }
 
         public global::Banchou.Pawn.PawnState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -55,6 +56,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             var __Spatial__ = default(global::Banchou.Pawn.PawnSpatial);
             var __AnimatorFrame__ = default(global::Banchou.Pawn.PawnAnimatorFrame);
             var __LastUpdated__ = default(float);
+            var __Combatant__ = default(global::Banchou.Combatant.CombatantState);
             var __PawnId__ = default(int);
             var __PrefabKey__ = default(string);
 
@@ -74,6 +76,9 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                     case 5:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
+                    case 6:
+                        __Combatant__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantState>().Deserialize(ref reader, options);
+                        break;
                     case 0:
                         __PawnId__ = reader.ReadInt32();
                         break;
@@ -86,7 +91,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                 }
             }
 
-            var ____result = new global::Banchou.Pawn.PawnState(__PawnId__, __PrefabKey__, __PlayerId__, __Spatial__, __AnimatorFrame__, __LastUpdated__);
+            var ____result = new global::Banchou.Pawn.PawnState(__PawnId__, __PrefabKey__, __PlayerId__, __Spatial__, __AnimatorFrame__, __LastUpdated__, __Combatant__);
             reader.Depth--;
             return ____result;
         }

@@ -45,16 +45,16 @@ namespace Banchou.Prototyping.Part {
                 // yield return new WaitUntil(() => _state.IsConnected());
                 // _state.AddPlayer(1, "Local Player");
 
-                for (int i = 0; i < 10; i++) {
+                // for (int i = 0; i < 10; i++) {
                     _state.AddPawn(
                         out var pawn,
-                        pawnId: i,
+                        pawnId: 1,
                         prefabKey: "Pawn/Isaac",
                         playerId: 1,
                         position: Vector3.up * 2f
                     );
                     Debug.Log($"Added pawn {pawn.PawnId}");
-                }
+                // }
             }
 
             Observable.FromCoroutine(Run).Subscribe();

@@ -4,15 +4,18 @@ using UniRx;
 using Banchou.Combatant;
 
 namespace Banchou.Pawn.FSM {
-    public class ReceiveDamage : FSMBehaviour {
-        [SerializeField] private string _hitTriggerParameter;
-        [SerializeField] private string _stunTimeFloatParameter;
+    public class ReceiveHitstun : FSMBehaviour {
+        [Header("Output Parameters")]
+        [SerializeField, Tooltip("Trigger parameter to set when hitstun is applied")]
+        private string _hitTrigger;
+        [SerializeField, Tooltip("Float parameter to set the hitstun time")]
+        private string _stunTimeFloat;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
             
-            if (!string.IsNullOrWhiteSpace(_hitTriggerParameter)) {
-                var hitTriggerHash = Animator.StringToHash(_hitTriggerParameter);
+            if (!string.IsNullOrWhiteSpace(_hitTrigger)) {
+                var hitTriggerHash = Animator.StringToHash(_hitTrigger);
                 state.ObserveCombatant(pawnId)
                     .Where(combatant => combatant.StunTime > 0)
                     .CatchIgnoreLog()
@@ -22,8 +25,8 @@ namespace Banchou.Pawn.FSM {
                     .AddTo(this);
             }
             
-            if (!string.IsNullOrWhiteSpace(_stunTimeFloatParameter)) {
-                var stunTimeHash = Animator.StringToHash(_stunTimeFloatParameter);
+            if (!string.IsNullOrWhiteSpace(_stunTimeFloat)) {
+                var stunTimeHash = Animator.StringToHash(_stunTimeFloat);
                 ObserveStateUpdate
                     .WithLatestFrom(state.ObserveCombatant(pawnId), (_, combatant) => combatant)
                     .Select(combatant => combatant.StunTimeAt(state.GetTime()))

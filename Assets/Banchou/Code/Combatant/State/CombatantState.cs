@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Combatant {
     [MessagePackObject, Serializable]
-    public class CombatantState : Notifiable<CombatantState> {
+    public class CombatantState : Notifiable<CombatantState>, IRecordable<CombatantState> {
         public const float KnockbackDeceleration = 10f;
         [Key(0)][field: SerializeField] public int Health { get; private set; }
         [Key(1)][field: SerializeField] public int MaxHealth { get; private set; }
@@ -14,6 +14,18 @@ namespace Banchou.Combatant {
         [Key(5)][field: SerializeField] public bool IsCountered { get; private set; }
         [Key(6)][field: SerializeField] public Vector3 Knockback { get; private set; }
         [Key(7)][field: SerializeField] public float LastUpdated { get; private set; }
+
+        [SerializeField]
+        private History<CombatantState> _history = new History<CombatantState>(32, () => new CombatantState());
+        
+        public float GuardTimeAt(float when) => Mathf.Max(GuardTime - when - LastUpdated, 0f);
+        public float StunTimeAt(float when) => Mathf.Max(StunTime - when - LastUpdated, 0f);
+        public bool IsCounteredAt(float when) => IsCountered && StunTimeAt(when) > 0f;
+        public Vector3 KnockbackAt(float when) => Vector3.MoveTowards(
+            Knockback,
+            Vector3.zero,
+            (when - LastUpdated) * KnockbackDeceleration
+        );
 
         [SerializationConstructor]
         public CombatantState(
@@ -40,6 +52,8 @@ namespace Banchou.Combatant {
             Health = maxHealth;
             MaxHealth = maxHealth;
         }
+        
+        public CombatantState() { }
 
         public CombatantState SetAttackPhase(CombatantAttackPhase phase, float when) {
             AttackPhase = phase;
@@ -73,15 +87,6 @@ namespace Banchou.Combatant {
             return Notify();
         }
 
-        public float GuardTimeAt(float when) => Mathf.Max(GuardTime - when - LastUpdated, 0f);
-        public float StunTimeAt(float when) => Mathf.Max(StunTime - when - LastUpdated, 0f);
-        public bool IsCounteredAt(float when) => IsCountered && StunTimeAt(when) > 0f;
-        public Vector3 KnockbackAt(float when) => Vector3.MoveTowards(
-            Knockback,
-            Vector3.zero,
-            (when - LastUpdated) * KnockbackDeceleration
-        );
-
         public CombatantState Guard(float guardTime, float when) {
             UpdateTimers(when);
             if (AttackPhase == CombatantAttackPhase.Neutral) {
@@ -106,6 +111,24 @@ namespace Banchou.Combatant {
             LastUpdated = when;
             return this;
         }
+        
+        #region Rewindable
+        protected override CombatantState Notify() {
+            _history.PushFrame(this, LastUpdated);
+            return base.Notify();
+        }
+
+        public void Set(CombatantState other) {
+            Health = other.Health;
+            MaxHealth = other.MaxHealth;
+            AttackPhase = other.AttackPhase;
+            GuardTime = other.GuardTime;
+            StunTime = other.StunTime;
+            IsCountered = other.IsCountered;
+            Knockback = other.Knockback;
+            LastUpdated = other.LastUpdated;
+        }
+        #endregion
     }
     
     public enum CombatantAttackPhase {

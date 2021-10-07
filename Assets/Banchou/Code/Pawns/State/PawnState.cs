@@ -2,6 +2,8 @@ using System;
 using MessagePack;
 using UnityEngine;
 
+using Banchou.Combatant;
+
 namespace Banchou.Pawn {
     public delegate int GetPawnId();
     [MessagePackObject, Serializable]
@@ -12,6 +14,8 @@ namespace Banchou.Pawn {
         [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
         [Key(4)][field: SerializeField] public PawnAnimatorFrame AnimatorFrame { get; private set; }
         [Key(5)][field: SerializeField] public float LastUpdated { get; private set; }
+        
+        [Key(6)][field: SerializeField] public CombatantState Combatant { get; private set; }
 
         [SerializationConstructor]
         public PawnState(
@@ -20,7 +24,8 @@ namespace Banchou.Pawn {
             int playerId,
             PawnSpatial spatial,
             PawnAnimatorFrame animatorFrame,
-            float lastUpdated
+            float lastUpdated,
+            CombatantState combatant
         ) {
             PawnId = pawnId;
             PrefabKey = prefabKey;
@@ -28,6 +33,7 @@ namespace Banchou.Pawn {
             Spatial = spatial;
             AnimatorFrame = animatorFrame;
             LastUpdated = lastUpdated;
+            Combatant = combatant;
         }
 
         public PawnState(
@@ -43,6 +49,7 @@ namespace Banchou.Pawn {
             PrefabKey = prefabKey;
             PlayerId = playerId;
             Spatial = new PawnSpatial(pawnId, position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
+            AnimatorFrame = new PawnAnimatorFrame();
             LastUpdated = lastUpdated;
         }
 
@@ -51,6 +58,7 @@ namespace Banchou.Pawn {
             PrefabKey = other.PrefabKey;
             PlayerId = other.PlayerId;
             Spatial = other.Spatial ?? new PawnSpatial(PawnId);
+            AnimatorFrame = new PawnAnimatorFrame();
             LastUpdated = other.LastUpdated;
         }
 
@@ -82,6 +90,16 @@ namespace Banchou.Pawn {
                 return Notify();
             }
             return this;
+        }
+
+        public PawnState SetCombatant(
+            int maxHealth,
+            float when,
+            out CombatantState combatant
+        ) {
+            Combatant = combatant = new CombatantState(maxHealth);
+            LastUpdated = when;
+            return Notify();
         }
     }
 }

@@ -1,8 +1,6 @@
 using System;
 using UniRx;
 
-using Banchou.Network;
-
 namespace Banchou.Player {
     public static class PlayerEvents {
         public static IObservable<PlayersState> ObservePlayers(this GameState state) {

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using UniRx;
@@ -21,16 +22,17 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
         private PlayerCommandGesture _overrideGesture = null;
-        
-        [SerializeField, Range(0f, 1f), Tooltip("The normalized state time after which the command is accepted")]
-        private float _acceptFromStateTime = 0f;
 
-        [SerializeField, Range(0f, 1f), Tooltip("The normalized state time after which the command is no longer accepted")]
-        private float _acceptUntilStateTime = 1f;
-
-        [SerializeField, Range(0f, 1f), Tooltip("The normalized state time after which the triggers are set, if the gesture was accepted")]
-        private float _bufferUntilStateTime = 0f;
+        [SerializeField,
+         Tooltip("Whether or not the following times are expressed in normalized state time or in seconds")]
+        private bool _inNormalizedTime = true;
         
+        [SerializeField, Tooltip("The time after which the command is accepted")]
+        private float _acceptFromTime = 0f;
+
+        [SerializeField, Tooltip("The time after which the command is no longer accepted")]
+        private float _acceptUntilTime = 1f;
+
         [SerializeField, Tooltip("The name of the output trigger parameters to set if the gesture was input correctly")]
         private string[] _outputParameters = null;
 
@@ -73,23 +75,35 @@ namespace Banchou.Pawn.FSM {
                 })
                 .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length);
             
-            ObserveStateUpdate
-                .Select(args => args.StateInfo.normalizedTime % 1)
+            // Reset the trigger and entry timestamp
+            var enterTime = 0f;
+            ObserveStateEnter
+                .CatchIgnoreLog()
+                .Subscribe(_ => {
+                    enterTime = state.GetTime();
+                    foreach (var hash in outputHashes) {
+                        animator.ResetTrigger(hash);
+                    }
+                })
+                .AddTo(this);
+            
+            // Check which timescale we're using
+            IObservable<float> observeGestures;
+            if (_inNormalizedTime) {
+                observeGestures = ObserveStateUpdate
+                    .Select(args => args.StateInfo.normalizedTime % 1);
+            } else {
+                observeGestures = ObserveStateUpdate
+                    .Select(args => state.GetTime() - enterTime);
+            }
+            
+            observeGestures
                 .Sample(gestureInput)
-                .Where(stateTime => stateTime >= _acceptFromStateTime && stateTime < _acceptUntilStateTime)
+                .Where(stateTime => stateTime >= _acceptFromTime && stateTime < _acceptUntilTime)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
                     foreach (var hash in outputHashes) {
                         animator.SetTrigger(hash);
-                    }
-                })
-                .AddTo(this);
-
-            ObserveStateEnter
-                .CatchIgnoreLog()
-                .Subscribe(args => {
-                    foreach (var hash in outputHashes) {
-                        animator.ResetTrigger(hash);
                     }
                 })
                 .AddTo(this);

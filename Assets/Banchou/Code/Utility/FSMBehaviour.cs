@@ -15,7 +15,6 @@ namespace Banchou {
 
         protected struct FSMUnit {
             public AnimatorStateInfo StateInfo;
-            public float DeltaTime;
             public int LayerIndex;
             public AnimatorControllerPlayable Playable;
         }
@@ -23,8 +22,6 @@ namespace Banchou {
         protected Subject<FSMUnit> ObserveStateEnter = new Subject<FSMUnit>();
         protected Subject<FSMUnit> ObserveStateUpdate = new Subject<FSMUnit>();
         protected Subject<FSMUnit> ObserveStateExit = new Subject<FSMUnit>();
-
-        private float _previousTime = 0f;
         private HashSet<int> _activeStates = new HashSet<int>();
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
@@ -34,7 +31,6 @@ namespace Banchou {
                 LayerIndex = layerIndex,
                 Playable = playable
             });
-            _previousTime = 0f;
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
@@ -44,18 +40,14 @@ namespace Banchou {
                 LayerIndex = layerIndex,
                 Playable = playable
             });
-            _previousTime = 0f;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
-            var deltaTime = (stateInfo.normalizedTime - _previousTime) * stateInfo.length; // doesn't work
             ObserveStateUpdate.OnNext(new FSMUnit {
                 StateInfo = stateInfo,
-                DeltaTime = deltaTime,
                 LayerIndex = layerIndex,
                 Playable = playable
             });
-            _previousTime = stateInfo.normalizedTime;
         }
 
         private void OnDisable() {

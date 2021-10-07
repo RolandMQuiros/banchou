@@ -9,11 +9,12 @@ namespace Banchou.Combatant {
             int pawnId,
             int maxHealth
         ) {
-            if (state.GetPawn(pawnId) == null) {
+            var pawn = state.GetPawn(pawnId);
+            if (pawn == null) {
                 Debug.LogError($"No Pawn {pawnId} found for combatant");
                 combatant = null;
             } else {
-                state.Board.Combatants.Set(pawnId, maxHealth, out combatant);
+                pawn.SetCombatant(maxHealth, state.GetTime(), out combatant);
             }
             return state;
         }
@@ -28,15 +29,15 @@ namespace Banchou.Combatant {
         ) {
             var attacker = state.GetPawnSpatial(attackerPawnId);
             var defender = state.GetPawnSpatial(defenderPawnId);
-            
+
             if (attacker == null) {
                 Debug.LogError($"No Pawn {attackerPawnId} found for combatant");
             }
-            
+
             if (defender == null) {
                 Debug.LogError($"No Pawn {defenderPawnId} found for combatant");
             }
-            
+
             if (attacker != null && defender != null) {
                 var attackDirection = attacker.Position - defender.Position;
                 state.GetCombatant(defenderPawnId)?

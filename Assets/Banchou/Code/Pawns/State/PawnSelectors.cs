@@ -46,9 +46,7 @@ namespace Banchou.Pawn {
                 .DistinctUntilChanged()
                 .CombineLatest(state.ObservePlayers(), (playerId, _) => playerId)
                 .Where(playerId => playerId != default)
-                .SelectMany(playerId => state.ObservePlayer(playerId))
-                .Where(player => player?.Input != null)
-                .SelectMany(player => player.Input.Observe());
+                .SelectMany(state.ObservePlayerInput);
         }
 
         public static IObservable<(InputCommand Command, float When)> ObservePawnInputCommands(this GameState state, int pawnId) {
