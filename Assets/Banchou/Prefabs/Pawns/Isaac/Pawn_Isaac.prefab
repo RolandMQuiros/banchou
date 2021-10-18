@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 2257992991387743288}
   - component: {fileID: -6002316549684206343}
   m_Layer: 0
-  m_Name: Isaac
+  m_Name: Pawn_Isaac
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

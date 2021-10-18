@@ -40,14 +40,14 @@ namespace Banchou.Pawn.FSM {
                 untilTime = Mathf.Max(0f, EditorGUILayout.FloatField("Accept Until Time", untilTime));
             }
             
+            EditorGUILayout.PropertyField(_outputParameters);
+            
             if (EditorGUI.EndChangeCheck()) {
                 _acceptFromTime.floatValue = fromTime;
                 _acceptUntilTime.floatValue = untilTime;
                 serializedObject.ApplyModifiedProperties();
                 serializedObject.Update();
             }
-
-            EditorGUILayout.PropertyField(_outputParameters);
         }
     }
 }
