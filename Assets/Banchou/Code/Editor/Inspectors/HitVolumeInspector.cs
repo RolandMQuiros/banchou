@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 
 namespace Banchou.Pawn.Part {
-    [CustomEditor(typeof(HitVolume))]
+    [CustomEditor(typeof(HurtVolume))]
     public class HitVolumeInspector : Editor {
         private Transform _target;
         private SerializedProperty _damage;
@@ -12,7 +12,7 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _recoil;
 
         private void OnEnable() {
-            _target = ((HitVolume)target).transform;
+            _target = ((HurtVolume)target).transform;
             _damage = serializedObject.FindProperty("<Damage>k__BackingField");
             _hitStun = serializedObject.FindProperty("<HitStun>k__BackingField");
             _hitLag = serializedObject.FindProperty("<HitLag>k__BackingField");

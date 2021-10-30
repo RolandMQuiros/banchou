@@ -32,13 +32,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(8);
+            writer.WriteArrayHeader(9);
             writer.Write(value.Health);
             writer.Write(value.MaxHealth);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackPhase>().Serialize(ref writer, value.AttackPhase, options);
             writer.Write(value.GuardTime);
             writer.Write(value.StunTime);
             writer.Write(value.IsCountered);
+            writer.Write(value.IsKnockedDown);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
             writer.Write(value.LastUpdated);
         }
@@ -59,6 +60,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             var __GuardTime__ = default(float);
             var __StunTime__ = default(float);
             var __IsCountered__ = default(bool);
+            var __IsKnockedDown__ = default(bool);
             var __Knockback__ = default(global::UnityEngine.Vector3);
             var __LastUpdated__ = default(float);
 
@@ -85,9 +87,12 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                         __IsCountered__ = reader.ReadBoolean();
                         break;
                     case 6:
-                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        __IsKnockedDown__ = reader.ReadBoolean();
                         break;
                     case 7:
+                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 8:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
@@ -96,7 +101,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.CombatantState(__Health__, __MaxHealth__, __AttackPhase__, __GuardTime__, __StunTime__, __IsCountered__, __Knockback__, __LastUpdated__);
+            var ____result = new global::Banchou.Combatant.CombatantState(__Health__, __MaxHealth__, __AttackPhase__, __GuardTime__, __StunTime__, __IsCountered__, __IsKnockedDown__, __Knockback__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

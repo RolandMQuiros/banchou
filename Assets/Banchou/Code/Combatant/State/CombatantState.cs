@@ -12,8 +12,9 @@ namespace Banchou.Combatant {
         [Key(3)][field: SerializeField] public float GuardTime { get; private set; }
         [Key(4)][field: SerializeField] public float StunTime { get; private set; }
         [Key(5)][field: SerializeField] public bool IsCountered { get; private set; }
-        [Key(6)][field: SerializeField] public Vector3 Knockback { get; private set; }
-        [Key(7)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(6)][field: SerializeField] public bool IsKnockedDown { get; private set; }
+        [Key(7)][field: SerializeField] public Vector3 Knockback { get; private set; }
+        [Key(8)][field: SerializeField] public float LastUpdated { get; private set; }
 
         [SerializeField]
         private History<CombatantState> _history = new History<CombatantState>(32, () => new CombatantState());
@@ -21,6 +22,7 @@ namespace Banchou.Combatant {
         public float GuardTimeAt(float when) => Mathf.Max(GuardTime - when - LastUpdated, 0f);
         public float StunTimeAt(float when) => Mathf.Max(StunTime - when - LastUpdated, 0f);
         public bool IsCounteredAt(float when) => IsCountered && StunTimeAt(when) > 0f;
+        public bool IsKnockedDownAt(float when) => IsKnockedDown && StunTimeAt(when) > 0f;
         public Vector3 KnockbackAt(float when) => Vector3.MoveTowards(
             Knockback,
             Vector3.zero,
@@ -35,6 +37,7 @@ namespace Banchou.Combatant {
             float guardTime,
             float stunTime,
             bool isCountered,
+            bool isKnockedDown,
             Vector3 knockback,
             float lastUpdated
         ) {
@@ -44,6 +47,7 @@ namespace Banchou.Combatant {
             GuardTime = guardTime;
             StunTime = stunTime;
             IsCountered = isCountered;
+            IsKnockedDown = isKnockedDown;
             Knockback = knockback;
             LastUpdated = lastUpdated;
         }
