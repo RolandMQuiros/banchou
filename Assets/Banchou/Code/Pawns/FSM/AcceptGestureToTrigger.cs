@@ -33,6 +33,9 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Tooltip("The time after which the command is no longer accepted")]
         private float _acceptUntilTime = 1f;
 
+        [SerializeField, Tooltip("Reset the output triggers on state entry")]
+        private bool _resetOnEnter = true;
+
         [SerializeField, Tooltip("The name of the output trigger parameters to set if the gesture was input correctly")]
         private string[] _outputParameters = null;
 
@@ -78,6 +81,7 @@ namespace Banchou.Pawn.FSM {
             // Reset the trigger and entry timestamp
             var enterTime = 0f;
             ObserveStateEnter
+                .Where(_ => _resetOnEnter)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
                     enterTime = state.GetTime();

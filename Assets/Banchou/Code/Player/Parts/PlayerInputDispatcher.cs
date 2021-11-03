@@ -51,6 +51,16 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.HeavyAttack;
                     }
                 } break;
+                case "Jump": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.Jump;
+                    }
+                } break;
+                case "Short Jump": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.ShortJump;
+                    }
+                } break;
                 case "Lock On": {
                     if (callbackContext.performed) {
                         _commandsInput |= InputCommand.LockOn;
@@ -59,22 +69,6 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.LockOff;
                     }
                 } break;
-            }
-        }
-
-        public void DispatchMovement(InputAction.CallbackContext callbackContext) {
-            var direction = callbackContext.ReadValue<Vector2>();
-            _moveInput = direction;
-        }
-
-        public void DispatchLook(InputAction.CallbackContext callbackContext) {
-            var direction = callbackContext.ReadValue<Vector2>();
-            _lookInput = direction;
-        }
-
-        public void DispatchLightAttack(InputAction.CallbackContext callbackContext) {
-            if (callbackContext.performed) {
-                _commandsInput |= InputCommand.LightAttack;
             }
         }
 

@@ -39,12 +39,11 @@ namespace Banchou.Board.Part {
                         }
                         var instance = instantiate(
                             prefab,
-                            position: pawn.Spatial.Position,
-                            rotation: Quaternion.LookRotation(pawn.Spatial.Forward),
-                            parent: transform,
-                            additionalBindings: (GetPawnId)(() => pawn.PawnId)
+                            pawn.Spatial.Position,
+                            Quaternion.LookRotation(pawn.Spatial.Forward),
+                            transform,
+                            (GetPawnId)(() => pawn.PawnId)
                         );
-                    
                         instances[pawn.PawnId] = (instance, pawn.PrefabKey);
                     }
                 })

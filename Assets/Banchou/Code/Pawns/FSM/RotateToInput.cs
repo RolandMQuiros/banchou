@@ -8,6 +8,9 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Tooltip("How quickly, in degrees per second, the Object will rotate to face its motion vector")]
         private float _rotationSpeed = 1000f;
 
+        [SerializeField, Tooltip("If true, only rotate when a direction is held")]
+        private bool _hold = false;
+
         [SerializeField, Tooltip("Whether or not to ignore rotation speed and instantaneously snap to target rotation")]
         private bool _snap = false;
 
@@ -72,7 +75,7 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             var stateTime = stateInfo.normalizedTime % 1;
-            if (stateTime >= _startTime && stateTime <= _endTime) {
+            if (stateTime >= _startTime && stateTime <= _endTime && (!_hold || _input.Direction != Vector3.zero)) {
                 var direction = _input.Direction;
                 var flipMagnitudeThreshold = _flipMagnitudeThreshold * _flipDirectionThreshold;
                 

@@ -10,6 +10,7 @@ namespace Banchou.Pawn.FSM {
         private SerializedProperty _inNormalizedTime;
         private SerializedProperty _acceptFromTime;
         private SerializedProperty _acceptUntilTime;
+        private SerializedProperty _resetOnEnter;
         private SerializedProperty _outputParameters;
         
         private void OnEnable() {
@@ -19,16 +20,17 @@ namespace Banchou.Pawn.FSM {
             _inNormalizedTime = serializedObject.FindProperty("_inNormalizedTime");
             _acceptFromTime = serializedObject.FindProperty("_acceptFromTime");
             _acceptUntilTime = serializedObject.FindProperty("_acceptUntilTime");
+            _resetOnEnter = serializedObject.FindProperty("_resetOnEnter");
             _outputParameters = serializedObject.FindProperty("_outputParameters");
         }
 
         public override void OnInspectorGUI() {
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(_inputSequence);
             EditorGUILayout.PropertyField(_inputLifetime);
             EditorGUILayout.PropertyField(_overrideGesture);
             EditorGUILayout.PropertyField(_inNormalizedTime);
-
-            EditorGUI.BeginChangeCheck();
+            
             var fromTime = _acceptFromTime.floatValue;
             var untilTime = _acceptUntilTime.floatValue;
             if (_inNormalizedTime.boolValue) {
@@ -40,6 +42,7 @@ namespace Banchou.Pawn.FSM {
                 untilTime = Mathf.Max(0f, EditorGUILayout.FloatField("Accept Until Time", untilTime));
             }
             
+            EditorGUILayout.PropertyField(_resetOnEnter);
             EditorGUILayout.PropertyField(_outputParameters);
             
             if (EditorGUI.EndChangeCheck()) {

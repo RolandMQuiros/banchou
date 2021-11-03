@@ -11,7 +11,7 @@ namespace Banchou.Pawn.Part {
         private Rigidbody _rigidbody;
         private bool _isGrounded = false;
         private bool _moved = false;
-        [SerializeField] private List<Vector3> _contacts = new List<Vector3>(30);
+        [SerializeField] private List<Vector3> _contacts = new List<Vector3>(32);
 
         public void Construct(
             GameState state,
@@ -27,15 +27,15 @@ namespace Banchou.Pawn.Part {
         }
 
         public void Step() {
-            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero) {
+            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _spatial.IsGrounded != _isGrounded) {
                 _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _state.GetTime(), _moved);
             }
             _moved = false;
 
             switch (_spatial.Style) {
                 case PawnSpatial.MovementStyle.Offset: {
-                    if (_spatial.Velocity != Vector3.zero) {
-                        var projected = _spatial.Velocity.ProjectOnContacts(_spatial.Up, _contacts);
+                    if (_spatial.Offset != Vector3.zero) {
+                        var projected = _spatial.Offset.ProjectOnContacts(_spatial.Up, _contacts);
                         _rigidbody.MovePosition(_spatial.Position + projected);
                         _moved = true;
                     }
@@ -52,10 +52,6 @@ namespace Banchou.Pawn.Part {
             _isGrounded = false;
         }
 
-        private void FixedUpdate() {
-            Step();
-        }
-
         private void OnCollisionStay(Collision collision) {
             for (int c = 0; c < collision.contactCount; c++) {
                 var contact = collision.GetContact(c);
@@ -66,10 +62,8 @@ namespace Banchou.Pawn.Part {
             }
         }
 
-        private void OnCollisionEnter(Collision collision) {
-            OnCollisionStay(collision);
-        }
-
+        private void FixedUpdate() => Step();
+        private void OnCollisionEnter(Collision collision) => OnCollisionStay(collision);
         private Vector3 Snap(Vector3 vec) => Snapping.Snap(vec, Vector3.one * 0.001f);
     }
 }

@@ -16,11 +16,12 @@ namespace Banchou.Pawn {
         [Key(2)][field: SerializeField] public Vector3 Forward { get; private set; }
         [Key(3)][field: SerializeField] public Vector3 Up { get; private set; }
         [IgnoreMember] public Vector3 Right => Vector3.Cross(Up, Forward);
-        [Key(4)][field: SerializeField] public Vector3 Velocity { get; private set; }
+        [Key(4)][field: SerializeField] public Vector3 Offset { get; private set; }
         [Key(5)][field: SerializeField] public Vector3 TeleportTarget { get; private set; }
         [Key(6)][field: SerializeField] public MovementStyle Style { get; private set; }
-        [Key(7)][field: SerializeField] public bool IsGrounded { get; private set; }
-        [Key(8)][field: SerializeField] public float LastUpdated { get; private set; }
+        [Key(7)][field: SerializeField] public Vector3 Velocity { get; private set; }
+        [Key(8)][field: SerializeField] public bool IsGrounded { get; private set; }
+        [Key(9)][field: SerializeField] public float LastUpdated { get; private set; }
         [IgnoreMember] private History<PawnSpatial> _history;
 
         [SerializationConstructor]
@@ -29,9 +30,10 @@ namespace Banchou.Pawn {
             Vector3 position,
             Vector3 forward,
             Vector3 up,
-            Vector3 velocity,
+            Vector3 offset,
             Vector3 teleportTarget,
             MovementStyle style,
+            Vector3 velocity,
             bool isGrounded,
             float lastUpdated
         ) {
@@ -39,12 +41,28 @@ namespace Banchou.Pawn {
             Position = position;
             Forward = forward;
             Up = up;
-            Velocity = velocity;
+            Offset = offset;
             TeleportTarget = teleportTarget;
             Style = style;
+            Velocity = velocity;
             IsGrounded = isGrounded;
             LastUpdated = lastUpdated;
             _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
+        }
+
+        public PawnSpatial(PawnSpatial other) => Set(other);
+
+        public void Set(PawnSpatial from) {
+            PawnId = from.PawnId;
+            Position = from.Position;
+            Forward = from.Forward;
+            Up = from.Up;
+            Offset = from.Offset;
+            TeleportTarget = from.TeleportTarget;
+            Style = from.Style;
+            Velocity = from.Velocity;
+            IsGrounded = from.IsGrounded;
+            LastUpdated = from.LastUpdated;
         }
 
         public PawnSpatial(int pawnId) {
@@ -76,9 +94,9 @@ namespace Banchou.Pawn {
             return Notify();
         }
 
-        public PawnSpatial Move(Vector3 velocity, float when) {
-            if (velocity != Vector3.zero) {
-                Velocity += velocity;
+        public PawnSpatial Move(Vector3 offset, float when) {
+            if (offset != Vector3.zero) {
+                Offset += offset;
                 Style = MovementStyle.Offset;
                 LastUpdated = when;
                 return Notify();
@@ -106,8 +124,9 @@ namespace Banchou.Pawn {
         }
 
         public PawnSpatial Moved(Vector3 position, bool isGrounded, float when, bool cancelMomentum = true) {
+            Velocity = (position - Position) / (when - LastUpdated);
             Position = position;
-            Velocity = cancelMomentum ? Vector3.zero : Velocity;
+            Offset = cancelMomentum ? Vector3.zero : Offset;
             IsGrounded = isGrounded;
             LastUpdated = when;
 
@@ -118,18 +137,6 @@ namespace Banchou.Pawn {
         protected override PawnSpatial Notify() {
             _history.PushFrame(this, LastUpdated);
             return base.Notify();
-        }
-        
-        public void Set(PawnSpatial from) {
-            PawnId = from.PawnId;
-            Position = from.Position;
-            Forward = from.Forward;
-            Up = from.Up;
-            Velocity = from.Velocity;
-            TeleportTarget = from.TeleportTarget;
-            Style = from.Style;
-            IsGrounded = from.IsGrounded;
-            LastUpdated = from.LastUpdated;
         }
         #endregion
     }
