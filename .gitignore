@@ -88,6 +88,10 @@ crashlytics-build.properties
 
 # Asset Store Packages
 
+# MessagePack non-UPM
+/[Aa]ssets/Plugins/MessagePack
+/[Aa]ssets/Plugins/MessagePack.meta
+
 # Wire Builder
 /[Aa]ssets/Plugins/WireBuilder
 /[Aa]ssets/Plugins/WireBuilder.meta
@@ -98,3 +102,6 @@ crashlytics-build.properties
 
 # Third party assets
 /[Aa]ssets/ThirdParty
+
+# Temporary folders
+/[Aa]ssets/Banchou/**/_*
