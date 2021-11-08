@@ -11,10 +11,11 @@ namespace Banchou.Board.Part {
     public class PawnFactory : MonoBehaviour {
         public void Construct(
             GameState state,
-            Instantiator instantiate
+            Instantiator instantiate,
+            RegisterPawnObject registerPawnObject
         ) {
-            var instances = new Dictionary<int, (GameObject Instance, string PrefabKey)>();
-            
+            var createdInstances = new Dictionary<int, (GameObject Instance, string PrefabKey)>();
+
             state.ObserveAddedPawns()
                 .Where(pawn => !string.IsNullOrEmpty(pawn.PrefabKey))
                 .Do(pawn => Debug.Log($"Creating Pawn (Id: {pawn.PawnId})"))
@@ -28,7 +29,7 @@ namespace Banchou.Board.Part {
                     var (pawn, prefab) = args;
                     
                     // If an instance exists with the same prefab key, we can skip
-                    if (instances.TryGetValue(pawn.PawnId, out var old) && old.PrefabKey == pawn.PrefabKey) {
+                    if (createdInstances.TryGetValue(pawn.PawnId, out var old) && old.PrefabKey == pawn.PrefabKey) {
                         Debug.Log($"Pawn instance for pawn ID {pawn.PawnId} with prefab key {pawn.PrefabKey} exists.");
                     } else {
                         // If an instance exists with a different prefab key, destroy it
@@ -44,7 +45,8 @@ namespace Banchou.Board.Part {
                             transform,
                             (GetPawnId)(() => pawn.PawnId)
                         );
-                        instances[pawn.PawnId] = (instance, pawn.PrefabKey);
+                        createdInstances[pawn.PawnId] = (instance, pawn.PrefabKey);
+                        registerPawnObject(pawn.PawnId, instance);
                     }
                 })
                 .AddTo(this);

@@ -72,6 +72,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (_input == null) return;
+            
             var dt = _state.GetDeltaTime();
             _velocity = Vector3.MoveTowards(
                 _velocity,

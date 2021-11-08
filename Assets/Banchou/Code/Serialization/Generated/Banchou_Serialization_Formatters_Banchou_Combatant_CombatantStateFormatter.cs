@@ -32,15 +32,17 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(9);
+            writer.WriteArrayHeader(11);
             writer.Write(value.Health);
             writer.Write(value.MaxHealth);
+            writer.Write(value.IsInvincible);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackPhase>().Serialize(ref writer, value.AttackPhase, options);
             writer.Write(value.GuardTime);
             writer.Write(value.StunTime);
             writer.Write(value.IsCountered);
             writer.Write(value.IsKnockedDown);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
+            writer.Write(value.KnockedBackWhen);
             writer.Write(value.LastUpdated);
         }
 
@@ -56,12 +58,14 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             var length = reader.ReadArrayHeader();
             var __Health__ = default(int);
             var __MaxHealth__ = default(int);
+            var __IsInvincible__ = default(bool);
             var __AttackPhase__ = default(global::Banchou.Combatant.CombatantAttackPhase);
             var __GuardTime__ = default(float);
             var __StunTime__ = default(float);
             var __IsCountered__ = default(bool);
             var __IsKnockedDown__ = default(bool);
             var __Knockback__ = default(global::UnityEngine.Vector3);
+            var __KnockedBackWhen__ = default(float);
             var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
@@ -75,24 +79,30 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                         __MaxHealth__ = reader.ReadInt32();
                         break;
                     case 2:
-                        __AttackPhase__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackPhase>().Deserialize(ref reader, options);
+                        __IsInvincible__ = reader.ReadBoolean();
                         break;
                     case 3:
-                        __GuardTime__ = reader.ReadSingle();
+                        __AttackPhase__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantAttackPhase>().Deserialize(ref reader, options);
                         break;
                     case 4:
-                        __StunTime__ = reader.ReadSingle();
+                        __GuardTime__ = reader.ReadSingle();
                         break;
                     case 5:
-                        __IsCountered__ = reader.ReadBoolean();
+                        __StunTime__ = reader.ReadSingle();
                         break;
                     case 6:
-                        __IsKnockedDown__ = reader.ReadBoolean();
+                        __IsCountered__ = reader.ReadBoolean();
                         break;
                     case 7:
-                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        __IsKnockedDown__ = reader.ReadBoolean();
                         break;
                     case 8:
+                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        break;
+                    case 9:
+                        __KnockedBackWhen__ = reader.ReadSingle();
+                        break;
+                    case 10:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
@@ -101,7 +111,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.CombatantState(__Health__, __MaxHealth__, __AttackPhase__, __GuardTime__, __StunTime__, __IsCountered__, __IsKnockedDown__, __Knockback__, __LastUpdated__);
+            var ____result = new global::Banchou.Combatant.CombatantState(__Health__, __MaxHealth__, __IsInvincible__, __AttackPhase__, __GuardTime__, __StunTime__, __IsCountered__, __IsKnockedDown__, __Knockback__, __KnockedBackWhen__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

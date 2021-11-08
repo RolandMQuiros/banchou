@@ -74,6 +74,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (_input == null) return;
+            
             var stateTime = stateInfo.normalizedTime % 1;
             if (stateTime >= _startTime && stateTime <= _endTime && (!_hold || _input.Direction != Vector3.zero)) {
                 var direction = _input.Direction;

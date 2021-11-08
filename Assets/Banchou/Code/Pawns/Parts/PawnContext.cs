@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Banchou.Board;
+using Banchou.Board.Part;
 using Banchou.DependencyInjection;
 
 namespace Banchou.Pawn.Part {
@@ -9,15 +11,18 @@ namespace Banchou.Pawn.Part {
         private Animator _animator;
         private CharacterController _controller;
         private Rigidbody _rigidbody;
+        private RegisterPawnObject _registerPawnObject;
 
         public void Construct(
             GameState state,
+            RegisterPawnObject registerPawnObject,
             GetPawnId getPawnId = null
         ) {
             if (getPawnId == null) {
                 // If this pawn isn't in the state (i.e., baked into the scene), register it
                 var xform = transform;
                 state.AddPawn(out _pawn, position: xform.position, forward: xform.forward);
+                _registerPawnObject = registerPawnObject;
             } else {
                 // If this pawn is in the state, grab it
                 _pawn = state.GetPawn(getPawnId());
@@ -33,6 +38,10 @@ namespace Banchou.Pawn.Part {
                 _controller = GetComponentInChildren<CharacterController>();
                 _rigidbody = GetComponentInChildren<Rigidbody>();
             }
+        }
+
+        private void Start() {
+            _registerPawnObject?.Invoke(_pawnId, gameObject);
         }
 
         private int GetPawnId() => _pawnId;

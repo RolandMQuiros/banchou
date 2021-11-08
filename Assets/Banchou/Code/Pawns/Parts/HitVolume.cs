@@ -1,30 +1,38 @@
-using UnityEngine;
 using Banchou.Combatant;
+using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class HitVolume : MonoBehaviour {
-        [SerializeField] private float _damageScale = 1f;
-        [SerializeField] private float _knockbackScale = 1f;
-        [SerializeField] private float _hitStunScale = 1f;
+        public int PawnId { get; private set; }
+        [field: SerializeField] public float DamageScale { get; private set; } = 1f;
+        [field: SerializeField] public float KnockbackScale { get; private set; } = 1f;
+        [field: SerializeField] public float HitStunScale { get; private set; }  = 1f;
 
         private GameState _state;
-        private int _pawnId;
-
+        private HurtVolume _hurtVolume;
+        
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
-            _pawnId = getPawnId();
+            PawnId = getPawnId();
         }
-        
+
         private void OnTriggerEnter(Collider other) {
-            var hitVolume = other.GetComponent<HurtVolume>();
-            if (hitVolume != null && hitVolume.PawnId != _pawnId) {
+            var hurtVolume = other.GetComponent<HurtVolume>();
+            if (hurtVolume != null && hurtVolume.PawnId != PawnId) {
+                _hurtVolume = hurtVolume;
+            }
+        }
+
+        private void LateUpdate() {
+            if (_hurtVolume != null) {
                 _state.HitCombatant(
-                    hitVolume.PawnId,
-                    _pawnId,
-                    hitVolume.Knockback * _knockbackScale,
-                    hitVolume.HitStun * _hitStunScale,
-                    Mathf.RoundToInt(hitVolume.Damage * _damageScale)
+                    _hurtVolume.PawnId,
+                    PawnId,
+                    _hurtVolume.Knockback * KnockbackScale,
+                    _hurtVolume.HitStun * HitStunScale,
+                    Mathf.RoundToInt(_hurtVolume.Damage * DamageScale)
                 );
+                _hurtVolume = null;
             }
         }
     }

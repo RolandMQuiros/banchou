@@ -10,12 +10,14 @@ namespace Banchou.Pawn.FSM {
         private string _hitTrigger;
         [SerializeField, Tooltip("Float parameter to set the hitstun time")]
         private string _stunTimeFloat;
+        [SerializeField, Tooltip("Float parameter to set the normalized hitstun time")]
+        private string _stunTimeNormalizedFloat;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
             
-            if (!string.IsNullOrWhiteSpace(_hitTrigger)) {
-                var hitTriggerHash = Animator.StringToHash(_hitTrigger);
+            var hitTriggerHash = Animator.StringToHash(_hitTrigger);
+            if (hitTriggerHash != 0) {
                 state.ObserveCombatant(pawnId)
                     .Where(combatant => combatant.StunTime > 0)
                     .CatchIgnoreLog()
@@ -25,13 +27,24 @@ namespace Banchou.Pawn.FSM {
                     .AddTo(this);
             }
             
-            if (!string.IsNullOrWhiteSpace(_stunTimeFloat)) {
-                var stunTimeHash = Animator.StringToHash(_stunTimeFloat);
+            var stunTimeHash = Animator.StringToHash(_stunTimeFloat);
+            if (stunTimeHash != 0) {
                 ObserveStateUpdate
                     .WithLatestFrom(state.ObserveCombatant(pawnId), (_, combatant) => combatant)
                     .Select(combatant => combatant.StunTimeAt(state.GetTime()))
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(stunTimeHash, stunTime))
+                    .AddTo(this);
+            }
+
+            var normalizedStunTimeHash = Animator.StringToHash(_stunTimeNormalizedFloat);
+            if (normalizedStunTimeHash != 0) {
+                ObserveStateUpdate
+                    .WithLatestFrom(state.ObserveCombatant(pawnId), (_, combatant) => combatant)
+                    .Where(combatant => combatant.StunTime > 0f)
+                    .Select(combatant => (state.GetTime() - combatant.LastUpdated) / combatant.StunTime)
+                    .CatchIgnoreLog()
+                    .Subscribe(stunTime => animator.SetFloat(normalizedStunTimeHash, stunTime))
                     .AddTo(this);
             }
         }

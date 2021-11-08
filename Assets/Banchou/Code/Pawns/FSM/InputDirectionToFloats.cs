@@ -10,7 +10,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private string _forwardOut;
         [SerializeField] private string _rightOut;
 
-        private PlayerInputState _player;
+        private PlayerInputState _input;
         private PawnSpatial _spatial;
 
         private int _magnitudeHash;
@@ -20,7 +20,7 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId) {
             state.ObservePawnInput(getPawnId())
                 .CatchIgnoreLog()
-                .Subscribe(player => _player = player)
+                .Subscribe(player => _input = player)
                 .AddTo(this);
             state.ObservePawnSpatial(getPawnId())
                 .CatchIgnoreLog()
@@ -33,18 +33,18 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (_player == null) return;
+            if (_input == null) return;
             
             if (_magnitudeHash != 0) {
-                animator.SetFloat(_magnitudeHash, _player.Direction.magnitude);
+                animator.SetFloat(_magnitudeHash, _input.Direction.magnitude);
             }
 
             if (_forwardHash != 0) {
-                animator.SetFloat(_forwardHash, Vector3.Dot(_player.Direction, _spatial.Forward));
+                animator.SetFloat(_forwardHash, Vector3.Dot(_input.Direction, _spatial.Forward));
             }
 
             if (_rightHash != 0) {
-                animator.SetFloat(_rightHash, Vector3.Dot(_player.Direction, _spatial.Right));
+                animator.SetFloat(_rightHash, Vector3.Dot(_input.Direction, _spatial.Right));
             }
         }
     }   
