@@ -23,4 +23,32 @@ namespace Banchou {
             return (TNotifier)this;
         }
     }
+
+    public abstract class NotifiableWithHistory<TNotifier> : Notifiable<TNotifier>, IRecordable<TNotifier>
+        where TNotifier : Notifiable<TNotifier>, IRecordable<TNotifier> {
+
+        protected readonly History<TNotifier> History;
+
+        protected NotifiableWithHistory(int historyBufferSize) {
+            History = new History<TNotifier>(historyBufferSize);
+        }
+        
+        public abstract void Set(TNotifier other);
+
+        public virtual TNotifier Rewind(float to) {
+            if (History != null) {
+                History.Rewind(to, out var frame);
+                Set(frame);
+                return Notify();
+            }
+            return this as TNotifier;
+        }
+
+        protected virtual TNotifier Notify(float when) {
+            if (History != null) {
+                History.PushFrame(this as TNotifier, when);
+            }
+            return Notify();
+        }
+    }
 }

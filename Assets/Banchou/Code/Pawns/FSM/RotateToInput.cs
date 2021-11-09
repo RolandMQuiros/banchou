@@ -58,7 +58,7 @@ namespace Banchou.Pawn.FSM {
         ) {
             _state = state;
             _body = body;
-            _state.ObservePawnSpatial(getPawnId())
+            _state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(spatial => {  _spatial = spatial; })
                 .AddTo(this);

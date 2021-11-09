@@ -98,14 +98,6 @@ MonoBehaviour:
     <LastUpdated>k__BackingField: 0
     <Combatant>k__BackingField:
       <Health>k__BackingField: 0
-      <MaxHealth>k__BackingField: 0
-      <AttackPhase>k__BackingField: 0
-      <GuardTime>k__BackingField: 0
-      <StunTime>k__BackingField: 0
-      <IsCountered>k__BackingField: 0
-      <IsKnockedDown>k__BackingField: 0
-      <Knockback>k__BackingField: {x: 0, y: 0, z: 0}
-      <KnockedBackWhen>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
 --- !u!114 &6952295661100396989
 MonoBehaviour:
@@ -122,14 +114,6 @@ MonoBehaviour:
   _maxHealth: 100
   _combatant:
     <Health>k__BackingField: 0
-    <MaxHealth>k__BackingField: 0
-    <AttackPhase>k__BackingField: 0
-    <GuardTime>k__BackingField: 0
-    <StunTime>k__BackingField: 0
-    <IsCountered>k__BackingField: 0
-    <IsKnockedDown>k__BackingField: 0
-    <Knockback>k__BackingField: {x: 0, y: 0, z: 0}
-    <KnockedBackWhen>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
 --- !u!114 &7141537125015397197
 MonoBehaviour:
@@ -300,10 +284,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Interval>k__BackingField: 1
   <Damage>k__BackingField: 0
   <HitStun>k__BackingField: 1
   <HitLag>k__BackingField: 0
-  _knockback: {x: 1.8574504, y: 4.5033927, z: 0.00000047683716}
+  _knockback: {x: 0.7133857, y: 1.1469396, z: -0.00000333786}
   _recoil: {x: -1.8, y: 0, z: 0}
 --- !u!1 &6081919536696013468
 GameObject:

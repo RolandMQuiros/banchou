@@ -50,7 +50,7 @@ namespace Banchou.Network.Part {
                 })
                 .AddTo(this);
 
-            _state.ObserveLocalPlayerInput()
+            _state.ObserveLocalPlayerInputChanges()
                 .Where(_ => _state.IsConnected())
                 .CatchIgnoreLog()
                 .Subscribe(input => {
@@ -63,7 +63,7 @@ namespace Banchou.Network.Part {
                 .Select(network => TimeSpan.FromSeconds(1.0 / network.TickRate))
                 .SelectMany(interval => Observable.Timer(TimeSpan.Zero, interval));
             
-            _state.ObservePawnSpatials()
+            _state.ObservePawnSpatialsChanges()
                 .Sample(tickInterval)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => {

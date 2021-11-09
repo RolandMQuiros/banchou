@@ -10,26 +10,28 @@ namespace Banchou.Player {
         public static IObservable<PlayerState> ObservePlayer(this GameState state, int playerId) {
             return state
                 .ObservePlayers()
-                .SelectMany(players => {
-                    PlayerState player;
-                    if (players.Members.TryGetValue(playerId, out player)) {
-                        return player.Observe();
-                    }
-                    return Observable.Empty<PlayerState>();
-                });
+                .Select(players => {
+                    players.Members.TryGetValue(playerId, out var player);
+                    return player;
+                })
+                .StartWith(state.GetPlayer(playerId))
+                .Where(player => player != null);
         }
 
-        public static IObservable<PlayerInputState> ObservePlayerInput(this GameState state, int playerId) {
+        public static IObservable<PlayerState> ObservePlayerChanges(this GameState state, int playerId) {
+            return state.ObservePlayer(playerId).SelectMany(player => player.Observe());
+        }
+
+        public static IObservable<PlayerInputState> ObservePlayerInputChanges(this GameState state, int playerId) {
             return state
                 .ObservePlayer(playerId)
                 .SelectMany(player => player.Input.Observe());
         }
 
-        public static IObservable<PlayerInputState> ObserveLocalPlayerInput(this GameState state) {
+        public static IObservable<PlayerInputState> ObserveLocalPlayerInputChanges(this GameState state) {
             return state
                 .ObservePlayers()
                 .SelectMany(players => players.Members.Values)
-                .SelectMany(player => player.Observe())
                 .Where(player => state.IsLocalPlayer(player.PlayerId))
                 .SelectMany(player => player.Input.Observe());
         }

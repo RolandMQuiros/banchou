@@ -17,16 +17,16 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
     using System.Buffers;
     using MessagePack;
 
-    public sealed class CombatantAttackPhaseFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Combatant.CombatantAttackPhase>
+    public sealed class AttackPhaseFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Combatant.AttackPhase>
     {
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Combatant.CombatantAttackPhase value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.Combatant.AttackPhase value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            writer.Write((Int32)value);
+            writer.Write((Byte)value);
         }
 
-        public global::Banchou.Combatant.CombatantAttackPhase Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Combatant.AttackPhase Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
-            return (global::Banchou.Combatant.CombatantAttackPhase)reader.ReadInt32();
+            return (global::Banchou.Combatant.AttackPhase)reader.ReadByte();
         }
     }
 }

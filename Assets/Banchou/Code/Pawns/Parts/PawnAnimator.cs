@@ -17,7 +17,7 @@ namespace Banchou.Pawn.Part {
         ) {
             _state = state;
             _animator = animator;
-            _state.ObservePawn(getPawnId())
+            _state.ObservePawnChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(pawn => _frame = pawn.AnimatorFrame)
                 .AddTo(this);

@@ -3,8 +3,9 @@ using UnityEditor;
 
 namespace Banchou.Pawn.Part {
     [CustomEditor(typeof(HurtVolume))]
-    public class HitVolumeInspector : Editor {
+    public class HurtVolumeInspector : Editor {
         private Transform _target;
+        private SerializedProperty _interval;
         private SerializedProperty _damage;
         private SerializedProperty _hitStun;
         private SerializedProperty _hitLag;
@@ -13,6 +14,7 @@ namespace Banchou.Pawn.Part {
 
         private void OnEnable() {
             _target = ((HurtVolume)target).transform;
+            _interval = serializedObject.FindProperty("<Interval>k__BackingField");
             _damage = serializedObject.FindProperty("<Damage>k__BackingField");
             _hitStun = serializedObject.FindProperty("<HitStun>k__BackingField");
             _hitLag = serializedObject.FindProperty("<HitLag>k__BackingField");
@@ -23,6 +25,7 @@ namespace Banchou.Pawn.Part {
         public override void OnInspectorGUI() {
             serializedObject.Update();
             EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(_interval);
             EditorGUILayout.PropertyField(_damage);
             EditorGUILayout.PropertyField(_hitStun);
             EditorGUILayout.PropertyField(_hitLag);

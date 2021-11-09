@@ -40,7 +40,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Offset, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.TeleportTarget, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnSpatial.MovementStyle>().Serialize(ref writer, value.Style, options);
-            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Velocity, options);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.AmbientVelocity, options);
             writer.Write(value.IsGrounded);
             writer.Write(value.LastUpdated);
         }

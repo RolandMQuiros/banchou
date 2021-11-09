@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Banchou {
@@ -26,23 +27,16 @@ namespace Banchou {
             public TRecordable Data;
         }
 
+        private List<Frame> _frames;
         private readonly int _bufferSize;
-        private readonly Func<TRecordable> _createDefault;
-
-        private Frame[] _frames;
         private int _front;
         private int _count;
 
-        private Frame[] Frames => _frames ??= Enumerable
-            .Range(0, _bufferSize)
-            .Select(_ => new Frame { Data = _createDefault() })
-            .ToArray();
+        private Frame FrameAt(int index) => _frames[index % _frames.Count];
 
-        private Frame FrameAt(int index) => Frames[index % Frames.Length];
-
-        public History(int bufferSize, Func<TRecordable> createDefault) {
+        public History(int bufferSize) {
             _bufferSize = bufferSize;
-            _createDefault = createDefault ?? throw new ArgumentNullException(nameof(createDefault));
+            _frames = new List<Frame>(_bufferSize);
         }
 
         /// <summary>
@@ -52,13 +46,23 @@ namespace Banchou {
         /// <param name="when">The timestamp of the push</param>
         /// <returns>This <see cref="History{T}"/> object</returns>
         public History<TRecordable> PushFrame(TRecordable frame, float when) {
-            if (_bufferSize > 0 && _createDefault != null) {
+            if (_bufferSize > 0) {
                 // Increment counters
-                _front = (_front + 1) % Frames.Length;
-                _count = Math.Min(_count + 1, Frames.Length);
-
+                _front = (_front + 1) % Math.Min(_frames.Count + 1, _bufferSize);
+                
                 // Set the frame's data
-                FrameAt(_front).Data.Set(frame);
+                if (_frames.Count < _bufferSize) {
+                    _frames.Add(
+                        new Frame {
+                            When = when,
+                            Data = frame
+                        }
+                    );
+                } else {
+                    var frameAt = FrameAt(_front);
+                    frameAt.When = when;
+                    frameAt.Data.Set(frame);
+                }
             }
             return this;
         }
@@ -72,7 +76,7 @@ namespace Banchou {
         public History<TRecordable> Rewind(float when, out TRecordable frame) {
             // Find the first frame with the timestamp just before the provided one
             frame = default;
-            if (_bufferSize > 0 && _createDefault != null) {
+            if (_bufferSize > 0) {
                 Frame foundFrame = null;
                 int frameOffset;
                 for (frameOffset = 1; frameOffset < _count; frameOffset++) {
@@ -84,7 +88,7 @@ namespace Banchou {
                 }
                 if (foundFrame != null) {
                     frame = foundFrame.Data;
-                    _front -= (frameOffset - 1) % Frames.Length;
+                    _front -= (frameOffset - 1) % _frames.Count;
                 }
             }
             return this;

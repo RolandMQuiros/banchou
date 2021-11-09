@@ -41,7 +41,7 @@ namespace Banchou.Combatant {
             if (attacker != null && defender != null) {
                 var attackDirection = attacker.Position - defender.Position;
                 state.GetCombatant(defenderPawnId)?
-                    .Hit(defender.Forward, attackDirection, knockback, hitStun, damage, state.GetTime());
+                    .Hit(attackerPawnId, defender.Forward, attackDirection, knockback, hitStun, damage, state.GetTime());
             }
             return state;
         }
@@ -52,8 +52,15 @@ namespace Banchou.Combatant {
                 Debug.LogError($"No Pawn {pawnId} found for combatant");
             } else {
                 state.GetCombatant(pawnId)?
+                    .Defense
                     .Guard(guardTime, state.GetTime());
             }
+            return state;
+        }
+
+        public static GameState SetCombatantInvincibility(this GameState state, int pawnId, bool isInvincible) {
+            var combatant = state.GetCombatant(pawnId);
+            combatant?.Defense.SetInvincibility(isInvincible, state.GetTime());
             return state;
         }
     }

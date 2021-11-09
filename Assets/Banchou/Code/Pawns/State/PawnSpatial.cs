@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
-    public class PawnSpatial : Notifiable<PawnSpatial>, IRecordable<PawnSpatial> {
+    public class PawnSpatial : NotifiableWithHistory<PawnSpatial> {
         public enum MovementStyle : byte {
             Offset,
             Instantaneous,
@@ -19,10 +19,9 @@ namespace Banchou.Pawn {
         [Key(4)][field: SerializeField] public Vector3 Offset { get; private set; }
         [Key(5)][field: SerializeField] public Vector3 TeleportTarget { get; private set; }
         [Key(6)][field: SerializeField] public MovementStyle Style { get; private set; }
-        [Key(7)][field: SerializeField] public Vector3 Velocity { get; private set; }
+        [Key(7)][field: SerializeField] public Vector3 AmbientVelocity { get; private set; }
         [Key(8)][field: SerializeField] public bool IsGrounded { get; private set; }
         [Key(9)][field: SerializeField] public float LastUpdated { get; private set; }
-        [IgnoreMember] private History<PawnSpatial> _history;
 
         [SerializationConstructor]
         public PawnSpatial(
@@ -33,10 +32,10 @@ namespace Banchou.Pawn {
             Vector3 offset,
             Vector3 teleportTarget,
             MovementStyle style,
-            Vector3 velocity,
+            Vector3 ambientVelocity,
             bool isGrounded,
             float lastUpdated
-        ) {
+        ) : base(32) {
             PawnId = pawnId;
             Position = position;
             Forward = forward;
@@ -44,15 +43,14 @@ namespace Banchou.Pawn {
             Offset = offset;
             TeleportTarget = teleportTarget;
             Style = style;
-            Velocity = velocity;
+            AmbientVelocity = ambientVelocity;
             IsGrounded = isGrounded;
             LastUpdated = lastUpdated;
-            _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
         }
 
-        public PawnSpatial(PawnSpatial other) => Set(other);
+        public PawnSpatial(PawnSpatial other) : base(32) => Set(other);
 
-        public void Set(PawnSpatial from) {
+        public override void Set(PawnSpatial from) {
             PawnId = from.PawnId;
             Position = from.Position;
             Forward = from.Forward;
@@ -60,14 +58,13 @@ namespace Banchou.Pawn {
             Offset = from.Offset;
             TeleportTarget = from.TeleportTarget;
             Style = from.Style;
-            Velocity = from.Velocity;
+            AmbientVelocity = from.AmbientVelocity;
             IsGrounded = from.IsGrounded;
             LastUpdated = from.LastUpdated;
         }
 
-        public PawnSpatial(int pawnId) {
+        public PawnSpatial(int pawnId) : base(32) {
             PawnId = pawnId;
-            _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
         }
 
         public PawnSpatial(
@@ -76,22 +73,17 @@ namespace Banchou.Pawn {
             Vector3 forward,
             Vector3 up,
             float when
-        ) {
+        ) : base(32) {
             PawnId = pawnId;
             Position = position;
             Forward = forward;
             Up = up;
-            _history = new History<PawnSpatial>(32, () => new PawnSpatial(PawnId));
+            LastUpdated = when;
         }
 
         public PawnSpatial Sync(PawnSpatial other) {
-            TeleportTarget = other.Position;
-            Style = MovementStyle.Interpolated;
-            Forward = other.Forward;
-            Up = other.Up;
-            IsGrounded = other.IsGrounded;
-            LastUpdated = other.LastUpdated;
-            return Notify();
+            Set(other);
+            return Notify(other.LastUpdated);
         }
 
         public PawnSpatial Move(Vector3 offset, float when) {
@@ -99,7 +91,7 @@ namespace Banchou.Pawn {
                 Offset += offset;
                 Style = MovementStyle.Offset;
                 LastUpdated = when;
-                return Notify();
+                return Notify(when);
             }
             return this;
         }
@@ -109,7 +101,7 @@ namespace Banchou.Pawn {
                 TeleportTarget = position;
                 Style = instant ? MovementStyle.Instantaneous : MovementStyle.Interpolated;
                 LastUpdated = when;
-                return Notify();
+                return Notify(when);
             }
             return this;
         }
@@ -118,26 +110,18 @@ namespace Banchou.Pawn {
             if (Forward != forward) {
                 Forward = forward;
                 LastUpdated = when;
-                Notify();
+                Notify(when);
             }
             return this;
         }
 
-        public PawnSpatial Moved(Vector3 position, bool isGrounded, float when, bool cancelMomentum = true) {
-            Velocity = (position - Position) / (when - LastUpdated);
+        public PawnSpatial Moved(Vector3 position, Vector3 velocity, bool isGrounded, float when, bool cancelMomentum = true) {
+            AmbientVelocity = velocity;
             Position = position;
             Offset = cancelMomentum ? Vector3.zero : Offset;
             IsGrounded = isGrounded;
             LastUpdated = when;
-
-            return Notify();
+            return Notify(when);
         }
-        
-        #region History
-        protected override PawnSpatial Notify() {
-            _history.PushFrame(this, LastUpdated);
-            return base.Notify();
-        }
-        #endregion
     }
 }

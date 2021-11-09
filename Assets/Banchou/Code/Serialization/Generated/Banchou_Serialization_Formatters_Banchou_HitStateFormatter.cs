@@ -14,16 +14,16 @@
 #pragma warning disable SA1403 // File may only contain a single namespace
 #pragma warning disable SA1649 // File name should match first type name
 
-namespace Banchou.Serialization.Formatters.Banchou.Combatant
+namespace Banchou.Serialization.Formatters.Banchou
 {
     using System;
     using System.Buffers;
     using MessagePack;
 
-    public sealed class CombatantStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Combatant.CombatantState>
+    public sealed class HitStateFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.HitState>
     {
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Combatant.CombatantState value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref MessagePackWriter writer, global::Banchou.HitState value, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (value == null)
             {
@@ -33,15 +33,15 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
 
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(6);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Serialize(ref writer, value.Stats, options);
-            writer.Write(value.Health);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.DefensiveState>().Serialize(ref writer, value.Defense, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.HitState>().Serialize(ref writer, value.LastHit, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.AttackState>().Serialize(ref writer, value.Attack, options);
+            writer.Write(value.AttackerId);
+            writer.Write(value.Damage);
+            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
+            writer.Write(value.StunTime);
+            writer.Write(value.IsCountered);
             writer.Write(value.LastUpdated);
         }
 
-        public global::Banchou.Combatant.CombatantState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.HitState Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
@@ -51,11 +51,11 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Stats__ = default(global::Banchou.Combatant.CombatantStats);
-            var __Health__ = default(int);
-            var __Defense__ = default(global::Banchou.Combatant.DefensiveState);
-            var __LastHit__ = default(global::Banchou.HitState);
-            var __Attack__ = default(global::Banchou.Combatant.AttackState);
+            var __AttackerId__ = default(int);
+            var __Damage__ = default(int);
+            var __Knockback__ = default(global::UnityEngine.Vector3);
+            var __StunTime__ = default(float);
+            var __IsCountered__ = default(bool);
             var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
@@ -63,19 +63,19 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 switch (i)
                 {
                     case 0:
-                        __Stats__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Deserialize(ref reader, options);
+                        __AttackerId__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __Health__ = reader.ReadInt32();
+                        __Damage__ = reader.ReadInt32();
                         break;
                     case 2:
-                        __Defense__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.DefensiveState>().Deserialize(ref reader, options);
+                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __LastHit__ = formatterResolver.GetFormatterWithVerify<global::Banchou.HitState>().Deserialize(ref reader, options);
+                        __StunTime__ = reader.ReadSingle();
                         break;
                     case 4:
-                        __Attack__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.AttackState>().Deserialize(ref reader, options);
+                        __IsCountered__ = reader.ReadBoolean();
                         break;
                     case 5:
                         __LastUpdated__ = reader.ReadSingle();
@@ -86,7 +86,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.CombatantState(__Stats__, __Health__, __Defense__, __LastHit__, __Attack__, __LastUpdated__);
+            var ____result = new global::Banchou.HitState(__AttackerId__, __Damage__, __Knockback__, __StunTime__, __IsCountered__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

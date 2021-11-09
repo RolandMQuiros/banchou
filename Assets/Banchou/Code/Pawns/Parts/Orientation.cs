@@ -11,7 +11,7 @@ namespace Banchou.Pawn.Part {
             GetPawnId getPawnId,
             Rigidbody body
         ) {
-            state.ObservePawnSpatial(getPawnId())
+            state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);

@@ -25,7 +25,7 @@ namespace Banchou.Pawn.FSM {
             Animator animator
         ) {
             PawnSpatial spatial = null;
-            state.ObservePawnSpatial(getPawnId())
+            state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(s => spatial = s)
                 .AddTo(this);
@@ -54,18 +54,18 @@ namespace Banchou.Pawn.FSM {
             );
             SubscribeToSpatial(_isGroundedBool, hash => animator.SetBool(hash, spatial.IsGrounded));
             
-            SubscribeToSpatial(_deltaSpeedFloat, hash => animator.SetFloat(hash, spatial.Velocity.magnitude));
+            SubscribeToSpatial(_deltaSpeedFloat, hash => animator.SetFloat(hash, spatial.AmbientVelocity.magnitude));
             SubscribeToSpatial(
                 _forwardDeltaFloat,
-                hash => animator.SetFloat(hash, Vector3.Dot(spatial.Velocity, spatial.Forward))
+                hash => animator.SetFloat(hash, Vector3.Dot(spatial.AmbientVelocity, spatial.Forward))
             );
             SubscribeToSpatial(
                 _rightDeltaFloat,
-                hash => animator.SetFloat(hash, Vector3.Dot(spatial.Velocity, spatial.Right))
+                hash => animator.SetFloat(hash, Vector3.Dot(spatial.AmbientVelocity, spatial.Right))
             );
             SubscribeToSpatial(
                 _upDeltaFloat,
-                hash => animator.SetFloat(hash, Vector3.Dot(spatial.Velocity, spatial.Up))
+                hash => animator.SetFloat(hash, Vector3.Dot(spatial.AmbientVelocity, spatial.Up))
             );
         }
     }

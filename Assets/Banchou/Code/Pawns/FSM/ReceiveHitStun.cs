@@ -16,22 +16,11 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
             
-            var hitTriggerHash = Animator.StringToHash(_hitTrigger);
-            if (hitTriggerHash != 0) {
-                state.ObserveCombatant(pawnId)
-                    .Where(combatant => combatant.StunTime > 0)
-                    .CatchIgnoreLog()
-                    .Subscribe(_ => {
-                        animator.SetTrigger(hitTriggerHash);
-                    })
-                    .AddTo(this);
-            }
-            
             var stunTimeHash = Animator.StringToHash(_stunTimeFloat);
             if (stunTimeHash != 0) {
                 ObserveStateUpdate
-                    .WithLatestFrom(state.ObserveCombatant(pawnId), (_, combatant) => combatant)
-                    .Select(combatant => combatant.StunTimeAt(state.GetTime()))
+                    .Select(_ => state.GetCombatantLastHit(pawnId)
+                        .StunTimeAt(state.GetTime()))
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(stunTimeHash, stunTime))
                     .AddTo(this);
@@ -40,11 +29,29 @@ namespace Banchou.Pawn.FSM {
             var normalizedStunTimeHash = Animator.StringToHash(_stunTimeNormalizedFloat);
             if (normalizedStunTimeHash != 0) {
                 ObserveStateUpdate
-                    .WithLatestFrom(state.ObserveCombatant(pawnId), (_, combatant) => combatant)
-                    .Where(combatant => combatant.StunTime > 0f)
-                    .Select(combatant => (state.GetTime() - combatant.LastUpdated) / combatant.StunTime)
+                    .Select(_ => state.GetCombatantLastHit(pawnId)
+                        .NormalizedStunTimeAt(state.GetTime()))
+                    .Where(stunTime => stunTime <= 1f)
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(normalizedStunTimeHash, stunTime))
+                    .AddTo(this);
+            }
+            
+            var hitTriggerHash = Animator.StringToHash(_hitTrigger);
+            if (hitTriggerHash != 0) {
+                state.ObserveLastHitChanges(pawnId)
+                    .Where(hit => hit.StunTime > 0)
+                    .CatchIgnoreLog()
+                    .Subscribe(hit => {
+                        animator.SetTrigger(hitTriggerHash);
+                        if (stunTimeHash != 0) {
+                            animator.SetFloat(stunTimeHash, hit.StunTimeAt(state.GetTime()));
+                        }
+
+                        if (normalizedStunTimeHash != 0) {
+                            animator.SetFloat(normalizedStunTimeHash, hit.NormalizedStunTimeAt(state.GetTime()));
+                        }
+                    })
                     .AddTo(this);
             }
         }

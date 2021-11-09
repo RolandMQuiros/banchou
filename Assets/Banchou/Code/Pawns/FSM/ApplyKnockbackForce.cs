@@ -4,20 +4,19 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyKnockbackForce : FSMBehaviour {
-        [SerializeField] private float _multiplier = 100f;
-        [SerializeField] private ForceMode _forceMode = ForceMode.Force;
+        [SerializeField] private float _multiplier = 1f;
 
         private GameState _state;
         private CombatantState _combatant;
         
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
             _state = state;
-            _state.ObserveCombatant(getPawnId())
+            _state.ObserveLastHitChanges(getPawnId())
                 .Where(_ => IsStateActive)
-                .DistinctUntilChanged(combatant => combatant.KnockedBackWhen)
                 .CatchIgnoreLog()
-                .Subscribe(combatant => {
-                    rigidbody.AddForce(_multiplier * combatant.Knockback, _forceMode);
+                .Subscribe(hit => {
+                    Debug.Log($"Knockback force applied at {state.GetTime()}");
+                    rigidbody.velocity = _multiplier * hit.Knockback;
                 })
                 .AddTo(this);
         }

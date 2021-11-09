@@ -22,7 +22,7 @@ namespace Banchou.Pawn.FSM {
                 .CatchIgnoreLog()
                 .Subscribe(player => _input = player)
                 .AddTo(this);
-            state.ObservePawnSpatial(getPawnId())
+            state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);

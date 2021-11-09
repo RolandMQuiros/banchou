@@ -46,7 +46,7 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
-            _state.ObservePawnSpatial(getPawnId())
+            _state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);

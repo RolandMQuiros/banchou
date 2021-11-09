@@ -20,7 +20,7 @@ namespace Banchou.Pawn.Part {
         ) {
             _state = state;
             _rigidbody = body;
-            _state.ObservePawn(getPawnId())
+            _state.ObservePawnChanges(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(pawn => _spatial = pawn.Spatial)
                 .AddTo(this);
@@ -28,7 +28,7 @@ namespace Banchou.Pawn.Part {
 
         public void Step() {
             if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _spatial.IsGrounded != _isGrounded) {
-                _spatial.Moved(Snap(_rigidbody.position), _isGrounded, _state.GetTime(), _moved);
+                _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
             }
             _moved = false;
 
@@ -42,9 +42,11 @@ namespace Banchou.Pawn.Part {
                 } break;
                 case PawnSpatial.MovementStyle.Instantaneous: {
                     _rigidbody.position = Snap(_spatial.TeleportTarget);
+                    _rigidbody.velocity = _spatial.AmbientVelocity;
                 } break;
                 case PawnSpatial.MovementStyle.Interpolated: {
                     _rigidbody.position = Vector3.Slerp(_spatial.Position, _spatial.TeleportTarget, 0.5f);
+                    _rigidbody.velocity = _spatial.AmbientVelocity;
                 } break;
             }
 
