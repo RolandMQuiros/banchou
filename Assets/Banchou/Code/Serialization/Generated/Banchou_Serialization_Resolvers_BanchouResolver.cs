@@ -49,37 +49,29 @@ namespace Banchou.Serialization.Resolvers
 
         static BanchouResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(29)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(21)
             {
                 { typeof(global::System.Collections.Generic.Dictionary<int, bool>), 0 },
                 { typeof(global::System.Collections.Generic.Dictionary<int, float>), 1 },
                 { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Combatant.CombatantState>), 2 },
-                { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Pawn.PawnState>), 3 },
-                { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>), 4 },
-                { typeof(global::System.Collections.Generic.Dictionary<int, int>), 5 },
-                { typeof(global::System.Collections.Generic.List<string>), 6 },
-                { typeof(global::Banchou.Combatant.AttackPhase), 7 },
-                { typeof(global::Banchou.Pawn.PawnSpatial.MovementStyle), 8 },
-                { typeof(global::Banchou.Player.InputCommand), 9 },
-                { typeof(global::Banchou.Board.BoardState), 10 },
-                { typeof(global::Banchou.Combatant.AttackState), 11 },
-                { typeof(global::Banchou.Combatant.CombatantState), 12 },
-                { typeof(global::Banchou.Combatant.CombatantStates), 13 },
-                { typeof(global::Banchou.Combatant.CombatantStats), 14 },
-                { typeof(global::Banchou.Combatant.DefensiveState), 15 },
-                { typeof(global::Banchou.GameState), 16 },
-                { typeof(global::Banchou.HitState), 17 },
-                { typeof(global::Banchou.Network.Message.ConnectClient), 18 },
-                { typeof(global::Banchou.Network.Message.Connected), 19 },
-                { typeof(global::Banchou.Network.Message.TimeRequest), 20 },
-                { typeof(global::Banchou.Network.Message.TimeResponse), 21 },
-                { typeof(global::Banchou.Pawn.PawnAnimatorFrame), 22 },
-                { typeof(global::Banchou.Pawn.PawnHistory), 23 },
-                { typeof(global::Banchou.Pawn.PawnSpatial), 24 },
-                { typeof(global::Banchou.Pawn.PawnState), 25 },
-                { typeof(global::Banchou.Player.PlayerInputState), 26 },
-                { typeof(global::Banchou.Player.PlayersState), 27 },
-                { typeof(global::Banchou.Player.PlayerState), 28 },
+                { typeof(global::System.Collections.Generic.Dictionary<int, global::Banchou.Player.PlayerState>), 3 },
+                { typeof(global::System.Collections.Generic.Dictionary<int, int>), 4 },
+                { typeof(global::Banchou.Combatant.AttackPhase), 5 },
+                { typeof(global::Banchou.Player.InputCommand), 6 },
+                { typeof(global::Banchou.Combatant.AttackState), 7 },
+                { typeof(global::Banchou.Combatant.CombatantState), 8 },
+                { typeof(global::Banchou.Combatant.CombatantStates), 9 },
+                { typeof(global::Banchou.Combatant.CombatantStats), 10 },
+                { typeof(global::Banchou.Combatant.DefensiveState), 11 },
+                { typeof(global::Banchou.Network.Message.ConnectClient), 12 },
+                { typeof(global::Banchou.Network.Message.Connected), 13 },
+                { typeof(global::Banchou.Network.Message.TimeRequest), 14 },
+                { typeof(global::Banchou.Network.Message.TimeResponse), 15 },
+                { typeof(global::Banchou.Pawn.PawnAnimatorFrame), 16 },
+                { typeof(global::Banchou.Pawn.PawnHistory), 17 },
+                { typeof(global::Banchou.Player.PlayerInputState), 18 },
+                { typeof(global::Banchou.Player.PlayersState), 19 },
+                { typeof(global::Banchou.Player.PlayerState), 20 },
             };
         }
 
@@ -96,32 +88,24 @@ namespace Banchou.Serialization.Resolvers
                 case 0: return new global::MessagePack.Formatters.DictionaryFormatter<int, bool>();
                 case 1: return new global::MessagePack.Formatters.DictionaryFormatter<int, float>();
                 case 2: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Combatant.CombatantState>();
-                case 3: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Pawn.PawnState>();
-                case 4: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Player.PlayerState>();
-                case 5: return new global::MessagePack.Formatters.DictionaryFormatter<int, int>();
-                case 6: return new global::MessagePack.Formatters.ListFormatter<string>();
-                case 7: return new Banchou.Serialization.Formatters.Banchou.Combatant.AttackPhaseFormatter();
-                case 8: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnSpatial_MovementStyleFormatter();
-                case 9: return new Banchou.Serialization.Formatters.Banchou.Player.InputCommandFormatter();
-                case 10: return new Banchou.Serialization.Formatters.Banchou.Board.BoardStateFormatter();
-                case 11: return new Banchou.Serialization.Formatters.Banchou.Combatant.AttackStateFormatter();
-                case 12: return new Banchou.Serialization.Formatters.Banchou.Combatant.CombatantStateFormatter();
-                case 13: return new Banchou.Serialization.Formatters.Banchou.Combatant.CombatantStatesFormatter();
-                case 14: return new Banchou.Serialization.Formatters.Banchou.Combatant.CombatantStatsFormatter();
-                case 15: return new Banchou.Serialization.Formatters.Banchou.Combatant.DefensiveStateFormatter();
-                case 16: return new Banchou.Serialization.Formatters.Banchou.GameStateFormatter();
-                case 17: return new Banchou.Serialization.Formatters.Banchou.HitStateFormatter();
-                case 18: return new Banchou.Serialization.Formatters.Banchou.Network.Message.ConnectClientFormatter();
-                case 19: return new Banchou.Serialization.Formatters.Banchou.Network.Message.ConnectedFormatter();
-                case 20: return new Banchou.Serialization.Formatters.Banchou.Network.Message.TimeRequestFormatter();
-                case 21: return new Banchou.Serialization.Formatters.Banchou.Network.Message.TimeResponseFormatter();
-                case 22: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnAnimatorFrameFormatter();
-                case 23: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnHistoryFormatter();
-                case 24: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnSpatialFormatter();
-                case 25: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnStateFormatter();
-                case 26: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerInputStateFormatter();
-                case 27: return new Banchou.Serialization.Formatters.Banchou.Player.PlayersStateFormatter();
-                case 28: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerStateFormatter();
+                case 3: return new global::MessagePack.Formatters.DictionaryFormatter<int, global::Banchou.Player.PlayerState>();
+                case 4: return new global::MessagePack.Formatters.DictionaryFormatter<int, int>();
+                case 5: return new Banchou.Serialization.Formatters.Banchou.Combatant.AttackPhaseFormatter();
+                case 6: return new Banchou.Serialization.Formatters.Banchou.Player.InputCommandFormatter();
+                case 7: return new Banchou.Serialization.Formatters.Banchou.Combatant.AttackStateFormatter();
+                case 8: return new Banchou.Serialization.Formatters.Banchou.Combatant.CombatantStateFormatter();
+                case 9: return new Banchou.Serialization.Formatters.Banchou.Combatant.CombatantStatesFormatter();
+                case 10: return new Banchou.Serialization.Formatters.Banchou.Combatant.CombatantStatsFormatter();
+                case 11: return new Banchou.Serialization.Formatters.Banchou.Combatant.DefensiveStateFormatter();
+                case 12: return new Banchou.Serialization.Formatters.Banchou.Network.Message.ConnectClientFormatter();
+                case 13: return new Banchou.Serialization.Formatters.Banchou.Network.Message.ConnectedFormatter();
+                case 14: return new Banchou.Serialization.Formatters.Banchou.Network.Message.TimeRequestFormatter();
+                case 15: return new Banchou.Serialization.Formatters.Banchou.Network.Message.TimeResponseFormatter();
+                case 16: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnAnimatorFrameFormatter();
+                case 17: return new Banchou.Serialization.Formatters.Banchou.Pawn.PawnHistoryFormatter();
+                case 18: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerInputStateFormatter();
+                case 19: return new Banchou.Serialization.Formatters.Banchou.Player.PlayersStateFormatter();
+                case 20: return new Banchou.Serialization.Formatters.Banchou.Player.PlayerStateFormatter();
                 default: return null;
             }
         }

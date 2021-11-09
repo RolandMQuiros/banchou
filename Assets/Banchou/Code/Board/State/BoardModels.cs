@@ -9,31 +9,19 @@ using Banchou.Combatant;
 
 namespace Banchou.Board {
     [MessagePackObject, Serializable]
-    public class BoardState : Notifiable<BoardState> {
+    public record BoardState(
+        List<string> ActiveScenes = null, List<string> LoadingScenes = null, Dictionary<int, PawnState> Pawns = null,
+        float LastUpdated = 0f
+    ) : NotifiableRecord<BoardState> {
         public event Action<string> SceneAdded;
         public event Action<string> SceneRemoved;
         public event Action<PawnState> PawnAdded;
         public event Action<PawnState> PawnRemoved;
 
-        [Key(0)][field: SerializeField] public List<string> ActiveScenes { get; private set; } = new List<string>();
-        [Key(1)][field: SerializeField] public List<string> LoadingScenes { get; private set; } = new List<string>();
-        [Key(2)][field: SerializeField] public Dictionary<int, PawnState> Pawns { get; private set; } = new Dictionary<int, PawnState>();
-        [Key(3)][field: SerializeField] public float LastUpdated { get; private set; }
-
-        public BoardState() { }
-
-        [SerializationConstructor]
-        public BoardState(
-            List<string> activeScenes,
-            List<string> loadingScenes,
-            Dictionary<int, PawnState> pawns,
-            float lastUpdated
-        ) {
-            ActiveScenes = activeScenes;
-            LoadingScenes = loadingScenes;
-            Pawns = pawns;
-            LastUpdated = lastUpdated;
-        }
+        [field: SerializeField] public List<string> ActiveScenes { get; private set; } = ActiveScenes ?? new List<string>();
+        [field: SerializeField] public List<string> LoadingScenes { get; private set; } = LoadingScenes ?? new List<string>();
+        [field: SerializeField] public Dictionary<int, PawnState> Pawns { get; private set; } = Pawns ?? new Dictionary<int, PawnState>();
+        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public BoardState SyncGame(BoardState sync) {
             var localScenes = LoadingScenes.Concat(ActiveScenes).Distinct().ToList();
@@ -61,7 +49,7 @@ namespace Banchou.Board {
             // Add missing pawns
             foreach (var added in incomingPawnIds.Except(Pawns.Keys)) {
                 var pawn = sync.Pawns[added];
-                Pawns[added] = new PawnState(pawn);
+                Pawns[added] = pawn with { };
                 PawnAdded?.Invoke(pawn);
             }
 

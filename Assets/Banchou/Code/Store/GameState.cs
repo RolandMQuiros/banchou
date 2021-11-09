@@ -10,30 +10,16 @@ using Banchou.Player;
 
 namespace Banchou {
     [MessagePackObject, Serializable]
-    public class GameState : Notifiable<GameState> {
-        [IgnoreMember][field:SerializeField] public NetworkState Network { get; private set; } = new NetworkState();
-        [Key(0)][field:SerializeField] public string Version { get; private set; }
-        [Key(1)][field:SerializeField] public BoardState Board { get; private set; } = new BoardState();
-        [Key(2)][field:SerializeField] public PlayersState Players { get; private set; } = new PlayersState();
-        [Key(3)][field:SerializeField] public float LocalTime { get; private set; }
-        [Key(4)][field:SerializeField] public float DeltaTime { get; private set; }
-
-        public GameState() { }
-
-        [SerializationConstructor]
-        public GameState(
-            string version,
-            BoardState board,
-            PlayersState players,
-            float localTime,
-            float deltaTime
-        ) {
-            Version = version;
-            Board = board;
-            Players = players;
-            LocalTime = localTime;
-            DeltaTime = deltaTime;
-        }
+    public record GameState(
+        string Version = null, BoardState Board = null, PlayersState Players = null, float LocalTime = 0f,
+        float DeltaTime = 0f
+    ) : NotifiableRecord<GameState> {
+        [IgnoreMember][field:SerializeField] public readonly NetworkState Network = new NetworkState();
+        [field: SerializeField] public string Version { get; private set; } = Version;
+        [field: SerializeField] public BoardState Board { get; private set; } = Board ?? new BoardState();
+        [field: SerializeField] public PlayersState Players { get; private set; } = Players ?? new PlayersState();
+        [field: SerializeField] public float LocalTime { get; private set; } = LocalTime;
+        [field: SerializeField] public float DeltaTime { get; private set; } = DeltaTime;
 
         public GameState SetVersion(string version) {
             Version = version;

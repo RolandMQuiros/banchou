@@ -7,34 +7,24 @@ using Banchou.Combatant;
 namespace Banchou.Pawn {
     public delegate int GetPawnId();
     [MessagePackObject, Serializable]
-    public class PawnState : Notifiable<PawnState> {
-        [Key(0)] public readonly int PawnId;
-        [Key(1)] public readonly string PrefabKey;
-        [Key(2)][field: SerializeField] public int PlayerId { get; private set; }
-        [Key(3)][field: SerializeField] public PawnSpatial Spatial { get; private set; }
-        [Key(4)][field: SerializeField] public PawnAnimatorFrame AnimatorFrame { get; private set; }
-        [Key(5)][field: SerializeField] public float LastUpdated { get; private set; }
+    public record PawnState(
+        int PawnId, string PrefabKey, int PlayerId = 0, PawnSpatial Spatial = null,
+        PawnAnimatorFrame AnimatorFrame = null, float LastUpdated = 0f, CombatantState Combatant = null
+    ) : NotifiableRecord<PawnState> {
+        [field: SerializeField]
+        public int PlayerId { get; private set; } = PlayerId;
         
-        [Key(6)][field: SerializeField] public CombatantState Combatant { get; private set; }
-
-        [SerializationConstructor]
-        public PawnState(
-            int pawnId,
-            string prefabKey,
-            int playerId,
-            PawnSpatial spatial,
-            PawnAnimatorFrame animatorFrame,
-            float lastUpdated,
-            CombatantState combatant
-        ) {
-            PawnId = pawnId;
-            PrefabKey = prefabKey;
-            PlayerId = playerId;
-            Spatial = spatial;
-            AnimatorFrame = animatorFrame;
-            LastUpdated = lastUpdated;
-            Combatant = combatant;
-        }
+        [field: SerializeField]
+        public PawnSpatial Spatial { get; init; } = Spatial ?? new PawnSpatial(PawnId);
+        
+        [field: SerializeField]
+        public PawnAnimatorFrame AnimatorFrame { get; init; } = AnimatorFrame ?? new PawnAnimatorFrame();
+        
+        [field: SerializeField]
+        public float LastUpdated { get; private set; } = LastUpdated;
+        
+        [field: SerializeField]
+        public CombatantState Combatant { get; private set; } = Combatant;
 
         public PawnState(
             int pawnId,
@@ -44,23 +34,13 @@ namespace Banchou.Pawn {
             Vector3? forward = null,
             Vector3? up = null,
             float lastUpdated = 0f
-        ) {
-            PawnId = pawnId;
-            PrefabKey = prefabKey;
-            PlayerId = playerId;
-            Spatial = new PawnSpatial(pawnId, position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated);
-            AnimatorFrame = new PawnAnimatorFrame();
-            LastUpdated = lastUpdated;
-        }
-
-        public PawnState(in PawnState other) {
-            PawnId = other.PawnId;
-            PrefabKey = other.PrefabKey;
-            PlayerId = other.PlayerId;
-            Spatial = other.Spatial ?? new PawnSpatial(PawnId);
-            AnimatorFrame = new PawnAnimatorFrame();
-            LastUpdated = other.LastUpdated;
-        }
+        ) : this(
+            pawnId,
+            prefabKey,
+            playerId,
+            new PawnSpatial(pawnId, position, forward ?? Vector3.forward, up ?? Vector3.up, lastUpdated),
+            LastUpdated: lastUpdated
+        ) { }
 
         public PawnState Sync(PawnState sync) {
             Spatial.Sync(sync.Spatial);

@@ -62,7 +62,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
             var __Offset__ = default(global::UnityEngine.Vector3);
             var __TeleportTarget__ = default(global::UnityEngine.Vector3);
             var __Style__ = default(global::Banchou.Pawn.PawnSpatial.MovementStyle);
-            var __Velocity__ = default(global::UnityEngine.Vector3);
+            var __AmbientVelocity__ = default(global::UnityEngine.Vector3);
             var __IsGrounded__ = default(bool);
             var __LastUpdated__ = default(float);
 
@@ -92,7 +92,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                         __Style__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Pawn.PawnSpatial.MovementStyle>().Deserialize(ref reader, options);
                         break;
                     case 7:
-                        __Velocity__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
+                        __AmbientVelocity__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 8:
                         __IsGrounded__ = reader.ReadBoolean();
@@ -106,7 +106,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Pawn
                 }
             }
 
-            var ____result = new global::Banchou.Pawn.PawnSpatial(__PawnId__, __Position__, __Forward__, __Up__, __Offset__, __TeleportTarget__, __Style__, __Velocity__, __IsGrounded__, __LastUpdated__);
+            var ____result = new global::Banchou.Pawn.PawnSpatial(__PawnId__, __Position__, __Forward__, __Up__, __Offset__, __TeleportTarget__, __Style__, __AmbientVelocity__, __IsGrounded__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

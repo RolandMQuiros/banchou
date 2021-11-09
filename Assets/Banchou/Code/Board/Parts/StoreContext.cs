@@ -7,8 +7,8 @@ using Banchou.Serialization.Resolvers;
 
 namespace Banchou {
     public class StoreContext : MonoBehaviour, IContext {
-        [SerializeField] private GameStateStore _store = null;
-        [SerializeField] private GameState _state = null;
+        [SerializeField] private GameStateStore _store;
+        [SerializeField] private GameState _state;
         private MessagePackSerializerOptions _messagePackOptions;
 
         public void Construct() {

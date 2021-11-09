@@ -28,7 +28,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
             IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(5);
             writer.Write(value.ClientNetworkId);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.GameState>().Serialize(ref writer, value.State, options);
+            formatterResolver.GetFormatterWithVerify<GameState>().Serialize(ref writer, value.State, options);
             writer.Write(value.ClientTime);
             writer.Write(value.ServerReceiptTime);
             writer.Write(value.ServerTransmissionTime);
@@ -45,7 +45,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __ClientNetworkId__ = default(int);
-            var __State__ = default(global::Banchou.GameState);
+            var __State__ = default(GameState);
             var __ClientTime__ = default(float);
             var __ServerReceiptTime__ = default(float);
             var __ServerTransmissionTime__ = default(float);
@@ -58,7 +58,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
                         __ClientNetworkId__ = reader.ReadInt32();
                         break;
                     case 1:
-                        __State__ = formatterResolver.GetFormatterWithVerify<global::Banchou.GameState>().Deserialize(ref reader, options);
+                        __State__ = formatterResolver.GetFormatterWithVerify<GameState>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __ClientTime__ = reader.ReadSingle();

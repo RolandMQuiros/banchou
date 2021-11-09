@@ -50,16 +50,19 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
+            var __PlayerId__ = default(int);
             var __Commands__ = default(global::Banchou.Player.InputCommand);
             var __Direction__ = default(global::UnityEngine.Vector3);
             var __Sequence__ = default(long);
             var __When__ = default(float);
-            var __PlayerId__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
+                    case 0:
+                        __PlayerId__ = reader.ReadInt32();
+                        break;
                     case 1:
                         __Commands__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Player.InputCommand>().Deserialize(ref reader, options);
                         break;
@@ -71,9 +74,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Player
                         break;
                     case 4:
                         __When__ = reader.ReadSingle();
-                        break;
-                    case 0:
-                        __PlayerId__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();

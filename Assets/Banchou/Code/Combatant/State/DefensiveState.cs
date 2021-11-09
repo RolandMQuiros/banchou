@@ -2,13 +2,11 @@ using MessagePack;
 using UnityEngine;
 
 namespace Banchou.Combatant {
-    
-    
     [MessagePackObject]
     public class DefensiveState : NotifiableWithHistory<DefensiveState> {
-        [field: Key(0), SerializeField] public bool IsInvincible { get; private set; }
-        [field: Key(1), SerializeField] public float GuardTime { get; private set; }
-        [field: Key(2), SerializeField] public float LastUpdated { get; private set; }
+        [Key(0)][field:SerializeField] public bool IsInvincible { get; private set; }
+        [Key(1)][field:SerializeField] public float GuardTime { get; private set; }
+        [Key(2)][field:SerializeField] public float LastUpdated { get; private set; }
 
         #region Boilerplate
         [SerializationConstructor]

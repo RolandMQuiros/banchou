@@ -4,51 +4,35 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
-    public class PawnSpatial : NotifiableWithHistory<PawnSpatial> {
+    public record PawnSpatial(
+        int PawnId,
+        Vector3 Position = new(),
+        Vector3 Forward = new(),
+        Vector3 Up = new(),
+        Vector3 Offset = new(),
+        Vector3 TeleportTarget = new(),
+        PawnSpatial.MovementStyle Style = PawnSpatial.MovementStyle.Offset,
+        Vector3 AmbientVelocity = new(),
+        bool IsGrounded = false,
+        float LastUpdated = 0f
+    ) : NotifiableRecordWithHistory<PawnSpatial>(32) {
         public enum MovementStyle : byte {
             Offset,
             Instantaneous,
             Interpolated
         }
 
-        [Key(0)][field: SerializeField] public int PawnId { get; private set; }
-        [Key(1)][field: SerializeField] public Vector3 Position { get; private set; }
-        [Key(2)][field: SerializeField] public Vector3 Forward { get; private set; }
-        [Key(3)][field: SerializeField] public Vector3 Up { get; private set; }
-        [IgnoreMember] public Vector3 Right => Vector3.Cross(Up, Forward);
-        [Key(4)][field: SerializeField] public Vector3 Offset { get; private set; }
-        [Key(5)][field: SerializeField] public Vector3 TeleportTarget { get; private set; }
-        [Key(6)][field: SerializeField] public MovementStyle Style { get; private set; }
-        [Key(7)][field: SerializeField] public Vector3 AmbientVelocity { get; private set; }
-        [Key(8)][field: SerializeField] public bool IsGrounded { get; private set; }
-        [Key(9)][field: SerializeField] public float LastUpdated { get; private set; }
-
-        [SerializationConstructor]
-        public PawnSpatial(
-            int pawnId,
-            Vector3 position,
-            Vector3 forward,
-            Vector3 up,
-            Vector3 offset,
-            Vector3 teleportTarget,
-            MovementStyle style,
-            Vector3 ambientVelocity,
-            bool isGrounded,
-            float lastUpdated
-        ) : base(32) {
-            PawnId = pawnId;
-            Position = position;
-            Forward = forward;
-            Up = up;
-            Offset = offset;
-            TeleportTarget = teleportTarget;
-            Style = style;
-            AmbientVelocity = ambientVelocity;
-            IsGrounded = isGrounded;
-            LastUpdated = lastUpdated;
-        }
-
-        public PawnSpatial(PawnSpatial other) : base(32) => Set(other);
+        [field: SerializeField] public int PawnId { get; private set; } = PawnId;
+        [field: SerializeField] public Vector3 Position { get; private set; } = Position;
+        [field: SerializeField] public Vector3 Forward { get; private set; } = Forward;
+        [field: SerializeField] public Vector3 Up { get; private set; } = Up;
+        public Vector3 Right => Vector3.Cross(Up, Forward);
+        [field: SerializeField] public Vector3 Offset { get; private set; } = Offset;
+        [field: SerializeField] public Vector3 TeleportTarget { get; private set; } = TeleportTarget;
+        [field: SerializeField] public MovementStyle Style { get; private set; } = Style;
+        [field: SerializeField] public Vector3 AmbientVelocity { get; private set; } = AmbientVelocity;
+        [field: SerializeField] public bool IsGrounded { get; private set; } = IsGrounded;
+        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public override void Set(PawnSpatial from) {
             PawnId = from.PawnId;
@@ -62,24 +46,14 @@ namespace Banchou.Pawn {
             IsGrounded = from.IsGrounded;
             LastUpdated = from.LastUpdated;
         }
-
-        public PawnSpatial(int pawnId) : base(32) {
-            PawnId = pawnId;
-        }
-
+        
         public PawnSpatial(
             int pawnId,
             Vector3 position,
             Vector3 forward,
             Vector3 up,
             float when
-        ) : base(32) {
-            PawnId = pawnId;
-            Position = position;
-            Forward = forward;
-            Up = up;
-            LastUpdated = when;
-        }
+        ) : this(pawnId, position, forward, up, LastUpdated: when) { }
 
         public PawnSpatial Sync(PawnSpatial other) {
             Set(other);

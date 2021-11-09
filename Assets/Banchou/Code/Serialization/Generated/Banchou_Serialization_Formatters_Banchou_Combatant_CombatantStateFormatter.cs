@@ -36,7 +36,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Serialize(ref writer, value.Stats, options);
             writer.Write(value.Health);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.DefensiveState>().Serialize(ref writer, value.Defense, options);
-            formatterResolver.GetFormatterWithVerify<global::Banchou.HitState>().Serialize(ref writer, value.LastHit, options);
+            formatterResolver.GetFormatterWithVerify<HitState>().Serialize(ref writer, value.LastHit, options);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.AttackState>().Serialize(ref writer, value.Attack, options);
             writer.Write(value.LastUpdated);
         }
@@ -51,34 +51,34 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             options.Security.DepthStep(ref reader);
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __Stats__ = default(global::Banchou.Combatant.CombatantStats);
             var __Health__ = default(int);
-            var __Defense__ = default(global::Banchou.Combatant.DefensiveState);
-            var __LastHit__ = default(global::Banchou.HitState);
-            var __Attack__ = default(global::Banchou.Combatant.AttackState);
             var __LastUpdated__ = default(float);
+            var __Stats__ = default(global::Banchou.Combatant.CombatantStats);
+            var __Defense__ = default(global::Banchou.Combatant.DefensiveState);
+            var __LastHit__ = default(HitState);
+            var __Attack__ = default(global::Banchou.Combatant.AttackState);
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
-                    case 0:
-                        __Stats__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Deserialize(ref reader, options);
-                        break;
                     case 1:
                         __Health__ = reader.ReadInt32();
+                        break;
+                    case 5:
+                        __LastUpdated__ = reader.ReadSingle();
+                        break;
+                    case 0:
+                        __Stats__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.CombatantStats>().Deserialize(ref reader, options);
                         break;
                     case 2:
                         __Defense__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.DefensiveState>().Deserialize(ref reader, options);
                         break;
                     case 3:
-                        __LastHit__ = formatterResolver.GetFormatterWithVerify<global::Banchou.HitState>().Deserialize(ref reader, options);
+                        __LastHit__ = formatterResolver.GetFormatterWithVerify<HitState>().Deserialize(ref reader, options);
                         break;
                     case 4:
                         __Attack__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.AttackState>().Deserialize(ref reader, options);
-                        break;
-                    case 5:
-                        __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();

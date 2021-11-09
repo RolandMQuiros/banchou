@@ -3,32 +3,16 @@ using UnityEngine;
 
 namespace Banchou {
     [MessagePackObject]
-    public class HitState : NotifiableWithHistory<HitState> {
-        [Key(0)][field: SerializeField] public int AttackerId { get; private set; } = default;
-        [Key(1)][field: SerializeField] public int Damage { get; private set; } = default;
-        [Key(2)][field: SerializeField] public Vector3 Knockback { get; private set; }
-        [Key(3)][field: SerializeField] public float StunTime { get; private set; } = 0f;
-        [Key(4)][field: SerializeField] public bool IsCountered { get; private set; } = false;
-        [Key(5)][field: SerializeField] public float LastUpdated { get; private set; } = 0f;
-        
-        #region Boilerplate
-        [SerializationConstructor]
-        public HitState(
-            int attackerId,
-            int damage,
-            Vector3 knockback,
-            float stunTime,
-            bool isCountered,
-            float lastUpdated
-        ) : base(32) {
-            AttackerId = attackerId;
-            Damage = damage;
-            Knockback = knockback;
-            StunTime = stunTime;
-            IsCountered = isCountered;
-            LastUpdated = lastUpdated;
-        }
-        public HitState() : base(32) { }
+    public record HitState(
+        int AttackerId = 0, int Damage = 0, Vector3 Knockback = new Vector3(), float StunTime = 0f,
+        bool IsCountered = false, float LastUpdated = 0f
+    ) : NotifiableRecordWithHistory<HitState>(32) {
+        [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
+        [field: SerializeField] public int Damage { get; private set; } = Damage;
+        [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
+        [field: SerializeField] public float StunTime { get; private set; } = StunTime;
+        [field: SerializeField] public bool IsCountered { get; private set; } = IsCountered;
+        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
         
         public override void Set(HitState other) {
             AttackerId = other.AttackerId;
@@ -37,7 +21,6 @@ namespace Banchou {
             IsCountered = other.IsCountered;
             LastUpdated = other.LastUpdated;
         }
-        #endregion
 
         public float StunTimeAt(float when) => StunTime - (when - LastUpdated);
         public float NormalizedStunTimeAt(float when) => (when - LastUpdated) / StunTime;
