@@ -31,6 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.105, y: 0.117, z: 5.105}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1428876191965037491}
   m_Father: {fileID: 0}
@@ -80,25 +81,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pawn:
     <PlayerId>k__BackingField: 0
-    <Spatial>k__BackingField:
-      <PawnId>k__BackingField: 0
-      <Position>k__BackingField: {x: 0, y: 0, z: 0}
-      <Forward>k__BackingField: {x: 0, y: 0, z: 0}
-      <Up>k__BackingField: {x: 0, y: 0, z: 0}
-      <Offset>k__BackingField: {x: 0, y: 0, z: 0}
-      <TeleportTarget>k__BackingField: {x: 0, y: 0, z: 0}
-      <Style>k__BackingField: 0
-      <Velocity>k__BackingField: {x: 0, y: 0, z: 0}
-      <IsGrounded>k__BackingField: 0
-      <LastUpdated>k__BackingField: 0
-    <AnimatorFrame>k__BackingField:
-      _stateHashes: 
-      _normalizedTimes: []
-      <When>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
     <Combatant>k__BackingField:
       <Health>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
+  _worldCollider: {fileID: 0}
 --- !u!114 &6952295661100396989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +145,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1428876191965037491}
   m_RootOrder: 0
@@ -203,8 +191,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5103278531581451869}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.88, y: 0, z: 0}
+  m_LocalPosition: {x: 0.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1672368468899609573}
   m_RootOrder: 0
@@ -288,8 +277,8 @@ MonoBehaviour:
   <Damage>k__BackingField: 0
   <HitStun>k__BackingField: 1
   <HitLag>k__BackingField: 0
-  _knockback: {x: 0.7133857, y: 1.1469396, z: -0.00000333786}
-  _recoil: {x: -1.8, y: 0, z: 0}
+  _knockback: {x: 5.382965, y: 9.711583, z: -0.15952158}
+  _recoil: {x: -1.8000001, y: 0, z: 0}
 --- !u!1 &6081919536696013468
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +309,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4261783661331850298}
   - {fileID: 1672368468899609573}
@@ -378,7 +368,7 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &3532250306773295328
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -391,6 +381,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -436,6 +427,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 778321030206850852}
   m_Father: {fileID: 1428876191965037491}
