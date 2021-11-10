@@ -21,10 +21,9 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             var xform = animator.transform;
-            var now = _state.GetTime();
-            var pauseTime = _hit.NormalizedPauseTimeAt(now);
-            var magnitude = Mathf.Clamp01(_multiplier * _hit.Knockback.magnitude / _maximumOffset) *
-                            _curve.Evaluate(pauseTime);
+            var stateTime = _hit.NormalizedPauseTimeAt(_state.GetTime());
+            var magnitude = _multiplier * Mathf.Clamp01(_hit.Knockback.magnitude / _maximumOffset) *
+                            _curve.Evaluate(stateTime);
             var offset = xform.InverseTransformVector(magnitude * _hit.Knockback.normalized);
             xform.localPosition = offset;
         }

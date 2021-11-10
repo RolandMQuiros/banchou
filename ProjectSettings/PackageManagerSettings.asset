@@ -29,7 +29,6 @@ MonoBehaviour:
     m_Name: package.openupm.com
     m_Url: https://package.openupm.com
     m_Scopes:
-    - com.neuecc.messagepack
     - com.neuecc.unirx
     - com.openupm
     m_IsDefault: 0
@@ -43,7 +42,6 @@ MonoBehaviour:
       m_Name: package.openupm.com
       m_Url: https://package.openupm.com
       m_Scopes:
-      - com.neuecc.messagepack
       - com.neuecc.unirx
       - com.openupm
       m_IsDefault: 0
@@ -52,7 +50,6 @@ MonoBehaviour:
     m_Name: package.openupm.com
     m_Url: https://package.openupm.com
     m_Scopes:
-    - com.neuecc.messagepack
     - com.neuecc.unirx
     - com.openupm
     m_SelectedScopeIndex: 0

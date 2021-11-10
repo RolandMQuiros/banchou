@@ -34,7 +34,7 @@ namespace Banchou.Pawn.Part {
                     PawnId,
                     hurtVolume.Knockback * KnockbackScale,
                     hurtVolume.HitPause * HitPauseScale,
-                    hurtVolume.HitStun * HitStunScale,
+                    Mathf.Min(hurtVolume.HitStun * HitStunScale, hurtVolume.Interval),
                     Mathf.RoundToInt(hurtVolume.Damage * DamageScale)
                 );
             }

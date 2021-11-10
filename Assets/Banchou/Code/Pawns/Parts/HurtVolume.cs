@@ -14,13 +14,13 @@ namespace Banchou.Pawn.Part {
         public int Damage { get; private set; }
         
         [field: SerializeField,
-                Tooltip("How long after contact, in seconds, the enemy Combatant the enemy stays in a stunned state")]
-        public float HitStun { get; private set; }
-        
-        [field: SerializeField,
                 Tooltip("How long both the attacking and attacked Combatant freeze in place after contact")]
         public float HitPause { get; private set; }
         
+        [field: SerializeField,
+                Tooltip("How long after contact, in seconds, the enemy Combatant the enemy stays in a stunned state")]
+        public float HitStun { get; private set; }
+
         [SerializeField,
          Tooltip("How much force is applied to the enemy Combatant on contact, in world space")]
         private Vector3 _knockback;
