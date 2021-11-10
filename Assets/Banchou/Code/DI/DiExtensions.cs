@@ -119,11 +119,14 @@ namespace Banchou.DependencyInjection {
         public static IEnumerable<object> Expand(this Component component) {
             yield return component;
             
-            if (component is Animator animator) {
-                foreach (var behaviour in animator.GetBehaviours<StateMachineBehaviour>()) {
-                    yield return behaviour;
-                }
-            }
+            // Animators need to explicitly be re-injected on enable, because StateMachineBehaviours are destroyed
+            // on disable
+            
+            // if (component is Animator animator) {
+            //     foreach (var behaviour in animator.GetBehaviours<StateMachineBehaviour>()) {
+            //         yield return behaviour;
+            //     }
+            // }
         }
         
         /// <summary>

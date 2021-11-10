@@ -8,6 +8,8 @@ namespace Banchou.Pawn.FSM {
         [Header("Output Parameters")]
         [SerializeField, Tooltip("Trigger parameter to set when hitstun is applied")]
         private string _hitTrigger;
+        [SerializeField, Tooltip("Float parameter to set the normalized hit pause time")]
+        private string _pauseTimeNormalizedFloat;
         [SerializeField, Tooltip("Float parameter to set the hitstun time")]
         private string _stunTimeFloat;
         [SerializeField, Tooltip("Float parameter to set the normalized hitstun time")]
@@ -31,9 +33,18 @@ namespace Banchou.Pawn.FSM {
                 ObserveStateUpdate
                     .Select(_ => state.GetCombatantLastHit(pawnId)
                         .NormalizedStunTimeAt(state.GetTime()))
-                    .Where(stunTime => stunTime <= 1f)
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(normalizedStunTimeHash, stunTime))
+                    .AddTo(this);
+            }
+
+            var normalizedPauseTimeHash = Animator.StringToHash(_pauseTimeNormalizedFloat);
+            if (normalizedPauseTimeHash != 0) {
+                ObserveStateUpdate
+                    .Select(_ => state.GetCombatantLastHit(pawnId)
+                        .NormalizedPauseTimeAt(state.GetTime()))
+                    .CatchIgnoreLog()
+                    .Subscribe(pauseTime => animator.SetFloat(normalizedPauseTimeHash, pauseTime))
                     .AddTo(this);
             }
             
@@ -44,12 +55,18 @@ namespace Banchou.Pawn.FSM {
                     .CatchIgnoreLog()
                     .Subscribe(hit => {
                         animator.SetTrigger(hitTriggerHash);
+
+                        var now = state.GetTime();
+                        if (normalizedPauseTimeHash != 0) {
+                            animator.SetFloat(normalizedPauseTimeHash, hit.NormalizedPauseTimeAt(now));
+                        }
+                        
                         if (stunTimeHash != 0) {
-                            animator.SetFloat(stunTimeHash, hit.StunTimeAt(state.GetTime()));
+                            animator.SetFloat(stunTimeHash, hit.StunTimeAt(now));
                         }
 
                         if (normalizedStunTimeHash != 0) {
-                            animator.SetFloat(normalizedStunTimeHash, hit.NormalizedStunTimeAt(state.GetTime()));
+                            animator.SetFloat(normalizedStunTimeHash, hit.NormalizedStunTimeAt(now));
                         }
                     })
                     .AddTo(this);

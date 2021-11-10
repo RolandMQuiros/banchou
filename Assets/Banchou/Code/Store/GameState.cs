@@ -13,8 +13,8 @@ namespace Banchou {
     public record GameState(
         string Version = null, BoardState Board = null, PlayersState Players = null, float LocalTime = 0f,
         float DeltaTime = 0f
-    ) : NotifiableRecord<GameState> {
-        [IgnoreMember][field:SerializeField] public readonly NetworkState Network = new NetworkState();
+    ) : Notifiable<GameState> {
+        public readonly NetworkState Network = new NetworkState();
         [field: SerializeField] public string Version { get; private set; } = Version;
         [field: SerializeField] public BoardState Board { get; private set; } = Board ?? new BoardState();
         [field: SerializeField] public PlayersState Players { get; private set; } = Players ?? new PlayersState();

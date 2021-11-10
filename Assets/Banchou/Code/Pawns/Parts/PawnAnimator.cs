@@ -1,20 +1,25 @@
 using System.Linq;
 using System.Collections.Generic;
+using Banchou.DependencyInjection;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class PawnAnimator : MonoBehaviour {
+        private DiContainer _diContainer;
         private GameState _state;
         private PawnAnimatorFrame _frame;
         private Animator _animator;
         private List<AnimatorControllerParameter> _cachedParameters;
 
         public void Construct(
+            DiContainer diContainer,
             GameState state,
             GetPawnId getPawnId,
             Animator animator
         ) {
+            _diContainer = diContainer;
             _state = state;
             _animator = animator;
             _state.ObservePawnChanges(getPawnId())
@@ -25,6 +30,21 @@ namespace Banchou.Pawn.Part {
             // Accessing Animator.parameters or Animator.GetParameter seems to generate garbage
             // so let's get this out of the way early
             _cachedParameters = animator.parameters.ToList();
+
+            this.OnEnableAsObservable()
+                .Subscribe(_ => { Inject(); })
+                .AddTo(this);
+            Inject();
+        }
+
+        /// <summary>
+        /// Need to explicitly inject into animator on enable, since StateMachineBehaviours are completely
+        /// re-instantiated
+        /// </summary>
+        private void Inject() {
+            foreach (var behaviour in _animator.GetBehaviours<StateMachineBehaviour>()) {
+                _diContainer.Inject(behaviour);
+            }
         }
 
         private void OnAnimatorMove() {

@@ -15,7 +15,7 @@ namespace Banchou.Pawn {
         Vector3 AmbientVelocity = new(),
         bool IsGrounded = false,
         float LastUpdated = 0f
-    ) : NotifiableRecordWithHistory<PawnSpatial>(32) {
+    ) : NotifiableWithHistory<PawnSpatial>(32) {
         public enum MovementStyle : byte {
             Offset,
             Instantaneous,

@@ -17,7 +17,7 @@ namespace Banchou.Pawn.Part {
             _interval = serializedObject.FindProperty("<Interval>k__BackingField");
             _damage = serializedObject.FindProperty("<Damage>k__BackingField");
             _hitStun = serializedObject.FindProperty("<HitStun>k__BackingField");
-            _hitLag = serializedObject.FindProperty("<HitLag>k__BackingField");
+            _hitLag = serializedObject.FindProperty("<HitPause>k__BackingField");
             _knockback = serializedObject.FindProperty("_knockback");
             _recoil = serializedObject.FindProperty("_recoil");
         }
@@ -38,21 +38,16 @@ namespace Banchou.Pawn.Part {
 
         public void OnSceneGUI() {
             EditorGUI.BeginChangeCheck();
-            var newKnockback = OffsetHandle("Knockback", _knockback.vector3Value, Color.red, Color.blue); 
-            if (EditorGUI.EndChangeCheck()) {
-                _knockback.vector3Value = newKnockback;
-                serializedObject.ApplyModifiedProperties();
-            }
-
-            EditorGUI.BeginChangeCheck();
+            var newKnockback = OffsetHandle("Knockback", _knockback.vector3Value, Color.magenta, Color.blue);
             var newRecoil = OffsetHandle("Recoil", _recoil.vector3Value, Color.yellow, Color.blue);
             if (EditorGUI.EndChangeCheck()) {
+                _knockback.vector3Value = newKnockback;
                 _recoil.vector3Value = newRecoil;
                 serializedObject.ApplyModifiedProperties();
             }
         }
 
-        private Vector3 OffsetHandle(string name, Vector3 offset, Color offsetColor, Color baseColor) {
+        private Vector3 OffsetHandle(string handleLabel, Vector3 offset, Color offsetColor, Color baseColor) {
             var position = _target.position;
             var rotation = offset == Vector3.zero ? Quaternion.identity : Quaternion.LookRotation(offset);
             
@@ -67,7 +62,7 @@ namespace Banchou.Pawn.Part {
             Handles.DrawWireDisc(groundProjection, Vector3.up, 0.1f);
 
             Handles.color = Color.white;
-            Handles.Label(handlePosition, name);
+            Handles.Label(handlePosition, handleLabel);
 
             return Handles.PositionHandle(offset + position, rotation) - position;
         }

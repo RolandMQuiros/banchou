@@ -2,14 +2,15 @@ using MessagePack;
 using UnityEngine;
 
 namespace Banchou {
-    [MessagePackObject]
+    [MessagePackObject(true)]
     public record HitState(
-        int AttackerId = 0, int Damage = 0, Vector3 Knockback = new Vector3(), float StunTime = 0f,
+        int AttackerId = 0, int Damage = 0, Vector3 Knockback = new(), float PauseTime = 0f, float StunTime = 0f,
         bool IsCountered = false, float LastUpdated = 0f
-    ) : NotifiableRecordWithHistory<HitState>(32) {
+    ) : NotifiableWithHistory<HitState>(32) {
         [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
         [field: SerializeField] public int Damage { get; private set; } = Damage;
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
+        [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
         [field: SerializeField] public float StunTime { get; private set; } = StunTime;
         [field: SerializeField] public bool IsCountered { get; private set; } = IsCountered;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
@@ -17,19 +18,24 @@ namespace Banchou {
         public override void Set(HitState other) {
             AttackerId = other.AttackerId;
             Knockback = other.Knockback;
+            PauseTime = other.PauseTime;
             StunTime = other.StunTime;
             IsCountered = other.IsCountered;
             LastUpdated = other.LastUpdated;
         }
 
-        public float StunTimeAt(float when) => StunTime - (when - LastUpdated);
-        public float NormalizedStunTimeAt(float when) => (when - LastUpdated) / StunTime;
+        public float StunTimeAt(float when) => StunTime - (when - LastUpdated + PauseTime);
+        public float NormalizedStunTimeAt(float when) => Mathf.Approximately(StunTime, 0f) ? 1f :
+            Mathf.Clamp01((when - LastUpdated + PauseTime) / StunTime);
+        public float NormalizedPauseTimeAt(float when) => Mathf.Approximately(PauseTime, 0f) ? 1f :
+            Mathf.Clamp01((when - LastUpdated) / PauseTime);
         public bool IsStunned(float when) => StunTimeAt(when) > 0f;
         
         public HitState Hit(
             int attackerId,
             int damage,
             Vector3 knockback,
+            float pauseTime,
             float stunTime,
             bool isCountered,
             float when
@@ -37,6 +43,7 @@ namespace Banchou {
             AttackerId = attackerId;
             Damage = damage;
             Knockback = knockback;
+            PauseTime = pauseTime;
             StunTime = stunTime;
             IsCountered = isCountered;
             LastUpdated = when;

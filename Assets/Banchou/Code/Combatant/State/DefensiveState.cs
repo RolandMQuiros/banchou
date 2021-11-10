@@ -3,31 +3,20 @@ using UnityEngine;
 
 namespace Banchou.Combatant {
     [MessagePackObject]
-    public class DefensiveState : NotifiableWithHistory<DefensiveState> {
-        [Key(0)][field:SerializeField] public bool IsInvincible { get; private set; }
-        [Key(1)][field:SerializeField] public float GuardTime { get; private set; }
-        [Key(2)][field:SerializeField] public float LastUpdated { get; private set; }
-
-        #region Boilerplate
-        [SerializationConstructor]
-        public DefensiveState(
-            bool isInvincible,
-            float guardTime,
-            float lastUpdated
-        ) : base(32) {
-            IsInvincible = isInvincible;
-            GuardTime = guardTime;
-            LastUpdated = lastUpdated;
-        }
+    public record DefensiveState(
+        bool IsInvincible = false,
+        float GuardTime = 0f,
+        float LastUpdated = 0f
+    ) : NotifiableWithHistory<DefensiveState>(32) {
+        [field: SerializeField] public bool IsInvincible { get; private set; } = IsInvincible;
+        [field: SerializeField] public float GuardTime { get; private set; } = GuardTime;
+        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
         
-        public DefensiveState() : base(32) { }
-
         public override void Set(DefensiveState other) {
             IsInvincible = other.IsInvincible;
             GuardTime = other.GuardTime;
             LastUpdated = other.LastUpdated;
         }
-        #endregion
 
         public DefensiveState Set(
             float when,

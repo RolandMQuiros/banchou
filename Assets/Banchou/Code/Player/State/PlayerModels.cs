@@ -10,9 +10,14 @@ namespace Banchou.Player {
     /// the other side of a network connection, or an AI.
     /// </summary>
     [MessagePackObject, Serializable]
-    public class PlayerState : Notifiable<PlayerState> {
+    public record PlayerState(
+        int PlayerId,
+        string PrefabKey,
+        int NetworkId = 0,
+        PlayerInputState Input = null
+    ) : Notifiable<PlayerState> {
         /// <summary>Unique identifier for this player</summary>
-        [Key(0)] public readonly int PlayerId;
+        public int PlayerId { get; init; } = PlayerId;
 
         /// <summary>Name of the Prefab to spawn when this player is created.</summary>
         /// <remarks>
@@ -20,7 +25,7 @@ namespace Banchou.Player {
         ///     apply it to the <see cref="Input"/> property. With AI players, it might perform some evaluation of the
         ///     world state (opponents, their current attacking states, etc) before deciding on the next Input.
         /// </remarks>
-        [Key(1)] public readonly string PrefabKey;
+        public string PrefabKey { get; init; } = PrefabKey;
 
         /// <summary>Identifier for the networked instance of the game this player belongs to.</summary>
         /// <remarks>
@@ -29,29 +34,11 @@ namespace Banchou.Player {
         ///     server itself assigned <c>NetworkId = 0</c>. Multiple players can exist on a single networked instance
         ///     of the game.
         /// </remarks>
-        [Key(2)][field: SerializeField] public int NetworkId { get; private set; }
+        [field: SerializeField] public int NetworkId { get; init; } = NetworkId;
 
         /// <summary>The player's latest input commands</summary>
         /// <returns></returns>
-        [Key(3)] public readonly PlayerInputState Input;
-
-        /// <summary>Instantiates a new <c>PlayerState</c> with exact properties. Used only for serialization.</summary>
-        /// <param name="playerId">Unique identifier for this player. See <see cref="PlayerId"/>.</param>
-        /// <param name="prefabKey">
-        ///     Name of the prefab to spawn when player is created. See <see cref="PrefabKey"/>
-        /// </param>
-        /// <param name="networkId">
-        ///     Identifier for the networked game instance this player belongs to. See
-        ///     <see cref="NetworkId"/>
-        /// </param>
-        /// <param name="input"></param>
-        [SerializationConstructor]
-        public PlayerState(int playerId, string prefabKey, int networkId, PlayerInputState input) {
-            PlayerId = playerId;
-            PrefabKey = prefabKey;
-            NetworkId = networkId;
-            Input = input;
-        }
+        [field: SerializeField] public PlayerInputState Input { get; init; } = Input ?? new PlayerInputState(PlayerId);
 
         /// <summary>Instantiates a new <c>PlayerState</c>.</summary>
         /// <param name="playerId">Unique identifier for this player. See <see cref="PlayerId"/>.</param>
@@ -66,12 +53,7 @@ namespace Banchou.Player {
             int playerId,
             string prefabKey,
             int networkId = 0
-        ) {
-            PlayerId = playerId;
-            PrefabKey = prefabKey;
-            NetworkId = networkId;
-            Input = new PlayerInputState(playerId);
-        }
+        ) : this(playerId, prefabKey, networkId, null) { }
 
         /// <summary>Synchronizes this <c>PlayerState</c> with another, usually received over the network.</summary>
         /// <param name="other">The other <c>PlayerState</c> to synchronize the current one to.</param>
@@ -83,30 +65,22 @@ namespace Banchou.Player {
     }
 
     [MessagePackObject, Serializable]
-    public class PlayerInputState : NotifiableWithHistory<PlayerInputState> {
-        [Key(0)][field: SerializeField] public int PlayerId { get; private set; }
-        [Key(1)][field: SerializeField] public InputCommand Commands { get; private set; }
-        [Key(2)][field: SerializeField] public Vector3 Direction { get; private set; }
+    public record PlayerInputState(
+        int PlayerId = 0,
+        InputCommand Commands = InputCommand.None,
+        Vector3 Direction = new(),
+        long Sequence = 0,
+        float When = 0f
+    ) : NotifiableWithHistory<PlayerInputState>(32) {
+        [field: SerializeField] public int PlayerId { get; private set; } = PlayerId;
+        [field: SerializeField] public InputCommand Commands { get; private set; } = Commands;
+        [field: SerializeField] public Vector3 Direction { get; private set; } = Direction;
 
         // Look input is not shared across the network
-        [IgnoreMember][field: SerializeField] public Vector2 Look { get; private set; }
-        [Key(3)][field: SerializeField] public long Sequence { get; private set; }
-        [Key(4)][field: SerializeField] public float When { get; private set; }
+        [field: SerializeField] public Vector2 Look { get; private set; }
+        [field: SerializeField] public long Sequence { get; private set; } = Sequence;
+        [field: SerializeField] public float When { get; private set; } = When;
 
-        public PlayerInputState(int playerId) : base(32) {
-            PlayerId = playerId;
-        }
-
-        [SerializationConstructor]
-        public PlayerInputState(int playerId, InputCommand commands, Vector3 direction, long sequence, float when)
-        : base(32) {
-            PlayerId = playerId;
-            Commands = commands;
-            Direction = direction;
-            Sequence = sequence;
-            When = when;
-        }
-        
         public override void Set(PlayerInputState other) {
             PlayerId = other.PlayerId;
             Commands = other.Commands;
@@ -157,18 +131,12 @@ namespace Banchou.Player {
     }
 
     [MessagePackObject, Serializable]
-    public class PlayersState : Notifiable<PlayersState> {
+    public record PlayersState(Dictionary<int, PlayerState> Members = null) : Notifiable<PlayersState> {
         public event Action<PlayerState> PlayerAdded;
         public event Action<PlayerState> PlayerRemoved;
 
-        [Key(0)][field: SerializeField] public Dictionary<int, PlayerState> Members { get; private set; } = new Dictionary<int, PlayerState>();
-
-        public PlayersState() { }
-
-        [SerializationConstructor]
-        public PlayersState(Dictionary<int, PlayerState> members) {
-            Members = members;
-        }
+        [field: SerializeField]
+        public Dictionary<int, PlayerState> Members { get; init; } = Members ?? new Dictionary<int, PlayerState>();
 
         public PlayersState AddPlayer(int playerId, string prefabKey, int networkId = 0) {
             var player = new PlayerState(playerId, prefabKey, networkId);

@@ -7,6 +7,7 @@ using Banchou.DependencyInjection;
 namespace Banchou.Pawn.Part {
     public class PawnContext : MonoBehaviour, IContext {
         [SerializeField] private PawnState _pawn;
+        [SerializeField] private Collider _worldCollider;
         private int _pawnId;
         private Animator _animator;
         private CharacterController _controller;
@@ -51,7 +52,8 @@ namespace Banchou.Pawn.Part {
                 .Bind((GetPawnId)GetPawnId)
                 .Bind(_animator)
                 .Bind(_controller)
-                .Bind(_rigidbody);
+                .Bind(_rigidbody)
+                .Bind(_worldCollider);
         }
     }
 }

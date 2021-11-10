@@ -11,10 +11,11 @@ namespace Banchou.Combatant {
         /// <param name="pawnId">ID of the combatant pawn</param>
         /// <returns>An <see cref="IObservable{CombatantState}"/> that emits when a combatant is replaced</returns>
         public static IObservable<CombatantState> ObserveCombatant(this GameState state, int pawnId) {
-            return state.ObservePawn(pawnId)
+            return state.ObservePawnChanges(pawnId)
                 .Select(pawn => pawn.Combatant)
-                .StartWith(state.GetCombatant(pawnId))
-                .Where(combatant => combatant != null);
+                .DefaultIfEmpty(state.GetCombatant(pawnId))
+                .Where(combatant => combatant != null)
+                .DistinctUntilChanged();
         }
         
         /// <summary>
@@ -25,6 +26,10 @@ namespace Banchou.Combatant {
         /// <returns>An <see cref="IObservable{CombatantState}"/> that emits when a combatant is modified</returns>
         public static IObservable<CombatantState> ObserveCombatantChanges(this GameState state, int pawnId) {
             return state.ObserveCombatant(pawnId).SelectMany(combatant => combatant.Observe());
+        }
+        
+        public static IObservable<HitState> ObserveLastHit(this GameState state, int pawnId) {
+            return state.ObserveCombatant(pawnId).Select(combatant => combatant.LastHit);
         }
 
         /// <summary>

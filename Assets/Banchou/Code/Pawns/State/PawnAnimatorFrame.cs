@@ -6,40 +6,30 @@ using UnityEngine;
 
 namespace Banchou.Pawn {
     [MessagePackObject, Serializable]
-    public class PawnAnimatorFrame : Notifiable<PawnAnimatorFrame> {
-        [SerializeField] private int[] _stateHashes;
-        [Key(0)] public int[] StateHashes => _stateHashes;
-        
-        [SerializeField] private float[] _normalizedTimes;
-        [Key(1)] public float[] NormalizedTimes => _normalizedTimes;
-        
-        [Key(2)][field: SerializeField] public Dictionary<int, float> Floats { get; private set; }
-        [Key(3)][field: SerializeField] public Dictionary<int, int> Ints { get; private set; }
-        [Key(4)][field: SerializeField] public Dictionary<int, bool> Bools { get; private set; }
-        [Key(5)][field: SerializeField] public float When { get; private set; }
+    public record PawnAnimatorFrame(
+        int[] StateHashes = null,
+        float[] NormalizedTimes = null,
+        Dictionary<int, float> Floats = null,
+        Dictionary<int, int> Ints = null,
+        Dictionary<int, bool> Bools = null,
+        float When = 0f
+    ) : Notifiable<PawnAnimatorFrame> {
+        private int[] _stateHashes = StateHashes;
+        private float[] _normalizedTimes = NormalizedTimes;
+        public int[] StateHashes => _stateHashes;
+        public float[] NormalizedTimes => _normalizedTimes;
 
-        [SerializationConstructor]
-        public PawnAnimatorFrame(
-            int[] stateHashes,
-            float[] normalizedTimes,
-            Dictionary<int, float> floats,
-            Dictionary<int, int> ints,
-            Dictionary<int, bool> bools,
-            float when
-        ) {
-            _stateHashes = stateHashes;
-            _normalizedTimes = normalizedTimes;
-            Floats = floats;
-            Ints = ints;
-            Bools = bools;
-            When = when;
-        }
-
-        public PawnAnimatorFrame() {
-            Floats = new Dictionary<int, float>();
-            Ints = new Dictionary<int, int>();
-            Bools = new Dictionary<int, bool>();
-        }
+        [field: SerializeField]
+        public Dictionary<int, float> Floats { get; init; } = Floats ?? new Dictionary<int, float>();
+        
+        [field: SerializeField]
+        public Dictionary<int, int> Ints { get; init; } = Ints ?? new Dictionary<int, int>();
+        
+        [field: SerializeField]
+        public Dictionary<int, bool> Bools { get; init; } = Bools ?? new Dictionary<int, bool>();
+        
+        [field: SerializeField]
+        public float When { get; private set; } = When;
 
         public PawnAnimatorFrame StartFrame(int layerCount) {
             if (StateHashes == null) {

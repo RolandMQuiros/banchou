@@ -10,33 +10,20 @@ namespace Banchou.Combatant {
     }
     
     [MessagePackObject]
-    public class AttackState : NotifiableWithHistory<AttackState> {
-        [Key(0)][field: SerializeField]public int AttackId { get; private set; }
-        [Key(1)][field: SerializeField]public AttackPhase Phase { get; private set; } 
-        [Key(2)][field: SerializeField]public int TargetId { get; private set; }
-        [Key(3)][field: SerializeField]public int Damage { get; private set; }
-        [Key(4)][field: SerializeField]public Vector3 Recoil { get; private set; }
-        [Key(5)][field: SerializeField]public float LastUpdated { get; private set; }
-        
-        #region Boilerplate
-        public AttackState() : base(32) { }
-        
-        [SerializationConstructor]
-        public AttackState(
-            int attackId,
-            AttackPhase phase,
-            int targetId,
-            int damage,
-            Vector3 recoil,
-            float lastUpdated
-        ) : base(32) {
-            AttackId = attackId;
-            TargetId = targetId;
-            Phase = phase;
-            Damage = damage;
-            Recoil = recoil;
-            LastUpdated = lastUpdated;
-        }
+    public record AttackState(
+        int AttackId = 0,
+        AttackPhase Phase = AttackPhase.Neutral,
+        int TargetId = 0,
+        int Damage = 0,
+        Vector3 Recoil = new(),
+        float LastUpdated = 0f
+    ) : NotifiableWithHistory<AttackState>(32) {
+        [field: SerializeField] public int AttackId { get; private set; } = AttackId;
+        [field: SerializeField] public AttackPhase Phase { get; private set; } = Phase; 
+        [field: SerializeField] public int TargetId { get; private set; } = TargetId;
+        [field: SerializeField] public int Damage { get; private set; } = Damage;
+        [field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
+        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
         
         public override void Set(AttackState other) {
             AttackId = other.AttackId;
@@ -46,7 +33,6 @@ namespace Banchou.Combatant {
             Recoil = other.Recoil;
             LastUpdated = other.LastUpdated;
         }
-        #endregion
 
         public AttackState Start(float when) {
             AttackId++;

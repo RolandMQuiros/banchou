@@ -10,7 +10,7 @@ namespace Banchou.Pawn {
     public record PawnState(
         int PawnId, string PrefabKey, int PlayerId = 0, PawnSpatial Spatial = null,
         PawnAnimatorFrame AnimatorFrame = null, float LastUpdated = 0f, CombatantState Combatant = null
-    ) : NotifiableRecord<PawnState> {
+    ) : Notifiable<PawnState> {
         [field: SerializeField]
         public int PlayerId { get; private set; } = PlayerId;
         
@@ -77,7 +77,7 @@ namespace Banchou.Pawn {
             float when,
             out CombatantState combatant
         ) {
-            Combatant = combatant = new CombatantState(maxHealth);
+            Combatant = combatant = new CombatantState(new CombatantStats(maxHealth), LastUpdated: when);
             LastUpdated = when;
             return Notify();
         }

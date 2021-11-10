@@ -5,23 +5,31 @@ using MessagePack;
 using UnityEngine;
 
 using Banchou.Pawn;
-using Banchou.Combatant;
 
 namespace Banchou.Board {
     [MessagePackObject, Serializable]
     public record BoardState(
-        List<string> ActiveScenes = null, List<string> LoadingScenes = null, Dictionary<int, PawnState> Pawns = null,
+        List<string> ActiveScenes = null,
+        List<string> LoadingScenes = null,
+        Dictionary<int, PawnState> Pawns = null,
         float LastUpdated = 0f
-    ) : NotifiableRecord<BoardState> {
+    ) : Notifiable<BoardState> {
         public event Action<string> SceneAdded;
         public event Action<string> SceneRemoved;
         public event Action<PawnState> PawnAdded;
         public event Action<PawnState> PawnRemoved;
 
-        [field: SerializeField] public List<string> ActiveScenes { get; private set; } = ActiveScenes ?? new List<string>();
-        [field: SerializeField] public List<string> LoadingScenes { get; private set; } = LoadingScenes ?? new List<string>();
-        [field: SerializeField] public Dictionary<int, PawnState> Pawns { get; private set; } = Pawns ?? new Dictionary<int, PawnState>();
-        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [field: SerializeField]
+        public List<string> ActiveScenes { get; private set; } = ActiveScenes ?? new List<string>();
+        
+        [field: SerializeField]
+        public List<string> LoadingScenes { get; private set; } = LoadingScenes ?? new List<string>();
+        
+        [field: SerializeField]
+        public Dictionary<int, PawnState> Pawns { get; private set; } = Pawns ?? new Dictionary<int, PawnState>();
+        
+        [field: SerializeField]
+        public float LastUpdated { get; private set; } = LastUpdated;
 
         public BoardState SyncGame(BoardState sync) {
             var localScenes = LoadingScenes.Concat(ActiveScenes).Distinct().ToList();
@@ -120,7 +128,7 @@ namespace Banchou.Board {
             }
             
             pawn = new PawnState(
-                pawnId: pawnId,
+                pawnId,
                 playerId: playerId,
                 prefabKey: prefabKey,
                 position: position,

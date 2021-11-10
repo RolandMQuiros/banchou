@@ -9,7 +9,7 @@ namespace Banchou.Network {
     }
 
     [Serializable]
-    public class RollbackState : Notifiable<RollbackState> {
+    public record RollbackState : Notifiable<RollbackState> {
         public RollbackPhase Phase => _phase;
         [SerializeField] private RollbackPhase _phase = RollbackPhase.Complete;
 

@@ -12,8 +12,9 @@ namespace Banchou.Pawn {
                     board.Pawns.TryGetValue(pawnId, out var pawn);
                     return pawn;
                 })
-                .StartWith(state.GetPawn(pawnId))
-                .Where(pawn => pawn != null);
+                .DefaultIfEmpty(state.GetPawn(pawnId))
+                .Where(pawn => pawn != null)
+                .DistinctUntilChanged();
         }
 
         public static IObservable<PawnState> ObservePawnChanges(this GameState state, int pawnId) {

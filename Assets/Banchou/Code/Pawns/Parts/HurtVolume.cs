@@ -19,7 +19,7 @@ namespace Banchou.Pawn.Part {
         
         [field: SerializeField,
                 Tooltip("How long both the attacking and attacked Combatant freeze in place after contact")]
-        public float HitLag { get; private set; }
+        public float HitPause { get; private set; }
         
         [SerializeField,
          Tooltip("How much force is applied to the enemy Combatant on contact, in world space")]

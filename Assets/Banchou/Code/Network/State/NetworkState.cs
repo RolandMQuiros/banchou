@@ -10,7 +10,7 @@ namespace Banchou.Network {
     }
 
     [Serializable]
-    public class NetworkState : Notifiable<NetworkState> {
+    public record NetworkState : Notifiable<NetworkState> {
         public const string Localhost = null;//"127.0.0.1";
         public const int DefaultPort = 0;
         public const int MaxPlayers = 32;

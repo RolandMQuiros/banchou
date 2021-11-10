@@ -9,6 +9,7 @@ namespace Banchou.Pawn.Part {
         public int PawnId { get; private set; }
         [field: SerializeField] public float DamageScale { get; private set; } = 1f;
         [field: SerializeField] public float KnockbackScale { get; private set; } = 1f;
+        [field: SerializeField] public float HitPauseScale { get; private set; } = 1f;
         [field: SerializeField] public float HitStunScale { get; private set; }  = 1f;
 
         private GameState _state;
@@ -32,6 +33,7 @@ namespace Banchou.Pawn.Part {
                     hurtVolume.PawnId,
                     PawnId,
                     hurtVolume.Knockback * KnockbackScale,
+                    hurtVolume.HitPause * HitPauseScale,
                     hurtVolume.HitStun * HitStunScale,
                     Mathf.RoundToInt(hurtVolume.Damage * DamageScale)
                 );
