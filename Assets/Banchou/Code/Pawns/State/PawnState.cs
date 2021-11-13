@@ -15,10 +15,10 @@ namespace Banchou.Pawn {
         public int PlayerId { get; private set; } = PlayerId;
         
         [field: SerializeField]
-        public PawnSpatial Spatial { get; init; } = Spatial ?? new PawnSpatial(PawnId);
+        public PawnSpatial Spatial { get; private set; } = Spatial ?? new PawnSpatial(PawnId);
         
         [field: SerializeField]
-        public PawnAnimatorFrame AnimatorFrame { get; init; } = AnimatorFrame ?? new PawnAnimatorFrame();
+        public PawnAnimatorFrame AnimatorFrame { get; private set; } = AnimatorFrame ?? new PawnAnimatorFrame();
         
         [field: SerializeField]
         public float LastUpdated { get; private set; } = LastUpdated;

@@ -273,11 +273,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Interval>k__BackingField: 1
+  <Interval>k__BackingField: 0.33333334
   <Damage>k__BackingField: 0
+  <HitPause>k__BackingField: 0.16666667
   <HitStun>k__BackingField: 1
-  <HitLag>k__BackingField: 0
-  _knockback: {x: 5.382965, y: 9.711583, z: -0.15952158}
+  _knockback: {x: 4.1259365, y: 13.019341, z: -0.122270584}
   _recoil: {x: -1.8000001, y: 0, z: 0}
 --- !u!1 &6081919536696013468
 GameObject:
@@ -400,6 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DamageScale>k__BackingField: 1
   <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
   <HitStunScale>k__BackingField: 1
 --- !u!1 &8093937236883432438
 GameObject:

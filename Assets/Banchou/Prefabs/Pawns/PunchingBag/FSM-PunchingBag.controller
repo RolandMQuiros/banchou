@@ -60,10 +60,9 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: 6583059819166406892}
-  - {fileID: -6801083530283221202}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 50, y: 70, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -6835197347460854920}
 --- !u!91 &9100000
@@ -183,5 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c4b5d0f8939f64e873dcad4b5c5b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hitTriggerParameter: 
-  _stunTimeFloatParameter: Stun Time
+  _hitTrigger: 
+  _pauseTimeNormalizedFloat: 
+  _stunTimeFloat: 
+  _stunTimeNormalizedFloat: 

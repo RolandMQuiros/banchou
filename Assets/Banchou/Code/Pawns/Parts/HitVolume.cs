@@ -16,7 +16,7 @@ namespace Banchou.Pawn.Part {
         private HurtVolume _hurtVolume;
         private int _lastAttackId;
 
-        private readonly HashSet<HurtVolume> _collidedVolumes = new HashSet<HurtVolume>();
+        private readonly HashSet<int> _collidedPawns = new HashSet<int>();
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
@@ -25,16 +25,16 @@ namespace Banchou.Pawn.Part {
 
         private void OnTriggerEnter(Collider other) {
             var hurtVolume = other.GetComponent<HurtVolume>();
-            if (hurtVolume != null && hurtVolume.PawnId != PawnId && !_collidedVolumes.Contains(hurtVolume)) {
-                _collidedVolumes.Add(hurtVolume);
-                StartCoroutine(HurtVolumeInterval(hurtVolume));
-                Debug.Log($"Hit detected from Pawn {hurtVolume.PawnId} on Pawn {PawnId} at {_state.GetTime()}. Interval: {hurtVolume.Interval}, Collided volumes: {_collidedVolumes.Count}");
+            if (hurtVolume != null && hurtVolume.PawnId != PawnId && !_collidedPawns.Contains(hurtVolume.PawnId)) {
+                _collidedPawns.Add(hurtVolume.PawnId);
+                StartCoroutine(HurtVolumeInterval(hurtVolume.Interval, hurtVolume.PawnId));
+                Debug.Log($"Hit detected from Pawn {hurtVolume.PawnId} on Pawn {PawnId} at {_state.GetTime()}. Interval: {hurtVolume.Interval}, Collided volumes: {_collidedPawns.Count}");
                 _state.HitCombatant(
                     hurtVolume.PawnId,
                     PawnId,
                     hurtVolume.Knockback * KnockbackScale,
-                    hurtVolume.HitPause * HitPauseScale,
-                    Mathf.Min(hurtVolume.HitStun * HitStunScale, hurtVolume.Interval),
+                    Mathf.Min(hurtVolume.HitPause * HitPauseScale, hurtVolume.Interval),
+                    hurtVolume.HitStun * HitStunScale,
                     Mathf.RoundToInt(hurtVolume.Damage * DamageScale)
                 );
             }
@@ -42,9 +42,9 @@ namespace Banchou.Pawn.Part {
 
         private void OnTriggerStay(Collider other) => OnTriggerEnter(other);
 
-        private IEnumerator HurtVolumeInterval(HurtVolume hurtVolume) {
-            yield return new WaitForSeconds(hurtVolume.Interval);
-            _collidedVolumes.Remove(hurtVolume);
+        private IEnumerator HurtVolumeInterval(float interval, int pawnId) {
+            yield return new WaitForSeconds(interval);
+            _collidedPawns.Remove(pawnId);
         }
     }
 }
