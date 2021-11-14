@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class SetPhysicsMaterialAtTime : FSMBehaviour {
+        private enum ApplyEvent {
+            OnEnter,
+            AtNormalizedTime,
+            OnExit
+        }
+
+        [SerializeField] private ApplyEvent _onEvent = ApplyEvent.AtNormalizedTime;
         [SerializeField] private PhysicMaterial _activeMaterial;
         [SerializeField, Min(0f)] private float _normalizedTime = 0f;
         [SerializeField] private string _normalizedTimeParameter;
@@ -17,11 +24,20 @@ namespace Banchou.Pawn.FSM {
             _inputHash = Animator.StringToHash(_normalizedTimeParameter);
         }
 
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _applied = false;
+            if (_onEvent == ApplyEvent.OnEnter && _worldCollider != null) {
+                _worldCollider.material = _activeMaterial;
+                _applied = false;
+            }
+        }
+
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (_worldCollider == null) return;
+            if (_worldCollider == null ||
+                _onEvent != ApplyEvent.AtNormalizedTime) return;
             
             var stateTime = stateInfo.normalizedTime;
-            if (_inputHash != 0) {
+            if ( _inputHash != 0) {
                 stateTime = animator.GetFloat(_inputHash);
             }
             
@@ -32,7 +48,10 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _applied = false;
+            if (_onEvent == ApplyEvent.OnExit && _worldCollider != null) {
+                _worldCollider.material = _activeMaterial;
+                _applied = true;
+            }
         }
     }
 }
