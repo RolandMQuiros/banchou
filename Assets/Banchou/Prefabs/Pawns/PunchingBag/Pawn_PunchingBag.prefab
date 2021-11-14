@@ -81,6 +81,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _pawn:
     <PlayerId>k__BackingField: 0
+    <Spatial>k__BackingField:
+      <PawnId>k__BackingField: 0
+      <Position>k__BackingField: {x: 0, y: 0, z: 0}
+      <Forward>k__BackingField: {x: 0, y: 0, z: 0}
+      <Up>k__BackingField: {x: 0, y: 0, z: 0}
+      <Offset>k__BackingField: {x: 0, y: 0, z: 0}
+      <TeleportTarget>k__BackingField: {x: 0, y: 0, z: 0}
+      <Style>k__BackingField: 0
+      <AmbientVelocity>k__BackingField: {x: 0, y: 0, z: 0}
+      <IsGrounded>k__BackingField: 0
+      <LastUpdated>k__BackingField: 0
+    <AnimatorFrame>k__BackingField:
+      <When>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
     <Combatant>k__BackingField:
       <Health>k__BackingField: 0

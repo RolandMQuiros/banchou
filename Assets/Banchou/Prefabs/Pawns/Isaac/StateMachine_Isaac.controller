@@ -713,6 +713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 1
   _activeMaterial: {fileID: 0}
   _normalizedTime: 0
   _normalizedTimeParameter: 
@@ -1064,6 +1065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 1
   _activeMaterial: {fileID: 13400000, guid: 4bc99749732286641a3274c45416432f, type: 2}
   _normalizedTime: 0
   _normalizedTimeParameter: 
@@ -1092,6 +1094,22 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-3531842484280660173
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEvent: 2
+  _activeMaterial: {fileID: 13400000, guid: 8ea528c6cb2ea0243989daa5cc10634d, type: 2}
+  _normalizedTime: 0
+  _normalizedTimeParameter: 
 --- !u!114 &-3464658479122228076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2255,6 +2273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 1
   _activeMaterial: {fileID: 13400000, guid: 8ea528c6cb2ea0243989daa5cc10634d, type: 2}
   _normalizedTime: 0.9
   _normalizedTimeParameter: 
@@ -2594,6 +2613,7 @@ AnimatorState:
   - {fileID: 7268995759244382782}
   - {fileID: 6017037232626851588}
   - {fileID: 7684684210471964895}
+  - {fileID: -3531842484280660173}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -3324,6 +3344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 1
   _activeMaterial: {fileID: 13400000, guid: 675d05bedab7033438566e059e0eb2d3, type: 2}
   _normalizedTime: 0.16666667
   _normalizedTimeParameter: 
@@ -3577,6 +3598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 0
   _activeMaterial: {fileID: 13400000, guid: 4bc99749732286641a3274c45416432f, type: 2}
   _normalizedTime: 0
   _normalizedTimeParameter: 
@@ -3651,6 +3673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 1
   _activeMaterial: {fileID: 13400000, guid: 8ea528c6cb2ea0243989daa5cc10634d, type: 2}
   _normalizedTime: 0.6666667
   _normalizedTimeParameter: 
@@ -3888,6 +3911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcc756d92d69f34a81e4b4e8552164c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onEvent: 0
   _activeMaterial: {fileID: 13400000, guid: 4bc99749732286641a3274c45416432f, type: 2}
   _normalizedTime: 0
   _normalizedTimeParameter: 
