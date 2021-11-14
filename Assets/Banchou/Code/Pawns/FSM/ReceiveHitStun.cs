@@ -4,7 +4,7 @@ using UniRx;
 using Banchou.Combatant;
 
 namespace Banchou.Pawn.FSM {
-    public class ReceiveHitstun : FSMBehaviour {
+    public class ReceiveHitStun : FSMBehaviour {
         [Header("Output Parameters")]
         [SerializeField, Tooltip("Trigger parameter to set when hitstun is applied")]
         private string _hitTrigger;
