@@ -9,12 +9,8 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _damage;
         private SerializedProperty _hitStun;
         private SerializedProperty _hitPause;
-        private SerializedProperty _applyKnockback;
-        private SerializedProperty _knockbackScale;
-        private SerializedProperty _knockbackDirection;
-        private SerializedProperty _applyRecoil;
-        private SerializedProperty _recoilScale;
-        private SerializedProperty _recoilDirection;
+        private SerializedProperty _knockback;
+        private SerializedProperty _recoil;
 
         private void OnEnable() {
             _target = ((HurtVolume)target).transform;
@@ -22,12 +18,8 @@ namespace Banchou.Pawn.Part {
             _damage = serializedObject.FindProperty("<Damage>k__BackingField");
             _hitStun = serializedObject.FindProperty("<HitStun>k__BackingField");
             _hitPause = serializedObject.FindProperty("<HitPause>k__BackingField");
-            _applyKnockback = serializedObject.FindProperty("_applyKnockback");
-            _knockbackScale = serializedObject.FindProperty("_knockbackScale");
-            _knockbackDirection = serializedObject.FindProperty("_knockbackDirection");
-            _applyRecoil = serializedObject.FindProperty("_applyRecoil");
-            _recoilScale = serializedObject.FindProperty("_recoilScale");
-            _recoilDirection = serializedObject.FindProperty("_recoilDirection");
+            _knockback = serializedObject.FindProperty("_knockback");
+            _recoil = serializedObject.FindProperty("_recoil");
         }
         
         public override void OnInspectorGUI() {
@@ -37,26 +29,13 @@ namespace Banchou.Pawn.Part {
             EditorGUILayout.PropertyField(_damage);
             EditorGUILayout.PropertyField(_hitStun);
             EditorGUILayout.PropertyField(_hitPause);
-            EditorGUILayout.PropertyField(_applyKnockback);
-            
-            if (_applyKnockback.boolValue) {
-                EditorGUILayout.PropertyField(_knockbackScale);
-                EditorGUILayout.PropertyField(_knockbackDirection);
-            }
-
-            EditorGUILayout.PropertyField(_applyRecoil);
-            if (_applyRecoil.boolValue) {
-                EditorGUILayout.PropertyField(_recoilScale);
-                EditorGUILayout.PropertyField(_recoilDirection);
-            }
+            EditorGUILayout.PropertyField(_knockback);
+            EditorGUILayout.PropertyField(_recoil);
 
             if (EditorGUI.EndChangeCheck()) {
                 if (_hitPause.floatValue > _interval.floatValue) {
                     _hitPause.floatValue = _interval.floatValue;
                 }
-                
-                _knockbackDirection.vector3Value.Normalize();
-                _recoilDirection.vector3Value.Normalize();
 
                 serializedObject.ApplyModifiedProperties();
             }
@@ -64,24 +43,14 @@ namespace Banchou.Pawn.Part {
 
         public void OnSceneGUI() {
             EditorGUI.BeginChangeCheck();
-            if (_applyKnockback.boolValue) {
-                _knockbackDirection.vector3Value = Vector3.ClampMagnitude(
-                    OffsetHandle(
-                        "Knockback", _knockbackDirection.vector3Value, Color.red, Color.blue
-                    ),
-                    1f
-                );
-            }
-
-            if (_applyRecoil.boolValue) {
-                _recoilDirection.vector3Value = Vector3.ClampMagnitude(
-                    OffsetHandle(
-                        "Recoil", _recoilDirection.vector3Value, Color.yellow, Color.blue
-                    ),
-                    1f
-                );
-            }
-
+            _knockback.vector3Value = OffsetHandle(
+                "Knockback", _knockback.vector3Value, Color.red, Color.blue
+            );
+            
+            _recoil.vector3Value = OffsetHandle(
+                "Recoil", _recoil.vector3Value, Color.yellow, Color.blue
+            );
+            
             if (EditorGUI.EndChangeCheck()) {
                 serializedObject.ApplyModifiedProperties();
             }
@@ -91,19 +60,19 @@ namespace Banchou.Pawn.Part {
             var position = _target.position;
             var handlePosition = offset + position;
             var groundProjection = new Vector3(handlePosition.x, 0f, handlePosition.z);
-
+            
             Handles.color = offsetColor;
             Handles.DrawLine(position, handlePosition, 1f);
+
             Handles.DrawLine(groundProjection, handlePosition, 1f);
             Handles.DrawWireDisc(handlePosition - offset * 0.1f, offset, 0.1f);
 
             Handles.color = baseColor;
             Handles.DrawWireDisc(groundProjection, Vector3.up, 0.1f);
-
-            Handles.color = Color.white;
-            Handles.Label(handlePosition, handleLabel);
             
-            return (Handles.PositionHandle(offset + position, Quaternion.identity) - position);
+            Handles.Label(handlePosition, handleLabel);
+
+            return Handles.PositionHandle(handlePosition, Quaternion.identity) - position;
         }
     }
 }

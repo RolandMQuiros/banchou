@@ -22,40 +22,19 @@ namespace Banchou.Pawn.Part {
                 Tooltip("How long after contact, in seconds, the enemy Combatant the enemy stays in a stunned state." +
                         " Runs after Hit Pause completes.")]
         public float HitStun { get; private set; }
+        
+        [SerializeField,
+         Tooltip("Force applied to the enemy Combatant on contact, in world space. Applied after Hit Pause.")]
+        private Vector3 _knockback;
 
-        [SerializeField,
-         Tooltip("Whether or not contact with enemy will apply a force to that enemy")]
-        private bool _applyKnockback = true;
+        public Vector3 Knockback => _transform.TransformVector(_knockback);
         
         [SerializeField,
-         Tooltip("Direction of force applied to the enemy Combatant on contact, in world space." +
-                 " Applied after Hit Pause.")]
-        private Vector3 _knockbackDirection;
+         Tooltip("Backwards force applied to the attacker on contact, in world space. Applied after Hit Pause")]
+        private Vector3 _recoil;
 
-        [SerializeField,
-         Tooltip("Magnitude of force applied to the enemy Combatant on contact, in world space." +
-                 " Applied after Hit Pause.")]
-        private float _knockbackScale = 1f;
+        public Vector3 Recoil => _transform.TransformVector(_recoil);
         
-        public Vector3 Knockback =>
-                _applyKnockback ? _knockbackScale * _transform.TransformVector(_knockbackDirection) : Vector3.zero;
-        
-        [SerializeField,
-         Tooltip("Whether or not contact with enemy will apply a force to the attacker")]
-        private bool _applyRecoil = true;
-        
-        [SerializeField,
-         Tooltip("Magnitude of backwards force applied to the attacker on contact, in world space." +
-                 " Applied after Hit Pause")]
-        private float _recoilScale = 1f;
-        
-        [SerializeField,
-         Tooltip("Direction of backwards force applied to the attacker on contact, in world space." +
-                 " Applied after Hit Pause")]
-        private Vector3 _recoilDirection;
-
-        public Vector3 Recoil =>
-                _applyRecoil ? _recoilScale * _transform.TransformVector(_recoilDirection) : Vector3.zero;
         #endregion
         
         private Transform _transform;
