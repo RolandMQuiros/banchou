@@ -1,13 +1,15 @@
+using System;
 using MessagePack;
 using UnityEngine;
 
 namespace Banchou {
-    [MessagePackObject(true)]
+    [Serializable, MessagePackObject(true)]
     public record HitState(
-        int AttackerId = 0, int Damage = 0, Vector3 Knockback = new(), float PauseTime = 0f, float StunTime = 0f,
-        bool IsCountered = false, float LastUpdated = 0f
+        int AttackerId = 0, Vector3 Contact = new(), int Damage = 0, Vector3 Knockback = new(), float PauseTime = 0f,
+        float StunTime = 0f, bool IsCountered = false, float LastUpdated = 0f
     ) : NotifiableWithHistory<HitState>(32) {
         [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
+        [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
         [field: SerializeField] public int Damage { get; private set; } = Damage;
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
@@ -17,6 +19,7 @@ namespace Banchou {
         
         public override void Set(HitState other) {
             AttackerId = other.AttackerId;
+            Contact = other.Contact;
             Knockback = other.Knockback;
             PauseTime = other.PauseTime;
             StunTime = other.StunTime;
@@ -33,6 +36,7 @@ namespace Banchou {
         
         public HitState Hit(
             int attackerId,
+            Vector3 contact,
             int damage,
             Vector3 knockback,
             float pauseTime,
@@ -41,6 +45,7 @@ namespace Banchou {
             float when
         ) {
             AttackerId = attackerId;
+            Contact = contact;
             Damage = damage;
             Knockback = knockback;
             PauseTime = pauseTime;

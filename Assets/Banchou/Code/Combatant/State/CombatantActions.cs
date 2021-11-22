@@ -21,6 +21,7 @@ namespace Banchou.Combatant {
 
         public static GameState HitCombatant(
             this GameState state,
+            Vector3 contact,
             int attackerPawnId,
             int defenderPawnId,
             Vector3 knockback,
@@ -41,8 +42,11 @@ namespace Banchou.Combatant {
 
             if (attacker != null && defender != null) {
                 var attackDirection = attacker.Position - defender.Position;
+                state.GetCombatant(attackerPawnId)?
+                    .Attack.Connect(defenderPawnId, damage, Vector3.zero, state.GetTime());
+                
                 state.GetCombatant(defenderPawnId)?
-                    .Hit(attackerPawnId, defender.Forward, attackDirection, knockback, hitPause, hitStun, damage,
+                    .Hit(attackerPawnId, contact, defender.Forward, attackDirection, knockback, hitPause, hitStun, damage,
                         state.GetTime());
             }
             return state;

@@ -30,6 +30,7 @@ namespace Banchou.Combatant {
 
         public CombatantState Hit(
             int attackerId,
+            Vector3 contact,
             Vector3 pawnDirection,
             Vector3 attackDirection,
             Vector3 knockback,
@@ -48,9 +49,9 @@ namespace Banchou.Combatant {
             } else if (Attack.Phase == AttackPhase.Active) {
                 hitStun *= 2f;
             }
-
+            
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
-            LastHit.Hit(attackerId, damage, knockback, hitPause, hitStun, true, when);
+            LastHit.Hit(attackerId, contact, damage, knockback, hitPause, hitStun, true, when);
             Defense.Set(guardTime: guardTime, when: when);
 
             return Notify(when);

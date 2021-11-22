@@ -30,6 +30,7 @@ namespace Banchou.Pawn.Part {
                 StartCoroutine(HurtVolumeInterval(hurtVolume.Interval, hurtVolume.PawnId));
                 Debug.Log($"Hit detected from Pawn {hurtVolume.PawnId} on Pawn {PawnId} at {_state.GetTime()}. Interval: {hurtVolume.Interval}, Collided volumes: {_collidedPawns.Count}");
                 _state.HitCombatant(
+                    other.transform.TransformVector(other.ClosestPoint(transform.position)),
                     hurtVolume.PawnId,
                     PawnId,
                     hurtVolume.Knockback * KnockbackScale,

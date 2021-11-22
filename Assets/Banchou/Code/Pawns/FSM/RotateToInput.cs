@@ -5,6 +5,9 @@ using Banchou.Player;
 
 namespace Banchou.Pawn.FSM {
     public class RotateToInput : FSMBehaviour {
+        [SerializeField, Tooltip("Whether or not to rotate to the direction opposite to the input direction")]
+        private bool _invertDirection = false;
+        
         [SerializeField, Tooltip("How quickly, in degrees per second, the Object will rotate to face its motion vector")]
         private float _rotationSpeed = 1000f;
 
@@ -78,7 +81,7 @@ namespace Banchou.Pawn.FSM {
             
             var stateTime = stateInfo.normalizedTime % 1;
             if (stateTime >= _startTime && stateTime <= _endTime && (!_hold || _input.Direction != Vector3.zero)) {
-                var direction = _input.Direction;
+                var direction = _invertDirection ? -_input.Direction : _input.Direction;
                 var flipMagnitudeThreshold = _flipMagnitudeThreshold * _flipDirectionThreshold;
                 
                 if (direction.sqrMagnitude > flipMagnitudeThreshold) {

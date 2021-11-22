@@ -11,7 +11,8 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _hitPause;
         private SerializedProperty _knockback;
         private SerializedProperty _recoil;
-
+        private SerializedProperty _onHit;
+        
         private void OnEnable() {
             _target = ((HurtVolume)target).transform;
             _interval = serializedObject.FindProperty("<Interval>k__BackingField");
@@ -20,6 +21,7 @@ namespace Banchou.Pawn.Part {
             _hitPause = serializedObject.FindProperty("<HitPause>k__BackingField");
             _knockback = serializedObject.FindProperty("_knockback");
             _recoil = serializedObject.FindProperty("_recoil");
+            _onHit = serializedObject.FindProperty("_onHit");
         }
         
         public override void OnInspectorGUI() {
@@ -31,6 +33,7 @@ namespace Banchou.Pawn.Part {
             EditorGUILayout.PropertyField(_hitPause);
             EditorGUILayout.PropertyField(_knockback);
             EditorGUILayout.PropertyField(_recoil);
+            EditorGUILayout.PropertyField(_onHit, true);
 
             if (EditorGUI.EndChangeCheck()) {
                 if (_hitPause.floatValue > _interval.floatValue) {

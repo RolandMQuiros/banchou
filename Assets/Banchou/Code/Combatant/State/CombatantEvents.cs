@@ -1,6 +1,7 @@
 using System;
 using Banchou.Pawn;
 using UniRx;
+using UnityEngine;
 
 namespace Banchou.Combatant {
     public static class CombatantEvents {
@@ -17,7 +18,7 @@ namespace Banchou.Combatant {
                 .Where(combatant => combatant != null)
                 .DistinctUntilChanged();
         }
-        
+
         /// <summary>
         /// Emits whenever the <see cref="CombatantState"/> associated with a pawn ID is modified
         /// </summary>
@@ -27,7 +28,7 @@ namespace Banchou.Combatant {
         public static IObservable<CombatantState> ObserveCombatantChanges(this GameState state, int pawnId) {
             return state.ObserveCombatant(pawnId).SelectMany(combatant => combatant.Observe());
         }
-        
+
         public static IObservable<HitState> ObserveLastHit(this GameState state, int pawnId) {
             return state.ObserveCombatant(pawnId).Select(combatant => combatant.LastHit);
         }
@@ -42,6 +43,15 @@ namespace Banchou.Combatant {
         public static IObservable<HitState> ObserveLastHitChanges(this GameState state, int pawnId) {
             return state.ObserveCombatant(pawnId)
                 .SelectMany(combatant => combatant.LastHit.Observe());
+        }
+
+        public static IObservable<AttackState> ObserveLastAttack(this GameState state, int pawnId) {
+            return state.ObserveCombatant(pawnId).Select(combatant => combatant.Attack);
+        }
+
+        public static IObservable<AttackState> ObserveLastAttackChanges(this GameState state, int pawnId) {
+            return state.ObserveCombatant(pawnId)
+                .SelectMany(combatant => combatant.Attack.Observe());
         }
     }
 }
