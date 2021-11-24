@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Particles_Shockwave
+  m_Name: Particle_Shockwave
   m_Shader: {fileID: -6465566751694194690, guid: 61107d5fd464da74cb97d5b34862602d, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 6

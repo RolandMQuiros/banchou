@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Particles_DustPuff
+  m_Name: Particle_DustPuff
   m_Shader: {fileID: -6465566751694194690, guid: 61107d5fd464da74cb97d5b34862602d, type: 3}
   m_ShaderKeywords: _ENABLE_LIGHTING
   m_LightmapFlags: 0
