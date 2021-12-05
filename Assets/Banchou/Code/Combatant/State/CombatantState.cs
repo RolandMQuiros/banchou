@@ -12,11 +12,11 @@ namespace Banchou.Combatant {
         AttackState Attack = null,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<CombatantState>(32) {
-        [field: SerializeField] public CombatantStats Stats { get; init; } = Stats ?? new CombatantStats();
+        [field: SerializeField] public CombatantStats Stats { get; private set; } = Stats ?? new CombatantStats();
         [field: SerializeField] public int Health { get; private set; } = Health;
-        [field: SerializeField] public DefensiveState Defense { get; init; } = Defense ?? new DefensiveState();
-        [field: SerializeField] public HitState LastHit { get; init; } = LastHit ?? new HitState();
-        [field: SerializeField] public AttackState Attack { get; init; } = Attack ?? new AttackState();
+        [field: SerializeField] public DefensiveState Defense { get; private set; } = Defense ?? new DefensiveState();
+        [field: SerializeField] public HitState LastHit { get; private set; } = LastHit ?? new HitState();
+        [field: SerializeField] public AttackState Attack { get; private set; } = Attack ?? new AttackState();
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public override void Set(CombatantState other) {
