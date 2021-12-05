@@ -35,7 +35,7 @@ namespace Banchou.Pawn.FSM {
             }
             
             if (_relativeForce != Vector3.zero) {
-                _rigidbody.AddRelativeForce(_force, _forceMode);
+                _rigidbody.AddRelativeForce(_relativeForce, _forceMode);
             }
 
             if (!Mathf.Approximately(_inputForce, 0f) && _input.Direction != Vector3.zero) {
