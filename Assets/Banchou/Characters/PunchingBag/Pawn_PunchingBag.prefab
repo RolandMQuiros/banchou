@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8800561442160583271}
   - component: {fileID: 6952295661100396989}
   - component: {fileID: 7141537125015397197}
+  - component: {fileID: 3646314111006821989}
+  - component: {fileID: 3976993451277208818}
   m_Layer: 0
   m_Name: Pawn_PunchingBag
   m_TagString: Untagged
@@ -35,6 +37,7 @@ Transform:
   m_Children:
   - {fileID: 1428876191965037491}
   - {fileID: 7966382669488722185}
+  - {fileID: 1672368468899609573}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -98,6 +101,15 @@ MonoBehaviour:
     <LastUpdated>k__BackingField: 0
     <Combatant>k__BackingField:
       <Health>k__BackingField: 0
+      <LastHit>k__BackingField:
+        <AttackerId>k__BackingField: 0
+        <Contact>k__BackingField: {x: 0, y: 0, z: 0}
+        <Damage>k__BackingField: 0
+        <Knockback>k__BackingField: {x: 0, y: 0, z: 0}
+        <PauseTime>k__BackingField: 0
+        <StunTime>k__BackingField: 0
+        <IsCountered>k__BackingField: 0
+        <LastUpdated>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
   _worldCollider: {fileID: 0}
 --- !u!114 &6952295661100396989
@@ -115,6 +127,15 @@ MonoBehaviour:
   _maxHealth: 100
   _combatant:
     <Health>k__BackingField: 0
+    <LastHit>k__BackingField:
+      <AttackerId>k__BackingField: 0
+      <Contact>k__BackingField: {x: 0, y: 0, z: 0}
+      <Damage>k__BackingField: 0
+      <Knockback>k__BackingField: {x: 0, y: 0, z: 0}
+      <PauseTime>k__BackingField: 0
+      <StunTime>k__BackingField: 0
+      <IsCountered>k__BackingField: 0
+      <LastUpdated>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
 --- !u!114 &7141537125015397197
 MonoBehaviour:
@@ -131,7 +152,36 @@ MonoBehaviour:
   _terrainMask:
     serializedVersion: 2
     m_Bits: 64
-  _contacts: []
+  _groundedCastLength: 0.1
+  _groundedCastRadius: 0.48
+--- !u!114 &3646314111006821989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184506192632776674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
+--- !u!114 &3976993451277208818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184506192632776674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4028694286254001055
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4261783661331850298}
   - component: {fileID: 6440822444248259484}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: Hit Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,18 +402,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 3913449732829661049}
-        m_TargetAssemblyTypeName: Banchou.Pawn.Part.HurtVolume, Banchou
-        m_MethodName: Buh
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!1 &6081919536696013468
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,13 +429,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6081919536696013468}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4261783661331850298}
-  - {fileID: 1672368468899609573}
   m_Father: {fileID: 8520632702770752658}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -516,8 +553,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 778321030206850852}
-  m_Father: {fileID: 1428876191965037491}
-  m_RootOrder: 1
+  m_Father: {fileID: 8520632702770752658}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8103535908065681529
 PrefabInstance:
