@@ -28,7 +28,7 @@ namespace Banchou.Pawn.Part {
             if (hurtVolume != null && hurtVolume.PawnId != PawnId && !_collidedPawns.Contains(hurtVolume.PawnId)) {
                 _collidedPawns.Add(hurtVolume.PawnId);
                 StartCoroutine(HurtVolumeInterval(hurtVolume.Interval, hurtVolume.PawnId));
-                Debug.Log($"Hit detected from Pawn {hurtVolume.PawnId} on Pawn {PawnId} at {_state.GetTime()}. Interval: {hurtVolume.Interval}, Collided volumes: {_collidedPawns.Count}");
+                
                 _state.HitCombatant(
                     other.transform.TransformVector(other.ClosestPoint(transform.position)),
                     hurtVolume.PawnId,

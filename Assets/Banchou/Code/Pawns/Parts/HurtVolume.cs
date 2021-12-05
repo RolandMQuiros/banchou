@@ -56,12 +56,6 @@ namespace Banchou.Pawn.Part {
                     _onHit.Invoke();
                 })
                 .AddTo(this);
-
-            Debug.Log($"HurtVolume {gameObject.name}: {isActiveAndEnabled}");
-        }
-
-        public void Buh() {
-            Debug.Log("Buh");
         }
     }
 }
