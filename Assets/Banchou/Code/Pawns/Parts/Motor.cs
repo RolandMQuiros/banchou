@@ -4,14 +4,18 @@ using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class Motor : MonoBehaviour {
-        [SerializeField] private LayerMask _terrainMask = new LayerMask();
+        [SerializeField] private LayerMask _terrainMask;
+
+        [SerializeField] private Vector3 _groundedCastOrigin;
+        [SerializeField] private float _groundedCastLength = 0.1f;
+        [SerializeField] private float _groundedCastRadius = 0.48f;
 
         private GameState _state;
         private PawnSpatial _spatial;
         private Rigidbody _rigidbody;
-        private bool _isGrounded = false;
-        private bool _moved = false;
-        [SerializeField] private List<Vector3> _contacts = new List<Vector3>(32);
+        private bool _moved;
+        private bool _isGrounded;
+        private readonly List<Vector3> _contactNormals = new(32);
 
         public void Construct(
             GameState state,
@@ -27,6 +31,13 @@ namespace Banchou.Pawn.Part {
         }
 
         public void Step() {
+            _isGrounded = Physics.CheckCapsule(
+                _spatial.Position + _groundedCastOrigin,
+                _spatial.Position + _groundedCastOrigin - _spatial.Up * _groundedCastLength,
+                _groundedCastRadius,
+                _terrainMask.value
+            );
+            
             if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _spatial.IsGrounded != _isGrounded) {
                 _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
             }
@@ -35,7 +46,7 @@ namespace Banchou.Pawn.Part {
             switch (_spatial.Style) {
                 case PawnSpatial.MovementStyle.Offset: {
                     if (_spatial.Offset != Vector3.zero) {
-                        var projected = _spatial.Offset.ProjectOnContacts(_spatial.Up, _contacts);
+                        var projected = _spatial.Offset.ProjectOnContacts(_spatial.Up, _contactNormals);
                         _rigidbody.MovePosition(_spatial.Position + projected);
                         _moved = true;
                     }
@@ -50,16 +61,14 @@ namespace Banchou.Pawn.Part {
                 } break;
             }
 
-            _contacts.Clear();
-            _isGrounded = false;
+            _contactNormals.Clear();
         }
 
         private void OnCollisionStay(Collision collision) {
             for (int c = 0; c < collision.contactCount; c++) {
                 var contact = collision.GetContact(c);
                 if ((_terrainMask.value & (1 << contact.otherCollider.gameObject.layer)) != 0) {
-                    _isGrounded |= Vector3.Dot(contact.normal, _rigidbody.transform.up) >= 0.6f;
-                    _contacts.Add(contact.normal);
+                    _contactNormals.Add(contact.normal);
                 }
             }
         }
@@ -67,5 +76,15 @@ namespace Banchou.Pawn.Part {
         private void FixedUpdate() => Step();
         private void OnCollisionEnter(Collision collision) => OnCollisionStay(collision);
         private Vector3 Snap(Vector3 vec) => Snapping.Snap(vec, Vector3.one * 0.001f);
+
+        private void OnDrawGizmos() {
+            var xform = transform;
+            var origin = xform.position;
+            var up = xform.up;
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(origin + _groundedCastOrigin, _groundedCastRadius);
+            Gizmos.DrawWireSphere(origin + _groundedCastOrigin - up * _groundedCastLength, _groundedCastRadius);
+        }
     }
 }
