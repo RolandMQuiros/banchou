@@ -264,6 +264,10 @@ MonoBehaviour:
       <When>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
     <Combatant>k__BackingField:
+      <Stats>k__BackingField:
+        <Team>k__BackingField: 0
+        <MaxHealth>k__BackingField: 0
+        <Weight>k__BackingField: 0
       <Health>k__BackingField: 0
       <LastHit>k__BackingField:
         <AttackerId>k__BackingField: 0
@@ -289,7 +293,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+  _team: 0
   _combatant:
+    <Stats>k__BackingField:
+      <Team>k__BackingField: 0
+      <MaxHealth>k__BackingField: 0
+      <Weight>k__BackingField: 0
     <Health>k__BackingField: 0
     <LastHit>k__BackingField:
       <AttackerId>k__BackingField: 0
@@ -329,7 +338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44538fbef01441a46bba08b92f22fe2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _terrainMask:
+  _projectionMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _groundedMask:
     serializedVersion: 2
     m_Bits: 64
   _groundedCastOrigin: {x: 0, y: 0.38, z: 0}
@@ -448,7 +460,7 @@ Transform:
   m_GameObject: {fileID: 1699921650211371126}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 5.5007}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1679924768721219573}
@@ -5619,6 +5631,7 @@ GameObject:
   - component: {fileID: 7336212641946555633}
   - component: {fileID: 5542030126991896458}
   - component: {fileID: 4087082461658749185}
+  - component: {fileID: 3013642436162283032}
   m_Layer: 7
   m_Name: Hurt Capsule 1
   m_TagString: Untagged
@@ -5676,6 +5689,18 @@ MonoBehaviour:
   _onHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3013642436162283032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5511536607431273634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28983954f68d9f142b687e9fc02b8c29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5735441867293215429
 GameObject:
   m_ObjectHideFlags: 0
@@ -16531,6 +16556,10 @@ PrefabInstance:
     - target: {fileID: 5860017343516152638, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -20.897678
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
       propertyPath: m_Controller
