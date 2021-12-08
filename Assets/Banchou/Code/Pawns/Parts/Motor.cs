@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Banchou.Pawn.Part {
     public class Motor : MonoBehaviour {
-        [SerializeField] private LayerMask _terrainMask;
-
+        [SerializeField] private LayerMask _projectionMask;
+        
+        [Header("Grounded Test")]
+        [SerializeField] private LayerMask _groundedMask;
         [SerializeField] private Vector3 _groundedCastOrigin;
         [SerializeField] private float _groundedCastLength = 0.1f;
         [SerializeField] private float _groundedCastRadius = 0.48f;
@@ -35,10 +37,13 @@ namespace Banchou.Pawn.Part {
                 _spatial.Position + _groundedCastOrigin,
                 _spatial.Position + _groundedCastOrigin - _spatial.Up * _groundedCastLength,
                 _groundedCastRadius,
-                _terrainMask.value
+                _groundedMask.value
             );
             
-            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _spatial.IsGrounded != _isGrounded) {
+            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero ||
+                _moved ||
+                _spatial.IsGrounded != _isGrounded)
+            {
                 _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
             }
             _moved = false;
@@ -67,7 +72,7 @@ namespace Banchou.Pawn.Part {
         private void OnCollisionStay(Collision collision) {
             for (int c = 0; c < collision.contactCount; c++) {
                 var contact = collision.GetContact(c);
-                if ((_terrainMask.value & (1 << contact.otherCollider.gameObject.layer)) != 0) {
+                if ((_projectionMask.value & (1 << contact.otherCollider.gameObject.layer)) != 0) {
                     _contactNormals.Add(contact.normal);
                 }
             }
