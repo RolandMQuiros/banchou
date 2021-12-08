@@ -6,6 +6,8 @@ using Banchou.Combatant;
 namespace Banchou.Pawn.Part {
     public class CombatantContext : MonoBehaviour {
         [SerializeField] private int _maxHealth = 100;
+        [SerializeField] private CombatantTeam _team;
+        
         [SerializeField] private CombatantState _combatant;
         
         public void Construct(GameState state, GetPawnId getPawnId) {
@@ -13,11 +15,11 @@ namespace Banchou.Pawn.Part {
             var combatant = state.GetCombatant(pawnId);
             
             if (combatant == null) {
-                state.SetCombatant(out _combatant, pawnId, _maxHealth);
+                state.SetCombatant(out _combatant, _team, pawnId, _maxHealth);
             }
 
             state.ObserveCombatant(pawnId)
-                .Subscribe(combatant => _combatant = combatant)
+                .Subscribe(c => _combatant = c)
                 .AddTo(this);
         }
     }

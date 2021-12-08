@@ -51,10 +51,7 @@ namespace Banchou.Pawn.Part {
             state.ObserveLastAttackChanges(getPawnId())
                 .Where(_ => isActiveAndEnabled)
                 .CatchIgnoreLog()
-                .Subscribe(hit => {
-                    Debug.Log($"Hit invoked at {hit.LastUpdated}");
-                    _onHit.Invoke();
-                })
+                .Subscribe(_ => { _onHit.Invoke(); })
                 .AddTo(this);
         }
     }

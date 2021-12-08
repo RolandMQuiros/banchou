@@ -6,6 +6,7 @@ namespace Banchou.Combatant {
         public static GameState SetCombatant(
             this GameState state,
             out CombatantState combatant,
+            CombatantTeam team,
             int pawnId,
             int maxHealth
         ) {
@@ -14,7 +15,7 @@ namespace Banchou.Combatant {
                 Debug.LogError($"No Pawn {pawnId} found for combatant");
                 combatant = null;
             } else {
-                pawn.SetCombatant(maxHealth, state.GetTime(), out combatant);
+                pawn.SetCombatant(team, maxHealth, state.GetTime(), out combatant);
             }
             return state;
         }
