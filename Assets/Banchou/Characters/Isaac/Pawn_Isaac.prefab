@@ -476,7 +476,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 0.05
   simulationSpeed: 1
-  stopAction: 1
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -6111,7 +6111,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 0.15
   simulationSpeed: 1
-  stopAction: 1
+  stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -16567,6 +16567,10 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 30cf5c08727355e4484796c2dd0444ce, type: 2}
     - target: {fileID: 5866666021909216657, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
       propertyPath: m_UpdateMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+      propertyPath: m_KeepAnimatorControllerStateOnDisable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6636702086915304512, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}

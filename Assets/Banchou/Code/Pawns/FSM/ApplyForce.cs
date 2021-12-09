@@ -6,7 +6,7 @@ using Banchou.Player;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyForce : FSMBehaviour {
-        [Serializable, Flags] private enum ApplyEvent { OnEnter, OnUpdate, OnExit }
+        [Serializable, Flags] private enum ApplyEvent { OnEnter = 1, OnUpdate = 2, OnExit = 4 }
 
         [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnUpdate;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
@@ -33,7 +33,7 @@ namespace Banchou.Pawn.FSM {
             if (_force != Vector3.zero) {
                 _rigidbody.AddForce(_force, _forceMode);
             }
-            
+
             if (_relativeForce != Vector3.zero) {
                 _rigidbody.AddRelativeForce(_relativeForce, _forceMode);
             }
@@ -44,18 +44,15 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (!_onEvent.HasFlag(ApplyEvent.OnEnter)) return;
-            Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply();
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (!_onEvent.HasFlag(ApplyEvent.OnUpdate)) return;
-            Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply();
         }
-        
+
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (!_onEvent.HasFlag(ApplyEvent.OnExit)) return;
-            Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply();
         }
     }
 }
