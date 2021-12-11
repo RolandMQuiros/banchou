@@ -17295,7 +17295,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0.016666668
-        value: 0.083333336
+        value: 0.16666667
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -35857,7 +35857,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0.016666668
-        value: 0.083333336
+        value: 0.16666667
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -35923,11 +35923,4 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 1
-  m_Events:
-  - time: 0
-    functionName: Raise
-    data: Light Chop
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
