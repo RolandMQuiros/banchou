@@ -7,7 +7,6 @@ namespace Banchou.Pawn.Part {
         [SerializeField] private LayerMask _projectionMask;
         
         [Header("Grounded Test")]
-        [SerializeField] private LayerMask _groundedMask;
         [SerializeField] private Vector3 _groundedCastOrigin;
         [SerializeField] private float _groundedCastLength = 0.1f;
         [SerializeField] private float _groundedCastRadius = 0.48f;
@@ -17,7 +16,8 @@ namespace Banchou.Pawn.Part {
         private Rigidbody _rigidbody;
         private bool _moved;
         private bool _isGrounded;
-        private readonly List<Vector3> _contactNormals = new(32);
+
+        private List<Vector3> _contacts = new(32);
 
         public void Construct(
             GameState state,
@@ -37,22 +37,14 @@ namespace Banchou.Pawn.Part {
                 _spatial.Position + _groundedCastOrigin,
                 _spatial.Position + _groundedCastOrigin - _spatial.Up * _groundedCastLength,
                 _groundedCastRadius,
-                _groundedMask.value
+                _projectionMask.value
             );
             
-            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero ||
-                _moved ||
-                _spatial.IsGrounded != _isGrounded)
-            {
-                _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
-            }
-            _moved = false;
-
             switch (_spatial.Style) {
                 case PawnSpatial.MovementStyle.Offset: {
                     if (_spatial.Offset != Vector3.zero) {
-                        var projected = _spatial.Offset.ProjectOnContacts(_spatial.Up, _contactNormals);
-                        _rigidbody.MovePosition(_spatial.Position + projected);
+                        var projected = _spatial.Offset.ProjectOnContacts(_spatial.Up, _contacts);
+                        _rigidbody.MovePosition(_rigidbody.position + projected);
                         _moved = true;
                     }
                 } break;
@@ -65,21 +57,32 @@ namespace Banchou.Pawn.Part {
                     _rigidbody.velocity = _spatial.AmbientVelocity;
                 } break;
             }
-
-            _contactNormals.Clear();
+            
+            if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _moved || 
+                _spatial.IsGrounded != _isGrounded)
+            {
+                _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
+            }
+            
+            _moved = false;
+            _contacts.Clear();
         }
 
         private void OnCollisionStay(Collision collision) {
             for (int c = 0; c < collision.contactCount; c++) {
                 var contact = collision.GetContact(c);
                 if ((_projectionMask.value & (1 << contact.otherCollider.gameObject.layer)) != 0) {
-                    _contactNormals.Add(contact.normal);
+                    _contacts.Add(contact.normal);
                 }
             }
         }
 
         private void FixedUpdate() => Step();
-        private void OnCollisionEnter(Collision collision) => OnCollisionStay(collision);
+
+        private void OnCollisionEnter(Collision collision) {
+            OnCollisionStay(collision);
+        }
+
         private Vector3 Snap(Vector3 vec) => Snapping.Snap(vec, Vector3.one * 0.001f);
 
         private void OnDrawGizmos() {

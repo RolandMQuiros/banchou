@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UniRx;
 
 using Banchou.Player;
 
 namespace Banchou.Pawn.FSM {
     public class InputMovement : FSMBehaviour {
+        [Flags] private enum ApplyEvent { OnEnter = 1, OnUpdate = 2 }
+        
         [Header("Movement")]
         [SerializeField, Tooltip("How quickly, in units per second, the object moves along its motion vector")]
         private float _movementSpeed = 8f;
@@ -13,6 +16,8 @@ namespace Banchou.Pawn.FSM {
          Tooltip("How quickly, in units per second per second, the object accelerates to Movement Speed")]
         private float _acceleration = 1000f;
 
+        [SerializeField] private ApplyEvent _readEvent = ApplyEvent.OnUpdate;
+        
         [Header("Animation")]
         [SerializeField] private float _animationAcceleration = 1f;
 
@@ -23,6 +28,9 @@ namespace Banchou.Pawn.FSM {
         private string _velocityRightOut = string.Empty;
         [SerializeField, Tooltip("Animation parameter to write forward movement speed")]
         private string _velocityForwardOut = string.Empty;
+
+        [SerializeField, Tooltip("Normalize the animation parameters")]
+        private bool _normalizeOutput = true;
         
         [SerializeField, Tooltip("True to clear all parameters to zero on state entry")]
         private bool _clearOutOnEntry = true;
@@ -61,6 +69,10 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (_readEvent.HasFlag(ApplyEvent.OnEnter)) {
+                _velocity = _movementSpeed * _input.Direction;
+            }
+
             if (_clearOutOnEntry) {
                 _speedOut = 0f;
                 _rightSpeedOut = 0f;
@@ -75,11 +87,15 @@ namespace Banchou.Pawn.FSM {
             if (_input == null) return;
             
             var dt = _state.GetDeltaTime();
-            _velocity = Vector3.MoveTowards(
-                _velocity,
-                _movementSpeed * _input.Direction,
-                _acceleration * dt * dt
-            );
+
+            if (_readEvent.HasFlag(ApplyEvent.OnUpdate)) {
+                _velocity = Vector3.MoveTowards(
+                    _velocity,
+                    _movementSpeed * _input.Direction,
+                    _acceleration * dt * dt
+                );
+            }
+
             var offset = _velocity * _state.GetDeltaTime();
             _spatial.Move(offset, _state.GetTime());
 
@@ -87,17 +103,17 @@ namespace Banchou.Pawn.FSM {
             if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {
                 if (_speedHash != 0) {
                     _speedOut = Mathf.MoveTowards(_speedOut, _velocity.magnitude, _animationAcceleration);
-                    animator.SetFloat(_speedHash, _speedOut);
+                    animator.SetFloat(_speedHash, _normalizeOutput ? _speedOut / _movementSpeed : _speedOut);
                 }
 
                 if (_rightSpeedHash != 0) {
                     _rightSpeedOut = Mathf.MoveTowards(_rightSpeedOut, Vector3.Dot(_velocity, _spatial.Right), _animationAcceleration);
-                    animator.SetFloat(_rightSpeedHash, _rightSpeedOut);
+                    animator.SetFloat(_rightSpeedHash, _normalizeOutput ? _rightSpeedOut / _movementSpeed : _rightSpeedOut);
                 }
 
                 if (_forwardSpeedHash != 0) {
                     _forwardSpeedOut = Mathf.MoveTowards(_forwardSpeedOut, Vector3.Dot(_velocity, _spatial.Forward), _animationAcceleration);
-                    animator.SetFloat(_forwardSpeedHash, _forwardSpeedOut);
+                    animator.SetFloat(_forwardSpeedHash, _normalizeOutput ? _forwardSpeedOut / _movementSpeed : _forwardSpeedOut);
                 }
             }
         }

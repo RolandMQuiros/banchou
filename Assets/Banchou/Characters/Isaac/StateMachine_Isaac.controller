@@ -16,7 +16,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 0, z: 0}
-  _inputForce: 0
 --- !u!1101 &-8897489168452160574
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -149,6 +148,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -4677153396661332060}
   - {fileID: 7571046684893390748}
+  - {fileID: -5625038335830211435}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -437,7 +437,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 1000, z: 0}
-  _inputForce: 100
 --- !u!1101 &-6979253944852275737
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -579,7 +578,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
-  _inputForce: 0
 --- !u!114 &-6519646924481466075
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -596,7 +594,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
-  _inputForce: 0
 --- !u!1101 &-6438132038040744630
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -641,7 +638,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 700, z: 0}
-  _inputForce: 100
 --- !u!1107 &-6124103550409731899
 AnimatorStateMachine:
   serializedVersion: 6
@@ -819,7 +815,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
-  _inputForce: 0
 --- !u!114 &-5655900777699233071
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -841,6 +836,28 @@ MonoBehaviour:
   _rightDeltaFloat: 
   _upDeltaFloat: Vertical Velocity
   _isGroundedBool: IsGrounded
+--- !u!114 &-5625038335830211435
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c17323bcbf858743a210e08cc624908, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movementSpeed: 2
+  _acceleration: 10000
+  _readEvent: 2
+  _animationAcceleration: 1
+  _movementSpeedOut: 
+  _velocityRightOut: 
+  _velocityForwardOut: 
+  _normalizeOutput: 1
+  _clearOutOnEntry: 1
+  _clearOutOnExit: 1
 --- !u!1109 &-5575883117614249652
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1570,6 +1587,21 @@ MonoBehaviour:
   _bufferUntilStateTime: 0
   _outputParameter: Lock On
   _acceptMode: 0
+--- !u!114 &-2726947276685435087
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e9e6ec04dbc094d953655b3c0979c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEvent: 2
+  _forceMode: 0
+  _inputForce: 0
 --- !u!1107 &-2555730033725791369
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1770,12 +1802,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c17323bcbf858743a210e08cc624908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 8
+  _movementSpeed: 5
   _acceleration: 10000
+  _readEvent: 2
   _animationAcceleration: 1
   _movementSpeedOut: Input Speed
   _velocityRightOut: Lateral Input Velocity
   _velocityForwardOut: Forward Input Velocity
+  _normalizeOutput: 1
   _clearOutOnEntry: 1
   _clearOutOnExit: 1
 --- !u!1101 &-2072130113148702487
@@ -1924,7 +1958,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -7843717315333180741, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
     m_Threshold: 0
-    m_Position: {x: 0, y: 8}
+    m_Position: {x: 0, y: 1}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Forward Speed
@@ -1940,7 +1974,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 3815408229700292758}
     m_Threshold: 0.22222222
-    m_Position: {x: 0, y: -4}
+    m_Position: {x: 0, y: -0.5}
     m_TimeScale: -1
     m_CycleOffset: 0
     m_DirectBlendParameter: Forward Speed
@@ -1948,7 +1982,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 3466621704592105166}
     m_Threshold: 0.33333334
-    m_Position: {x: 0, y: 4}
+    m_Position: {x: 0, y: 0.5}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Forward Speed
@@ -1956,7 +1990,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 7579862229213711365}
     m_Threshold: 0.44444445
-    m_Position: {x: 4, y: 0}
+    m_Position: {x: 0.5, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Forward Speed
@@ -1964,7 +1998,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -7570007851855927779}
     m_Threshold: 0.5555556
-    m_Position: {x: -4, y: 0}
+    m_Position: {x: -0.5, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Speed
@@ -1972,7 +2006,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 5044487075997539249}
     m_Threshold: 0.6666667
-    m_Position: {x: 2.828, y: 2.828}
+    m_Position: {x: 0.3535, y: 0.3535}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Input Speed
@@ -1980,7 +2014,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -7609183279338117909}
     m_Threshold: 0.7777778
-    m_Position: {x: -2.828, y: -2.828}
+    m_Position: {x: -0.3535, y: -0.3535}
     m_TimeScale: -1
     m_CycleOffset: 0
     m_DirectBlendParameter: Input Speed
@@ -1988,7 +2022,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: -744109062482310535}
     m_Threshold: 0.8888889
-    m_Position: {x: -2.828, y: 2.828}
+    m_Position: {x: -0.3535, y: 0.3535}
     m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Input Speed
@@ -1996,7 +2030,7 @@ BlendTree:
   - serializedVersion: 2
     m_Motion: {fileID: 6698673443443410487}
     m_Threshold: 1
-    m_Position: {x: 2.828, y: -2.828}
+    m_Position: {x: 0.3535, y: -0.3535}
     m_TimeScale: -1
     m_CycleOffset: 0
     m_DirectBlendParameter: Input Speed
@@ -2196,6 +2230,7 @@ AnimatorState:
   - {fileID: -8881997606320847783}
   m_StateMachineBehaviours:
   - {fileID: -6994662944160173731}
+  - {fileID: 4446619128862379186}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2284,6 +2319,7 @@ AnimatorState:
   - {fileID: -8023367520439357764}
   m_StateMachineBehaviours:
   - {fileID: -6252930916425466539}
+  - {fileID: 1142014462632463543}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -2432,7 +2468,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
-  _inputForce: 0
 --- !u!1102 &-69830110688348947
 AnimatorState:
   serializedVersion: 6
@@ -2478,7 +2513,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 0, z: 0}
-  _inputForce: 0
 --- !u!1101 &-18164957276161888
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2863,6 +2897,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: Stepped Normalized Time
+--- !u!114 &1142014462632463543
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e9e6ec04dbc094d953655b3c0979c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEvent: 1
+  _forceMode: 2
+  _inputForce: 5
 --- !u!1102 &1203817675059986644
 AnimatorState:
   serializedVersion: 6
@@ -2889,7 +2938,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -2290675519277130801}
+  m_Motion: {fileID: -1737396516935762602}
   m_Tag: 
   m_SpeedParameter: Input Direction Magnitude
   m_MirrorParameter: 
@@ -3203,7 +3252,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
-  _inputForce: 10
 --- !u!1101 &2514294963096393594
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3735,6 +3783,21 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &4446619128862379186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e9e6ec04dbc094d953655b3c0979c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onEvent: 1
+  _forceMode: 2
+  _inputForce: 5
 --- !u!1102 &4456429601928755861
 AnimatorState:
   serializedVersion: 6
@@ -3982,10 +4045,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movementSpeed: 4
   _acceleration: 1
+  _readEvent: 0
   _animationAcceleration: 1
   _movementSpeedOut: 
   _velocityRightOut: 
   _velocityForwardOut: 
+  _normalizeOutput: 1
   _clearOutOnEntry: 1
   _clearOutOnExit: 1
 --- !u!206 &5446119277976943821
@@ -4399,12 +4464,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c17323bcbf858743a210e08cc624908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 4
+  _movementSpeed: 2.5
   _acceleration: 10000
+  _readEvent: 2
   _animationAcceleration: 1
   _movementSpeedOut: Input Speed
   _velocityRightOut: Lateral Input Velocity
   _velocityForwardOut: Forward Input Velocity
+  _normalizeOutput: 1
   _clearOutOnEntry: 1
   _clearOutOnExit: 1
 --- !u!114 &6818562198304556309
@@ -4783,7 +4850,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 4456429601928755861}
-    m_Position: {x: -90, y: 220, z: 0}
+    m_Position: {x: -80, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1203817675059986644}
     m_Position: {x: 150, y: 220, z: 0}
