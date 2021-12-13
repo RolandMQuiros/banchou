@@ -33,7 +33,7 @@ namespace Banchou {
         }
 
         private void FixedUpdate() {
-            _store.State.SetLocalTime(Time.fixedUnscaledTime, Time.fixedUnscaledDeltaTime);
+            _store.State.SetLocalTime(Time.fixedTime, Time.fixedDeltaTime);
         }
     }
 }
