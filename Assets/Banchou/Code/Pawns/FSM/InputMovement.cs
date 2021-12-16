@@ -1,8 +1,10 @@
 ﻿using System;
+using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
 
 using Banchou.Player;
+using UnityEngine.InputSystem.Utilities;
 
 namespace Banchou.Pawn.FSM {
     public class InputMovement : FSMBehaviour {
@@ -17,6 +19,23 @@ namespace Banchou.Pawn.FSM {
         private float _acceleration = 1000f;
 
         [SerializeField] private ApplyEvent _readEvent = ApplyEvent.OnUpdate;
+        
+        [Header("Lock On Approaches")]
+        
+        [SerializeField,
+         Tooltip("Whether or not to use a different movement speed when moving towards a lock-on target")]
+        private bool _handleApproaches = false;
+
+        [SerializeField, Tooltip("How quickly, in units per second, the Pawn moves toward a lock on target")]
+        private float _approachSpeed = 8f;
+        
+        [SerializeField,
+         Tooltip("Angle centered on Pawn's forward vector, within which a movement is considered an approach")]
+        private float _approachAngle = 30f;
+        
+        [SerializeField,
+         Tooltip("Whether or not to snap all movements within the approach angle towards the lock-on target")]
+        private bool _snapToApproach = false;
         
         [Header("Animation")]
         [SerializeField] private float _animationAcceleration = 1f;
@@ -44,6 +63,9 @@ namespace Banchou.Pawn.FSM {
         private float _speed;
         private Vector3 _velocity;
 
+        private PawnSpatial _targetSpatial;
+        private float _approachDot;
+
         private float _speedOut = 0f;
         private float _forwardSpeedOut = 0f;
         private float _rightSpeedOut = 0f;
@@ -54,18 +76,30 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
-            _state.ObservePawnSpatialChanges(getPawnId())
+            var pawnId = getPawnId();
+            
+            _state.ObservePawnSpatialChanges(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
-            _state.ObservePawnInput(getPawnId())
+            _state.ObservePawnInput(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(input => _input = input)
                 .AddTo(this);
 
+            if (_handleApproaches) {
+                _state.ObserveLockOn(pawnId)
+                    .SelectMany(targetId => _state.ObservePawnSpatial(targetId))
+                    .CatchIgnoreLog()
+                    .Subscribe(targetSpatial => _targetSpatial = targetSpatial)
+                    .AddTo(this);
+            }
+
             _speedHash = Animator.StringToHash(_movementSpeedOut);
             _rightSpeedHash = Animator.StringToHash(_velocityRightOut);
             _forwardSpeedHash = Animator.StringToHash(_velocityForwardOut);
+            
+            _approachDot = Mathf.Cos(Mathf.Deg2Rad * _approachAngle / 2f);
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -89,11 +123,23 @@ namespace Banchou.Pawn.FSM {
             var dt = _state.GetDeltaTime();
 
             if (_readEvent.HasFlag(ApplyEvent.OnUpdate)) {
-                _velocity = Vector3.MoveTowards(
-                    _velocity,
-                    _movementSpeed * _input.Direction,
-                    _acceleration * dt * dt
-                );
+                var speed = _movementSpeed;
+                var direction = _input.Direction;
+                
+                // If there's a lock-on target, check if we're moving towards it
+                if (_handleApproaches && _targetSpatial != null) {
+                    var lockOnDirection = (_targetSpatial.Position - _spatial.Position).normalized;
+                    var dot = Vector3.Dot(lockOnDirection, _input.Direction);
+                    if (dot >= _approachDot) {
+                        speed = _approachSpeed;
+                        if (_snapToApproach) {
+                            direction = lockOnDirection;
+                        }
+                    }
+                }
+                
+                // Calculate new velocity
+                _velocity = Vector3.MoveTowards(_velocity, speed * direction, _acceleration * dt * dt);
             }
 
             var offset = _velocity * _state.GetDeltaTime();

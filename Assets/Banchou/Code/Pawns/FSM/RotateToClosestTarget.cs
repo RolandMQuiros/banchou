@@ -42,17 +42,21 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _target = _state.GetCombatantSpatials()
-                .Where(target => target.PawnId != _pawnId)
-                .Select(target => (
-                    Target: target,
-                    Offset: target.Position - _spatial.Position
-                ))
-                .Where(args => Vector3.Dot(args.Offset.normalized, _spatial.Forward) >= _scanDot &&
-                               args.Offset.magnitude <= _scanRange)
-                .OrderBy(args => Vector3.Dot(args.Offset, _spatial.Forward))
-                .Select(args => args.Target)
-                .FirstOrDefault();
+            if (_combatant.LockOnTarget == default) {
+                _target = _state.GetCombatantSpatials()
+                    .Where(target => target.PawnId != _pawnId)
+                    .Select(target => (
+                        Target: target,
+                        Offset: target.Position - _spatial.Position
+                    ))
+                    .Where(args => Vector3.Dot(args.Offset.normalized, _spatial.Forward) >= _scanDot &&
+                                   args.Offset.magnitude <= _scanRange)
+                    .OrderBy(args => Vector3.Dot(args.Offset, _spatial.Forward))
+                    .Select(args => args.Target)
+                    .FirstOrDefault();
+            } else {
+                _target = _state.GetPawnSpatial(_combatant.LockOnTarget);
+            }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

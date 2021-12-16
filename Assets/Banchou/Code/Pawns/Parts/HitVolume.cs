@@ -24,8 +24,9 @@ namespace Banchou.Pawn.Part {
         }
 
         private void OnTriggerEnter(Collider other) {
-            var hurtVolume = other.GetComponent<HurtVolume>();
-            if (hurtVolume != null && hurtVolume.PawnId != PawnId && !_collidedPawns.Contains(hurtVolume.PawnId)) {
+            if (other.TryGetComponent<HurtVolume>(out var hurtVolume) &&
+                hurtVolume.PawnId != PawnId &&
+                !_collidedPawns.Contains(hurtVolume.PawnId)) {
                 _collidedPawns.Add(hurtVolume.PawnId);
                 StartCoroutine(HurtVolumeInterval(hurtVolume.Interval, hurtVolume.PawnId));
                 

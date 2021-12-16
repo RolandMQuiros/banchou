@@ -70,15 +70,13 @@ namespace Banchou.Pawn.Part {
         }
 
         private void OnTriggerEnter(Collider other) {
-            var target = other.GetComponent<LockOnTarget>();
-            if (target != null && target.PawnId != _pawnId) {
+            if (other.TryGetComponent<LockOnTarget>(out var target) && target.PawnId != _pawnId) {
                 _targets.Add(target);
             } 
         }
 
         private void OnTriggerExit(Collider other) {
-            var target = other.GetComponent<LockOnTarget>();
-            if (target != null) {
+            if (other.TryGetComponent<LockOnTarget>(out var target)) {
                 _targets.Remove(target);
             }
         }
