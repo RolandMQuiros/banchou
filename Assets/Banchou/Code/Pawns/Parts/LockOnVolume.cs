@@ -26,14 +26,14 @@ namespace Banchou.Pawn.Part {
             state.ObservePawnInput(_pawnId)
                 .WithLatestFrom(
                     state.ObserveCombatant(_pawnId),
-                    (input, combatant) => (input, Combatant: combatant)
+                    (input, combatant) => (input, combatant)
                 )
                 .CatchIgnoreLog()
                 .Subscribe(args => {
                     var (input, combatant) = args;
 
                     if (input.Commands.HasFlag(InputCommand.LockOn)) {
-                        if (args.Combatant.LockOnTarget == default) {
+                        if (combatant.LockOnTarget == default) {
                             // If combatant has no lock on target, choose one
                             var forward = input.Direction != Vector3.zero ? input.Direction.normalized :
                                 transform.forward;
@@ -58,12 +58,14 @@ namespace Banchou.Pawn.Part {
                             }
                         } else {
                             // If combatant has a lock on target, unlock
-                            args.Combatant.LockOff(state.GetTime());
+                            _target = null;
+                            combatant.LockOff(state.GetTime());
                         }
                     }
                     
                     if (input.Commands.HasFlag(InputCommand.LockOff)) {
-                        args.Combatant.LockOff(state.GetTime());
+                        _target = null;
+                        combatant.LockOff(state.GetTime());
                     }
                 })
                 .AddTo(this);
@@ -83,8 +85,9 @@ namespace Banchou.Pawn.Part {
 
         private void OnDrawGizmos() {
             var origin = Origin;
-            var forward = transform.forward;
-            var up = transform.up;
+            var xform = transform;
+            var forward = xform.forward;
+            var up = xform.up;
             
             foreach (var target in _targets) {
                 var dot = Vector3.Dot((target.Origin - origin).normalized, forward);
@@ -94,7 +97,6 @@ namespace Banchou.Pawn.Part {
                 if (target != _target && dot > 0f) {
                     Gizmos.color = Color.cyan;
                     Gizmos.DrawLine(origin, targetOrigin);
-                    // Gizmos.DrawLine(targetOrigin, origin + dot * forward);
 
                     var sortFactor = origin + (2f - dot) * distance * up;
                     Gizmos.color = Color.blue;

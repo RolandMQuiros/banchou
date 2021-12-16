@@ -7,15 +7,20 @@ namespace Banchou.Board.Part {
     public delegate void RegisterPawnObject(int pawnId, GameObject gameObject);
     
     public class BoardContext : MonoBehaviour, IContext {
+        [SerializeField] private Camera _mainCamera;
         [SerializeField] private BoardState _board;
         private readonly ReactiveDictionary<int, GameObject> _pawnInstances = new ReactiveDictionary<int, GameObject>();
         
         public void Construct(GameState state) {
             _board = state.Board;
+            if (_mainCamera == null) {
+                _mainCamera = Camera.main;
+            }
         }
 
         public DiContainer InstallBindings(DiContainer container) {
             return container.Bind(_board)
+                .Bind(_mainCamera)
                 .Bind<IReadOnlyReactiveDictionary<int, GameObject>>(_pawnInstances)
                 .Bind<RegisterPawnObject>(RegisterPawnObject, type => type == typeof(PawnContext) ||
                                                                       type == typeof(PawnFactory));
