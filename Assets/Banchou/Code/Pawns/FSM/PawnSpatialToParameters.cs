@@ -42,15 +42,15 @@ namespace Banchou.Pawn.FSM {
                 }
             }
 
-            SubscribeToSpatial(_offsetFloat, hash => animator.SetFloat(hash, spatial.Offset.magnitude));
+            SubscribeToSpatial(_offsetFloat, hash => animator.SetFloat(hash, spatial.Target.magnitude));
             SubscribeToSpatial(
-                _forwardOffsetFloat, hash => animator.SetFloat(hash, Vector3.Dot(spatial.Offset, spatial.Forward))
+                _forwardOffsetFloat, hash => animator.SetFloat(hash, Vector3.Dot(spatial.Target, spatial.Forward))
             );
             SubscribeToSpatial(
-                _rightOffsetFloat, hash => animator.SetFloat(hash, Vector3.Dot(spatial.Offset, spatial.Right))
+                _rightOffsetFloat, hash => animator.SetFloat(hash, Vector3.Dot(spatial.Target, spatial.Right))
             );
             SubscribeToSpatial(
-                _upOffsetFloat, hash => animator.SetFloat(hash, Vector3.Dot(spatial.Offset, spatial.Up))
+                _upOffsetFloat, hash => animator.SetFloat(hash, Vector3.Dot(spatial.Target, spatial.Up))
             );
             SubscribeToSpatial(_isGroundedBool, hash => animator.SetBool(hash, spatial.IsGrounded));
             

@@ -2,7 +2,7 @@ using System;
 
 namespace Banchou.Player {
     [Flags]
-    public enum InputCommand : int {
+    public enum InputCommand {
         None = 0,
         Neutral = 1,
         Forward = 1 << 1,

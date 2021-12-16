@@ -254,8 +254,7 @@ MonoBehaviour:
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Forward>k__BackingField: {x: 0, y: 0, z: 0}
       <Up>k__BackingField: {x: 0, y: 0, z: 0}
-      <Offset>k__BackingField: {x: 0, y: 0, z: 0}
-      <TeleportTarget>k__BackingField: {x: 0, y: 0, z: 0}
+      <Target>k__BackingField: {x: 0, y: 0, z: 0}
       <Style>k__BackingField: 0
       <AmbientVelocity>k__BackingField: {x: 0, y: 0, z: 0}
       <IsGrounded>k__BackingField: 0
@@ -278,6 +277,7 @@ MonoBehaviour:
         <StunTime>k__BackingField: 0
         <IsCountered>k__BackingField: 0
         <LastUpdated>k__BackingField: 0
+      <LockOnTarget>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
   _worldCollider: {fileID: 8606674918434205810}
 --- !u!114 &7216797859577598829
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
-  _team: 0
+  _team: 1
   _combatant:
     <Stats>k__BackingField:
       <Team>k__BackingField: 0
@@ -309,6 +309,7 @@ MonoBehaviour:
       <StunTime>k__BackingField: 0
       <IsCountered>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
+    <LockOnTarget>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
 --- !u!54 &4055489600694556118
 Rigidbody:
@@ -5560,7 +5561,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3444518371062433198}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6188,6 +6189,68 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Radius>k__BackingField: 1
   <Weight>k__BackingField: 1
+--- !u!1 &7699132408355498649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6289744129808928622}
+  - component: {fileID: 8661712717647368900}
+  - component: {fileID: 6530947568489214263}
+  m_Layer: 0
+  m_Name: Lock On Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6289744129808928622
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699132408355498649}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7760790837145299104}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8661712717647368900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699132408355498649}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1537bfe0f0aace4992f1e7bfc0953ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _obstructionMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _linecastOrigin: {x: 0, y: 1.5, z: 0}
+--- !u!135 &6530947568489214263
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7699132408355498649}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 20
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8357689493987300941
 GameObject:
   m_ObjectHideFlags: 0
@@ -15967,7 +16030,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7760790837145299104}
   m_Layer: 0
-  m_Name: World Colliders
+  m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15989,6 +16052,7 @@ Transform:
   - {fileID: 1629244579732145297}
   - {fileID: 4125850088910227245}
   - {fileID: 3568503744676655703}
+  - {fileID: 6289744129808928622}
   m_Father: {fileID: 293791955939381164}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16002,6 +16066,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6336648281680632625}
   - component: {fileID: 8606674918434205810}
+  - component: {fileID: 2198675487804375367}
   m_Layer: 0
   m_Name: Ground Collider
   m_TagString: Untagged
@@ -16016,7 +16081,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9124346690530033447}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -16038,6 +16103,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &2198675487804375367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9124346690530033447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6482eebbc7a29a84c8fad39abe7e565b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: {x: 0, y: 1.4, z: 0}
 --- !u!1001 &2309883654771757423
 PrefabInstance:
   m_ObjectHideFlags: 0

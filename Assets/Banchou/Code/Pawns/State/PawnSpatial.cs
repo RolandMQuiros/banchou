@@ -9,8 +9,7 @@ namespace Banchou.Pawn {
         Vector3 Position = new(),
         Vector3 Forward = new(),
         Vector3 Up = new(),
-        Vector3 Offset = new(),
-        Vector3 TeleportTarget = new(),
+        Vector3 Target = new(),
         PawnSpatial.MovementStyle Style = PawnSpatial.MovementStyle.Offset,
         Vector3 AmbientVelocity = new(),
         bool IsGrounded = false,
@@ -27,8 +26,7 @@ namespace Banchou.Pawn {
         [field: SerializeField] public Vector3 Forward { get; private set; } = Forward;
         [field: SerializeField] public Vector3 Up { get; private set; } = Up;
         public Vector3 Right => Vector3.Cross(Up, Forward);
-        [field: SerializeField] public Vector3 Offset { get; private set; } = Offset;
-        [field: SerializeField] public Vector3 TeleportTarget { get; private set; } = TeleportTarget;
+        [field: SerializeField] public Vector3 Target { get; private set; } = Target;
         [field: SerializeField] public MovementStyle Style { get; private set; } = Style;
         [field: SerializeField] public Vector3 AmbientVelocity { get; private set; } = AmbientVelocity;
         [field: SerializeField] public bool IsGrounded { get; private set; } = IsGrounded;
@@ -39,8 +37,7 @@ namespace Banchou.Pawn {
             Position = from.Position;
             Forward = from.Forward;
             Up = from.Up;
-            Offset = from.Offset;
-            TeleportTarget = from.TeleportTarget;
+            Target = from.Target;
             Style = from.Style;
             AmbientVelocity = from.AmbientVelocity;
             IsGrounded = from.IsGrounded;
@@ -62,7 +59,7 @@ namespace Banchou.Pawn {
 
         public PawnSpatial Move(Vector3 offset, float when) {
             if (offset != Vector3.zero) {
-                Offset += offset;
+                Target += offset;
                 Style = MovementStyle.Offset;
                 LastUpdated = when;
                 return Notify(when);
@@ -71,8 +68,8 @@ namespace Banchou.Pawn {
         }
 
         public PawnSpatial Teleport(Vector3 position, float when, bool instant = false) {
-            if (position != TeleportTarget) {
-                TeleportTarget = position;
+            if (position != Target) {
+                Target = position;
                 Style = instant ? MovementStyle.Instantaneous : MovementStyle.Interpolated;
                 LastUpdated = when;
                 return Notify(when);
@@ -92,7 +89,7 @@ namespace Banchou.Pawn {
         public PawnSpatial Moved(Vector3 position, Vector3 velocity, bool isGrounded, float when, bool cancelMomentum = true) {
             AmbientVelocity = velocity;
             Position = position;
-            Offset = cancelMomentum ? Vector3.zero : Offset;
+            Target = cancelMomentum ? Vector3.zero : Target;
             IsGrounded = isGrounded;
             LastUpdated = when;
             return Notify(when);

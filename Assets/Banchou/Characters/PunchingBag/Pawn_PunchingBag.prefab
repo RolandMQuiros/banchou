@@ -184,8 +184,7 @@ MonoBehaviour:
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Forward>k__BackingField: {x: 0, y: 0, z: 0}
       <Up>k__BackingField: {x: 0, y: 0, z: 0}
-      <Offset>k__BackingField: {x: 0, y: 0, z: 0}
-      <TeleportTarget>k__BackingField: {x: 0, y: 0, z: 0}
+      <Target>k__BackingField: {x: 0, y: 0, z: 0}
       <Style>k__BackingField: 0
       <AmbientVelocity>k__BackingField: {x: 0, y: 0, z: 0}
       <IsGrounded>k__BackingField: 0
@@ -208,6 +207,7 @@ MonoBehaviour:
         <StunTime>k__BackingField: 0
         <IsCountered>k__BackingField: 0
         <LastUpdated>k__BackingField: 0
+      <LockOnTarget>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
   _worldCollider: {fileID: 0}
 --- !u!114 &6952295661100396989
@@ -239,6 +239,7 @@ MonoBehaviour:
       <StunTime>k__BackingField: 0
       <IsCountered>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
+    <LockOnTarget>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
 --- !u!114 &7141537125015397197
 MonoBehaviour:
@@ -284,6 +285,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8399470592438383503}
   - component: {fileID: 8413402551683759409}
+  - component: {fileID: 4085549146073033163}
   m_Layer: 0
   m_Name: World Colliders
   m_TagString: Untagged
@@ -322,6 +324,19 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &4085549146073033163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2766954351466428490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6482eebbc7a29a84c8fad39abe7e565b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: {x: 0, y: 1.2, z: 0}
 --- !u!1 &3556706419977850396
 GameObject:
   m_ObjectHideFlags: 0

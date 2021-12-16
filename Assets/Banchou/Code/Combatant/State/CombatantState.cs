@@ -10,6 +10,7 @@ namespace Banchou.Combatant {
         DefensiveState Defense = null,
         HitState LastHit = null,
         AttackState Attack = null,
+        int LockOnTarget = 0,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<CombatantState>(32) {
         [field: SerializeField] public CombatantStats Stats { get; private set; } = Stats ?? new CombatantStats();
@@ -17,6 +18,7 @@ namespace Banchou.Combatant {
         [field: SerializeField] public DefensiveState Defense { get; private set; } = Defense ?? new DefensiveState();
         [field: SerializeField] public HitState LastHit { get; private set; } = LastHit ?? new HitState();
         [field: SerializeField] public AttackState Attack { get; private set; } = Attack ?? new AttackState();
+        [field: SerializeField] public int LockOnTarget { get; private set; } = LockOnTarget;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public override void Set(CombatantState other) {
@@ -26,6 +28,22 @@ namespace Banchou.Combatant {
             LastHit.Set(other.LastHit);
             Attack.Set(other.Attack);
             LastUpdated = other.LastUpdated;
+        }
+
+        public CombatantState LockOn(int targetPawnId, float when) {
+            if (LockOnTarget != targetPawnId) {
+                LockOnTarget = targetPawnId;
+                return Notify(when);
+            }
+            return this;
+        }
+
+        public CombatantState LockOff(float when) {
+            if (LockOnTarget != default) {
+                LockOnTarget = default;
+                return Notify(when);
+            }
+            return this;
         }
 
         public CombatantState Hit(

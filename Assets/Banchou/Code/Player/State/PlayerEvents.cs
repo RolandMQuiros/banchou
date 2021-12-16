@@ -14,7 +14,7 @@ namespace Banchou.Player {
                     players.Members.TryGetValue(playerId, out var player);
                     return player;
                 })
-                .StartWith(state.GetPlayer(playerId))
+                // .DefaultIfEmpty(state.GetPlayer(playerId))
                 .Where(player => player != null);
         }
 
@@ -35,6 +35,11 @@ namespace Banchou.Player {
                 .Where(player => state.IsLocalPlayer(player.PlayerId))
                 .SelectMany(player => player.Input.Observe());
         }
+
+        public static IObservable<PlayerInputState> ObserveAllPlayerInputChanges(this GameState state) =>
+            state.ObservePlayers()
+                .SelectMany(players => players.Members.Values)
+                .SelectMany(player => player.Input.Observe());
 
         public static IObservable<PlayerState> ObserveAddedPlayers(this GameState state) {
             return Observable

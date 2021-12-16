@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Cinemachine;
 using UniRx;
@@ -8,7 +9,15 @@ using Banchou.Pawn.Part;
 
 namespace Banchou.Board.Part {
     [RequireComponent(typeof(CinemachineTargetGroup))]
-    public class CombatantTargetGroup : MonoBehaviour {
+    public class PawnTargetGroup : MonoBehaviour {
+        [Flags] private enum Criteria {
+            IsCombatant = 1,
+            IsFriendly = 1 << 1,
+            IsEnemy = 1 << 2,
+        }
+
+        [SerializeField] private Criteria _criteria;
+        
         private CinemachineTargetGroup _targetGroup;
         
         public void Construct(
@@ -23,7 +32,13 @@ namespace Banchou.Board.Part {
                     pawnObjects.ObserveReplace()
                         .Select(replaced => (PawnId: replaced.Key, PawnObject: replaced.NewValue))
                 )
-                .Where(added => state.IsCombatant(added.PawnId))
+                .Where(
+                    added =>
+                        _criteria == 0 ||
+                        _criteria.HasFlag(Criteria.IsCombatant) && state.IsCombatant(added.PawnId) ||
+                        _criteria.HasFlag(Criteria.IsFriendly) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Friendly ||
+                        _criteria.HasFlag(Criteria.IsEnemy) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Enemy
+                )
                 .CatchIgnoreLog()
                 .Subscribe(added => { AddTarget(added.PawnId, added.PawnObject); })
                 .AddTo(this);

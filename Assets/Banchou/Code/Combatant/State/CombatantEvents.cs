@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Banchou.Board;
 using Banchou.Pawn;
 using UniRx;
 using UnityEngine;
@@ -18,6 +20,12 @@ namespace Banchou.Combatant {
                 .Where(combatant => combatant != null)
                 .DistinctUntilChanged();
         }
+
+        public static IObservable<CombatantState> ObserveCombatants(this GameState state) =>
+            state.ObserveBoard()
+                .SelectMany(board => board.Pawns.Values)
+                .Where(pawn => pawn.Combatant != null)
+                .Select(pawn => pawn.Combatant);
 
         /// <summary>
         /// Emits whenever the <see cref="CombatantState"/> associated with a pawn ID is modified
@@ -53,5 +61,23 @@ namespace Banchou.Combatant {
             return state.ObserveCombatant(pawnId)
                 .SelectMany(combatant => combatant.Attack.Observe());
         }
+
+        public static IObservable<int> ObserveLockOns(this GameState state, CombatantTeam team) =>
+            state.ObserveCombatants()
+                .Where(combatant => combatant.Stats.Team == team)
+                .SelectMany(combatant => combatant.Observe())
+                .Select(combatant => combatant.LockOnTarget)
+                .DistinctUntilChanged()
+                .Where(targetId => targetId != default);
+        
+        public static IObservable<int> ObserveLockOffs(this GameState state, CombatantTeam team) =>
+            state.ObserveCombatants()
+                .Where(combatant => combatant.Stats.Team == team)
+                .SelectMany(combatant => combatant.Observe())
+                .Select(combatant => combatant.LockOnTarget)
+                .DistinctUntilChanged()
+                .Pairwise()
+                .Where(pair => pair.Current == default)
+                .Select(pair => pair.Previous);
     }
 }

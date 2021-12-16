@@ -17,7 +17,7 @@ namespace Banchou.Player {
         PlayerInputState Input = null
     ) : Notifiable<PlayerState> {
         /// <summary>Unique identifier for this player</summary>
-        public int PlayerId { get; init; } = PlayerId;
+        public int PlayerId { get; private set; } = PlayerId;
 
         /// <summary>Name of the Prefab to spawn when this player is created.</summary>
         /// <remarks>
@@ -25,7 +25,7 @@ namespace Banchou.Player {
         ///     apply it to the <see cref="Input"/> property. With AI players, it might perform some evaluation of the
         ///     world state (opponents, their current attacking states, etc) before deciding on the next Input.
         /// </remarks>
-        public string PrefabKey { get; init; } = PrefabKey;
+        public string PrefabKey { get; private set; } = PrefabKey;
 
         /// <summary>Identifier for the networked instance of the game this player belongs to.</summary>
         /// <remarks>
@@ -34,11 +34,11 @@ namespace Banchou.Player {
         ///     server itself assigned <c>NetworkId = 0</c>. Multiple players can exist on a single networked instance
         ///     of the game.
         /// </remarks>
-        [field: SerializeField] public int NetworkId { get; init; } = NetworkId;
+        [field: SerializeField] public int NetworkId { get; private set; } = NetworkId;
 
         /// <summary>The player's latest input commands</summary>
         /// <returns></returns>
-        [field: SerializeField] public PlayerInputState Input { get; init; } = Input ?? new PlayerInputState(PlayerId);
+        [field: SerializeField] public PlayerInputState Input { get; private set; } = Input ?? new PlayerInputState(PlayerId);
 
         /// <summary>Instantiates a new <c>PlayerState</c>.</summary>
         /// <param name="playerId">Unique identifier for this player. See <see cref="PlayerId"/>.</param>

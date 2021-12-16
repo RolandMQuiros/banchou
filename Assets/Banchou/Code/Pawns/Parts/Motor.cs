@@ -42,18 +42,18 @@ namespace Banchou.Pawn.Part {
             
             switch (_spatial.Style) {
                 case PawnSpatial.MovementStyle.Offset: {
-                    if (_spatial.Offset != Vector3.zero) {
-                        var projected = _spatial.Offset.ProjectOnContacts(_spatial.Up, _contacts);
+                    if (_spatial.Target != Vector3.zero) {
+                        var projected = _spatial.Target.ProjectOnContacts(_spatial.Up, _contacts);
                         _rigidbody.MovePosition(_rigidbody.position + projected);
                         _moved = true;
                     }
                 } break;
                 case PawnSpatial.MovementStyle.Instantaneous: {
-                    _rigidbody.position = Snap(_spatial.TeleportTarget);
+                    _rigidbody.position = Snap(_spatial.Target);
                     _rigidbody.velocity = _spatial.AmbientVelocity;
                 } break;
                 case PawnSpatial.MovementStyle.Interpolated: {
-                    _rigidbody.position = Vector3.Slerp(_spatial.Position, _spatial.TeleportTarget, 0.5f);
+                    _rigidbody.position = Vector3.Slerp(_spatial.Position, _spatial.Target, 0.5f);
                     _rigidbody.velocity = _spatial.AmbientVelocity;
                 } break;
             }

@@ -12,7 +12,6 @@ namespace Banchou.Pawn {
                     board.Pawns.TryGetValue(pawnId, out var pawn);
                     return pawn;
                 })
-                .DefaultIfEmpty(state.GetPawn(pawnId))
                 .Where(pawn => pawn != null)
                 .DistinctUntilChanged();
         }
@@ -63,7 +62,7 @@ namespace Banchou.Pawn {
                             Vector3.Dot(input.Direction, spatial.Right),
                             Vector3.Dot(input.Direction, spatial.Forward)
                         ).DirectionToStick(),
-                        When: input.When
+                        input.When
                     )
                 )
                 .DistinctUntilChanged()
