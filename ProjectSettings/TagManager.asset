@@ -12,9 +12,9 @@ TagManager:
   - Water
   - UI
   - Terrain
-  - Combat Triggers
-  - 
-  - 
+  - Hurt Volumes
+  - Hit Volumes
+  - Pawn To Pawn
   - 
   - 
   - 
