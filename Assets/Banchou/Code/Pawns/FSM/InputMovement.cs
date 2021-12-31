@@ -128,7 +128,7 @@ namespace Banchou.Pawn.FSM {
                 
                 // If there's a lock-on target, check if we're moving towards it
                 if (_handleApproaches && _targetSpatial != null) {
-                    var lockOnDirection = (_targetSpatial.Position - _spatial.Position).normalized;
+                    var lockOnDirection = _spatial.DirectionTo(_targetSpatial.Position);
                     var dot = Vector3.Dot(lockOnDirection, _input.Direction);
                     if (dot >= _approachDot) {
                         speed = _approachSpeed;

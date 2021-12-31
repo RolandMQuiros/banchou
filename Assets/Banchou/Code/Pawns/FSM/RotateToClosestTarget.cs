@@ -47,7 +47,7 @@ namespace Banchou.Pawn.FSM {
                     .Where(target => target.PawnId != _pawnId)
                     .Select(target => (
                         Target: target,
-                        Offset: target.Position - _spatial.Position
+                        Offset: _spatial.DirectionTo(target.Position)
                     ))
                     .Where(args => Vector3.Dot(args.Offset.normalized, _spatial.Forward) >= _scanDot &&
                                    args.Offset.magnitude <= _scanRange)
@@ -62,7 +62,7 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             var stateTime = stateInfo.normalizedTime;
             if (_target != null && stateTime >= _fromStateTime && stateTime <= _toStateTime) {
-                var direction = (_target.Position - _spatial.Position).normalized;
+                var direction = _spatial.DirectionTo(_target.Position);
                 var forward = _spatial.Forward;
                 if (_input != null && _input.Direction != Vector3.zero) {
                     forward = _input.Direction.normalized;

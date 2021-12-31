@@ -92,7 +92,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
-  _inputForce: 0
 --- !u!114 &-5904330513103081810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,7 +298,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
-  _inputForce: 0
 --- !u!1102 &-2766029126255023484
 AnimatorState:
   serializedVersion: 6
@@ -507,7 +505,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
-  _inputForce: 0
 --- !u!1102 &2031675181427414165
 AnimatorState:
   serializedVersion: 6
@@ -585,10 +582,10 @@ AnimatorStateMachine:
     m_Position: {x: 280, y: 360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2766029126255023484}
-    m_Position: {x: 430, y: 280, z: 0}
+    m_Position: {x: 540, y: 350, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2743807564616517700}
-    m_Position: {x: 430, y: 200, z: 0}
+    m_Position: {x: 540, y: 200, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -617,7 +614,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -10, z: 0}
-  _inputForce: 0
 --- !u!114 &3852401693281901827
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -743,7 +739,6 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
-  _inputForce: 0
 --- !u!114 &7234508720785318737
 MonoBehaviour:
   m_ObjectHideFlags: 1

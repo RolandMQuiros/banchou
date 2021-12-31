@@ -31,6 +31,8 @@ namespace Banchou.Pawn {
         [field: SerializeField] public Vector3 AmbientVelocity { get; private set; } = AmbientVelocity;
         [field: SerializeField] public bool IsGrounded { get; private set; } = IsGrounded;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        public Vector3 DirectionTo(Vector3 target, bool onPlane = true) =>
+            onPlane ? Vector3.ProjectOnPlane(target - Position, Up).normalized : target - Position;
 
         public override void Set(PawnSpatial from) {
             PawnId = from.PawnId;
