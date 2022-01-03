@@ -61,7 +61,16 @@ namespace Banchou.Pawn.Part {
 
         private Vector3 OffsetHandle(string handleLabel, Vector3 offset, Color offsetColor, Color baseColor) {
             var position = _target.position;
-            var handlePosition = _target.TransformPoint(offset) + position;
+            var handlePosition = offset;
+            var handleRotation = Quaternion.identity;
+            
+            var parent = _target.parent;
+            if (parent != null) {
+                handlePosition = parent.TransformVector(offset);
+                handleRotation = parent.rotation;
+            }
+            handlePosition += position;
+            
             var groundProjection = new Vector3(handlePosition.x, 0f, handlePosition.z);
             
             Handles.color = offsetColor;
@@ -75,9 +84,11 @@ namespace Banchou.Pawn.Part {
             
             Handles.Label(handlePosition, handleLabel);
 
-            return _target.InverseTransformPoint(
-                Handles.PositionHandle(handlePosition, Quaternion.identity) - position
-            );
+            handlePosition = Handles.PositionHandle(handlePosition, handleRotation) - position;
+            if (parent == null) {
+                return handlePosition;
+            }
+            return parent.InverseTransformVector(handlePosition);
         }
     }
 }
