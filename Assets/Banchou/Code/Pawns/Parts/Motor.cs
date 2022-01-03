@@ -17,7 +17,7 @@ namespace Banchou.Pawn.Part {
         private bool _moved;
         private bool _isGrounded;
 
-        private List<Vector3> _contacts = new(32);
+        private readonly List<Vector3> _contacts = new(32);
 
         public void Construct(
             GameState state,
