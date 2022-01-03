@@ -5324,7 +5324,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927017230249356548}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5772,7 +5772,7 @@ MonoBehaviour:
   <Damage>k__BackingField: 8
   <HitPause>k__BackingField: 0
   <HitStun>k__BackingField: 0.16666667
-  _knockback: {x: 0, y: 1.5868032, z: 1.2525703}
+  _knockback: {x: 0, y: 0, z: 1}
   _recoil: {x: 0, y: 0, z: -1}
   _onHit:
     m_PersistentCalls:
