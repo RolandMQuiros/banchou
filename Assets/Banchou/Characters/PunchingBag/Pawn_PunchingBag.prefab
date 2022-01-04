@@ -205,7 +205,7 @@ MonoBehaviour:
         <LastUpdated>k__BackingField: 0
       <LockOnTarget>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
-  _worldCollider: {fileID: 0}
+  _worldCollider: {fileID: 5346111062365686283}
 --- !u!114 &6952295661100396989
 MonoBehaviour:
   m_ObjectHideFlags: 0
