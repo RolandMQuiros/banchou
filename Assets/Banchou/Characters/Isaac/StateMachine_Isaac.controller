@@ -1120,7 +1120,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 5L Mash
+  m_Name: 5L Auto
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 850653335570220762}
@@ -1621,7 +1621,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 5H Mash
+  m_Name: 5H Auto
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -761140489005252590}
@@ -1804,17 +1804,17 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -4221547640099938308}
-    m_Position: {x: 300, y: 470, z: 0}
+    m_Position: {x: 300, y: 410, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8570144093470160960}
     m_Position: {x: -40, y: 290, z: 0}
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -4770361075881557369}
-    m_Position: {x: 300, y: 340, z: 0}
+    m_Position: {x: 300, y: 230, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: -3660130497739460866}
-    m_Position: {x: 300, y: 390, z: 0}
+    m_Position: {x: 300, y: 340, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:

@@ -29,7 +29,7 @@ namespace Banchou {
 
         public float StunTimeAt(float when) => StunTime - (when - LastUpdated + PauseTime);
         public float NormalizedStunTimeAt(float when) => Mathf.Approximately(StunTime, 0f) ? 1f :
-            Mathf.Clamp01((when - LastUpdated + PauseTime) / StunTime);
+            Mathf.Clamp01((when - (LastUpdated + PauseTime)) / StunTime);
         public float NormalizedPauseTimeAt(float when) => Mathf.Approximately(PauseTime, 0f) ? 1f :
             Mathf.Clamp01((when - LastUpdated) / PauseTime);
         public bool IsStunned(float when) => StunTimeAt(when) > 0f;
