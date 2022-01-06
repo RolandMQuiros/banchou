@@ -59,12 +59,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Interval>k__BackingField: 0
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
+  <Interval>k__BackingField: 1
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0
-  <HitStun>k__BackingField: 0
+  <HitStun>k__BackingField: 0.25
+  <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
       m_Calls: []
@@ -277,6 +283,14 @@ MonoBehaviour:
         <StunTime>k__BackingField: 0
         <IsCountered>k__BackingField: 0
         <LastUpdated>k__BackingField: 0
+      <Attack>k__BackingField:
+        <AttackId>k__BackingField: 0
+        <Phase>k__BackingField: 0
+        <TargetId>k__BackingField: 0
+        <Damage>k__BackingField: 0
+        <PauseTime>k__BackingField: 0
+        <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
+        <LastUpdated>k__BackingField: 0
       <LockOnTarget>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
   _worldCollider: {fileID: 8606674918434205810}
@@ -308,6 +322,14 @@ MonoBehaviour:
       <PauseTime>k__BackingField: 0
       <StunTime>k__BackingField: 0
       <IsCountered>k__BackingField: 0
+      <LastUpdated>k__BackingField: 0
+    <Attack>k__BackingField:
+      <AttackId>k__BackingField: 0
+      <Phase>k__BackingField: 0
+      <TargetId>k__BackingField: 0
+      <Damage>k__BackingField: 0
+      <PauseTime>k__BackingField: 0
+      <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
       <LastUpdated>k__BackingField: 0
     <LockOnTarget>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
@@ -5768,12 +5790,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Interval>k__BackingField: 0
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
+  <Interval>k__BackingField: 1
   <Damage>k__BackingField: 8
   <HitPause>k__BackingField: 0
-  <HitStun>k__BackingField: 0.16666667
+  <HitStun>k__BackingField: 0.25
+  <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 1}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: -1}
+  <RecoilMagnitude>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
       m_Calls: []
@@ -5882,12 +5910,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Interval>k__BackingField: 0
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
+  <Interval>k__BackingField: 1
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0
-  <HitStun>k__BackingField: 0
+  <HitStun>k__BackingField: 0.25
+  <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
       m_Calls: []
@@ -5950,12 +5984,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Interval>k__BackingField: 0
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
+  <Interval>k__BackingField: 1
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0
-  <HitStun>k__BackingField: 0
+  <HitStun>k__BackingField: 0.25
+  <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
       m_Calls: []
@@ -16976,6 +17016,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
   m_PrefabInstance: {fileID: 2309883654771757423}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2667302562153386698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228855687545875518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a210998b8e61b4f80c60cfcad5d8da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3527096098212197178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17049,6 +17101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rootBone: {fileID: 5943959060941246350}
 --- !u!4 &4016621503640480872 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7515455510648619769, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
@@ -17067,6 +17120,11 @@ Transform:
 --- !u!4 &5682328731970667406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1236813064897211679, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+  m_PrefabInstance: {fileID: 2309883654771757423}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5943959060941246350 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8247064759035813601, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
   m_PrefabInstance: {fileID: 2309883654771757423}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7293989551398665635 stripped

@@ -35,10 +35,19 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField, Tooltip("Reset the output triggers on state entry")]
         private bool _resetOnEnter = true;
+        
+        [SerializeField, Tooltip("Reset the output triggers on state exit")]
+        private bool _resetOnExit = true;
 
         [SerializeField, Tooltip("The name of the output trigger parameters to set if the gesture was input correctly")]
         private string[] _outputParameters = null;
-
+        
+        [SerializeField, Tooltip("Pause the editor if the gesture is input")]
+        private bool _breakOnGesture;
+        
+        [SerializeField, Tooltip("Pause the editor if the gesture is accepted")]
+        private bool _breakOnAccept;
+        
         public void Construct(
             GameState state,
             GetPawnId getPawnId,
@@ -80,8 +89,8 @@ namespace Banchou.Pawn.FSM {
             
             // Reset the trigger and entry timestamp
             var enterTime = 0f;
-            ObserveStateEnter
-                .Where(_ => _resetOnEnter)
+            ObserveStateEnter.Where(_ => _resetOnEnter)
+                .Merge(ObserveStateExit.Where(_ => _resetOnExit))
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
                     enterTime = state.GetTime();
@@ -98,7 +107,12 @@ namespace Banchou.Pawn.FSM {
                     .Select(args => args.StateInfo.normalizedTime % 1);
             } else {
                 observeGestures = ObserveStateUpdate
-                    .Select(args => state.GetTime() - enterTime);
+                    .Select(_ => state.GetTime() - enterTime);
+            }
+
+            if (_breakOnGesture) {
+                gestureInput.Subscribe(_ => Debug.Break())
+                    .AddTo(this);
             }
             
             observeGestures
@@ -108,6 +122,10 @@ namespace Banchou.Pawn.FSM {
                 .Subscribe(_ => {
                     foreach (var hash in outputHashes) {
                         animator.SetTrigger(hash);
+                    }
+
+                    if (_breakOnAccept) {
+                        Debug.Break();
                     }
                 })
                 .AddTo(this);

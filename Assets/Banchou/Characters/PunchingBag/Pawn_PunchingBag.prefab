@@ -46,6 +46,80 @@ CapsuleCollider:
   m_Height: 1.9
   m_Direction: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!1 &210799992097190162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 729994453928936205}
+  - component: {fileID: 8588952846180494286}
+  - component: {fileID: 8987904730135396298}
+  m_Layer: 7
+  m_Name: Hurt Capsule 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &729994453928936205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210799992097190162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1672368468899609573}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &8588952846180494286
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210799992097190162}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8987904730135396298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210799992097190162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
+  <Interval>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <HitPause>k__BackingField: 0
+  <HitStun>k__BackingField: 0.5
+  <KnockbackMethod>k__BackingField: 0
+  _knockback: {x: 0, y: 0, z: 0}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
+  _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
+  _onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &365479300291907276
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,6 +277,14 @@ MonoBehaviour:
         <StunTime>k__BackingField: 0
         <IsCountered>k__BackingField: 0
         <LastUpdated>k__BackingField: 0
+      <Attack>k__BackingField:
+        <AttackId>k__BackingField: 0
+        <Phase>k__BackingField: 0
+        <TargetId>k__BackingField: 0
+        <Damage>k__BackingField: 0
+        <PauseTime>k__BackingField: 0
+        <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
+        <LastUpdated>k__BackingField: 0
       <LockOnTarget>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
   _worldCollider: {fileID: 5346111062365686283}
@@ -234,6 +316,14 @@ MonoBehaviour:
       <PauseTime>k__BackingField: 0
       <StunTime>k__BackingField: 0
       <IsCountered>k__BackingField: 0
+      <LastUpdated>k__BackingField: 0
+    <Attack>k__BackingField:
+      <AttackId>k__BackingField: 0
+      <Phase>k__BackingField: 0
+      <TargetId>k__BackingField: 0
+      <Damage>k__BackingField: 0
+      <PauseTime>k__BackingField: 0
+      <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
       <LastUpdated>k__BackingField: 0
     <LockOnTarget>k__BackingField: 0
     <LastUpdated>k__BackingField: 0
@@ -436,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &778321030206850852
 Transform:
   m_ObjectHideFlags: 0
@@ -527,12 +617,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
   <Interval>k__BackingField: 0.33333334
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0.16666667
   <HitStun>k__BackingField: 1
+  <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 13.019341, z: 4.125937}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: -1.8}
+  <RecoilMagnitude>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
       m_Calls:
@@ -621,7 +717,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1672368468899609573
 Transform:
   m_ObjectHideFlags: 0
@@ -635,9 +731,85 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 778321030206850852}
+  - {fileID: 729994453928936205}
+  - {fileID: 2219515361659439793}
   m_Father: {fileID: 2667645508105892151}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8206825734862526922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2219515361659439793}
+  - component: {fileID: 1445253749527921762}
+  - component: {fileID: 5349018740791623040}
+  m_Layer: 7
+  m_Name: Hurt Capsule 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2219515361659439793
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8206825734862526922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1672368468899609573}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1445253749527921762
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8206825734862526922}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5349018740791623040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8206825734862526922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <HurtFriendly>k__BackingField: 0
+  <HurtHostile>k__BackingField: 1
+  <Interval>k__BackingField: 1
+  <Damage>k__BackingField: 0
+  <HitPause>k__BackingField: 0
+  <HitStun>k__BackingField: 0.5
+  <KnockbackMethod>k__BackingField: 0
+  _knockback: {x: 0, y: 0, z: 0}
+  <KnockbackMagnitude>k__BackingField: 0
+  <RecoilMethod>k__BackingField: 0
+  _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
+  _onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8541437584506921181
 GameObject:
   m_ObjectHideFlags: 0

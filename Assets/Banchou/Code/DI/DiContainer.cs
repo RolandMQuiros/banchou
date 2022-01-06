@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,6 +11,7 @@ namespace Banchou.DependencyInjection {
         private class Binding {
             public object Instance;
             public Func<Type, bool> Condition;
+            public string Binder;
         }
 
         private readonly Dictionary<Type, Binding> _bindings = new Dictionary<Type, Binding>();
@@ -37,15 +39,16 @@ namespace Banchou.DependencyInjection {
             Bind<Instantiator>(Instantiate);
         }
 
-        public DiContainer Bind<T>(T instance) {
-            _bindings[typeof(T)] = new Binding { Instance = instance };
+        public DiContainer Bind<T>(T instance, [CallerFilePath] string binder = null) {
+            _bindings[typeof(T)] = new Binding { Instance = instance, Binder = binder };
             return this;
         }
 
-        public DiContainer Bind<T>(T instance, Func<Type, bool> where) {
+        public DiContainer Bind<T>(T instance, Func<Type, bool> where, [CallerFilePath] string binder = null) {
             _bindings[typeof(T)] = new Binding {
                 Instance = instance,
-                Condition = where
+                Condition = where,
+                Binder = binder
             };
             return this;
         }

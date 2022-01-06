@@ -44,7 +44,7 @@ namespace Banchou.Combatant {
             if (attacker != null && defender != null) {
                 var attackDirection = attacker.Position - defender.Position;
                 state.GetCombatant(attackerPawnId)?
-                    .Attack.Connect(defenderPawnId, damage, Vector3.zero, state.GetTime());
+                    .Attack.Confirm(defenderPawnId, damage, hitPause, Vector3.zero, state.GetTime());
                 
                 state.GetCombatant(defenderPawnId)?
                     .Hit(attackerPawnId, contact, defender.Forward, attackDirection, knockback, hitPause, hitStun, damage,

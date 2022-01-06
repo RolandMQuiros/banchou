@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Banchou.Combatant;
@@ -14,39 +13,65 @@ namespace Banchou.Pawn.Part {
 
         private GameState _state;
         private HurtVolume _hurtVolume;
-        private int _lastAttackId;
-
-        private readonly HashSet<int> _collidedPawns = new HashSet<int>();
+        private readonly HashSet<HurtVolume> _collidedVolumes = new();
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
             PawnId = getPawnId();
         }
 
+        private void OnDisable() {
+            StopAllCoroutines();
+            _collidedVolumes.Clear();
+        }
+
         private void OnTriggerEnter(Collider other) {
-            if (other.TryGetComponent<HurtVolume>(out var hurtVolume) &&
-                hurtVolume.PawnId != PawnId &&
-                !_collidedPawns.Contains(hurtVolume.PawnId)) {
-                _collidedPawns.Add(hurtVolume.PawnId);
-                StartCoroutine(HurtVolumeInterval(hurtVolume.Interval, hurtVolume.PawnId));
-                
-                _state.HitCombatant(
-                    other.transform.TransformVector(other.ClosestPoint(transform.position)),
-                    hurtVolume.PawnId,
-                    PawnId,
-                    hurtVolume.Knockback * KnockbackScale,
-                    Mathf.Min(hurtVolume.HitPause * HitPauseScale, hurtVolume.Interval),
-                    hurtVolume.HitStun * HitStunScale,
-                    Mathf.RoundToInt(hurtVolume.Damage * DamageScale)
-                );
+            if (other.TryGetComponent<HurtVolume>(out var hurtVolume)) {
+                var canHurt = hurtVolume.PawnId != PawnId &&
+                              !_collidedVolumes.Contains(hurtVolume) &&
+                              (hurtVolume.HurtHostile && _state.AreHostile(hurtVolume.PawnId, PawnId) ||
+                               hurtVolume.HurtFriendly && !_state.AreHostile(hurtVolume.PawnId, PawnId));
+
+                if (canHurt) {
+                    _collidedVolumes.Add(hurtVolume);
+                    StartCoroutine(HurtVolumeInterval(hurtVolume));
+
+                    Vector3 knockback;
+                    switch (hurtVolume.KnockbackMethod) {
+                        case HurtVolume.ForceMethod.Contact:
+                            knockback = hurtVolume.KnockbackMagnitude *
+                                        (transform.position - hurtVolume.transform.position).normalized;
+                            break;
+                        default:
+                            knockback = hurtVolume.Knockback;
+                            break;
+                    }
+
+                    _state.HitCombatant(
+                        other.transform.TransformVector(other.ClosestPoint(transform.position)),
+                        hurtVolume.PawnId,
+                        PawnId,
+                        knockback * KnockbackScale,
+                        hurtVolume.HitPause * HitPauseScale,
+                        hurtVolume.HitStun * HitStunScale,
+                        Mathf.RoundToInt(hurtVolume.Damage * DamageScale)
+                    );
+                }
             }
         }
 
-        private void OnTriggerStay(Collider other) => OnTriggerEnter(other);
-
-        private IEnumerator HurtVolumeInterval(float interval, int pawnId) {
-            yield return new WaitForSeconds(interval);
-            _collidedPawns.Remove(pawnId);
+        private IEnumerator HurtVolumeInterval(HurtVolume volume) {
+            var duration = 0f;
+            var interval = volume.Interval + volume.HitPause;
+            
+            // Remove the attacking pawn from collided list when the interval duration passes or the hurt volume
+            // is disabled
+            while (duration < interval && volume.isActiveAndEnabled) {
+                duration += _state.GetDeltaTime();
+                yield return null;
+            }
+            
+            _collidedVolumes.Remove(volume);
         }
     }
 }

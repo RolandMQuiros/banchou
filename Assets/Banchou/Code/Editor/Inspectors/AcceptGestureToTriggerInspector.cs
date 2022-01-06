@@ -11,7 +11,10 @@ namespace Banchou.Pawn.FSM {
         private SerializedProperty _acceptFromTime;
         private SerializedProperty _acceptUntilTime;
         private SerializedProperty _resetOnEnter;
+        private SerializedProperty _resetOnExit;
         private SerializedProperty _outputParameters;
+        private SerializedProperty _breakOnGesture;
+        private SerializedProperty _breakOnAccept;
         
         private void OnEnable() {
             _inputSequence = serializedObject.FindProperty("_inputSequence");
@@ -21,7 +24,10 @@ namespace Banchou.Pawn.FSM {
             _acceptFromTime = serializedObject.FindProperty("_acceptFromTime");
             _acceptUntilTime = serializedObject.FindProperty("_acceptUntilTime");
             _resetOnEnter = serializedObject.FindProperty("_resetOnEnter");
+            _resetOnExit = serializedObject.FindProperty("_resetOnExit");
             _outputParameters = serializedObject.FindProperty("_outputParameters");
+            _breakOnGesture = serializedObject.FindProperty("_breakOnGesture");
+            _breakOnAccept = serializedObject.FindProperty("_breakOnAccept");
         }
 
         public override void OnInspectorGUI() {
@@ -43,7 +49,12 @@ namespace Banchou.Pawn.FSM {
             }
             
             EditorGUILayout.PropertyField(_resetOnEnter);
+            EditorGUILayout.PropertyField(_resetOnExit);
             EditorGUILayout.PropertyField(_outputParameters);
+            
+            EditorGUILayout.LabelField("Debug", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_breakOnGesture);
+            EditorGUILayout.PropertyField(_breakOnAccept);
             
             if (EditorGUI.EndChangeCheck()) {
                 _acceptFromTime.floatValue = fromTime;
