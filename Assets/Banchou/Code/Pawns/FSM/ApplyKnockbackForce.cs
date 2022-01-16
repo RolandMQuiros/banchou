@@ -16,10 +16,7 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
             _state = state;
             _rigidbody = rigidbody;
-            _state.ObserveCombatant(getPawnId())
-                .CatchIgnoreLog()
-                .Subscribe(combatant => { _hit = combatant.LastHit; })
-                .AddTo(this);
+            _hit = _state.GetCombatantLastHit(getPawnId());
         }
 
         private void Apply() {

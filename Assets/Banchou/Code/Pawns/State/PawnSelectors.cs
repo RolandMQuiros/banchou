@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using Banchou.Board;
 using Banchou.Player;
 
 namespace Banchou.Pawn {
@@ -17,6 +20,13 @@ namespace Banchou.Pawn {
 
         public static PlayerState GetPawnPlayer(this GameState state, int pawnId) {
             return state.GetPlayer(state.GetPawnPlayerId(pawnId));
+        }
+
+        public static IEnumerable<PawnSpatial> GetPawnSpatials(this GameState state) {
+            return state.GetPawns()
+                .Values
+                .Select(pawn => pawn.Spatial)
+                .Where(spatial => spatial != null);
         }
     }
 }

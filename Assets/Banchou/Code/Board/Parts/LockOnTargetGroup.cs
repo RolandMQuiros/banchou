@@ -16,10 +16,11 @@ namespace Banchou.Board.Part {
         
         public void Construct(
             GameState state,
-            IReadOnlyReactiveDictionary<int, GameObject> pawnObjects
+            GetPawnObjects getPawnObjects
         ) {
             _targetGroup = GetComponent<CinemachineTargetGroup>();
 
+            var pawnObjects = getPawnObjects();
             state.ObserveLockOns(_targetingTeam)
                 .Select(targetId => {
                     pawnObjects.TryGetValue(targetId, out var target);

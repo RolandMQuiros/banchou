@@ -18,7 +18,7 @@ namespace Banchou.Board.Part {
 
             state.ObserveAddedPawns()
                 .Where(pawn => !string.IsNullOrEmpty(pawn.PrefabKey))
-                .Do(pawn => Debug.Log($"Creating Pawn (Id: {pawn.PawnId})"))
+                .Do(pawn => Debug.Log($"Creating Pawn {pawn.PawnId} from Prefab {pawn.PrefabKey}"))
                 .SelectMany(pawn => {
                     var load = Addressables.LoadAssetAsync<GameObject>(pawn.PrefabKey);
                     return load.ToObservable()

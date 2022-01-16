@@ -14,7 +14,7 @@ namespace Banchou {
         string Version = null, BoardState Board = null, PlayersState Players = null, float LocalTime = 0f,
         float DeltaTime = 0f
     ) : Notifiable<GameState> {
-        public readonly NetworkState Network = new NetworkState();
+        [field: SerializeField] public NetworkState Network { get; private set; } = new();
         [field: SerializeField] public string Version { get; private set; } = Version;
         [field: SerializeField] public BoardState Board { get; private set; } = Board ?? new BoardState();
         [field: SerializeField] public PlayersState Players { get; private set; } = Players ?? new PlayersState();

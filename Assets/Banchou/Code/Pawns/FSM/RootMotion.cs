@@ -22,7 +22,8 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             if (_rootPosition) {
-                _spatial.Move(animator.velocity * _state.GetDeltaTime(), _state.GetTime());
+                //_spatial.Move(animator.velocity * _state.GetDeltaTime(), _state.GetTime());
+                _spatial.Move(animator.deltaPosition, _state.GetTime());
             }
         
             if (_rootRotation) {

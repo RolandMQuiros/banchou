@@ -7,7 +7,7 @@ using Banchou.Pawn;
 
 namespace Banchou.Board {
     public static class BoardSelectors {
-        public static IObservable<BoardState> ObserveBoard(this GameState state) {
+        public static IObservable<BoardState> ObserveBoardChanges(this GameState state) {
             return state.Board.Observe();
         }
 
@@ -54,12 +54,6 @@ namespace Banchou.Board {
                 .Values
                 .Select(pawn => pawn.Spatial)
                 .Where(spatial => spatial != null);
-        }
-
-        public static PawnState GetPawn(this GameState state, int pawnId) {
-            PawnState pawn = null;
-            state.GetPawns().TryGetValue(pawnId, out pawn);
-            return pawn;
         }
 
         public static IEnumerable<int> GetPawnIds(this GameState state) {

@@ -6,10 +6,10 @@ using MessagePack;
 using MessagePack.Resolvers;
 
 using UnityEngine;
-using UnityEngine.TestTools;
 
 using Banchou.Board;
 using Banchou.Network.Message;
+using Banchou.Pawn;
 using Banchou.Player;
 using Banchou.Serialization.Resolvers;
 

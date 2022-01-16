@@ -1,8 +1,10 @@
-using System;
 using Banchou.Combatant;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
+
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+// ReSharper disable UnusedAutoPropertyAccessor.Local
 
 namespace Banchou.Pawn.Part {
     public class HurtVolume : MonoBehaviour {

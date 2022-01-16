@@ -78,9 +78,10 @@ namespace Banchou.Pawn.FSM {
                     if (sequenceStarted && previousCommandTooOld) {
                         return 0;
                     }
-
-                    if ((unitPair.Current.Command & _inputSequence[sequenceIndex]) != InputCommand.None) {
-                        return sequenceIndex + 1;
+                    
+                    while (sequenceIndex < _inputSequence.Length &&
+                           (unitPair.Current.Command & _inputSequence[sequenceIndex]) != InputCommand.None) {
+                        sequenceIndex++;
                     }
 
                     return sequenceIndex;

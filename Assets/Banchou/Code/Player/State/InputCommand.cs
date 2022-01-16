@@ -23,6 +23,12 @@ namespace Banchou.Player {
         Jump = 1 << 16
     }
 
+    [Serializable]
+    public class InputGestureStep {
+        public float Delay;
+        public InputCommand Command;
+    };
+
     public static class InputCommandMasks {
         public const InputCommand Stick = 
             InputCommand.Neutral |

@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Banchou.Board;
 using UniRx;
 using UnityEngine;
 
 using Banchou.Network;
+using Banchou.Pawn;
 
 namespace Banchou.Player {
     public static class PlayersSelectors {
@@ -13,9 +15,21 @@ namespace Banchou.Player {
         }
 
         public static PlayerState GetPlayer(this GameState state, int playerId) {
-            PlayerState player = null;
-            state.GetPlayers().TryGetValue(playerId, out player);
+            state.GetPlayers().TryGetValue(playerId, out var player);
             return player;
+        }
+
+        public static PlayerInputState GetPlayerInput(this GameState state, int playerId) =>
+            state.GetPlayer(playerId).Input;
+
+        public static IEnumerable<PawnState> GetPlayerPawns(this GameState state, int playerId) {
+            return state.GetPawns().Values
+                .Where(pawn => pawn.PlayerId == playerId);
+        }
+
+        public static IEnumerable<PawnSpatial> GetPlayerPawnSpatials(this GameState state, int playerId) {
+            return state.GetPlayerPawns(playerId)
+                .Select(pawn => pawn.Spatial);
         }
 
         public static bool IsLocalPlayer(this GameState state, int playerId) {

@@ -9,7 +9,6 @@ namespace Banchou.Player.Part {
         private PlayerInputState _input;
         private GameState _state;
         private Transform _camera;
-        private long _sequence = 0L;
         private Vector2 _moveInput;
         private Vector2 _lookInput;
         private InputCommand _commandsInput;
@@ -74,10 +73,10 @@ namespace Banchou.Player.Part {
 
         private void LateUpdate() {
             var move = _moveInput.CameraPlaneProject(_camera);
-            var look = Snapping.Snap(_lookInput, Vector3.one * 0.25f);
+            // var look = Snapping.Snap(_lookInput, Vector3.one * 0.25f);
 
-            if (move != _input.Direction || look != _input.Look || _commandsInput != InputCommand.None) {
-                _input.Push(_commandsInput, move, look, ++_sequence, _state.GetTime());
+            if (move != _input.Direction /*|| look != _input.Look*/ || _commandsInput != InputCommand.None) {
+                _input.Push(_commandsInput, move, Vector3.zero, _state.GetTime());
             }
 
             _commandsInput = InputCommand.None;

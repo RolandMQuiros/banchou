@@ -5,8 +5,11 @@ using Banchou.DependencyInjection;
 
 namespace Banchou.Pawn.Part {
     public class PawnContext : MonoBehaviour, IContext {
+        [SerializeField] private int _reservedPlayerId;
         [SerializeField] private PawnState _pawn;
         [SerializeField] private Collider _worldCollider;
+
+        private GameState _state;
         private int _pawnId;
         private Animator _animator;
         private CharacterController _controller;
@@ -18,14 +21,20 @@ namespace Banchou.Pawn.Part {
             RegisterPawnObject registerPawnObject,
             GetPawnId getPawnId = null
         ) {
+            _state = state;
             if (getPawnId == null) {
                 // If this pawn isn't in the state (i.e., baked into the scene), register it
                 var xform = transform;
-                state.AddPawn(out _pawn, position: xform.position, forward: xform.forward);
+                _state.AddPawn(
+                    out _pawn,
+                    playerId: _reservedPlayerId,
+                    position: xform.position,
+                    forward: xform.forward
+                );
                 _registerPawnObject = registerPawnObject;
             } else {
                 // If this pawn is in the state, grab it
-                _pawn = state.GetPawn(getPawnId());
+                _pawn = _state.GetPawn(getPawnId());
             }
 
             // If pawn is still null, destroy this object
@@ -44,11 +53,15 @@ namespace Banchou.Pawn.Part {
             _registerPawnObject?.Invoke(_pawnId, gameObject);
         }
 
-        private int GetPawnId() => _pawnId;
+        private void OnDestroy() {
+            if (_pawn != null) {
+                _state.RemovePawn(_pawn.PawnId);
+            }
+        }
 
         public DiContainer InstallBindings(DiContainer container) {
             return container
-                .Bind((GetPawnId)GetPawnId)
+                .Bind<GetPawnId>(() => _pawnId)
                 .Bind(_animator)
                 .Bind(_controller)
                 .Bind(_rigidbody)

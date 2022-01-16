@@ -466,6 +466,7 @@ GameObject:
   - component: {fileID: 4448895346026269588}
   - component: {fileID: 7240495016540819515}
   - component: {fileID: 5821564619450111704}
+  - component: {fileID: 7240495016540819516}
   m_Layer: 0
   m_Name: Banchou Board
   m_TagString: Untagged
@@ -540,6 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef4f59f2e3b24a48b313feb6e994b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 0}
   _board:
     <ActiveScenes>k__BackingField: []
     <LoadingScenes>k__BackingField: []
@@ -556,3 +558,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d2a768bf90a354f89397c39b072d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7240495016540819516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5821564619332548068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685571172b18f134d841ac55c2d62339, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateInterval: 0
+  updateIntervalSeconds: 0
+  executionsPerTick: 0
+  maxTaskExecutionsPerTick: 100

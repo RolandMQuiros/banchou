@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68696dcb2e9d8df49a3c066eea9b8828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reservedPlayerId: 0
   _pawn:
     <PlayerId>k__BackingField: 0
     <Spatial>k__BackingField:
@@ -17101,7 +17102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootBone: {fileID: 5943959060941246350}
 --- !u!4 &4016621503640480872 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7515455510648619769, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
@@ -17120,11 +17120,6 @@ Transform:
 --- !u!4 &5682328731970667406 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1236813064897211679, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
-  m_PrefabInstance: {fileID: 2309883654771757423}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5943959060941246350 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8247064759035813601, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
   m_PrefabInstance: {fileID: 2309883654771757423}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &7293989551398665635 stripped

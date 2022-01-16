@@ -33,24 +33,21 @@ namespace Banchou.Pawn.FSM {
             var outputHash = Animator.StringToHash(_outputParameter);
             var wasTriggered = false;
 
-            state
-                .ObservePawnInput(getPawnId())
+            state.ObservePawnInput(getPawnId())
                 .Select(input => input.Commands)
                 .Where(command => (command & _acceptedCommands) != InputCommand.None && IsStateActive && !wasTriggered)
                 .WithLatestFrom(
                     ObserveStateUpdate,
-                    (command, unit) => unit.StateInfo.normalizedTime % 1
+                    (_, unit) => unit.StateInfo.normalizedTime % 1
                 )
                 .Where(stateTime => stateTime >= _acceptFromStateTime && stateTime <= _acceptUntilStateTime)
-                .Subscribe(stateTime => {
-                    wasTriggered = true;
-                })
+                .Subscribe(_ => wasTriggered = true)
                 .AddTo(this);
 
             if (outputHash != 0) {
                 ObserveStateUpdate
                     .Where(unit => wasTriggered && unit.StateInfo.normalizedTime >= _bufferUntilStateTime)
-                    .Subscribe(unit => {
+                    .Subscribe(_ => {
                         bool output = false;
                         switch (_acceptMode) {
                             case AcceptSetMode.Set:

@@ -32,7 +32,7 @@ namespace Banchou.Network {
             };
 
             // Watch for changes from every pawn
-            state.ObserveBoard()
+            state.ObserveBoardChanges()
                 .SelectMany(_ => state.GetPawns().Values)
                 .SelectMany(
                     pawn => pawn.Spatial.Observe()

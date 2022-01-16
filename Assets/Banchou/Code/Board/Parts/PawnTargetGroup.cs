@@ -22,9 +22,10 @@ namespace Banchou.Board.Part {
         
         public void Construct(
             GameState state,
-            IReadOnlyReactiveDictionary<int, GameObject> pawnObjects
+            GetPawnObjects getPawnObjects
         ) {
             _targetGroup = GetComponent<CinemachineTargetGroup>();
+            var pawnObjects = getPawnObjects();
             
             pawnObjects.ObserveAdd()
                 .Select(added => (PawnId: added.Key, PawnObject: added.Value))

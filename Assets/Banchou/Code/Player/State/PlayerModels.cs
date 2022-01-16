@@ -78,7 +78,6 @@ namespace Banchou.Player {
 
         // Look input is not shared across the network
         [field: SerializeField] public Vector2 Look { get; private set; }
-        [field: SerializeField] public long Sequence { get; private set; } = Sequence;
         [field: SerializeField] public float When { get; private set; } = When;
 
         public override void Set(PlayerInputState other) {
@@ -86,41 +85,35 @@ namespace Banchou.Player {
             Commands = other.Commands;
             Direction = other.Direction;
             Look = other.Look;
-            Sequence = other.Sequence;
             When = other.When;
         }
 
-        public PlayerInputState Push(InputCommand commands, Vector3 direction, Vector2 look, long sequence, float when) {
+        public PlayerInputState Push(InputCommand commands, Vector3 direction, Vector2 look, float when) {
             Commands = commands;
             Direction = direction;
             Look = look;
-            Sequence = sequence;
             When = when;
 
             return Notify();
         }
 
-        public PlayerInputState PushMove(Vector3 direction, long sequence, float when) {
+        public PlayerInputState PushMove(Vector3 direction, float when) {
             Direction = direction;
-            Sequence = sequence;
             When = when;
 
             return Notify();
         }
 
-        public PlayerInputState PushLook(Vector2 look, long sequence, float when) {
+        public PlayerInputState PushLook(Vector2 look, float when) {
             Look = look;
-            Sequence = sequence;
             When = when;
 
             return this;
         }
 
-        public PlayerInputState PushCommands(InputCommand commands, long sequence, float when) {
+        public PlayerInputState PushCommands(InputCommand commands, float when) {
             Commands = commands;
-            Sequence = sequence;
             When = when;
-
             return Notify();
         }
 
@@ -138,10 +131,22 @@ namespace Banchou.Player {
         [field: SerializeField]
         public Dictionary<int, PlayerState> Members { get; init; } = Members ?? new Dictionary<int, PlayerState>();
 
-        public PlayersState AddPlayer(int playerId, string prefabKey, int networkId = 0) {
-            var player = new PlayerState(playerId, prefabKey, networkId);
+        public PlayersState AddPlayer(
+            out PlayerState player,
+            int playerId = default,
+            string prefabKey = null,
+            int networkId = default
+        ) {
+            if (playerId == default) {
+                // Find the first available pawn ID
+                var usedIds = Members.Keys.OrderBy(id => id).ToList();
+                for (playerId = 1; playerId <= usedIds.Count && playerId == usedIds[playerId - 1]; playerId++) { }
+            }
+            
+            player = new PlayerState(playerId, prefabKey, networkId);
             Members[playerId] = player;
             PlayerAdded?.Invoke(player);
+            
             return Notify();
         }
 
@@ -149,7 +154,20 @@ namespace Banchou.Player {
             PlayerState player;
             if (Members.TryGetValue(playerId, out player) && Members.Remove(playerId)) {
                 PlayerRemoved?.Invoke(player);
-                Notify();
+                return Notify();
+            }
+            return this;
+        }
+        
+        public PlayersState ClearPlayers(float when) {
+            if (Members.Any()) {
+                if (PlayerRemoved != null) {
+                    foreach (var pawn in Members.Values) {
+                        PlayerRemoved(pawn);
+                    }
+                }
+                Members.Clear();
+                return Notify();
             }
             return this;
         }
