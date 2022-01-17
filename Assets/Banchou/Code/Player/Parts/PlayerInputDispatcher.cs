@@ -68,6 +68,13 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.LockOff;
                     }
                 } break;
+                case "Block": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.Block;
+                    } else if (callbackContext.canceled) {
+                        _commandsInput |= InputCommand.Unblock;
+                    }
+                } break;
             }
         }
 

@@ -48,6 +48,7 @@ namespace Banchou.Combatant {
 
         public CombatantState Hit(
             int attackerId,
+            int attackId,
             Vector3 contact,
             Vector3 pawnDirection,
             Vector3 attackDirection,
@@ -69,7 +70,7 @@ namespace Banchou.Combatant {
             }
             
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
-            LastHit.Hit(attackerId, contact, damage, knockback, hitPause, hitStun, true, when);
+            LastHit.Hit(attackerId, attackId, contact, damage, knockback, hitPause, hitStun, true, when);
             Defense.Set(guardTime: guardTime, when: when);
 
             return Notify(when);

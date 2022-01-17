@@ -84,6 +84,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5854285578190265059}
   - component: {fileID: 174491082043896666}
+  - component: {fileID: 7787574507982227217}
   m_Layer: 8
   m_Name: Torso Hit Volume
   m_TagString: Untagged
@@ -120,6 +121,22 @@ CapsuleCollider:
   m_Height: 0.6
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7787574507982227217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376424979311979091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &482949540973512435
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7656902876796545517}
   - component: {fileID: 1729840570449589493}
+  - component: {fileID: 1491662672447385915}
   m_Layer: 8
   m_Name: Right Upper Arm Hit Volume
   m_TagString: Untagged
@@ -199,6 +217,22 @@ CapsuleCollider:
   m_Height: 0.36
   m_Direction: 1
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &1491662672447385915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622748134781435317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &703140213875462517
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +248,6 @@ GameObject:
   - component: {fileID: 4346965461630845550}
   - component: {fileID: 4527812589849869119}
   - component: {fileID: 5290274252228839027}
-  - component: {fileID: 1417525347400831216}
   m_Layer: 0
   m_Name: Pawn_Isaac
   m_TagString: Untagged
@@ -392,22 +425,6 @@ ConstantForce:
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
---- !u!114 &1417525347400831216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703140213875462517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <DamageScale>k__BackingField: 1
-  <KnockbackScale>k__BackingField: 1
-  <HitPauseScale>k__BackingField: 1
-  <HitStunScale>k__BackingField: 1
 --- !u!1 &1427359172559776911
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5350338720285027929}
   - component: {fileID: 7407704226953239997}
+  - component: {fileID: 998096759269172200}
   m_Layer: 8
   m_Name: Right Forearm Hit Volume
   m_TagString: Untagged
@@ -454,6 +472,22 @@ CapsuleCollider:
   m_Height: 0.33
   m_Direction: 1
   m_Center: {x: 0, y: 0.04, z: 0}
+--- !u!114 &998096759269172200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427359172559776911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &1699921650211371126
 GameObject:
   m_ObjectHideFlags: 0
@@ -5401,6 +5435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 528154690656015712}
   - component: {fileID: 3529291195851629298}
+  - component: {fileID: 4358765104899890141}
   m_Layer: 8
   m_Name: Left Leg Hit Volume
   m_TagString: Untagged
@@ -5437,6 +5472,22 @@ CapsuleCollider:
   m_Height: 0.52
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4358765104899890141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2305961169090320907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &2855227134119268557
 GameObject:
   m_ObjectHideFlags: 0
@@ -5447,6 +5498,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2927555703448184194}
   - component: {fileID: 2133325932917262820}
+  - component: {fileID: 1854510578254432402}
   m_Layer: 8
   m_Name: Pelvis Hit Volume
   m_TagString: Untagged
@@ -5482,6 +5534,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.18
   m_Center: {x: 0, y: -0.06, z: -0.03}
+--- !u!114 &1854510578254432402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2855227134119268557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &3121427014553547893
 GameObject:
   m_ObjectHideFlags: 0
@@ -5616,6 +5684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7048846990089116483}
   - component: {fileID: 7989769556514342932}
+  - component: {fileID: 7199476994899964710}
   m_Layer: 8
   m_Name: Left Forearm Hit Volume
   m_TagString: Untagged
@@ -5652,6 +5721,22 @@ CapsuleCollider:
   m_Height: 0.33
   m_Direction: 1
   m_Center: {x: 0, y: 0.04, z: 0}
+--- !u!114 &7199476994899964710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4246210191806430898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &5143522388703335545
 GameObject:
   m_ObjectHideFlags: 0
@@ -5696,6 +5781,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3971812812004096035}
   - component: {fileID: 9088945523926510359}
+  - component: {fileID: 2150199728287120202}
   m_Layer: 8
   m_Name: Left Upper Arm Hit Volume
   m_TagString: Untagged
@@ -5732,6 +5818,22 @@ CapsuleCollider:
   m_Height: 0.36
   m_Direction: 1
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!114 &2150199728287120202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501679316194000736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &5511536607431273634
 GameObject:
   m_ObjectHideFlags: 0
@@ -5816,6 +5918,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8620406129679195041}
   - component: {fileID: 3980006357595851505}
+  - component: {fileID: 993845481193390356}
   m_Layer: 8
   m_Name: Head Hit Volume
   m_TagString: Untagged
@@ -5852,6 +5955,22 @@ CapsuleCollider:
   m_Height: 0.36
   m_Direction: 1
   m_Center: {x: 0, y: 0.08, z: 0}
+--- !u!114 &993845481193390356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5735441867293215429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &5833801484670114299
 GameObject:
   m_ObjectHideFlags: 0
@@ -6010,6 +6129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 931655004638162030}
   - component: {fileID: 2291651813325829489}
+  - component: {fileID: 8083124195745972527}
   m_Layer: 8
   m_Name: Left Leg Hit Volume
   m_TagString: Untagged
@@ -6046,6 +6166,22 @@ CapsuleCollider:
   m_Height: 0.52
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8083124195745972527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6081548322408925591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &6457601981704080072
 GameObject:
   m_ObjectHideFlags: 0
@@ -6056,6 +6192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3441612724170877437}
   - component: {fileID: 8001405237538612808}
+  - component: {fileID: 5621889516349256676}
   m_Layer: 8
   m_Name: Left Thigh Hit Volume
   m_TagString: Untagged
@@ -6092,6 +6229,22 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.3, z: 0}
+--- !u!114 &5621889516349256676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6457601981704080072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &6592023844451284248
 GameObject:
   m_ObjectHideFlags: 0
@@ -6148,6 +6301,7 @@ GameObject:
   m_Component:
   - component: {fileID: 473129716570109738}
   - component: {fileID: 6495069909685979882}
+  - component: {fileID: 123164390455779549}
   m_Layer: 8
   m_Name: Right Thigh Hit Volume
   m_TagString: Untagged
@@ -6184,6 +6338,22 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.3, z: 0}
+--- !u!114 &123164390455779549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7050773221359206573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!1 &7360012665270061829
 GameObject:
   m_ObjectHideFlags: 0
@@ -17102,6 +17272,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4214282217130293864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228855687545875518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239bd5b555c786d44b6f9cc855e68b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DamageScale>k__BackingField: 1
+  <KnockbackScale>k__BackingField: 1
+  <HitPauseScale>k__BackingField: 1
+  <HitStunScale>k__BackingField: 1
 --- !u!4 &4016621503640480872 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7515455510648619769, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}

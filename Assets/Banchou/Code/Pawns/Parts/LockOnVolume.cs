@@ -6,8 +6,6 @@ using UnityEngine;
 
 using Banchou.Combatant;
 using Banchou.Player;
-using UniRx.Diagnostics;
-using UnityEngine.UIElements;
 
 namespace Banchou.Pawn.Part {
     [RequireComponent(typeof(Collider))]
@@ -25,7 +23,6 @@ namespace Banchou.Pawn.Part {
             _pawnId = getPawnId();
             
             state.ObservePawnInput(_pawnId)
-                .Debug()
                 .WithLatestFrom(
                     state.ObserveCombatant(_pawnId),
                     (input, combatant) => (input, combatant)

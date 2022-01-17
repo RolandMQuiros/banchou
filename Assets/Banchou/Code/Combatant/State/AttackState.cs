@@ -27,6 +27,9 @@ namespace Banchou.Combatant {
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
         [field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+
+        public bool IsConfirmed => TargetId != default;
+        
         public float NormalizedPauseTimeAt(float when) => Mathf.Approximately(PauseTime, 0f) ? 1f :
             Mathf.Clamp01((when - LastUpdated) / PauseTime);
 
@@ -47,26 +50,36 @@ namespace Banchou.Combatant {
             Damage = 0;
             PauseTime = 0f;
             Recoil = Vector3.zero;
-            LastUpdated = when;
-            return Notify(when);
+            return UpdateTimes(when);
         }
 
         public AttackState Activate(float when) {
-            Phase = AttackPhase.Active;
-            LastUpdated = when;
-            return Notify(when);
+            if (Phase == AttackPhase.Starting) {
+                Phase = AttackPhase.Active;
+                return UpdateTimes(when);
+            }
+            return this;
+        }
+
+        public AttackState Reactivate(float when) {
+            if (Phase == AttackPhase.Active) {
+                AttackId++;
+                return Activate(when);
+            }
+            return this;
         }
 
         public AttackState Recover(float when) {
-            Phase = AttackPhase.Recover;
-            LastUpdated = when;
-            return Notify(when);
+            if (Phase == AttackPhase.Active) {
+                Phase = AttackPhase.Recover;
+                return UpdateTimes(when);
+            }
+            return this;
         }
 
         public AttackState Finish(float when) {
             Phase = AttackPhase.Neutral;
-            LastUpdated = when;
-            return Notify(when);
+            return UpdateTimes(when);
         }
         
         public AttackState Confirm(int targetId, int damage, float pause, Vector3 recoil, float when) {
@@ -74,6 +87,12 @@ namespace Banchou.Combatant {
             Damage = damage;
             PauseTime = pause;
             Recoil = recoil;
+            return UpdateTimes(when);
+        }
+
+        private AttackState UpdateTimes(float when) {
+            var diff = when - LastUpdated;
+            PauseTime = Mathf.Clamp01(PauseTime - diff);
             LastUpdated = when;
             return Notify(when);
         }

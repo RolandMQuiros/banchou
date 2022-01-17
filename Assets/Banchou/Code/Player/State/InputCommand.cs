@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Banchou.Player {
     [Flags]
@@ -20,13 +21,21 @@ namespace Banchou.Player {
         LockOn = 1 << 13,
         LockOff = 1 << 14,
         ShortJump = 1 << 15,
-        Jump = 1 << 16
+        Jump = 1 << 16,
+        Block = 1 << 17,
+        Unblock = 1 << 18
     }
 
     [Serializable]
     public class InputGestureStep {
         public float Delay;
         public InputCommand Command;
+    };
+
+    [Serializable]
+    public class InputGesture {
+        [field: SerializeField] public string Name { get; private set; }
+        [field: SerializeField] public InputGestureStep[] Sequence { get; private set; }
     };
 
     public static class InputCommandMasks {

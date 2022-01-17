@@ -14,7 +14,7 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _outputHash = Animator.StringToHash(_outputParameter);
             if (_outputHash != default) {
-                state.ObserveLastAttackChanges(getPawnId())
+                state.ObserveAttackConfirms(getPawnId())
                     .Where(_ => IsStateActive)
                     .Subscribe(_ => {
                         animator.SetTrigger(_outputHash);

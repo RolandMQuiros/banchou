@@ -13,10 +13,7 @@ namespace Banchou.Pawn.FSM {
         
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _state = state;
-            _state.ObserveLastAttack(getPawnId())
-                .CatchIgnoreLog()
-                .Subscribe(attack => _attack = attack)
-                .AddTo(this);
+            _attack = _state.GetCombatantAttack(getPawnId());
             _originalSpeed = animator.speed;
         }
 

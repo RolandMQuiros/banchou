@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &508580794763453207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8040095360097754226}
+  - component: {fileID: 5451508634237491904}
+  - component: {fileID: 4313221119719816735}
+  - component: {fileID: 9198789118856904060}
+  m_Layer: 0
+  m_Name: Basic Enemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8040095360097754226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508580794763453207}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5451508634237491904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508580794763453207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc482c841ba657f439da7592d36f447c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _reservedPlayerId: 1001
+  _player:
+    <NetworkId>k__BackingField: 0
+    <Input>k__BackingField:
+      <PlayerId>k__BackingField: 0
+      <Commands>k__BackingField: 0
+      <Direction>k__BackingField: {x: 0, y: 0, z: 0}
+      <Look>k__BackingField: {x: 0, y: 0}
+      <When>k__BackingField: 0
+--- !u!114 &4313221119719816735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508580794763453207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31182b65861bb0f4f843c0998e2f804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9198789118856904060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508580794763453207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 1
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 0}
+  mBehaviorSource:
+    behaviorName: Approach Hostile
+    behaviorDescription: Basic test enemy player AI
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(332,5)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-2.5,144.614838)"},"ID":1,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"Banchou.Player.Behavior.ChoosePawn","NodeData":{"Offset":"(-341.660278,168.858215)"},"ID":2,"Name":"Choose
+        Pawn","Instant":false,"SharedInt_outputPawnId":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"Chosen
+        Pawn ID","IsShared":true,"Int32mValue":0}},{"Type":"Banchou.Player.Behavior.LockOnToClosestEnemy","NodeData":{"Offset":"(-191.432358,171.333344)"},"ID":3,"Name":"Lock
+        On To Closest Enemy","Instant":false,"SharedIntPawnId":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"Chosen
+        Pawn ID","IsShared":true,"Int32mValue":0}},{"Type":"Banchou.Player.Behavior.ApproachLockOnTarget","NodeData":{"Offset":"(-4.432337,167.333344)"},"ID":4,"Name":"Approach
+        Lock On Target","Instant":true,"SharedInt_pawnId":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"Chosen
+        Pawn ID","IsShared":true,"Int32mValue":0},"SharedFloat_minimumDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":2}},{"Type":"Banchou.Player.Behavior.EnterCommandGesture","NodeData":{"Offset":"(191.375,174.999969)"},"ID":5,"Name":"Enter
+        Command Gesture","Instant":true,"InputGestureStep[]_gesture":[{"Type":"Banchou.Player.InputGestureStep","Value":{"InputCommandCommand":"LightAttack","SingleDelay":0}},{"Type":"Banchou.Player.InputGestureStep","Value":{"InputCommandCommand":"LightAttack","SingleDelay":0.333333343}},{"Type":"Banchou.Player.InputGestureStep","Value":{"InputCommandCommand":"LightAttack","SingleDelay":0.333333343}},{"Type":"Banchou.Player.InputGestureStep","Value":{"InputCommandCommand":"LightAttack","SingleDelay":0.333333343}}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"Chosen
+        Pawn ID","IsShared":true,"Int32mValue":0}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.2
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1

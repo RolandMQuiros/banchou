@@ -16,5 +16,6 @@ namespace Banchou.Pawn.Part {
         public void StartAttack() => _attackState.Start(_state.GetTime());
         public void ActivateAttack() => _attackState.Activate(_state.GetTime());
         public void RecoverAttack() => _attackState.Recover(_state.GetTime());
+        public void FinishAttack() => _attackState.Finish(_state.GetTime());
     }
 }

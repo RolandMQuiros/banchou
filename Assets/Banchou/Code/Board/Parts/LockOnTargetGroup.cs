@@ -13,6 +13,7 @@ namespace Banchou.Board.Part {
     public class LockOnTargetGroup : MonoBehaviour {
         [SerializeField] private CombatantTeam _targetingTeam;
         private CinemachineTargetGroup _targetGroup;
+        private readonly Dictionary<int, CameraTarget> _targets = new();
         
         public void Construct(
             GameState state,
@@ -24,36 +25,38 @@ namespace Banchou.Board.Part {
             state.ObserveLockOns(_targetingTeam)
                 .Select(targetId => {
                     pawnObjects.TryGetValue(targetId, out var target);
-                    return target;
+                    return (targetId, target);
                 })
-                .Where(target => target != null)
+                .Where(args => args.target != null)
                 .CatchIgnoreLog()
-                .Subscribe(AddTarget)
+                .Subscribe(args => AddTarget(args.targetId, args.target))
                 .AddTo(this);
             
             state.ObserveLockOffs(_targetingTeam)
                 .Select(targetId => {
-                    pawnObjects.TryGetValue(targetId, out var target);
-                    return target;
+                    _targets.TryGetValue(targetId, out var target);
+                    return (targetId, target);
                 })
-                .Where(target => target != null)
+                .Where(args => args.target != null)
                 .CatchIgnoreLog()
-                .Subscribe(target => _targetGroup.RemoveMember(target.transform))
+                .Subscribe(args => {
+                    _targetGroup.RemoveMember(args.target.transform);
+                    _targets.Remove(args.targetId);
+                })
                 .AddTo(this);
         }
         
-        private void AddTarget(GameObject pawnObject) {
+        private void AddTarget(int pawnId, GameObject pawnObject) {
             var targets = pawnObject.transform
                 .BreadthFirstTraversal()
                 .Select(child => child.GetComponent<CameraTarget>())
                 .Where(target => target != null)
-                .Select(target => (Transform: target.transform, target.Weight, target.Radius))
-                .DefaultIfEmpty((Transform: pawnObject.transform, Weight: 1f, Radius: 1f))
                 .ToList();
                     
             foreach (var target in targets) {
-                if (_targetGroup.FindMember(target.Transform) == -1) {
-                    _targetGroup.AddMember(target.Transform, target.Weight, target.Radius);
+                if (_targetGroup.FindMember(target.transform) == -1) {
+                    _targets[pawnId] = target;
+                    _targetGroup.AddMember(target.transform, target.Weight, target.Radius);
                 }
             }
         } 

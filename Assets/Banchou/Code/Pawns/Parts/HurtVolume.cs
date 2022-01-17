@@ -1,3 +1,4 @@
+using System;
 using Banchou.Combatant;
 using UniRx;
 using UnityEngine;
@@ -73,18 +74,31 @@ namespace Banchou.Pawn.Part {
         [SerializeField] private UnityEvent _onHit;
         #endregion
 
-        private HitState _hit;
+        private GameState _state;
+        private AttackState _attack;
         private Transform _transform;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
+            _state = state;
             PawnId = getPawnId();
+            _attack = _state.GetCombatantAttack(PawnId);
             _transform = transform;
 
-            state.ObserveLastAttackChanges(getPawnId())
+            _state.ObserveLastAttackChanges(getPawnId())
                 .Where(_ => isActiveAndEnabled)
                 .CatchIgnoreLog()
                 .Subscribe(_ => { _onHit.Invoke(); })
                 .AddTo(this);
+        }
+
+        private void OnEnable() => _attack.Activate(_state.GetTime());
+        private void OnDisable() => _attack.Recover(_state.GetTime());
+
+        private void FixedUpdate() {
+            var now = _state.GetTime();
+            if (_attack.Phase == AttackPhase.Active && now - _attack.LastUpdated > Interval) {
+                _attack.Reactivate(now);
+            }
         }
     }
 }

@@ -5,10 +5,11 @@ using UnityEngine;
 namespace Banchou {
     [Serializable, MessagePackObject(true)]
     public record HitState(
-        int AttackerId = 0, Vector3 Contact = new(), int Damage = 0, Vector3 Knockback = new(), float PauseTime = 0f,
-        float StunTime = 0f, bool IsCountered = false, float LastUpdated = 0f
+        int AttackerId = 0, int AttackId = 0, Vector3 Contact = new(), int Damage = 0, Vector3 Knockback = new(),
+        float PauseTime = 0f, float StunTime = 0f, bool IsCountered = false, float LastUpdated = 0f
     ) : NotifiableWithHistory<HitState>(32) {
         [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
+        [field: SerializeField] public int AttackId { get; private set; } = AttackId;
         [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
         [field: SerializeField] public int Damage { get; private set; } = Damage;
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
@@ -19,6 +20,7 @@ namespace Banchou {
         
         public override void Set(HitState other) {
             AttackerId = other.AttackerId;
+            AttackId = other.AttackId;
             Contact = other.Contact;
             Knockback = other.Knockback;
             PauseTime = other.PauseTime;
@@ -28,14 +30,20 @@ namespace Banchou {
         }
 
         public float StunTimeAt(float when) => StunTime - (when - LastUpdated + PauseTime);
+        
         public float NormalizedStunTimeAt(float when) => Mathf.Approximately(StunTime, 0f) ? 1f :
             Mathf.Clamp01((when - (LastUpdated + PauseTime)) / StunTime);
+
+        public float PauseTimeAt(float when) => PauseTime - (when - LastUpdated);
+        
         public float NormalizedPauseTimeAt(float when) => Mathf.Approximately(PauseTime, 0f) ? 1f :
             Mathf.Clamp01((when - LastUpdated) / PauseTime);
+        
         public bool IsStunned(float when) => StunTimeAt(when) > 0f;
         
         public HitState Hit(
             int attackerId,
+            int attackId,
             Vector3 contact,
             int damage,
             Vector3 knockback,
@@ -45,6 +53,7 @@ namespace Banchou {
             float when
         ) {
             AttackerId = attackerId;
+            AttackId = attackId;
             Contact = contact;
             Damage = damage;
             Knockback = knockback;
