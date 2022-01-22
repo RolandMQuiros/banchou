@@ -186,6 +186,8 @@ Material:
     - _ShadowColor: {r: 0.745283, g: 0.61521006, b: 0.61521006, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColour: {r: 1, g: 1, b: 1, a: 0}
+    - _Tint: {r: 0, g: 0, b: 0, a: 0}
+    - _TintColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7493437075340655507
 MonoBehaviour:

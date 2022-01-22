@@ -21,9 +21,10 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _recoilMethod;
         private SerializedProperty _recoil;
         private SerializedProperty _recoilMagnitude;
-
-        private SerializedProperty _onHit;
         
+        private SerializedProperty _lockOffOnConfirm;
+        private SerializedProperty _onHit;
+
         private void OnEnable() {
             _target = ((HurtVolume)target).transform;
             
@@ -43,6 +44,7 @@ namespace Banchou.Pawn.Part {
             _recoil = serializedObject.FindProperty("_recoil");
             _recoilMagnitude = serializedObject.FindProperty("<RecoilMagnitude>k__BackingField");
             
+            _lockOffOnConfirm = serializedObject.FindProperty("<LockOffOnConfirm>k__BackingField");
             _onHit = serializedObject.FindProperty("_onHit");
         }
         
@@ -59,6 +61,9 @@ namespace Banchou.Pawn.Part {
             EditorGUILayout.PropertyField(_hitPause);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_knockbackMethod);
+            EditorGUILayout.PropertyField(_lockOffOnConfirm);
+            EditorGUILayout.PropertyField(_onHit);
+                
             switch ((HurtVolume.ForceMethod) _knockbackMethod.enumValueIndex) {
                 case HurtVolume.ForceMethod.Static:
                     EditorGUILayout.PropertyField(_knockback);

@@ -26,12 +26,14 @@ namespace Banchou.Combatant {
             int attackerPawnId,
             int defenderPawnId,
             Vector3 knockback,
+            Vector3 recoil,
             float hitPause,
             float hitStun,
-            int damage
+            int damage,
+            bool lockOffOnConfirm
         ) {
-            var attacker = state.GetPawnSpatial(attackerPawnId);
-            var defender = state.GetPawnSpatial(defenderPawnId);
+            var attacker = state.GetPawn(attackerPawnId);
+            var defender = state.GetPawn(defenderPawnId);
 
             if (attacker == null) {
                 Debug.LogError($"No Pawn {attackerPawnId} found for combatant");
@@ -41,14 +43,34 @@ namespace Banchou.Combatant {
                 Debug.LogError($"No Pawn {defenderPawnId} found for combatant");
             }
 
-            if (attacker != null && defender != null) {
-                var attackDirection = attacker.Position - defender.Position;
-                var attack = state.GetCombatant(attackerPawnId).Attack
-                    .Confirm(defenderPawnId, damage, hitPause, Vector3.zero, state.GetTime());
-                
-                state.GetCombatant(defenderPawnId)?
-                    .Hit(attackerPawnId, attack.AttackId, contact, defender.Forward, attackDirection, knockback,
-                        hitPause, hitStun, damage, state.GetTime());
+            if (attacker?.Combatant != null && defender?.Combatant != null) {
+                var attackDirection = attacker.Spatial.Position - defender.Spatial.Position;
+                var attack = attacker.Combatant.Attack
+                    .Confirm(
+                        defenderPawnId,
+                        damage,
+                        hitPause,
+                        contact,
+                        recoil,
+                        state.GetTime()
+                    );
+
+                if (lockOffOnConfirm) {
+                    attacker.Combatant.LockOff(state.GetTime());
+                }
+
+                defender.Combatant.Hit(
+                    attackerPawnId,
+                    attack.AttackId,
+                    contact,
+                    defender.Spatial.Forward,
+                    attackDirection,
+                    knockback,
+                    hitPause,
+                    hitStun,
+                    damage,
+                    state.GetTime()
+                );
             }
             return state;
         }

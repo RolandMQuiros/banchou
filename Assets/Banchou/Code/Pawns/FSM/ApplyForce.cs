@@ -15,11 +15,7 @@ namespace Banchou.Pawn.FSM {
 
         private Rigidbody _rigidbody;
 
-        public void Construct(
-            GameState state,
-            GetPawnId getPawnId,
-            Rigidbody rigidbody
-        ) {
+        public void Construct(Rigidbody rigidbody) {
             _rigidbody = rigidbody;
         }
 

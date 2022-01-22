@@ -61,6 +61,7 @@ namespace Banchou.Pawn.Part {
 
         public DiContainer InstallBindings(DiContainer container) {
             return container
+                .Bind(this)
                 .Bind<GetPawnId>(() => _pawnId)
                 .Bind(_animator)
                 .Bind(_controller)

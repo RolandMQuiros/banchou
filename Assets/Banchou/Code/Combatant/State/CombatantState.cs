@@ -70,7 +70,7 @@ namespace Banchou.Combatant {
             }
             
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
-            LastHit.Hit(attackerId, attackId, contact, damage, knockback, hitPause, hitStun, true, when);
+            LastHit.Hit(attackerId, attackId, contact, damage, knockback, hitPause, hitStun, when);
             Defense.Set(guardTime: guardTime, when: when);
 
             return Notify(when);

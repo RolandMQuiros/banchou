@@ -1,12 +1,13 @@
 using System.Linq;
 using System.Collections.Generic;
 using Banchou.DependencyInjection;
+using Banchou.Utility;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
-    public class PawnAnimator : MonoBehaviour {
+    public class PawnAnimator : MonoBehaviour, IContext {
         private DiContainer _diContainer;
         private GameState _state;
         private PawnAnimatorFrame _frame;
@@ -31,6 +32,8 @@ namespace Banchou.Pawn.Part {
             // so let's get this out of the way early
             _cachedParameters = animator.parameters.ToList();
 
+            InstallBindings(_diContainer);
+            
             this.OnEnableAsObservable()
                 .Subscribe(_ => { Inject(); })
                 .AddTo(this);
@@ -79,6 +82,11 @@ namespace Banchou.Pawn.Part {
                 }
             }
             _frame.FinishFrame(_state.GetTime());
+        }
+
+        public DiContainer InstallBindings(DiContainer container) {
+            return container
+                .Bind(GetComponent<AnimatorUnityEvents>());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using BehaviorDesigner.Runtime.Tasks;
 using UniRx;
+using Action = BehaviorDesigner.Runtime.Tasks.Action;
 
 namespace Banchou {
     public static class BehaviorDesignerExtensions {

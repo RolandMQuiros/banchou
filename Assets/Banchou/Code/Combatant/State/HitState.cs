@@ -6,7 +6,7 @@ namespace Banchou {
     [Serializable, MessagePackObject(true)]
     public record HitState(
         int AttackerId = 0, int AttackId = 0, Vector3 Contact = new(), int Damage = 0, Vector3 Knockback = new(),
-        float PauseTime = 0f, float StunTime = 0f, bool IsCountered = false, float LastUpdated = 0f
+        float PauseTime = 0f, float StunTime = 0f, float LastUpdated = 0f
     ) : NotifiableWithHistory<HitState>(32) {
         [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
         [field: SerializeField] public int AttackId { get; private set; } = AttackId;
@@ -15,7 +15,6 @@ namespace Banchou {
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
         [field: SerializeField] public float StunTime { get; private set; } = StunTime;
-        [field: SerializeField] public bool IsCountered { get; private set; } = IsCountered;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
         
         public override void Set(HitState other) {
@@ -25,7 +24,6 @@ namespace Banchou {
             Knockback = other.Knockback;
             PauseTime = other.PauseTime;
             StunTime = other.StunTime;
-            IsCountered = other.IsCountered;
             LastUpdated = other.LastUpdated;
         }
 
@@ -49,7 +47,6 @@ namespace Banchou {
             Vector3 knockback,
             float pauseTime,
             float stunTime,
-            bool isCountered,
             float when
         ) {
             AttackerId = attackerId;
@@ -59,7 +56,6 @@ namespace Banchou {
             Knockback = knockback;
             PauseTime = pauseTime;
             StunTime = stunTime;
-            IsCountered = isCountered;
             LastUpdated = when;
             return Notify(when);
         }

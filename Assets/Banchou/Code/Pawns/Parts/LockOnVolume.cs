@@ -15,24 +15,26 @@ namespace Banchou.Pawn.Part {
 
         public Vector3 Origin => transform.TransformPoint(_linecastOrigin);
 
+        private GameState _state;
         private int _pawnId;
         private readonly HashSet<LockOnTarget> _targets = new(32);
+        private CombatantState _combatant;
         private LockOnTarget _target;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
+            _state = state;
             _pawnId = getPawnId();
             
-            state.ObservePawnInput(_pawnId)
-                .WithLatestFrom(
-                    state.ObserveCombatant(_pawnId),
-                    (input, combatant) => (input, combatant)
-                )
+            state.ObserveCombatant(_pawnId)
                 .CatchIgnoreLog()
-                .Subscribe(args => {
-                    var (input, combatant) = args;
-
+                .Subscribe(combatant => _combatant = combatant)
+                .AddTo(this);
+            
+            state.ObservePawnInput(_pawnId)
+                .CatchIgnoreLog()
+                .Subscribe(input => {
                     if (input.Commands.HasFlag(InputCommand.LockOn)) {
-                        if (combatant.LockOnTarget == default) {
+                        if (_combatant.LockOnTarget == default) {
                             // If combatant has no lock on target, choose one
                             var forward = input.Direction != Vector3.zero ? input.Direction.normalized :
                                 transform.forward;
@@ -50,21 +52,21 @@ namespace Banchou.Pawn.Part {
                                 .OrderByDescending(targetArgs => Math.Sign(targetArgs.Dot))
                                 .ThenBy(targetArgs => (2f - Mathf.Abs(targetArgs.Dot)) * targetArgs.Distance)
                                 .Select(targetArgs => targetArgs.Target)
-                                .FirstOrDefault(target => target.PawnId != combatant.LockOnTarget);
+                                .FirstOrDefault(target => target.PawnId != _combatant.LockOnTarget);
                             if (selected != default) {
                                 _target = selected;
-                                combatant.LockOn(selected.PawnId, state.GetTime());
+                                _combatant.LockOn(selected.PawnId, state.GetTime());
                             }
                         } else {
                             // If combatant has a lock on target, unlock
                             _target = null;
-                            combatant.LockOff(state.GetTime());
+                            _combatant.LockOff(state.GetTime());
                         }
                     }
                     
                     if (input.Commands.HasFlag(InputCommand.LockOff)) {
                         _target = null;
-                        combatant.LockOff(state.GetTime());
+                        _combatant.LockOff(state.GetTime());
                     }
                 })
                 .AddTo(this);
@@ -79,6 +81,10 @@ namespace Banchou.Pawn.Part {
         private void OnTriggerExit(Collider other) {
             if (other.TryGetComponent<LockOnTarget>(out var target)) {
                 _targets.Remove(target);
+                if (_combatant.LockOnTarget == target.PawnId) {
+                    _combatant.LockOff(_state.GetTime());
+                }
+
             }
         }
 

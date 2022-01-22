@@ -29,6 +29,7 @@ namespace Banchou.Player {
     [Serializable]
     public class InputGestureStep {
         public float Delay;
+        public bool RequireConfirm;
         public InputCommand Command;
     };
 

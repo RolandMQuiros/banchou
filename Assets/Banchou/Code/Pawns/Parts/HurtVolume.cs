@@ -70,6 +70,10 @@ namespace Banchou.Pawn.Part {
         [field: SerializeField,
                 Tooltip("How much force to apply on recoil")]
         public float RecoilMagnitude { get; private set; }
+        
+        [field: SerializeField,
+                Tooltip("Remove lock-on if hit confirms. Use for attacks with huge knockback.")]
+        public bool LockOffOnConfirm { get; private set; }
 
         [SerializeField] private UnityEvent _onHit;
         #endregion

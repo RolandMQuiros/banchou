@@ -11,11 +11,12 @@ namespace Banchou.Combatant {
 
         public static PawnSpatial GetLockOnSpatial(this GameState state, int pawnId) =>
             state.GetPawnSpatial(state.GetLockOnTarget(pawnId));
+
+        public static IEnumerable<PawnState> GetCombatantPawns(this GameState state) =>
+            state.GetPawns().Values.Where(combatant => combatant != null);
         
         public static IEnumerable<CombatantState> GetCombatants(this GameState state) =>
-            state.GetPawns().Values
-                .Select(pawn => pawn.Combatant)
-                .Where(combatant => combatant != null);
+            state.GetCombatantPawns().Select(pawn => pawn.Combatant);
 
         public static IEnumerable<PawnSpatial> GetCombatantSpatials(this GameState state) =>
             state.GetPawns().Values

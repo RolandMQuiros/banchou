@@ -26,17 +26,23 @@ namespace Banchou.Combatant {
             LastUpdated = when;
             IsInvincible = isInvincible ?? IsInvincible;
             GuardTime = guardTime ?? GuardTime;
-            return Notify(when);
+            return UpdateTimers(when);
         }
 
         public DefensiveState SetInvincibility(bool isInvincible, float when) {
             IsInvincible = isInvincible;
-            LastUpdated = when;
-            return Notify(when);
+            return UpdateTimers(when);
         }
 
         public DefensiveState Guard(float guardTime, float when) {
             GuardTime = guardTime;
+            return UpdateTimers(when);
+        }
+
+        private DefensiveState UpdateTimers(float when) {
+            var diff = when - LastUpdated;
+            GuardTime = Mathf.Min(0, GuardTime - diff);
+            LastUpdated = when;
             return Notify(when);
         }
     }

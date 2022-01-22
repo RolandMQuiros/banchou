@@ -16,11 +16,14 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
             _state = state;
             _rigidbody = rigidbody;
-            _hit = _state.GetCombatantLastHit(getPawnId());
+            _state.ObserveLastHit(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(hit => _hit = hit)
+                .AddTo(this);
         }
 
         private void Apply() {
-            _rigidbody.velocity = _multiplier * _hit.Knockback;;
+            _rigidbody.velocity = _multiplier * _hit.Knockback;
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
