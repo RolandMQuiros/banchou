@@ -59,11 +59,10 @@ namespace Banchou.Pawn.Part {
             EditorGUILayout.PropertyField(_damage);
             EditorGUILayout.PropertyField(_hitStun);
             EditorGUILayout.PropertyField(_hitPause);
+            EditorGUILayout.PropertyField(_lockOffOnConfirm);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_knockbackMethod);
-            EditorGUILayout.PropertyField(_lockOffOnConfirm);
-            EditorGUILayout.PropertyField(_onHit);
-                
+
             switch ((HurtVolume.ForceMethod) _knockbackMethod.enumValueIndex) {
                 case HurtVolume.ForceMethod.Static:
                     EditorGUILayout.PropertyField(_knockback);

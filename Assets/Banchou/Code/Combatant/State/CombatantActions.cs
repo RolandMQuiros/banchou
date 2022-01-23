@@ -25,6 +25,7 @@ namespace Banchou.Combatant {
             Vector3 contact,
             int attackerPawnId,
             int defenderPawnId,
+            bool blocked,
             Vector3 knockback,
             Vector3 recoil,
             float hitPause,
@@ -44,11 +45,11 @@ namespace Banchou.Combatant {
             }
 
             if (attacker?.Combatant != null && defender?.Combatant != null) {
-                var attackDirection = attacker.Spatial.Position - defender.Spatial.Position;
                 var attack = attacker.Combatant.Attack
-                    .Confirm(
+                    .Connect(
                         defenderPawnId,
                         damage,
+                        blocked,
                         hitPause,
                         contact,
                         recoil,
@@ -63,9 +64,8 @@ namespace Banchou.Combatant {
                     attackerPawnId,
                     attack.AttackId,
                     contact,
-                    defender.Spatial.Forward,
-                    attackDirection,
                     knockback,
+                    blocked,
                     hitPause,
                     hitStun,
                     damage,
@@ -82,7 +82,7 @@ namespace Banchou.Combatant {
             } else {
                 state.GetCombatant(pawnId)?
                     .Defense
-                    .Guard(guardTime, state.GetTime());
+                    .Guard(GuardStyle.Standard, guardTime, state.GetTime());
             }
             return state;
         }

@@ -2,7 +2,7 @@ using Banchou.Combatant;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
-    public class HitConfirmPause : FSMBehaviour {
+    public class HitPause : FSMBehaviour {
         [SerializeField, Tooltip("How fast the animator should run during hit pause"), Range(0.01f, 1f)]
         private float _animatorSpeed = 0.01f;
 

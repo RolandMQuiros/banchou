@@ -15,6 +15,7 @@ namespace Banchou.Combatant {
         int AttackId = 0,
         AttackPhase Phase = AttackPhase.Neutral,
         int TargetId = 0,
+        bool Blocked = false,
         int Damage = 0,
         float PauseTime = 0f,
         Vector3 Contact = new(),
@@ -24,21 +25,23 @@ namespace Banchou.Combatant {
         [field: SerializeField] public int AttackId { get; private set; } = AttackId;
         [field: SerializeField] public AttackPhase Phase { get; private set; } = Phase; 
         [field: SerializeField] public int TargetId { get; private set; } = TargetId;
+        [field: SerializeField] public bool Blocked { get; private set; } = Blocked;
         [field: SerializeField] public int Damage { get; private set; } = Damage;
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
         [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
         [field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
-        public bool IsConfirmed => TargetId != default;
+        public bool Confirmed => TargetId != default && !Blocked;
         
         public float NormalizedPauseTimeAt(float when) => Mathf.Approximately(PauseTime, 0f) ? 1f :
             Mathf.Clamp01((when - LastUpdated) / PauseTime);
 
         public override void Set(AttackState other) {
             AttackId = other.AttackId;
-            TargetId = other.TargetId;
             Phase = other.Phase;
+            TargetId = other.TargetId;
+            Blocked = other.Blocked;
             Damage = other.Damage;
             PauseTime = other.PauseTime;
             Recoil = other.Recoil;
@@ -48,6 +51,7 @@ namespace Banchou.Combatant {
         public AttackState Start(float when) {
             AttackId++;
             Phase = AttackPhase.Starting;
+            Blocked = false;
             TargetId = 0;
             Damage = 0;
             PauseTime = 0f;
@@ -66,6 +70,8 @@ namespace Banchou.Combatant {
         public AttackState Reactivate(float when) {
             if (Phase == AttackPhase.Active) {
                 AttackId++;
+                TargetId = 0;
+                Blocked = false;
                 return Activate(when);
             }
             return this;
@@ -81,12 +87,22 @@ namespace Banchou.Combatant {
 
         public AttackState Finish(float when) {
             Phase = AttackPhase.Neutral;
+            Blocked = false;
             return UpdateTimes(when);
         }
         
-        public AttackState Confirm(int targetId, int damage, float pause, Vector3 contact, Vector3 recoil, float when) {
+        public AttackState Connect(
+            int targetId,
+            int damage,
+            bool blocked,
+            float pause,
+            Vector3 contact,
+            Vector3 recoil,
+            float when
+        ) {
             TargetId = targetId;
             Damage = damage;
+            Blocked = blocked;
             PauseTime = pause;
             Contact = contact;
             Recoil = recoil;

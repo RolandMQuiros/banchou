@@ -7,7 +7,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _multiplier = 1f;
         
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
-            state.ObserveAttackConfirms(getPawnId())
+            state.ObserveConfirmedAttack(getPawnId())
                 .Where(_ => IsStateActive)
                 .CatchIgnoreLog()
                 .Subscribe(attack => { rigidbody.velocity = _multiplier * attack.Recoil; })

@@ -44,7 +44,7 @@ namespace Banchou.Player.Behavior {
 			}
 
 			// If the current step requires a hit confirm, wait until one happens 
-			if (_gestureIndex > 0 && currentStep.RequireConfirm && !_attack.IsConfirmed) {
+			if (_gestureIndex > 0 && currentStep.RequireConfirm && !_attack.Confirmed) {
 				if (now - _lastStepTime <= currentStep.Delay) {
 					return TaskStatus.Running;
 				}

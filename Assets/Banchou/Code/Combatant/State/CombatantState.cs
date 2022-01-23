@@ -50,27 +50,18 @@ namespace Banchou.Combatant {
             int attackerId,
             int attackId,
             Vector3 contact,
-            Vector3 pawnDirection,
-            Vector3 attackDirection,
             Vector3 knockback,
+            bool blocked,
             float hitPause,
             float hitStun,
             int damage,
             float when
         ) {
             if (Defense.IsInvincible) return this;
-
             var guardTime = Defense.GuardTime;
-            if (Defense.GuardTime > 0f && Vector3.Dot(pawnDirection, attackDirection) < 0f) {
-                damage /= 2;
-                knockback /= 2f;
-                guardTime -= damage * 0.1f;
-            } else if (Attack.Phase == AttackPhase.Active) {
-                hitStun *= 2f;
-            }
-            
+
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
-            LastHit.Hit(attackerId, attackId, contact, damage, knockback, hitPause, hitStun, when);
+            LastHit.Hit(attackerId, attackId, contact, blocked, damage, knockback, hitPause, hitStun, when);
             Defense.Set(guardTime: guardTime, when: when);
 
             return Notify(when);

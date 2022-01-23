@@ -81,10 +81,6 @@ namespace Banchou.Pawn.Part {
         private void OnTriggerExit(Collider other) {
             if (other.TryGetComponent<LockOnTarget>(out var target)) {
                 _targets.Remove(target);
-                if (_combatant.LockOnTarget == target.PawnId) {
-                    _combatant.LockOff(_state.GetTime());
-                }
-
             }
         }
 

@@ -67,10 +67,20 @@ namespace Banchou.Combatant {
                 .SelectMany(combatant => combatant.Attack.Observe());
         }
 
-        public static IObservable<AttackState> ObserveAttackConfirms(this GameState state, int pawnId) =>
+        public static IObservable<AttackState> ObserveAttackConnects(this GameState state, int pawnId) =>
             state.ObserveLastAttackChanges(pawnId)
-                .DistinctUntilChanged(attack => attack.IsConfirmed)
-                .Where(attack => attack.IsConfirmed);
+                .DistinctUntilChanged(attack => attack.TargetId)
+                .Where(attack => attack.TargetId != default);
+        
+        public static IObservable<AttackState> ObserveConfirmedAttack(this GameState state, int pawnId) =>
+            state.ObserveAttackConnects(pawnId)
+                .DistinctUntilChanged(attack => attack.Confirmed)
+                .Where(attack => attack.Confirmed);
+
+        public static IObservable<AttackState> ObserveBlockedAttack(this GameState state, int pawnId) =>
+            state.ObserveAttackConnects(pawnId)
+                .DistinctUntilChanged(attack => attack.Blocked)
+                .Where(attack => attack.Blocked);
 
         public static IObservable<int> ObserveLockOn(this GameState state, int pawnId) =>
             state.ObserveCombatantChanges(pawnId)

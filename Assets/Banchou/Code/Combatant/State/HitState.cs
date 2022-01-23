@@ -5,12 +5,13 @@ using UnityEngine;
 namespace Banchou {
     [Serializable, MessagePackObject(true)]
     public record HitState(
-        int AttackerId = 0, int AttackId = 0, Vector3 Contact = new(), int Damage = 0, Vector3 Knockback = new(),
-        float PauseTime = 0f, float StunTime = 0f, float LastUpdated = 0f
+        int AttackerId = 0, int AttackId = 0, Vector3 Contact = new(), bool Blocked = false, int Damage = 0,
+        Vector3 Knockback = new(), float PauseTime = 0f, float StunTime = 0f, float LastUpdated = 0f
     ) : NotifiableWithHistory<HitState>(32) {
         [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
         [field: SerializeField] public int AttackId { get; private set; } = AttackId;
         [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
+        [field: SerializeField] public bool Blocked { get; private set; } = Blocked;
         [field: SerializeField] public int Damage { get; private set; } = Damage;
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
@@ -43,6 +44,7 @@ namespace Banchou {
             int attackerId,
             int attackId,
             Vector3 contact,
+            bool blocked,
             int damage,
             Vector3 knockback,
             float pauseTime,
@@ -52,6 +54,7 @@ namespace Banchou {
             AttackerId = attackerId;
             AttackId = attackId;
             Contact = contact;
+            Blocked = blocked;
             Damage = damage;
             Knockback = knockback;
             PauseTime = pauseTime;

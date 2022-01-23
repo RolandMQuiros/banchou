@@ -82,6 +82,15 @@ namespace Banchou.Pawn.Part {
         private AttackState _attack;
         private Transform _transform;
 
+        public Vector3 GetKnockbackOn(Vector3 to) {
+            switch (KnockbackMethod) {
+                case ForceMethod.Contact:
+                    return KnockbackMagnitude * (to - transform.position).normalized;
+                default:
+                    return Knockback;
+            }
+        }
+
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
             PawnId = getPawnId();
