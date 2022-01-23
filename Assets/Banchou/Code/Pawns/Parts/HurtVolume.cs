@@ -13,6 +13,8 @@ namespace Banchou.Pawn.Part {
         
         public int PawnId { get; private set; }
 
+        public int AttackId { get; private set; }
+
         #region Properties
         [field: SerializeField, Tooltip("Whether or not to hurt friendly Pawns")]
         public bool HurtFriendly { get; private set; } = false;
@@ -104,12 +106,23 @@ namespace Banchou.Pawn.Part {
                 .AddTo(this);
         }
 
-        private void OnEnable() => _attack.Activate(_state.GetTime());
-        private void OnDisable() => _attack.Recover(_state.GetTime());
+        private void OnEnable() {
+            AttackId = _attack.Activate(_state.GetTime()).AttackId;
+        }
+
+        private void OnDisable() {
+            if (AttackId == _attack.AttackId) {
+                _attack.Recover(_state.GetTime());
+            }
+        }
 
         private void FixedUpdate() {
             var now = _state.GetTime();
-            if (_attack.Phase == AttackPhase.Active && now - _attack.LastUpdated > Interval) {
+            if (
+                AttackId == _attack.AttackId &&
+                _attack.Phase == AttackPhase.Active &&
+                now - _attack.LastUpdated > Interval
+            ) {
                 _attack.Reactivate(now);
             }
         }

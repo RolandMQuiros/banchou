@@ -2,12 +2,15 @@ using Banchou.Combatant;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
-    public class HitPause : FSMBehaviour {
-        [SerializeField, Tooltip("How fast the animator should run during hit pause"), Range(0.01f, 1f)]
+    public class AttackConnectPause : FSMBehaviour {
+        [SerializeField, Tooltip("How fast the animator should run during hit pause"), Range(0f, 1f)]
         private float _animatorSpeed = 0.01f;
 
         [SerializeField, Tooltip("Whether or not to cancel momentum on hit confirm")]
-        private bool _cancelMomentum = false;
+        private bool _cancelMomentum;
+
+        [SerializeField, Tooltip("An animator float parameter for the normalized pause time")]
+        private string _outputParameter;
 
         private GameState _state;
         private AttackState _attack;
@@ -15,6 +18,7 @@ namespace Banchou.Pawn.FSM {
         
         private Rigidbody _rigidbody;
         private Vector3? _originalVelocity;
+        private int _outputHash;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator, Rigidbody rigidbody) {
             _state = state;
@@ -22,10 +26,15 @@ namespace Banchou.Pawn.FSM {
             _originalSpeed = animator.speed;
             _rigidbody = rigidbody;
             _originalVelocity = null;
+            _outputHash = Animator.StringToHash(_outputParameter);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             var pauseTime = _attack.NormalizedPauseTimeAt(_state.GetTime());
+            if (_outputHash != default) {
+                animator.SetFloat(_outputHash, pauseTime);
+            }
+            
             if (pauseTime < 1f) {
                 animator.speed = _animatorSpeed;
                 if (_cancelMomentum) {

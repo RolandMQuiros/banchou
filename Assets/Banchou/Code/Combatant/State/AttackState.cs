@@ -19,6 +19,7 @@ namespace Banchou.Combatant {
         int Damage = 0,
         float PauseTime = 0f,
         Vector3 Contact = new(),
+        Vector3 Knockback = new(),
         Vector3 Recoil = new(),
         float LastUpdated = 0f
     ) : NotifiableWithHistory<AttackState>(32) {
@@ -29,6 +30,7 @@ namespace Banchou.Combatant {
         [field: SerializeField] public int Damage { get; private set; } = Damage;
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
         [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
+        [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
         [field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
@@ -44,6 +46,8 @@ namespace Banchou.Combatant {
             Blocked = other.Blocked;
             Damage = other.Damage;
             PauseTime = other.PauseTime;
+            Contact = other.Contact;
+            Knockback = other.Knockback;
             Recoil = other.Recoil;
             LastUpdated = other.LastUpdated;
         }
@@ -55,6 +59,8 @@ namespace Banchou.Combatant {
             TargetId = 0;
             Damage = 0;
             PauseTime = 0f;
+            Contact = Vector3.zero;
+            Knockback = Vector3.zero;
             Recoil = Vector3.zero;
             return UpdateTimes(when);
         }
@@ -97,6 +103,7 @@ namespace Banchou.Combatant {
             bool blocked,
             float pause,
             Vector3 contact,
+            Vector3 knockback,
             Vector3 recoil,
             float when
         ) {
@@ -105,6 +112,7 @@ namespace Banchou.Combatant {
             Blocked = blocked;
             PauseTime = pause;
             Contact = contact;
+            Knockback = knockback;
             Recoil = recoil;
             return UpdateTimes(when);
         }

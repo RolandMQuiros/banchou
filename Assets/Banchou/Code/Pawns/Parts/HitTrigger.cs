@@ -6,6 +6,7 @@ using UniRx.Triggers;
 namespace Banchou.Pawn.Part {
     public class HitTrigger : MonoBehaviour {
         [SerializeField] private bool _isBlocking;
+        [SerializeField] private bool _isCounterable;
         
         [Header("Front Damage Scales")]
         [SerializeField] private float _frontDamageScale = 1f;
@@ -62,12 +63,15 @@ namespace Banchou.Pawn.Part {
                     var position = transform.position;
                     var knockback = hurtVolume.GetKnockbackOn(position);
                     var isFrontAttack = Vector3.Dot(_spatial.Forward, hurtVolume.transform.position - position) > 0f;
+                    var blocked = _isBlocking && isFrontAttack;
 
                     _state.HitCombatant(
                         other.ClosestPoint(position),
+                        hurtVolume.AttackId,
                         hurtVolume.PawnId,
                         _pawnId,
-                        _isBlocking && isFrontAttack,
+                        blocked,
+                        !blocked && _isCounterable,
                         knockback * (isFrontAttack ? _frontKnockbackScale : _rearKnockbackScale),
                         hurtVolume.Recoil * (isFrontAttack ? _frontRecoilScale : _rearRecoilScale),
                         hurtVolume.HitPause * (isFrontAttack ? _frontHitPauseScale : _rearHitPauseScale),

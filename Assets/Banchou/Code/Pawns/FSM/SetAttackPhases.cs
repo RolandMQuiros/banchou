@@ -5,6 +5,8 @@ namespace Banchou.Pawn.FSM {
     public class SetAttackPhases : FSMBehaviour {
         private GameState _state;
         private AttackState _attackState;
+
+        private int _attackId;
         
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
@@ -12,11 +14,13 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _attackState.Start(_state.GetTime());
+            _attackId = _attackState.Start(_state.GetTime()).AttackId;
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _attackState.Finish(_state.GetTime());
+            if (_attackId == _attackState.AttackId) {
+                _attackState.Finish(_state.GetTime());
+            }
         }
     }
 }

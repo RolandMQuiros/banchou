@@ -14473,6 +14473,348 @@ AnimationClip:
     path: 
     classID: 95
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtHostile>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtFriendly>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtHostile>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtFriendly>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitStun>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMethod>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMagnitude>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Damage>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMethod>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMagnitude>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitStun>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.083333336
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitPause>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Interval>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Interval>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Damage>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitPause>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
@@ -14481,6 +14823,62 @@ AnimationClip:
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
     genericBindings:
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 2086281974
+      script: {fileID: 0}
+      typeID: 1
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 2170649794
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 49939828
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 2086281974
+      script: {fileID: 0}
+      typeID: 1
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 2170649794
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 49939828
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 2257604827
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 2257604827
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
     - serializedVersion: 2
       path: 0
       attribute: 7
@@ -15439,6 +15837,76 @@ AnimationClip:
       script: {fileID: 0}
       typeID: 95
       customType: 8
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 1492364636
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 4039393027
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 1497407835
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 4039393027
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 1492364636
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 4168074603
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 2841308780
+      attribute: 4161035251
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 4161035251
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 1497407835
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+    - serializedVersion: 2
+      path: 810794966
+      attribute: 4168074603
+      script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+      typeID: 114
+      customType: 0
       isPPtrCurve: 0
     pptrCurveMapping: []
   m_AnimationClipSettings:
@@ -29918,6 +30386,348 @@ AnimationClip:
     path: 
     classID: 95
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtHostile>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtFriendly>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 1
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtHostile>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HurtFriendly>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitStun>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMethod>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMagnitude>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Damage>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 103
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMethod>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 5
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <KnockbackMagnitude>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.25
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitStun>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.083333336
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitPause>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Interval>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 1
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Interval>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <Damage>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 136
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: <HitPause>k__BackingField
+    path: Secondary/Hurt Volumes/Hurt Capsule 2
+    classID: 114
+    script: {fileID: 11500000, guid: 81b2f1b0124947042b757921b244406c, type: 3}
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 1

@@ -75,6 +75,11 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.Unblock;
                     }
                 } break;
+                case "DebugBreak": {
+                    if (callbackContext.performed) {
+                        Debug.Break();
+                    }
+                } break;
             }
         }
 

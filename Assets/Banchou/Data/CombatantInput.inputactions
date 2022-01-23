@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DebugBreak",
+                    "type": "Button",
+                    "id": "a1b7afe2-d64c-46e0-9fc6-bf9cfdea227b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -428,6 +437,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76173595-62ba-489b-832e-bb7472fd9cf5",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DebugBreak",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
