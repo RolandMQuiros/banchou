@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class ResetTriggers : FSMBehaviour {
-        [Flags] private enum ApplyEvent { OnEnter, AtStateTime, AtTime, OnExit }
+        [Flags] private enum ApplyEvent { OnEnter = 1, AtStateTime = 2, AtTime = 4, OnExit = 8 }
 
         [SerializeField, Tooltip("When to reset the triggers")]
         private ApplyEvent _onEvent;

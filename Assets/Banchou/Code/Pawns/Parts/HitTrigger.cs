@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
@@ -27,6 +29,8 @@ namespace Banchou.Pawn.Part {
         private PawnSpatial _spatial;
         private HitState _hitState;
 
+        private readonly HashSet<HurtVolume> _collidedVolumes = new();
+
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody body) {
             _state = state;
             _pawnId = getPawnId();
@@ -51,8 +55,7 @@ namespace Banchou.Pawn.Part {
 
         private void OnVolumeEnter(Collider other) {
             if (other.TryGetComponent<HurtVolume>(out var hurtVolume)) {
-                var alreadyHit = _hitState.AttackerId == hurtVolume.PawnId &&
-                                 hurtVolume.AttackId == _hitState.AttackId;
+                var alreadyHit = _collidedVolumes.Contains(hurtVolume);
                 var canHurt = hurtVolume.PawnId != _pawnId && !alreadyHit &&
                               (hurtVolume.HurtHostile && _state.AreHostile(hurtVolume.PawnId, _pawnId) ||
                                hurtVolume.HurtFriendly && !_state.AreHostile(hurtVolume.PawnId, _pawnId));
@@ -77,8 +80,19 @@ namespace Banchou.Pawn.Part {
                         Mathf.RoundToInt(hurtVolume.Damage * (isFrontAttack ? _frontDamageScale : _rearDamageScale)),
                         hurtVolume.LockOffOnConfirm
                     );
+                    StartCoroutine(RunInterval(hurtVolume));
                 }
             }
+        }
+
+        private IEnumerator RunInterval(HurtVolume hurtVolume) {
+            var time = 0f;
+            _collidedVolumes.Add(hurtVolume);
+            while (hurtVolume.isActiveAndEnabled && time < hurtVolume.Interval + hurtVolume.HitPause) {
+                time += _state.GetDeltaTime();
+                yield return null;
+            }
+            _collidedVolumes.Remove(hurtVolume);
         }
     }
 }

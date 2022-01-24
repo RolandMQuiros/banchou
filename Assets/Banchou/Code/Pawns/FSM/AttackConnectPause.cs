@@ -3,10 +3,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class AttackConnectPause : FSMBehaviour {
-        [SerializeField, Tooltip("How fast the animator should run during hit pause"), Range(0f, 1f)]
-        private float _animatorSpeed = 0f;
-        
-        [SerializeField, Tooltip("Whether or not to stop the rigidbody's movement during the pause")]
+        [SerializeField, Tooltip("Whether or not to stop the rigid body's movement during the pause")]
         private bool _freezeOnHit = true;
 
         [SerializeField, Tooltip("Whether or not to restore momentum after freezing")]
@@ -17,40 +14,40 @@ namespace Banchou.Pawn.FSM {
         private float _originalSpeed;
         
         private Rigidbody _rigidbody;
-        private Vector3? _originalVelocity;
+        private RigidbodyConstraints _originalConstraints;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator, Rigidbody rigidbody) {
             _state = state;
             _attack = _state.GetCombatantAttack(getPawnId());
             _originalSpeed = animator.speed;
             _rigidbody = rigidbody;
-            _originalVelocity = null;
+        }
+
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _originalConstraints = _rigidbody.constraints;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             var pauseTime = _attack.NormalizedPauseTimeAt(_state.GetTime());
             
             if (pauseTime < 1f) {
-                animator.speed = _animatorSpeed;
+                animator.speed = 0f;
                 if (_freezeOnHit) {
-                    if (_preserveMomentum) {
-                        _originalVelocity ??= _rigidbody.velocity;
+                    if (!_preserveMomentum) {
+                        _rigidbody.velocity = Vector3.zero;
                     }
-
-                    _rigidbody.velocity = Vector3.zero;
+                    // This is messing up on weird transitions
+                    _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
                 }
             } else {
                 animator.speed = _originalSpeed;
-                if (_preserveMomentum && _originalVelocity != null) {
-                    _rigidbody.velocity = _originalVelocity.Value;
-                    _originalVelocity = null;
-                }
+                _rigidbody.constraints = _originalConstraints;
             }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             animator.speed = _originalSpeed;
-            _originalVelocity = null;
+            _rigidbody.constraints = _originalConstraints;
         }
     }
 }

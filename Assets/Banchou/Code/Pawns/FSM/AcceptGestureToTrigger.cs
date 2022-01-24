@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
 
@@ -22,6 +23,12 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
         private PlayerCommandGesture _overrideGesture = null;
+
+        [SerializeField, Tooltip("If enabled, gesture is only accepted when attack is confirmed")]
+        private bool _requireAttackConfirm;
+
+        [SerializeField, Tooltip("If enabled, gesture is only accepted when attack is blocked")]
+        private bool _requireAttackBlock;
 
         [SerializeField,
          Tooltip("Whether or not the following times are expressed in normalized state time or in seconds")]
@@ -119,6 +126,9 @@ namespace Banchou.Pawn.FSM {
             observeGestures
                 .Sample(gestureInput)
                 .Where(stateTime => stateTime >= _acceptFromTime && stateTime < _acceptUntilTime)
+                .WithLatestFrom(state.ObserveLastAttack(getPawnId()), (_, attack) => attack)
+                .Where(attack => !_requireAttackBlock || _requireAttackBlock && attack.Blocked ||
+                                 !_requireAttackConfirm || _requireAttackConfirm && attack.Confirmed)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
                     foreach (var hash in outputHashes) {

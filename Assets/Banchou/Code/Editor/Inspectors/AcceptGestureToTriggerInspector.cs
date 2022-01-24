@@ -7,6 +7,8 @@ namespace Banchou.Pawn.FSM {
         private SerializedProperty _inputSequence;
         private SerializedProperty _inputLifetime;
         private SerializedProperty _overrideGesture;
+        private SerializedProperty _requireAttackConfirm;
+        private SerializedProperty _requireAttackBlock;
         private SerializedProperty _inNormalizedTime;
         private SerializedProperty _acceptFromTime;
         private SerializedProperty _acceptUntilTime;
@@ -20,6 +22,8 @@ namespace Banchou.Pawn.FSM {
             _inputSequence = serializedObject.FindProperty("_inputSequence");
             _inputLifetime = serializedObject.FindProperty("_inputLifetime");
             _overrideGesture = serializedObject.FindProperty("_overrideGesture");
+            _requireAttackConfirm = serializedObject.FindProperty("_requireAttackConfirm");
+            _requireAttackBlock = serializedObject.FindProperty("_requireAttackBlock");
             _inNormalizedTime = serializedObject.FindProperty("_inNormalizedTime");
             _acceptFromTime = serializedObject.FindProperty("_acceptFromTime");
             _acceptUntilTime = serializedObject.FindProperty("_acceptUntilTime");
@@ -35,6 +39,8 @@ namespace Banchou.Pawn.FSM {
             EditorGUILayout.PropertyField(_inputSequence);
             EditorGUILayout.PropertyField(_inputLifetime);
             EditorGUILayout.PropertyField(_overrideGesture);
+            EditorGUILayout.PropertyField(_requireAttackConfirm);
+            EditorGUILayout.PropertyField(_requireAttackBlock);
             EditorGUILayout.PropertyField(_inNormalizedTime);
             
             var fromTime = _acceptFromTime.floatValue;
