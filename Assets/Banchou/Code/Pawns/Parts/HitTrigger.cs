@@ -51,10 +51,8 @@ namespace Banchou.Pawn.Part {
 
         private void OnVolumeEnter(Collider other) {
             if (other.TryGetComponent<HurtVolume>(out var hurtVolume)) {
-                var attack = _state.GetCombatantAttack(hurtVolume.PawnId);
-                
                 var alreadyHit = _hitState.AttackerId == hurtVolume.PawnId &&
-                                 attack.AttackId == _hitState.AttackId;
+                                 hurtVolume.AttackId == _hitState.AttackId;
                 var canHurt = hurtVolume.PawnId != _pawnId && !alreadyHit &&
                               (hurtVolume.HurtHostile && _state.AreHostile(hurtVolume.PawnId, _pawnId) ||
                                hurtVolume.HurtFriendly && !_state.AreHostile(hurtVolume.PawnId, _pawnId));

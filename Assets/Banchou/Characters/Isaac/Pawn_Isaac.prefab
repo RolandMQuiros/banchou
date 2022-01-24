@@ -31930,18 +31930,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4434368247187760200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3228855687545875518}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a210998b8e61b4f80c60cfcad5d8da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4214282217130293864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31966,6 +31954,18 @@ MonoBehaviour:
   _rearRecoilScale: 0
   _rearHitPauseScale: 1
   _rearHitStunScale: 1
+--- !u!114 &4434368247187760200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228855687545875518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a210998b8e61b4f80c60cfcad5d8da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5010985260625754284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32478,6 +32478,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19817580, guid: 56c3274d2f9ec214ab584a80b5ce2d6d, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19844590, guid: 56c3274d2f9ec214ab584a80b5ce2d6d, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 32
+      objectReference: {fileID: 0}
     - target: {fileID: 19918392, guid: 56c3274d2f9ec214ab584a80b5ce2d6d, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -32501,6 +32509,10 @@ PrefabInstance:
     - target: {fileID: 3396532085175933702, guid: 56c3274d2f9ec214ab584a80b5ce2d6d, type: 3}
       propertyPath: cullingMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3396532085175933702, guid: 56c3274d2f9ec214ab584a80b5ce2d6d, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3396532085175933702, guid: 56c3274d2f9ec214ab584a80b5ce2d6d, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.atime1

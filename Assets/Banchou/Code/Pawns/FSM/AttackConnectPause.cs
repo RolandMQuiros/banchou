@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Banchou.Pawn.FSM {
     public class AttackConnectPause : FSMBehaviour {
         [SerializeField, Tooltip("How fast the animator should run during hit pause"), Range(0f, 1f)]
-        private float _animatorSpeed = 0.01f;
+        private float _animatorSpeed = 0f;
+        
+        [SerializeField, Tooltip("Whether or not to stop the rigidbody's movement during the pause")]
+        private bool _freezeOnHit = true;
 
-        [SerializeField, Tooltip("Whether or not to cancel momentum on hit confirm")]
-        private bool _cancelMomentum;
-
-        [SerializeField, Tooltip("An animator float parameter for the normalized pause time")]
-        private string _outputParameter;
+        [SerializeField, Tooltip("Whether or not to restore momentum after freezing")]
+        private bool _preserveMomentum = true;
 
         private GameState _state;
         private AttackState _attack;
@@ -18,7 +18,6 @@ namespace Banchou.Pawn.FSM {
         
         private Rigidbody _rigidbody;
         private Vector3? _originalVelocity;
-        private int _outputHash;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator, Rigidbody rigidbody) {
             _state = state;
@@ -26,24 +25,23 @@ namespace Banchou.Pawn.FSM {
             _originalSpeed = animator.speed;
             _rigidbody = rigidbody;
             _originalVelocity = null;
-            _outputHash = Animator.StringToHash(_outputParameter);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             var pauseTime = _attack.NormalizedPauseTimeAt(_state.GetTime());
-            if (_outputHash != default) {
-                animator.SetFloat(_outputHash, pauseTime);
-            }
             
             if (pauseTime < 1f) {
                 animator.speed = _animatorSpeed;
-                if (_cancelMomentum) {
-                    _originalVelocity ??= _rigidbody.velocity;
+                if (_freezeOnHit) {
+                    if (_preserveMomentum) {
+                        _originalVelocity ??= _rigidbody.velocity;
+                    }
+
                     _rigidbody.velocity = Vector3.zero;
                 }
             } else {
                 animator.speed = _originalSpeed;
-                if (_originalVelocity != null) {
+                if (_preserveMomentum && _originalVelocity != null) {
                     _rigidbody.velocity = _originalVelocity.Value;
                     _originalVelocity = null;
                 }
