@@ -4,19 +4,17 @@ using UnityEngine;
 namespace Banchou.Combatant {
     [MessagePackObject]
     public record DefensiveState(
-        bool IsInvincible = false,
+        float InvincibilityTime = 0f,
         GuardStyle GuardStyle = GuardStyle.None,
-        float GuardTime = 0f,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<DefensiveState>(32) {
-        [field: SerializeField] public bool IsInvincible { get; private set; } = IsInvincible;
+        [field: SerializeField] public float InvincibilityTime { get; private set; } = InvincibilityTime;
         [field: SerializeField] public GuardStyle GuardStyle { get; private set; } = GuardStyle;
-        [field: SerializeField] public float GuardTime { get; private set; } = GuardTime;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
-        
+
+        public float InvincibilityTimeAt(float when) => InvincibilityTime - when - LastUpdated;
         public override void Set(DefensiveState other) {
-            IsInvincible = other.IsInvincible;
-            GuardTime = other.GuardTime;
+            InvincibilityTime = other.InvincibilityTime;
             LastUpdated = other.LastUpdated;
         }
 
@@ -27,25 +25,25 @@ namespace Banchou.Combatant {
             float? guardTime = null
         ) {
             LastUpdated = when;
-            IsInvincible = isInvincible ?? IsInvincible;
             GuardStyle = guardStyle ?? GuardStyle;
-            GuardTime = guardTime ?? GuardTime;
             return UpdateTimers(when);
         }
 
-        public DefensiveState SetInvincibility(bool isInvincible, float when) {
-            IsInvincible = isInvincible;
+        public DefensiveState SetInvincibility(float time, float when) {
+            InvincibilityTime = time;
             return UpdateTimers(when);
         }
 
-        public DefensiveState Guard(GuardStyle style, float guardTime, float when) {
-            GuardTime = guardTime;
+        public DefensiveState Guard(GuardStyle style, float when) {
+            GuardStyle = style;
             return UpdateTimers(when);
         }
+        
+        public DefensiveState Set
 
         private DefensiveState UpdateTimers(float when) {
             var diff = when - LastUpdated;
-            GuardTime = Mathf.Min(0, GuardTime - diff);
+            InvincibilityTime = when - LastUpdated;
             LastUpdated = when;
             return Notify(when);
         }
