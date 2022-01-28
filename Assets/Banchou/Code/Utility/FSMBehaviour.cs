@@ -8,10 +8,12 @@ using System.Collections;
 
 namespace Banchou {
     public class FSMBehaviour : StateMachineBehaviour, ICollection<IDisposable> {
+        [SerializeField, DevComment] private string _comments;
+        
         public bool IsStateActive => _activeStates.Count > 0;
 
-        private List<IDisposable> _streams = new List<IDisposable>();
-        protected ICollection<IDisposable> Streams { get => _streams; }
+        private readonly List<IDisposable> _streams = new();
+        protected ICollection<IDisposable> Streams => _streams;
 
         protected struct FSMUnit {
             public AnimatorStateInfo StateInfo;
@@ -19,10 +21,10 @@ namespace Banchou {
             public AnimatorControllerPlayable Playable;
         }
 
-        protected Subject<FSMUnit> ObserveStateEnter = new Subject<FSMUnit>();
-        protected Subject<FSMUnit> ObserveStateUpdate = new Subject<FSMUnit>();
-        protected Subject<FSMUnit> ObserveStateExit = new Subject<FSMUnit>();
-        private HashSet<int> _activeStates = new HashSet<int>();
+        protected readonly Subject<FSMUnit> ObserveStateEnter = new();
+        protected readonly Subject<FSMUnit> ObserveStateUpdate = new();
+        protected readonly Subject<FSMUnit> ObserveStateExit = new();
+        private readonly HashSet<int> _activeStates = new();
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
             _activeStates.Add(stateInfo.fullPathHash);
@@ -34,12 +36,12 @@ namespace Banchou {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
-            _activeStates.Remove(stateInfo.fullPathHash);
             ObserveStateExit.OnNext(new FSMUnit {
                 StateInfo = stateInfo,
                 LayerIndex = layerIndex,
                 Playable = playable
             });
+            _activeStates.Remove(stateInfo.fullPathHash);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {

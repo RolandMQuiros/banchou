@@ -13,5 +13,9 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             if (_onEvent.HasFlag(ApplyEvent.OnExit)) Debug.Break();
         }
+
+        public void Break() {
+            Debug.Break();
+        }
     }
 }

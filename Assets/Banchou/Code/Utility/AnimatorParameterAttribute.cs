@@ -1,3 +1,3 @@
 using UnityEngine;
 
-public class AnimatorParameterAttribute : PropertyAttribute { }
+public class AnimatorParameterAttribute : PropertyAttribute {  }

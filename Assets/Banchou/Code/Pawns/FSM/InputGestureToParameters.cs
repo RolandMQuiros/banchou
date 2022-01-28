@@ -1,9 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
-
 using Banchou.Player;
 
 namespace Banchou.Pawn.FSM {
@@ -14,7 +13,7 @@ namespace Banchou.Pawn.FSM {
 
         but also AIs inputting commands kinda rules.
     */
-    public class AcceptGestureToTrigger : FSMBehaviour {
+    public class InputGestureToParameters : FSMBehaviour {
         [SerializeField, Tooltip("Sequence of inputs needed to fire the trigger")]
         private InputCommand[] _inputSequence = null;
         
@@ -22,39 +21,30 @@ namespace Banchou.Pawn.FSM {
         public float _inputLifetime = 0.1666667f; // Approximately 10 frames
         
         [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
-        private PlayerCommandGesture _overrideGesture = null;
+        private PlayerCommandGesture _overrideGesture;
 
-        [SerializeField, Tooltip("If enabled, gesture is only accepted when attack is confirmed")]
-        private bool _requireAttackConfirm;
-
-        [SerializeField, Tooltip("If enabled, gesture is only accepted when attack is blocked")]
-        private bool _requireAttackBlock;
+        [SerializeField, Tooltip("Animator conditions that must be filled before a gesture can be accepted")]
+        private FSMParameterCondition[] _conditions;
 
         [SerializeField,
          Tooltip("Whether or not the following times are expressed in normalized state time or in seconds")]
         private bool _inNormalizedTime = true;
         
         [SerializeField, Tooltip("The time after which the command is accepted")]
-        private float _acceptFromTime = 0f;
+        private float _acceptFromTime;
 
         [SerializeField, Tooltip("The time after which the command is no longer accepted")]
         private float _acceptUntilTime = 1f;
 
-        [SerializeField, Tooltip("Reset the output triggers on state entry")]
-        private bool _resetOnEnter = true;
-        
-        [SerializeField, Tooltip("Reset the output triggers on state exit")]
-        private bool _resetOnExit = true;
-
-        [SerializeField, Tooltip("The name of the output trigger parameters to set if the gesture was input correctly")]
-        private string[] _outputParameters = null;
+        [SerializeField, Tooltip("The the output parameters to set if the gesture was input correctly")]
+        private List<ApplyFSMParameter> _output;
         
         [SerializeField, Tooltip("Pause the editor if the gesture is input")]
         private bool _breakOnGesture;
         
         [SerializeField, Tooltip("Pause the editor if the gesture is accepted")]
         private bool _breakOnAccept;
-        
+
         public void Construct(
             GameState state,
             GetPawnId getPawnId,
@@ -67,9 +57,7 @@ namespace Banchou.Pawn.FSM {
             
             if (_inputSequence.Length == 0) return;
 
-            var outputHashes = _outputParameters.Select(Animator.StringToHash);
             var commandMask = _inputSequence.Aggregate((prev, next) => prev | next);
-
             var gestureInput = state.ObservePawnInputCommands(getPawnId())
                 .Where(unit => IsStateActive && (unit.Command & commandMask) != InputCommand.None)
                 .StartWith((Command: InputCommand.Neutral, When: state.GetTime()))
@@ -97,15 +85,9 @@ namespace Banchou.Pawn.FSM {
             
             // Reset the trigger and entry timestamp
             var enterTime = 0f;
-            ObserveStateEnter.Where(_ => _resetOnEnter)
-                .Merge(ObserveStateExit.Where(_ => _resetOnExit))
+            ObserveStateEnter
                 .CatchIgnoreLog()
-                .Subscribe(_ => {
-                    enterTime = state.GetTime();
-                    foreach (var hash in outputHashes) {
-                        animator.ResetTrigger(hash);
-                    }
-                })
+                .Subscribe(_ => { enterTime = state.GetTime(); })
                 .AddTo(this);
             
             // Check which timescale we're using
@@ -125,19 +107,14 @@ namespace Banchou.Pawn.FSM {
             
             observeGestures
                 .Sample(gestureInput)
-                .Where(stateTime => stateTime >= _acceptFromTime && stateTime < _acceptUntilTime)
-                .WithLatestFrom(state.ObserveLastAttack(getPawnId()), (_, attack) => attack)
-                .Where(attack => !_requireAttackBlock || _requireAttackBlock && attack.Blocked ||
-                                 !_requireAttackConfirm || _requireAttackConfirm && attack.Confirmed)
+                .Where(stateTime => stateTime >= _acceptFromTime && stateTime < _acceptUntilTime &&
+                                    _conditions.All(condition => condition.Evaluate(animator)))
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    foreach (var hash in outputHashes) {
-                        animator.SetTrigger(hash);
-                    }
-
                     if (_breakOnAccept) {
                         Debug.Break();
                     }
+                    _output.ForEach(parameter => parameter.Apply(animator));
                 })
                 .AddTo(this);
         }

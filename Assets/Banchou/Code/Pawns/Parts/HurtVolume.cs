@@ -1,6 +1,6 @@
-using System;
 using Banchou.Combatant;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -104,16 +104,20 @@ namespace Banchou.Pawn.Part {
                 .CatchIgnoreLog()
                 .Subscribe(_ => { _onHit.Invoke(); })
                 .AddTo(this);
-        }
 
-        private void OnEnable() {
-            AttackId = _attack.Activate(_state.GetTime()).AttackId;
-        }
+            this.OnEnableAsObservable()
+                .Subscribe(_ => {
+                    AttackId = _attack.Activate(_state.GetTime()).AttackId;
+                })
+                .AddTo(this);
 
-        private void OnDisable() {
-            if (AttackId == _attack.AttackId) {
-                _attack.Recover(_state.GetTime());
-            }
+            this.OnDisableAsObservable()
+                .Subscribe(_ => {
+                    if (AttackId == _attack.AttackId) {
+                        _attack.Recover(_state.GetTime());
+                    }
+                })
+                .AddTo(this);
         }
 
         private void FixedUpdate() {

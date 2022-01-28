@@ -46,7 +46,7 @@ namespace Banchou.Combatant {
                 Debug.LogError($"No Pawn {defenderPawnId} found for combatant");
             }
 
-            if (attacker?.Combatant != null && defender?.Combatant != null) {
+            if (attacker?.Combatant != null && defender?.Combatant?.Defense?.IsInvincible == false) {
                 attacker.Combatant.Attack.Connect(
                     defenderPawnId,
                     damage,
@@ -84,7 +84,7 @@ namespace Banchou.Combatant {
             } else {
                 state.GetCombatant(pawnId)?
                     .Defense
-                    .Guard(GuardStyle.Standard, guardTime, state.GetTime());
+                    .Guard(GuardStyle.Standard, state.GetTime());
             }
             return state;
         }

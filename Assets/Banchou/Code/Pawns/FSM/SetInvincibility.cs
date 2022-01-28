@@ -1,22 +1,24 @@
+using System;
 using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
 
 namespace Banchou.Pawn.FSM {
     public class SetInvincibility : FSMBehaviour {
-        private enum RelativeTime {
-            NormalizedStunTime,
-            NormalizedTime
-        };
+        [Flags] private enum ApplyEvent { OnEnter = 1, AtTime = 2, OnExit = 4 }
+        private enum ApplyMode { Set, Unset, Toggle }
 
-        [SerializeField] private RelativeTime _relativeTo = RelativeTime.NormalizedStunTime;
-        [SerializeField, Range(0, 1f)] private float _from = 0f;
-        [SerializeField, Range(0, 1f)] private float _until = 0f;
+
+        [SerializeField] private ApplyEvent _onEvent;
+        [SerializeField] private ApplyMode _applyMode;
+        [SerializeField, Min(0f)] private float _atTime;
 
         private GameState _state;
         private CombatantState _combatant;
+        private bool _applied;
+        private float _stateTime;
 
-        public void Construct(GameState state, GetPawnId getPawnId) {
+        public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _state = state;
             _state.ObserveCombatant(getPawnId())
                 .CatchIgnoreLog()
@@ -24,22 +26,47 @@ namespace Banchou.Pawn.FSM {
                 .AddTo(this);
         }
 
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            float time = 0f;
-            switch (_relativeTo) {
-                case RelativeTime.NormalizedTime:
-                    time = stateInfo.normalizedTime % 1f;
+        private void Apply() {
+            bool value = false;
+            switch (_applyMode) {
+                case ApplyMode.Set:
+                    value = true;
                     break;
-                case RelativeTime.NormalizedStunTime:
-                    time = _combatant.LastHit.NormalizedStunTimeAt(_state.GetTime());
+                case ApplyMode.Unset:
+                    value = false;
+                    break;
+                case ApplyMode.Toggle:
+                    value = !_combatant.Defense.IsInvincible;
                     break;
             }
+            _combatant.Defense.SetInvincibility(value, _state.GetTime());
+        }
+        
 
-            if (!_combatant.Defense.IsInvincible && time > _from && time < _until) {
-                _combatant.Defense.SetInvincibility(true, _state.GetTime());
-            } else if (_combatant.Defense.IsInvincible) {
-                _combatant.Defense.SetInvincibility(false, _state.GetTime());
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) {
+                Apply();
             }
+            _applied = false;
+            _stateTime = 0f;
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (_onEvent.HasFlag(ApplyEvent.AtTime)) {
+                _stateTime += _state.GetDeltaTime();
+                if (!_applied && _stateTime >= _atTime) {
+                    Apply();
+                    _applied = true;
+                }
+            }
+        }
+        
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            if (_onEvent.HasFlag(ApplyEvent.OnExit)) {
+                Apply();
+            }
+            _applied = false;
+            _stateTime = 0f;
         }
     }
 }
