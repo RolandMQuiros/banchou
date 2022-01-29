@@ -53,23 +53,18 @@ public class DevCommentDrawer : PropertyDrawer {
             EditorGUI.LabelField(headerRect, label, EmptyLabelStyle);
         }
 
-        var bodyRect = new Rect(headerRect) {
-            height = position.height - headerRect.height 
-        };
-        
+        var outerRect = new Rect(headerRect) { height = position.height - headerRect.height };
+        var innerRect = new Rect(outerRect) { width = outerRect.width - 32f };
         if (_isEditing) {
             EditorGUI.BeginChangeCheck();
-            EditorGUI.DrawRect(bodyRect, EditBgColor);
-            var commentBody = EditorGUI.TextArea(bodyRect, property.stringValue, BodyStyle);
+            EditorGUI.DrawRect(outerRect, EditBgColor);
+            var commentBody = EditorGUI.TextArea(innerRect, property.stringValue, BodyStyle);
             if (EditorGUI.EndChangeCheck()) {
                 property.stringValue = commentBody.Trim();
             }
         } else {
-            var innerRect = new Rect(bodyRect) {
-                width = bodyRect.width - 32f,
-                height = _contentHeight
-            };
-            _scroll = GUI.BeginScrollView(bodyRect, _scroll, innerRect, false, false);
+            innerRect.height = _contentHeight;
+            _scroll = GUI.BeginScrollView(outerRect, _scroll, innerRect, false, false);
             EditorGUI.SelectableLabel(innerRect, property.stringValue, BodyStyle);
             GUI.EndScrollView();
         }

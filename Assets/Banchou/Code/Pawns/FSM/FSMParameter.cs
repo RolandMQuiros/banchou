@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
@@ -7,16 +8,18 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private string _name;
         [SerializeField] private int _hash;
         [SerializeField] private AnimatorControllerParameterType _type;
-        [SerializeField] private bool _filterByType;
+        [SerializeField, UsedImplicitly] private bool _filterByType;
 
         public string Name => _name;
         public int Hash => _hash;
         public AnimatorControllerParameterType Type => _type;
         public bool IsSet => _hash != default;
         
-        public FSMParameter(AnimatorControllerParameterType type, bool filterByType = false) {
+        public FSMParameter() { }
+        
+        public FSMParameter(AnimatorControllerParameterType type) {
             _type = type;
-            _filterByType = filterByType;
+            _filterByType = true;
         }
     }
 
@@ -28,6 +31,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] public float _threshold;
 
         public bool Evaluate(Animator animator) {
+            if (!_parameter.IsSet) return true;
             switch (_parameter.Type) {
                 case AnimatorControllerParameterType.Bool:
                     return EvaluateBool(animator);

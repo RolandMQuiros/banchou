@@ -4,15 +4,14 @@ using UniRx;
 
 namespace Banchou.Pawn.FSM {
     public class InvincibilityToBool : FSMBehaviour {
-        [SerializeField] private string _outputParameter;
+        [SerializeField] private FSMParameter _output = new(AnimatorControllerParameterType.Bool);
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
-            var hash = Animator.StringToHash(_outputParameter);
-            if (hash != default) {
+            if (_output.IsSet) {
                 state.ObserveDefense(getPawnId())
                     .DistinctUntilChanged(defense => defense.IsInvincible)
                     .CatchIgnoreLog()
-                    .Subscribe(defense => { animator.SetBool(hash, defense.IsInvincible); })
+                    .Subscribe(defense => { animator.SetBool(_output.Hash, defense.IsInvincible); })
                     .AddTo(this);
             }
         }

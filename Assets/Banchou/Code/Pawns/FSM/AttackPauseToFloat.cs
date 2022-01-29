@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class AttackPauseToFloat : FSMBehaviour {
-        [SerializeField] private FSMParameter _output = new(AnimatorControllerParameterType.Float, true);
+        [SerializeField] private FSMParameter _output = new(AnimatorControllerParameterType.Float);
         private GameState _state;
         private AttackState _attack;
 

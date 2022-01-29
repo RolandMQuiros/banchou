@@ -5,15 +5,15 @@ using Banchou.Combatant;
 
 namespace Banchou.Pawn.FSM {
     public class LockedOnToBool : FSMBehaviour {
-        [SerializeField] private string _outputParameter;
+        [SerializeField] private FSMParameter _output = new(AnimatorControllerParameterType.Bool);
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
-            var hash = Animator.StringToHash(_outputParameter);
-            
-            state.ObserveCombatantChanges(getPawnId())
-                .Where(_ => IsStateActive)
-                .Subscribe(combatant => animator.SetBool(hash, combatant.LockOnTarget != default))
-                .AddTo(this);
+            if (_output.IsSet) {
+                state.ObserveCombatantChanges(getPawnId())
+                    .Where(_ => IsStateActive)
+                    .Subscribe(combatant => animator.SetBool(_output.Hash, combatant.LockOnTarget != default))
+                    .AddTo(this);
+            }
         }
     }
 }
