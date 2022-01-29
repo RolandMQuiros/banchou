@@ -11,68 +11,69 @@ public class DevCommentDrawer : PropertyDrawer {
         stretchHeight = true,
         wordWrap = true
     };
+    private static readonly GUIStyle EmptyLabelStyle = new(GUI.skin.label) {
+        alignment = TextAnchor.UpperRight
+    };
     private static readonly Color EditBgColor = new(0.95f, 0.95f, 0.95f);
-    private static readonly float MaxContentHeight = EditorGUIUtility.singleLineHeight * 4f + 
-                                                     EditorGUIUtility.standardVerticalSpacing * 4f;
-
-    private bool _isExpanded = true;
+    private static readonly float MaxContentHeight = EditorGUIUtility.singleLineHeight * 5f + 
+                                                     EditorGUIUtility.standardVerticalSpacing * 5f;
     private bool _isEditing;
     private Vector2 _scroll;
+    private float _contentHeight;
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
+        if (_isEditing) {
+            return MaxContentHeight;
+        }
+        return Mathf.Min(MaxContentHeight, _contentHeight + EditorGUIUtility.singleLineHeight);
+    }
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         EditorGUI.BeginProperty(position, label, property);
         
         var hasComment = !string.IsNullOrEmpty(property.stringValue);
-        var headerRect = new Rect(position) {
-            width = position.width - 64f,
-            height = EditorGUIUtility.singleLineHeight
-        };
-
-        if (hasComment && !_isEditing) {
-            _isExpanded = EditorGUI.Foldout(headerRect, _isExpanded, label);
-        } else {
-            EditorGUI.LabelField(headerRect, label);
+        if (hasComment && Event.current.type == EventType.Repaint) {
+            var commentContent = new GUIContent(property.stringValue);
+            _contentHeight = BodyStyle.CalcHeight(commentContent, position.width - 32f);
         }
-
+        
         var editRect = new Rect(position) {
             x = position.x + position.width - 32f,
             width = 32f,
             height = EditorGUIUtility.singleLineHeight
         };
+        _isEditing = EditorGUI.ToggleLeft(editRect, EditIcon, _isEditing);
 
-        _isExpanded |= _isEditing = EditorGUI.ToggleLeft(editRect, EditIcon, _isEditing);
-
-        if (_isExpanded) {
-            var labelContent = new GUIContent(property.stringValue);
-            if (_isEditing) {
-                EditorGUI.BeginChangeCheck();
-                var layoutRect = GUILayoutUtility.GetRect(position.width, MaxContentHeight);
-                
-                EditorGUI.DrawRect(layoutRect, EditBgColor);
-                var commentBody = EditorGUI.TextArea(layoutRect, property.stringValue, BodyStyle);
-                if (EditorGUI.EndChangeCheck()) {
-                    property.stringValue = commentBody;
-                }
-            } else {
-                var bodyRect = new Rect(position) {
-                    y = position.y + headerRect.height + EditorGUIUtility.standardVerticalSpacing,
-                    height = position.height - headerRect.height - EditorGUIUtility.standardVerticalSpacing 
-                };
-                var innerRect = new Rect(bodyRect) { width = bodyRect.width - 64f };
-                innerRect.height = BodyStyle.CalcHeight(labelContent, innerRect.width);
-                
-                // I don't understand how this is getting the initial position
-                var layoutRect = GUILayoutUtility.GetRect(
-                    innerRect.width,
-                    Mathf.Min(MaxContentHeight, innerRect.height + EditorGUIUtility.standardVerticalSpacing)
-                );
-                
-                _scroll = GUI.BeginScrollView(layoutRect, _scroll, innerRect, false, false);
-                EditorGUI.SelectableLabel(innerRect, property.stringValue, BodyStyle);
-                GUI.EndScrollView();
-            }
-        }
+        var headerRect = new Rect(position) {
+            width = position.width - editRect.width - 5f,
+            height = EditorGUIUtility.singleLineHeight
+        };
         
+        if (!hasComment && !_isEditing) {
+            EditorGUI.LabelField(headerRect, label, EmptyLabelStyle);
+        }
+
+        var bodyRect = new Rect(headerRect) {
+            height = position.height - headerRect.height 
+        };
+        
+        if (_isEditing) {
+            EditorGUI.BeginChangeCheck();
+            EditorGUI.DrawRect(bodyRect, EditBgColor);
+            var commentBody = EditorGUI.TextArea(bodyRect, property.stringValue, BodyStyle);
+            if (EditorGUI.EndChangeCheck()) {
+                property.stringValue = commentBody.Trim();
+            }
+        } else {
+            var innerRect = new Rect(bodyRect) {
+                width = bodyRect.width - 32f,
+                height = _contentHeight
+            };
+            _scroll = GUI.BeginScrollView(bodyRect, _scroll, innerRect, false, false);
+            EditorGUI.SelectableLabel(innerRect, property.stringValue, BodyStyle);
+            GUI.EndScrollView();
+        }
+
         EditorGUI.EndProperty();
     }
 }
