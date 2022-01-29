@@ -4,6 +4,7 @@ using UnityEditor;
 namespace Banchou.Pawn.FSM {
     [CustomEditor(typeof(InputGestureToParameters))]
     public class InputGestureToParametersInspector : Editor {
+        private SerializedProperty _comments;
         private SerializedProperty _inputSequence;
         private SerializedProperty _inputLifetime;
         private SerializedProperty _overrideGesture;
@@ -16,6 +17,7 @@ namespace Banchou.Pawn.FSM {
         private SerializedProperty _breakOnAccept;
         
         private void OnEnable() {
+            _comments = serializedObject.FindProperty("_comments");
             _inputSequence = serializedObject.FindProperty("_inputSequence");
             _inputLifetime = serializedObject.FindProperty("_inputLifetime");
             _overrideGesture = serializedObject.FindProperty("_overrideGesture");
@@ -30,6 +32,7 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnInspectorGUI() {
             EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(_comments);
             EditorGUILayout.PropertyField(_inputSequence);
             EditorGUILayout.PropertyField(_inputLifetime);
             EditorGUILayout.PropertyField(_overrideGesture);
