@@ -13,7 +13,9 @@ namespace Banchou.Pawn.FSM {
         public int Hash => _hash;
         public AnimatorControllerParameterType Type => _type;
         public bool IsSet => _hash != default;
-        public FSMParameter(bool filterByType = false) {
+        
+        public FSMParameter(AnimatorControllerParameterType type, bool filterByType = false) {
+            _type = type;
             _filterByType = filterByType;
         }
     }
@@ -89,7 +91,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private FSMParameter _parameter;
         [SerializeField] private ApplyMode _applyMode;
         [SerializeField] private float _value;
-        [SerializeField] private FSMParameter _sourceParameter = new(true);
+        [SerializeField] private FSMParameter _sourceParameter;
 
         public void Apply(Animator animator) {
             if (_parameter.IsSet) {
