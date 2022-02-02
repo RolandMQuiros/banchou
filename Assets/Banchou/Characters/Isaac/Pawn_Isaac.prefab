@@ -275,6 +275,10 @@ MonoBehaviour:
         <MaxHealth>k__BackingField: 0
         <Weight>k__BackingField: 0
       <Health>k__BackingField: 0
+      <Defense>k__BackingField:
+        <IsInvincible>k__BackingField: 0
+        <GuardStyle>k__BackingField: 0
+        <LastUpdated>k__BackingField: 0
       <LastHit>k__BackingField:
         <AttackerId>k__BackingField: 0
         <AttackId>k__BackingField: 0
@@ -319,6 +323,10 @@ MonoBehaviour:
       <MaxHealth>k__BackingField: 0
       <Weight>k__BackingField: 0
     <Health>k__BackingField: 0
+    <Defense>k__BackingField:
+      <IsInvincible>k__BackingField: 0
+      <GuardStyle>k__BackingField: 0
+      <LastUpdated>k__BackingField: 0
     <LastHit>k__BackingField:
       <AttackerId>k__BackingField: 0
       <AttackId>k__BackingField: 0
@@ -32371,7 +32379,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3886073285113956075, guid: 1f1dc8a136aad534ea3c72e7f3265d08, type: 3}
   m_PrefabInstance: {fileID: 3004743460315977862}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5823852583752245631
+--- !u!114 &7933963429207500358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,14 +1,14 @@
 using System;
-using UniRx;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-
-using Banchou.Player;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyForce : FSMBehaviour {
         [Serializable, Flags] private enum ApplyEvent { OnEnter = 1, OnUpdate = 2, OnExit = 4 }
 
         [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnUpdate;
+        [SerializeField] private List<FSMParameterCondition> _conditions;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
         [SerializeField] private Vector3 _force = Vector3.zero;
         [SerializeField] private Vector3 _relativeForce = Vector3.zero;
@@ -19,7 +19,9 @@ namespace Banchou.Pawn.FSM {
             _rigidbody = rigidbody;
         }
 
-        private void Apply() {
+        private void Apply(Animator animator) {
+            if (_conditions.Any(condition => !condition.Evaluate(animator))) return;
+            
             if (_force != Vector3.zero) {
                 _rigidbody.AddForce(_force, _forceMode);
             }
@@ -30,15 +32,15 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply(animator);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply(animator);
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply(animator);
         }
     }
 }

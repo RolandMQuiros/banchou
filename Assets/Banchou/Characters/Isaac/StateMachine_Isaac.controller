@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 1
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 0, z: 0}
@@ -169,7 +170,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 1
   m_OrderedInterruption: 1
@@ -453,6 +454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 1
+  _conditions: []
   _forceMode: 2
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 10, z: 0}
@@ -632,7 +634,7 @@ BlendTree:
   m_Name: Walk Backward Left
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: -0.5
@@ -640,7 +642,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: -1
@@ -663,7 +665,7 @@ BlendTree:
   m_Name: Strafe Left
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -3875712517908024901, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: 9df952509e1a41449ba6a813abbce79d, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 0.5
@@ -671,7 +673,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -3875712517908024901, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: 9df952509e1a41449ba6a813abbce79d, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -933,8 +935,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b5182ded2eb1b74e8fe7f070d0e78a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _comments: 
-  _outputParameter: Lock On
+  _comments: We'll be able to lock onto stuff outside of battle, so it might be worth
+    moving it out of CombatantState?
+  _output:
+    _name: Lock On
+    _hash: 813062422
+    _type: 4
+    _filterByType: 1
 --- !u!1102 &-6727546901814590994
 AnimatorState:
   serializedVersion: 6
@@ -1073,6 +1080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 2
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
@@ -1090,6 +1098,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 2
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
@@ -1242,6 +1251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 1
+  _conditions: []
   _forceMode: 2
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 15, z: 0}
@@ -1392,8 +1402,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 347cf32ca13ab1e45bdbaeb61510bcb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _comments: 
+  _comments: Apply gravity, expect during hit pause
   _onEvent: 2
+  _conditions:
+  - _parameter:
+      _name: Normalized Attack Pause Time
+      _hash: 2057737938
+      _type: 1
+      _filterByType: 0
+    _mode: 2
+    _threshold: 0.99
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
@@ -1758,6 +1776,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: 8511308137649152622}
+  - {fileID: 2595028491012154930}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 410, y: 20, z: 0}
   m_ExitPosition: {x: 810, y: 260, z: 0}
@@ -1876,9 +1895,9 @@ MonoBehaviour:
   _overrideGesture: {fileID: 0}
   _conditions:
   - _parameter:
-      _name: 
-      _hash: 0
-      _type: 0
+      _name: Attack Confirmed
+      _hash: 267471345
+      _type: 9
       _filterByType: 0
     _mode: 2
     _threshold: 0.99
@@ -2407,6 +2426,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: -5884510544140824856}
+  - {fileID: -3553244410464205461}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 380, y: 300, z: 0}
@@ -2440,6 +2460,35 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-3553244410464205461
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: If a trigger isn't consumed between states for any reason, reset it
+  _onEvent: 0
+  _stateTime: 0
+  _time: 0
+  _output:
+  - _parameter:
+      _name: 5H
+      _hash: -1678829077
+      _type: 9
+      _filterByType: 0
+    _applyMode: 1
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!1109 &-3535898966102589143
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -2759,6 +2808,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 2
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
@@ -3309,9 +3359,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _magnitudeOut: Input Direction Magnitude
-  _forwardOut: Input Direction Forward
-  _rightOut: Input Direction Right
+  _magnitude:
+    _name: Input Direction Magnitude
+    _hash: -1057351871
+    _type: 1
+    _filterByType: 1
+  _forward:
+    _name: Input Direction Forward
+    _hash: 1323433280
+    _type: 1
+    _filterByType: 1
+  _right:
+    _name: Input Direction Right
+    _hash: -1004008288
+    _type: 1
+    _filterByType: 1
 --- !u!206 &-1737396516935762602
 BlendTree:
   m_ObjectHideFlags: 1
@@ -3321,7 +3383,7 @@ BlendTree:
   m_Name: Ground Movement
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -7843717315333180741, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: 48e6842b4e5b7284dae7a0da9c4bf61c, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 1}
     m_TimeScale: 1
@@ -3859,7 +3921,7 @@ BlendTree:
   m_Name: Walk Forward Left
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 0.5
@@ -3867,7 +3929,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 1
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -4147,6 +4209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 1
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -100, z: 0}
@@ -4198,6 +4261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 1
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 0, z: 0}
@@ -4240,187 +4304,187 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Forward Input Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lateral Input Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Vertical Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Direction Magnitude
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Direction Forward
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Direction Right
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Hit Stun Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Hit Pause Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Attack Pause Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Attack Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Is Invincible
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Is Grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lock On
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Blocking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit Confirmed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit Blocked
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack Connected
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack Confirmed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack Blocked
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Start Jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Short Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Long Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Tech
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Ground Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Air Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 5L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 5H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 6L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 6H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -4499,9 +4563,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 2
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: 0, z: 0}
+--- !u!114 &82956108695089581
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687190044ac51ae419ca19fe25dbbe17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
 --- !u!114 &92327750528294860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5500,7 +5578,7 @@ BlendTree:
   m_Name: Locked Ground Movement
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -7843717315333180741, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: 48e6842b4e5b7284dae7a0da9c4bf61c, type: 2}
     m_Threshold: 0.11111111
     m_Position: {x: 0, y: 7}
     m_TimeScale: 1.25
@@ -5700,6 +5778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 2
+  _conditions: []
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
@@ -5778,6 +5857,35 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &2595028491012154930
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: If a trigger isn't consumed between states for any reason, reset it
+  _onEvent: 0
+  _stateTime: 0
+  _time: 0
+  _output:
+  - _parameter:
+      _name: 5L
+      _hash: -1669145102
+      _type: 9
+      _filterByType: 0
+    _applyMode: 1
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!114 &2704394944289396886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6219,7 +6327,7 @@ BlendTree:
   m_Name: Walk Forward
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -902015630707443588, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: c4850193e810021488de3ac6fe84ddb7, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 0.5
@@ -6227,7 +6335,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -902015630707443588, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: c4850193e810021488de3ac6fe84ddb7, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -6431,7 +6539,7 @@ BlendTree:
   m_Name: Walk Backward
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -902015630707443588, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: c4850193e810021488de3ac6fe84ddb7, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: -0.5
@@ -6439,7 +6547,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -902015630707443588, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: c4850193e810021488de3ac6fe84ddb7, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: -1
@@ -6916,7 +7024,7 @@ BlendTree:
   m_Name: Walk Forward Right
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 0.5
@@ -6924,7 +7032,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -7826,7 +7934,7 @@ BlendTree:
   m_Name: Walk Backward Right
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: -0.5
@@ -7834,7 +7942,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 1
   - serializedVersion: 2
-    m_Motion: {fileID: -4118661681540591582, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: e33fc1b886dca7b48b1e64be1dd067f5, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: -1
@@ -8001,7 +8109,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _outputParameter: Normalized Hit Stun Time
+  _output:
+    _name: Normalized Hit Stun Time
+    _hash: -983609768
+    _type: 1
+    _filterByType: 1
   _normalized: 1
 --- !u!1101 &7174470507110687636
 AnimatorStateTransition:
@@ -8206,7 +8318,7 @@ BlendTree:
   m_Name: Strafe Right
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: -4528400754177507459, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: 5993425c013dd4d43a3656325930a5dd, type: 2}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 0.5
@@ -8214,7 +8326,7 @@ BlendTree:
     m_DirectBlendParameter: Input Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -4528400754177507459, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+    m_Motion: {fileID: 7400000, guid: 5993425c013dd4d43a3656325930a5dd, type: 2}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -8810,11 +8922,11 @@ MonoBehaviour:
       _type: 0
       _filterByType: 0
   - _parameter:
-      _name: 5L
-      _hash: -1669145102
+      _name: 5H
+      _hash: -1678829077
       _type: 9
       _filterByType: 0
-    _applyMode: 3
+    _applyMode: 0
     _value: 0
     _sourceParameter:
       _name: 5L
