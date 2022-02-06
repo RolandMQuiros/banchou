@@ -20,8 +20,12 @@ namespace Banchou.Pawn.FSM {
         }
 
         private void Apply(Animator animator) {
-            if (_conditions.Any(condition => !condition.Evaluate(animator))) return;
-            
+            for (int i = 0; i < _conditions.Count; i++) {
+                if (!_conditions[i].Evaluate(animator)) {
+                    return;
+                }
+            }
+
             if (_force != Vector3.zero) {
                 _rigidbody.AddForce(_force, _forceMode);
             }

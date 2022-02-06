@@ -10,7 +10,7 @@ namespace Banchou.Player {
         ) {
             state.Players.AddPlayer(out player, playerId, prefabKey, state.GetNetworkId());
             return state;
-        }
+        }   
         
         public static GameState AddPlayer(
             this GameState state,

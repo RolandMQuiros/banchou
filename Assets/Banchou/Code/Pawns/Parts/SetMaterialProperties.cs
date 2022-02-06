@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ namespace Banchou.Pawn.Part {
 
         [SerializeField] private ChildMaterial[] _materials;
         private MaterialPropertyBlock _properties;
+        private readonly List<Material> _childMaterials = new();
 
         private ChildMaterial[] GetChildMaterials() =>
             transform.BreadthFirstTraversal()
@@ -69,7 +71,9 @@ namespace Banchou.Pawn.Part {
                 var childMaterial = _materials[i];
                 if (childMaterial.Renderer == null) continue; // Skip renderers that were deleted
                 
-                var material = childMaterial.Renderer.sharedMaterials[childMaterial.MaterialIndex];
+                childMaterial.Renderer.GetSharedMaterials(_childMaterials);
+                
+                var material = _childMaterials[childMaterial.MaterialIndex];
                 childMaterial.Renderer.GetPropertyBlock(_properties, childMaterial.MaterialIndex);
                 
                 if (childMaterial.Apply) {

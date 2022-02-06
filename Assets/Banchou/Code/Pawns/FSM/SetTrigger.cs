@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {

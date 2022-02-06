@@ -18,23 +18,32 @@ MonoBehaviour:
   m_GUID: c71828400b827d64fa3d7a6533e5fef1
   m_SerializeEntries:
   - m_GUID: a056c61b64b477149b749a04be38a5ae
-    m_Address: Local Player
+    m_Address: Player/Local Player
     m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_SerializedLabels:
+    - Players
   - m_GUID: d272aa4fa72e18e45b3d3f4ebc662fd2
     m_Address: Pawn/Isaac
     m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_SerializedLabels:
+    - Pawns
+    - Combatants
   - m_GUID: 1c5fca364bf2c9b45ba02fd4385839e5
     m_Address: Level/Sandbox
     m_ReadOnly: 0
-    m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_SerializedLabels:
+    - Levels
+  - m_GUID: 15903776eac69d14b86cb64e64a03a4f
+    m_Address: Pawn/PunchingBag
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pawns
+    - Combatants
+  - m_GUID: 3e12c5f0a57bb4b419a7c9594550a5e0
+    m_Address: Player/Basic Enemy
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Players
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d32d5fb5eedff9e448f43656a8c0539b, type: 2}
   m_SchemaSet:

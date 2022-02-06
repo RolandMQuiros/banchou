@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
@@ -8,7 +7,8 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private string _name;
         [SerializeField] private int _hash;
         [SerializeField] private AnimatorControllerParameterType _type;
-        [SerializeField, UsedImplicitly] private bool _filterByType;
+        // ReSharper disable once NotAccessedField.Local
+        [SerializeField] private bool _filterByType;
 
         public string Name => _name;
         public int Hash => _hash;

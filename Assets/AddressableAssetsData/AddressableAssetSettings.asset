@@ -84,6 +84,12 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Pawns
+    - Players
+    - Combatants
+    - Props
+    - Actors
+    - Levels
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 16e315faf1bc0c14981f0e0b36c580c8, type: 2}
@@ -101,8 +107,6 @@ MonoBehaviour:
   m_HostingServicesManager:
     m_HostingServiceInfos: []
     m_Settings: {fileID: 11400000}
-    m_NextInstanceId: 0
-    m_RegisteredServiceTypeRefs: []
-    m_GlobalProfileVariablesInfos:
-    - key: PrivateIpAddress
-      value: 192.168.1.100
+    m_NextInstanceId: 1
+    m_RegisteredServiceTypeRefs:
+    - UnityEditor.AddressableAssets.HostingServices.HttpHostingService, Unity.Addressables.Editor
