@@ -29,6 +29,7 @@ namespace Banchou.Combatant {
         public static IObservable<CombatantState> ObserveCombatants(this GameState state) =>
             state.ObserveBoardChanges()
                 .SelectMany(board => board.Pawns.Values)
+                .SelectMany(pawn => pawn.Observe())
                 .Where(pawn => pawn.Combatant != null)
                 .Select(pawn => pawn.Combatant);
 
@@ -98,8 +99,8 @@ namespace Banchou.Combatant {
         /// <param name="team">The team whose lock-ons to observe</param>
         public static IObservable<int> ObserveLockOns(this GameState state, CombatantTeam team) =>
             state.ObserveCombatants()
-                .Where(combatant => combatant.Stats.Team == team)
                 .SelectMany(combatant => combatant.Observe())
+                .Where(combatant => combatant.Stats.Team == team)
                 .Select(combatant => combatant.LockOnTarget)
                 .DistinctUntilChanged()
                 .Where(targetId => targetId != default);
@@ -113,8 +114,8 @@ namespace Banchou.Combatant {
         /// <param name="team">The team whose lock-offs to observe</param>
         public static IObservable<int> ObserveLockOffs(this GameState state, CombatantTeam team) =>
             state.ObserveCombatants()
-                .Where(combatant => combatant.Stats.Team == team)
                 .SelectMany(combatant => combatant.Observe())
+                .Where(combatant => combatant.Stats.Team == team)
                 .Select(combatant => combatant.LockOnTarget)
                 .DistinctUntilChanged()
                 .Pairwise()

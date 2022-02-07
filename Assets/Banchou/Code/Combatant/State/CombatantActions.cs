@@ -20,6 +20,10 @@ namespace Banchou.Combatant {
             return state;
         }
 
+        public static GameState SetCombatant(this GameState state, CombatantTeam team, int pawnId, int maxHealth) {
+            return state.SetCombatant(out _, team, pawnId, maxHealth);
+        }
+
         public static GameState HitCombatant(
             this GameState state,
             Vector3 contact,

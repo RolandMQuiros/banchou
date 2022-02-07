@@ -33,6 +33,7 @@ namespace Banchou.Combatant {
         public CombatantState LockOn(int targetPawnId, float when) {
             if (LockOnTarget != targetPawnId) {
                 LockOnTarget = targetPawnId;
+                LastUpdated = when;
                 return Notify(when);
             }
             return this;
@@ -41,6 +42,7 @@ namespace Banchou.Combatant {
         public CombatantState LockOff(float when) {
             if (LockOnTarget != default) {
                 LockOnTarget = default;
+                LastUpdated = when;
                 return Notify(when);
             }
             return this;
@@ -64,6 +66,7 @@ namespace Banchou.Combatant {
             LastHit.Hit(attackerId, attackId, contact, blocked, damage, knockback, hitPause, hitStun, when);
             Defense.Set(guardTime: guardTime, when: when);
 
+            LastUpdated = when;
             return Notify(when);
         }
     }
