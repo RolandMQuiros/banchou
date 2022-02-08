@@ -10,6 +10,7 @@ namespace Banchou.Pawn.FSM {
 
         private GameState _state;
         private HitState _hit;
+        private Vector3 _targetPosition;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
@@ -24,12 +25,15 @@ namespace Banchou.Pawn.FSM {
             var stateTime = _hit.NormalizedPauseTimeAt(_state.GetTime());
             var magnitude = _multiplier * Mathf.Clamp01(_hit.Knockback.magnitude / _maximumOffset) *
                             _curve.Evaluate(stateTime);
-            var offset = xform.InverseTransformVector(magnitude * _hit.Knockback.normalized);
-            xform.localPosition = offset;
+            _targetPosition = xform.InverseTransformVector(magnitude * _hit.Knockback.normalized);
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            animator.transform.localPosition = Vector3.zero;
+            _targetPosition = Vector3.zero;
+        }
+
+        public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            animator.bodyPosition += _targetPosition;
         }
     }
 }

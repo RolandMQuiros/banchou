@@ -2,28 +2,33 @@ using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
-    public class RotateToVelocity : FSMBehaviour {
+    public class RotateAnimatorBodyToVelocity : FSMBehaviour {
         [SerializeField] private float _rotationSpeed = 100f;
+        [SerializeField] private Vector3 _offsetAngles;
         
         private PawnSpatial _spatial;
-
+        private Quaternion _targetRotation;
+        private Quaternion _offsetRotation;
+        
         public void Construct(GameState state, GetPawnId getPawnId) {
-            state.ObservePawnSpatialChanges(getPawnId())
+            state.ObservePawnSpatial(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
+
+            _offsetRotation = Quaternion.Euler(_offsetAngles);
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             if (_spatial.AmbientVelocity != Vector3.zero) {
-                animator.transform.rotation = Quaternion.LookRotation(_spatial.AmbientVelocity.normalized);
+                _targetRotation = Quaternion.LookRotation(_spatial.AmbientVelocity.normalized);
             }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             if (_spatial.AmbientVelocity != Vector3.zero) {
-                animator.transform.rotation = Quaternion.RotateTowards(
-                    animator.transform.rotation,
+                _targetRotation = Quaternion.RotateTowards(
+                    _targetRotation,
                     Quaternion.LookRotation(_spatial.AmbientVelocity.normalized),
                     _rotationSpeed
                 );
@@ -31,7 +36,11 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            animator.transform.localRotation = Quaternion.identity;
+            _targetRotation = Quaternion.identity;
+        }
+
+        public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            animator.bodyRotation = _targetRotation * _offsetRotation * animator.bodyRotation;
         }
     }
 }
