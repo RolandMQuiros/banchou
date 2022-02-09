@@ -78,6 +78,7 @@ namespace Banchou.Pawn.Part {
                         hurtVolume.HitPause * (isFrontAttack ? _frontHitPauseScale : _rearHitPauseScale),
                         hurtVolume.HitStun * (isFrontAttack ? _frontHitStunScale : _rearHitStunScale),
                         Mathf.RoundToInt(hurtVolume.Damage * (isFrontAttack ? _frontDamageScale : _rearDamageScale)),
+                        hurtVolume.IsGrab,
                         hurtVolume.LockOffOnConfirm
                     );
                     StartCoroutine(RunInterval(hurtVolume));

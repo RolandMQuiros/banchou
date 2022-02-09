@@ -21,6 +21,9 @@ namespace Banchou.Pawn.Part {
 
         [field: SerializeField, Tooltip("Whether or not to hurt hostile Pawns")]
         public bool HurtHostile { get; private set; } = true;
+
+        [field: SerializeField, Tooltip("Whether or not this attack is a grab")]
+        public bool IsGrab { get; private set; } = false;
         
         [field: SerializeField,
                 Tooltip("How long after colliding with an enemy Combatant before applying damage again. " +

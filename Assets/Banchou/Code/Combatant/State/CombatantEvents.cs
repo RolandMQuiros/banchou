@@ -65,7 +65,7 @@ namespace Banchou.Combatant {
         public static IObservable<AttackState> ObserveLastAttack(this GameState state, int pawnId) {
             return state.ObserveCombatant(pawnId).Select(combatant => combatant.Attack);
         }
-
+        
         public static IObservable<AttackState> ObserveLastAttackChanges(this GameState state, int pawnId) {
             return state.ObserveCombatant(pawnId)
                 .SelectMany(combatant => combatant.Attack.Observe());

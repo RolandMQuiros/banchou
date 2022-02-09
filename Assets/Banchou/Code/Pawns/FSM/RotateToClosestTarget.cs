@@ -55,7 +55,7 @@ namespace Banchou.Pawn.FSM {
                     .Select(target => {
                         var offset = target.Position - _spatial.Position;
                         var forward = _spatial.Forward;
-                        if (_useInputDirection && _input.Direction != Vector3.zero) {
+                        if (_useInputDirection && _input != null && _input.Direction != Vector3.zero) {
                             forward = _input.Direction.normalized;
                         }
                         return (

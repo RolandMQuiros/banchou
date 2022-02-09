@@ -98,7 +98,16 @@ namespace Banchou.Pawn {
             Target = cancelMomentum ? Vector3.zero : Target;
             IsGrounded = isGrounded;
             LastUpdated = when;
+            Style = MovementStyle.Offset;
             return Notify(when);
+        }
+
+        public PawnSpatial SetStyle(MovementStyle style, float when) {
+            if (style != Style) {
+                Style = style;
+                return Notify(when);
+            }
+            return this;
         }
     }
 }

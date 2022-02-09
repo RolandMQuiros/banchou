@@ -59,9 +59,10 @@ namespace Banchou.Pawn.Part {
             }
             
             if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _moved || 
-                _spatial.IsGrounded != _isGrounded)
-            {
+                _spatial.IsGrounded != _isGrounded) {
                 _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
+            } else {
+                _spatial.SetStyle(PawnSpatial.MovementStyle.Offset, _state.GetTime());
             }
             
             _moved = false;

@@ -91,18 +91,20 @@ namespace Banchou.Pawn.Part {
             var up = xform.up;
             
             foreach (var target in _targets) {
-                var dot = Vector3.Dot((target.Origin - origin).normalized, forward);
-                var targetOrigin = target.Origin;
-                var distance = (target.Origin - origin).magnitude;
+                if (target != null) {
+                    var dot = Vector3.Dot((target.Origin - origin).normalized, forward);
+                    var targetOrigin = target.Origin;
+                    var distance = (target.Origin - origin).magnitude;
 
-                if (target != _target && dot > 0f) {
-                    Gizmos.color = Color.cyan;
-                    Gizmos.DrawLine(origin, targetOrigin);
+                    if (target != _target && dot > 0f) {
+                        Gizmos.color = Color.cyan;
+                        Gizmos.DrawLine(origin, targetOrigin);
 
-                    var sortFactor = origin + (2f - dot) * distance * up;
-                    Gizmos.color = Color.blue;
-                    Gizmos.DrawLine(targetOrigin, sortFactor);
-                    Gizmos.DrawSphere(sortFactor, 0.05f);
+                        var sortFactor = origin + (2f - dot) * distance * up;
+                        Gizmos.color = Color.blue;
+                        Gizmos.DrawLine(targetOrigin, sortFactor);
+                        Gizmos.DrawSphere(sortFactor, 0.05f);
+                    }
                 }
             }
 

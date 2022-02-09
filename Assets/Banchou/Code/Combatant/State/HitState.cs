@@ -2,11 +2,19 @@ using System;
 using MessagePack;
 using UnityEngine;
 
-namespace Banchou {
+namespace Banchou.Combatant {
     [Serializable, MessagePackObject(true)]
     public record HitState(
-        int AttackerId = 0, int AttackId = 0, Vector3 Contact = new(), bool Blocked = false, int Damage = 0,
-        Vector3 Knockback = new(), float PauseTime = 0f, float StunTime = 0f, float LastUpdated = 0f
+        int AttackerId = 0,
+        int AttackId = 0,
+        Vector3 Contact = new(),
+        bool Blocked = false,
+        int Damage = 0,
+        Vector3 Knockback = new(),
+        float PauseTime = 0f,
+        float StunTime = 0f,
+        bool IsGrabbed = false,
+        float LastUpdated = 0f
     ) : NotifiableWithHistory<HitState>(32) {
         [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
         [field: SerializeField] public int AttackId { get; private set; } = AttackId;
@@ -16,6 +24,7 @@ namespace Banchou {
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
         [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
         [field: SerializeField] public float StunTime { get; private set; } = StunTime;
+        [field: SerializeField] public bool IsGrabbed { get; private set; } = IsGrabbed;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
         
         public override void Set(HitState other) {
@@ -25,6 +34,7 @@ namespace Banchou {
             Knockback = other.Knockback;
             PauseTime = other.PauseTime;
             StunTime = other.StunTime;
+            IsGrabbed = other.IsGrabbed;
             LastUpdated = other.LastUpdated;
         }
 
@@ -49,6 +59,7 @@ namespace Banchou {
             Vector3 knockback,
             float pauseTime,
             float stunTime,
+            bool isGrabbed,
             float when
         ) {
             AttackerId = attackerId;
@@ -59,6 +70,7 @@ namespace Banchou {
             Knockback = knockback;
             PauseTime = pauseTime;
             StunTime = stunTime;
+            IsGrabbed = isGrabbed;
             LastUpdated = when;
             return Notify(when);
         }

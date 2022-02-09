@@ -21,6 +21,7 @@ namespace Banchou.Combatant {
         Vector3 Contact = new(),
         Vector3 Knockback = new(),
         Vector3 Recoil = new(),
+        bool IsGrab = false,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<AttackState>(32) {
         [field: SerializeField] public int AttackId { get; private set; } = AttackId;
@@ -32,6 +33,7 @@ namespace Banchou.Combatant {
         [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
         [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
         [field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
+        [field: SerializeField] public bool IsGrab { get; private set; } = IsGrab;
         [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public bool Confirmed => TargetId != default && !Blocked;
@@ -49,6 +51,7 @@ namespace Banchou.Combatant {
             Contact = other.Contact;
             Knockback = other.Knockback;
             Recoil = other.Recoil;
+            IsGrab = other.IsGrab;
             LastUpdated = other.LastUpdated;
         }
 
@@ -105,6 +108,7 @@ namespace Banchou.Combatant {
             Vector3 contact,
             Vector3 knockback,
             Vector3 recoil,
+            bool isGrab,
             float when
         ) {
             TargetId = targetId;
@@ -114,6 +118,7 @@ namespace Banchou.Combatant {
             Contact = contact;
             Knockback = knockback;
             Recoil = recoil;
+            IsGrab = isGrab;
             return UpdateTimes(when);
         }
 

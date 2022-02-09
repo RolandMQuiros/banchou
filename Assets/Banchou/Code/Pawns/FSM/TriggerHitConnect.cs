@@ -10,6 +10,7 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField] private bool _onConfirm;
         [SerializeField] private bool _onBlock;
+        [SerializeField] private bool _onGrab;
         
         [SerializeField, Tooltip("Pause the editor on confirmation")]
         private bool _breakOnSet;
@@ -18,7 +19,9 @@ namespace Banchou.Pawn.FSM {
             if (_output.Count > 0) {
                 state.ObserveLastHitChanges(getPawnId())
                     .Where(attack => IsStateActive && 
-                                     (_onConfirm && !attack.Blocked || _onBlock && attack.Blocked))
+                                     (_onConfirm && !attack.Blocked ||
+                                      _onBlock && attack.Blocked ||
+                                      _onGrab && attack.IsGrabbed))
                     .Subscribe(_ => {
                         if (_breakOnSet) {
                             Debug.Break();

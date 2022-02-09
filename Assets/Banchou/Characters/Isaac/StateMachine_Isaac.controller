@@ -188,8 +188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _rootPosition: 1
-  _rootRotation: 1
+  _rootPositionTarget: 1
+  _rootRotationTarget: 0
 --- !u!1101 &-8759299032883726275
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -413,7 +413,10 @@ AnimatorState:
   m_Transitions:
   - {fileID: -2093207399833829762}
   m_StateMachineBehaviours:
-  - {fileID: 4747400154017986988}
+  - {fileID: 5110789397412079882}
+  - {fileID: 1694640245134386962}
+  - {fileID: 1781432276526909586}
+  - {fileID: -5476122739875225343}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -422,7 +425,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2702773589056422401, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
+  m_Motion: {fileID: 7400000, guid: a10aaf640efb052469bf85195d589d1b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1594,6 +1597,19 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 1
   serializedVersion: 1
+--- !u!114 &-5476122739875225343
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02442afa5369413197bc53a72221fc3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
 --- !u!114 &-5364433077344968351
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1624,6 +1640,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _rotationSpeed: 100
+  _offsetAngles: {x: 90, y: 0, z: 0}
 --- !u!1101 &-5242899041582421503
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1729,8 +1746,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _rootPosition: 1
-  _rootRotation: 0
+  _rootPositionTarget: 1
+  _rootRotationTarget: 0
 --- !u!1101 &-4950156471306934042
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2236,6 +2253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _rotationSpeed: 100
+  _offsetAngles: {x: 90, y: 0, z: 0}
 --- !u!1101 &-4227447109375913794
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2349,8 +2367,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _rootPosition: 1
-  _rootRotation: 1
+  _rootPositionTarget: 1
+  _rootRotationTarget: 0
 --- !u!1101 &-3999860451178305910
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3645,7 +3663,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: d1778c61a92abd7418a3699ea1f23fb4, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -4333,8 +4351,8 @@ AnimatorStateMachine:
     m_StateMachine: {fileID: -6124103550409731899}
     m_Position: {x: 30, y: 150, z: 0}
   m_AnyStateTransitions:
-  - {fileID: 6962359266784961938}
   - {fileID: -2861792598945955125}
+  - {fileID: 6962359266784961938}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
@@ -4550,7 +4568,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9225f7207f3c31c44b2a748573862eee, type: 2}
+  m_Motion: {fileID: -8860028235035111468, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -4899,7 +4917,7 @@ AnimatorController:
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
     m_DefaultWeight: 0
-    m_IKPass: 0
+    m_IKPass: 1
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
@@ -5931,6 +5949,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: Stepped Normalized Time
+--- !u!114 &1694640245134386962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635b5d1b109318c4e820ada5ff8cc672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 2
+  _multiplier: 1
 --- !u!1102 &1718536075629659661
 AnimatorState:
   serializedVersion: 6
@@ -5962,6 +5995,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: Normalized Hit Stun Time
+--- !u!114 &1781432276526909586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dfbeeb9fedf7a74181211dc632d896c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _rootPositionTarget: 2
+  _rootRotationTarget: 2
 --- !u!1101 &1793810284215661863
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -6132,8 +6180,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: <color=red>a<i>s</i>d<b>f</b></color>
-  _rootPosition: 1
-  _rootRotation: 0
+  _rootPositionTarget: 1
+  _rootRotationTarget: 0
 --- !u!206 &2315523628058208615
 BlendTree:
   m_ObjectHideFlags: 1
@@ -7558,21 +7606,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &4747400154017986988
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dfbeeb9fedf7a74181211dc632d896c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _comments: 
-  _rootPosition: 1
-  _rootRotation: 0
 --- !u!1102 &4856599526589116339
 AnimatorState:
   serializedVersion: 6
@@ -7702,6 +7735,21 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!114 &5110789397412079882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062249b0eaf3f3549ac92873d55ecef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 0
+  _oppositeDirection: 1
 --- !u!1102 &5179986009900469955
 AnimatorState:
   serializedVersion: 6
@@ -7920,8 +7968,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _rootPosition: 1
-  _rootRotation: 0
+  _rootPositionTarget: 1
+  _rootRotationTarget: 0
 --- !u!1102 &5744102604064386861
 AnimatorState:
   serializedVersion: 6
@@ -9021,7 +9069,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9225f7207f3c31c44b2a748573862eee, type: 2}
+  m_Motion: {fileID: -8860028235035111468, guid: 84d6efe9dfb1fb644a53db07b47c5471, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -27,6 +27,7 @@ namespace Banchou.Combatant {
             Defense.Set(other.Defense);
             LastHit.Set(other.LastHit);
             Attack.Set(other.Attack);
+            LockOnTarget = other.LockOnTarget;
             LastUpdated = other.LastUpdated;
         }
 
@@ -57,13 +58,14 @@ namespace Banchou.Combatant {
             float hitPause,
             float hitStun,
             int damage,
+            bool isGrab,
             float when
         ) {
             if (Defense.IsInvincible) return this;
             var guardTime = Defense.GuardTime;
 
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
-            LastHit.Hit(attackerId, attackId, contact, blocked, damage, knockback, hitPause, hitStun, when);
+            LastHit.Hit(attackerId, attackId, contact, blocked, damage, knockback, hitPause, hitStun, isGrab, when);
             Defense.Set(guardTime: guardTime, when: when);
 
             LastUpdated = when;

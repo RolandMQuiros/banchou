@@ -8,6 +8,7 @@ namespace Banchou.Pawn.Part {
 
         private SerializedProperty _hurtFriendly;
         private SerializedProperty _hurtHostile;
+        private SerializedProperty _isGrab;
         
         private SerializedProperty _interval;
         private SerializedProperty _damage;
@@ -30,6 +31,7 @@ namespace Banchou.Pawn.Part {
             
             _hurtFriendly = serializedObject.FindProperty("<HurtFriendly>k__BackingField");
             _hurtHostile = serializedObject.FindProperty("<HurtHostile>k__BackingField");
+            _isGrab = serializedObject.FindProperty("<IsGrab>k__BackingField");
             
             _interval = serializedObject.FindProperty("<Interval>k__BackingField");
             _damage = serializedObject.FindProperty("<Damage>k__BackingField");
@@ -54,6 +56,7 @@ namespace Banchou.Pawn.Part {
 
             EditorGUILayout.PropertyField(_hurtFriendly);
             EditorGUILayout.PropertyField(_hurtHostile);
+            EditorGUILayout.PropertyField(_isGrab);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_interval);
             EditorGUILayout.PropertyField(_damage);

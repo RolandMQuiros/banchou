@@ -37,6 +37,7 @@ namespace Banchou.Combatant {
             float hitPause,
             float hitStun,
             int damage,
+            bool isGrab,
             bool lockOffOnConfirm
         ) {
             var attacker = state.GetPawn(attackerPawnId);
@@ -51,6 +52,8 @@ namespace Banchou.Combatant {
             }
 
             if (attacker?.Combatant != null && defender?.Combatant?.Defense?.IsInvincible == false) {
+                blocked &= !isGrab; // Grabs break through blocks
+                
                 attacker.Combatant.Attack.Connect(
                     defenderPawnId,
                     damage,
@@ -59,6 +62,7 @@ namespace Banchou.Combatant {
                     contact,
                     knockback,
                     recoil,
+                    isGrab,
                     state.GetTime()
                 );
 
@@ -75,6 +79,7 @@ namespace Banchou.Combatant {
                     hitPause,
                     hitStun,
                     damage,
+                    isGrab,
                     state.GetTime()
                 );
             }
