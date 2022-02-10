@@ -17,6 +17,7 @@ namespace Banchou.Pawn.FSM {
 
         private GameState _state;
         private float _pauseTimer = -1f;
+        private bool _triggered = false;
         
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _state = state;
@@ -28,15 +29,17 @@ namespace Banchou.Pawn.FSM {
                                       _onGrab && attack.IsGrab))
                     .Subscribe(attack => {
                         _pauseTimer = attack.PauseTime;
+                        _triggered = true;
                     })
                     .AddTo(this);
             }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            if (_pauseTimer > 0f) {
+            if (_triggered) {
                 _pauseTimer -= _state.GetDeltaTime();
                 if (_pauseTimer <= 0f) {
+                    _triggered = false;
                     if (_breakOnSet) {
                         Debug.Break();
                     }

@@ -10,6 +10,7 @@ namespace Banchou.Pawn.Part {
 
         [SerializeField] private bool _onConfirm = true;
         [SerializeField] private bool _onBlock = true;
+        [SerializeField] private bool _onGrab = true;
         
         [SerializeField] private bool _moveToContact = true;
         [SerializeField] private bool _resetToDefaultPosition = true;
@@ -22,7 +23,9 @@ namespace Banchou.Pawn.Part {
             var originalPosition = transform.localPosition;
             state.ObserveAttackConnects(getPawnId())
                 .Where(attack => isActiveAndEnabled &&
-                                (_onConfirm && attack.Confirmed || _onBlock && attack.Blocked))
+                                (_onConfirm && attack.Confirmed ||
+                                 _onBlock && attack.Blocked ||
+                                 _onGrab && attack.IsGrab))
                 .CatchIgnoreLog()
                 .Subscribe(attack => {
                     if (_debugBreak) {

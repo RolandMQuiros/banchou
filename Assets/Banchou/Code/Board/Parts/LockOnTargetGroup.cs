@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Banchou.Combatant;
 using Banchou.Pawn.Part;
-using Banchou.Player;
 using Cinemachine;
 using UniRx;
 using UnityEngine;
