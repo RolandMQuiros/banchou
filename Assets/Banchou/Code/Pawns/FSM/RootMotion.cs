@@ -10,12 +10,12 @@ namespace Banchou.Pawn.FSM {
         private GameState _state;
         private PawnSpatial _spatial;
         private Animator _animator;
+        private Rigidbody _rigidbody;
 
-        private Vector3 _positionOffset;
-        private Quaternion _rotationOffset;
-        private Quaternion? _startingRootRotation;
+        private Vector3? _positionOffset;
+        private Quaternion? _rotationOffset;
 
-        public void Construct(GameState state, GetPawnId getPawnId) {
+        public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
             _state = state;
             _state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
@@ -23,54 +23,62 @@ namespace Banchou.Pawn.FSM {
                     _spatial = spatial;
                 })
                 .AddTo(this);
+            _rigidbody = rigidbody;
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _positionOffset = Vector3.zero;
-            _rotationOffset = Quaternion.identity;
-            _startingRootRotation = null;
+            _positionOffset = null;
+            _rotationOffset = null;
         }
 
         public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            /* The problem:
-               Animator does not let us directly set rootPosition and rootRotation, so we're stuck bodyPosition and
-               bodyRotation. Both deltaPosition and deltaRotation are in root-world space, not world space. So we need
-               to boil them down to their local changes, accumulate them, then apply them to bodyPosition|Rotation.
+            /*
+               Animator does not let us directly set rootPosition and rootRotation, so we're stuck with bodyPosition and
+               bodyRotation. Both deltaPosition and deltaRotation are in root-world space, not world space, which means
+               they're transformed to world space under the assumption they're being applied to a world transform.
+
+               We don't necessarily want that. Sometimes we want to only apply root motion to the root bone so that it
+               only affects the visuals and not the Pawn. That's what ApplyTarget.AnimatorBody is for.
+
+               So we need to boil the deltas down to their local changes, accumulate those changes over time,
+               then apply them to bodyPosition|Rotation.
             */
-            
+
             var now = _state.GetTime();
+            var rootPosition = animator.rootPosition;
             var rootRotation = animator.rootRotation;
             var inverseRootRotation = Quaternion.Inverse(rootRotation);
+
+            var bodyRotation = animator.bodyRotation;
+            var localBodyRotation = inverseRootRotation * bodyRotation;
+
+            var deltaPosition = animator.deltaPosition;
             var deltaRotation = animator.deltaRotation;
 
-            _startingRootRotation ??= animator.rootRotation;
+            var localDeltaPosition = inverseRootRotation * deltaPosition;
+
+            _rotationOffset ??= rootRotation;
             _rotationOffset *= deltaRotation;
 
-            // Convert root space position delta to local space
-            var rootSpaceDelta = inverseRootRotation * animator.deltaPosition;
-            // Convert local space position delta to world space, accounting for accumulated rotation deltas 
-            var worldSpaceDelta = rootRotation * _rotationOffset * rootSpaceDelta;
-            _positionOffset += worldSpaceDelta;
-            
+            var worldPositionDelta = _rotationOffset.Value * localDeltaPosition;
+            _positionOffset ??= rootPosition;
+            _positionOffset += worldPositionDelta;
+
             switch (_rootRotationTarget) {
                 case ApplyTarget.Spatial:
                     _spatial.Rotate(deltaRotation * _spatial.Forward, now);
                     break;
                 case ApplyTarget.AnimatorBody:
-                    // Get body rotation in local space
-                    var localSpaceBodyRotation = inverseRootRotation * animator.bodyRotation;
-                    
-                    // 
-                    animator.bodyRotation = _startingRootRotation.Value * _rotationOffset * localSpaceBodyRotation;
+                    animator.bodyRotation = _rotationOffset.Value * localBodyRotation;
                     break;
             }
 
             switch (_rootPositionTarget) {
                 case ApplyTarget.Spatial:
-                    _spatial.Move(worldSpaceDelta, now);
+                    _spatial.Move(worldPositionDelta, now);
                     break;
                 case ApplyTarget.AnimatorBody:
-                    animator.bodyPosition += _positionOffset;
+                    animator.bodyPosition += _positionOffset.Value;
                     break;
             }
         }

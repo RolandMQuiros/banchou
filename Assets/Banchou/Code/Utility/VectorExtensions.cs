@@ -26,13 +26,15 @@ namespace Banchou {
                 var isFloor = Vector3.Dot(contact, up) > 0.6f;
                 var movingIntoContact = vecDotContact < 0f;
 
-                // If we're moving into a surface, we want to project the movement direction on it, so we don't cause physics jitters from
-                // overlaps
-                if (isFloor) {
-                    projected = Vector3.Normalize(Vector3.ProjectOnPlane(projected, contact)) * projected.magnitude;
-                } else if (movingIntoContact) {
-                    // If the surface is a wall, and we're moving into it, move along it instead
-                    projected = Vector3.ProjectOnPlane(projected, contact);
+                // If we're moving into a surface, we want to project the movement direction on it, so we don't cause
+                // physics jitters from overlaps
+                if (movingIntoContact) {
+                    if (isFloor) {
+                        projected = Vector3.Normalize(Vector3.ProjectOnPlane(projected, contact)) * projected.magnitude;
+                    } else {
+                        // If the surface is a wall, and we're moving into it, move along it instead
+                        projected = Vector3.ProjectOnPlane(projected, contact);
+                    }
                 }
             }
 

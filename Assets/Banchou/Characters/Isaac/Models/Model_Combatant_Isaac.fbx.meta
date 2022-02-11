@@ -195,6 +195,9 @@ ModelImporter:
   - first:
       74: 2702773589056422401
     second: Isaac|Thrown
+  - first:
+      74: 6292907525856328290
+    second: Isaac|Root Motion Test
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -221,13 +224,19 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Isaac|Grab' has import animation warnings that
+    animationImportWarnings: "\nClip 'Isaac|Dip Rise' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'thigh_stretch.l' has scale animation that
+      will be discarded.\n\nClip 'Isaac|Grab' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'c_middle1.l' has translation animation
       that will be discarded.\n\t'c_pinky1.l' has translation animation that will
       be discarded.\n\t'c_ring1.l' has translation animation that will be discarded.\n\nClip
-      'Isaac|Grounded Blockstun' has import animation warnings that might lower retargeting
-      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_02.x'
+      'Isaac|Grounded Block' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'thigh_stretch.l'
+      has scale animation that will be discarded.\n\nClip 'Isaac|Grounded Blockstun'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_02.x'
       has translation animation that will be discarded.\n\nClip 'Isaac|Jump' has
       import animation warnings that might lower retargeting quality:\nNote: Activate
       translation DOF on avatar to improve retargeting quality.\n\t'c_index1.l' has
@@ -237,7 +246,11 @@ ModelImporter:
       be discarded.\n\t'c_index1.r' has translation animation that will be discarded.\n\t'c_middle1.r'
       has translation animation that will be discarded.\n\t'c_pinky1.r' has translation
       animation that will be discarded.\n\t'c_ring1.r' has translation animation
-      that will be discarded.\n\nClip 'Isaac|Jump Light' has import animation warnings
+      that will be discarded.\n\t'thigh_stretch.l' has scale animation that will
+      be discarded.\n\nClip 'Isaac|Jump Dropkick Forward' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'thigh_stretch.l' has scale animation that
+      will be discarded.\n\nClip 'Isaac|Jump Light' has import animation warnings
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'c_index1.l' has translation animation that
       will be discarded.\n\t'c_middle1.l' has translation animation that will be
@@ -245,20 +258,21 @@ ModelImporter:
       has translation animation that will be discarded.\n\t'c_index1.r' has translation
       animation that will be discarded.\n\t'c_middle1.r' has translation animation
       that will be discarded.\n\t'c_pinky1.r' has translation animation that will
-      be discarded.\n\t'c_ring1.r' has translation animation that will be discarded.\n\nClip
-      'Isaac|Kick Rise' has import animation warnings that might lower retargeting
-      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'neck.x'
+      be discarded.\n\t'c_ring1.r' has translation animation that will be discarded.\n\t'thigh_stretch.l'
+      has scale animation that will be discarded.\n\nClip 'Isaac|Kick Rise' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'neck.x' has translation animation
+      that will be discarded.\n\t'c_middle1.l' has translation animation that will
+      be discarded.\n\t'c_pinky1.l' has translation animation that will be discarded.\n\t'c_ring1.l'
+      has translation animation that will be discarded.\n\nClip 'Isaac|Kick Rise.001'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'neck.x'
       has translation animation that will be discarded.\n\t'c_middle1.l' has translation
       animation that will be discarded.\n\t'c_pinky1.l' has translation animation
       that will be discarded.\n\t'c_ring1.l' has translation animation that will
-      be discarded.\n\nClip 'Isaac|Kick Rise.001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'neck.x' has translation animation that
-      will be discarded.\n\t'c_middle1.l' has translation animation that will be
-      discarded.\n\t'c_pinky1.l' has translation animation that will be discarded.\n\t'c_ring1.l'
-      has translation animation that will be discarded.\n\nClip 'Isaac|Light Chop'
-      has import animation warnings that might lower retargeting quality:\nNote:
-      Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_01.x'
+      be discarded.\n\t'thigh_stretch.l' has scale animation that will be discarded.\n\nClip
+      'Isaac|Light Chop' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'spine_01.x'
       has translation animation that will be discarded.\n\t'hand.l' has scale animation
       that will be discarded.\n\t'c_middle1.l' has translation animation that will
       be discarded.\n\t'c_pinky1.l' has translation animation that will be discarded.\n\t'c_ring1.l'
@@ -278,23 +292,30 @@ ModelImporter:
       be discarded.\n\t'c_ring1.l' has translation animation that will be discarded.\n\t'c_middle1.r'
       has translation animation that will be discarded.\n\t'c_pinky1.r' has translation
       animation that will be discarded.\n\t'c_ring1.r' has translation animation
-      that will be discarded.\n\nClip 'Isaac|Light Uppercut' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'hand.l' has scale animation
-      that will be discarded.\n\nClip 'Isaac|Medium Side Kick' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'foot.r' has scale animation
-      that will be discarded.\n\nClip 'Isaac|Run Forward' has import animation warnings
+      that will be discarded.\n\t'thigh_stretch.l' has scale animation that will
+      be discarded.\n\nClip 'Isaac|Light Uppercut' has import animation warnings
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'c_middle1.l' has translation animation
-      that will be discarded.\n\t'c_pinky1.l' has translation animation that will
-      be discarded.\n\t'c_ring1.l' has translation animation that will be discarded.\n\t'c_middle1.r'
-      has translation animation that will be discarded.\n\t'c_pinky1.r' has translation
-      animation that will be discarded.\n\t'c_ring1.r' has translation animation
-      that will be discarded.\n\nClip 'Isaac|Throw Down' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'thigh_stretch.r' has scale animation that
-      will be discarded.\n"
+      to improve retargeting quality.\n\t'hand.l' has scale animation that will be
+      discarded.\n\t'thigh_stretch.l' has scale animation that will be discarded.\n\nClip
+      'Isaac|Medium Side Kick' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'foot.r'
+      has scale animation that will be discarded.\n\nClip 'Isaac|Roll' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'thigh_stretch.l' has scale
+      animation that will be discarded.\n\nClip 'Isaac|Run Forward' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'c_middle1.l' has translation
+      animation that will be discarded.\n\t'c_pinky1.l' has translation animation
+      that will be discarded.\n\t'c_ring1.l' has translation animation that will
+      be discarded.\n\t'c_middle1.r' has translation animation that will be discarded.\n\t'c_pinky1.r'
+      has translation animation that will be discarded.\n\t'c_ring1.r' has translation
+      animation that will be discarded.\n\nClip 'Isaac|Throw Down' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'thigh_stretch.l' has scale
+      animation that will be discarded.\n\nClip 'Isaac|Thrust Kick' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'thigh_stretch.l' has scale
+      animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -1290,6 +1311,35 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Isaac|Root Motion Test
+      takeName: Isaac|Root Motion Test
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 59
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
