@@ -22,6 +22,8 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _recoilMethod;
         private SerializedProperty _recoil;
         private SerializedProperty _recoilMagnitude;
+
+        private SerializedProperty _grabPosition;
         
         private SerializedProperty _lockOffOnConfirm;
         private SerializedProperty _onHit;

@@ -9,6 +9,11 @@ namespace Banchou.Combatant {
         Active,
         Recover
     }
+
+    public enum AttackStyle : byte {
+        Strike,
+        Grab
+    }
     
     [Serializable, MessagePackObject]
     public record AttackState(

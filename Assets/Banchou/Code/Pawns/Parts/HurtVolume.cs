@@ -73,9 +73,9 @@ namespace Banchou.Pawn.Part {
         public Vector3 Recoil => _transform.TransformVector(_recoil);
 
         [field: SerializeField,
-                Tooltip("How much force to apply on recoil")]
-        public float RecoilMagnitude { get; private set; }
-        
+         Tooltip("Where, in local Pawn space, to hold the grab target")]
+        public Vector3 GrabTargetPosition { get; private set; }
+
         [field: SerializeField,
                 Tooltip("Remove lock-on if hit confirms. Use for attacks with huge knockback.")]
         public bool LockOffOnConfirm { get; private set; }
