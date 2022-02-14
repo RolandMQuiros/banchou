@@ -17,11 +17,11 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             if (_output.Count > 0) {
-                state.ObserveLastHitChanges(getPawnId())
+                state.ObserveHitsOn(getPawnId())
                     .Where(attack => IsStateActive && 
                                      (_onConfirm && !attack.Blocked ||
                                       _onBlock && attack.Blocked ||
-                                      _onGrab && attack.IsGrabbed))
+                                      _onGrab && attack.IsGrab))
                     .Subscribe(_ => {
                         if (_breakOnSet) {
                             Debug.Break();

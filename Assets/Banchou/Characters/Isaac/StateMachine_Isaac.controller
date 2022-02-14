@@ -2148,7 +2148,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.083333336
   m_TransitionOffset: 0
-  m_ExitTime: 0.5
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 3
@@ -2649,7 +2649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: If a trigger isn't consumed between states for any reason, reset it
-  _onEvent: 0
+  _onEvent: 1
   _stateTime: 0
   _time: 0
   _output:
@@ -4493,7 +4493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 8
   _stateTime: 0
   _time: 0
   _output:
@@ -4706,7 +4706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 1
   _stateTime: 0
   _time: 0
   _output:
@@ -5378,7 +5378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 1
   _stateTime: 0
   _time: 0
   _output:
@@ -5666,7 +5666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 020000000002000000080000
+  _inputSequence: 060100000002000000080000
   _inputLifetime: 0.05
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -5713,7 +5713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 1
   _stateTime: 0
   _time: 0
   _output:
@@ -6125,7 +6125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 1
   _stateTime: 0
   _time: 0
   _output:
@@ -6463,7 +6463,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.083333336
   m_TransitionOffset: 0
-  m_ExitTime: 0.75
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 3
@@ -6535,7 +6535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: If a trigger isn't consumed between states for any reason, reset it
-  _onEvent: 0
+  _onEvent: 8
   _stateTime: 0
   _time: 0
   _output:
@@ -7758,7 +7758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 8
   _stateTime: 0
   _time: 0
   _output:
@@ -10039,7 +10039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: Turn off all the attack connect triggers on state exit, since we don't
     want them to buffer if they're not consumed by a transition.
-  _onEvent: 0
+  _onEvent: 8
   _stateTime: 0
   _time: 0
   _output:

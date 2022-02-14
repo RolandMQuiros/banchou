@@ -11,7 +11,7 @@ namespace Banchou.Pawn.FSM {
 
         private GameState _state;
         private PawnSpatial _spatial;
-        private HitState _lastHit;
+        private AttackState _hit;
         
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
@@ -19,22 +19,24 @@ namespace Banchou.Pawn.FSM {
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
-            state.ObserveLastHit(getPawnId())
+            state.ObserveHitsOn(getPawnId())
                 .CatchIgnoreLog()
-                .Subscribe(hit => _lastHit = hit)
+                .Subscribe(hit => _hit = hit)
                 .AddTo(this);
         }
 
         private void Apply() {
-            if (_lastHit.Knockback == Vector3.zero) return;
-            
-            var knockback = _lastHit.Knockback;
-            if (_oppositeDirection) knockback = -knockback;
-            
-            _spatial.Rotate(
-                Vector3.ProjectOnPlane(knockback, _spatial.Up).normalized,
-                _state.GetTime()
-            );
+            if (_hit != null) {
+                if (_hit.Knockback == Vector3.zero) return;
+
+                var knockback = _hit.Knockback;
+                if (_oppositeDirection) knockback = -knockback;
+
+                _spatial.Rotate(
+                    Vector3.ProjectOnPlane(knockback, _spatial.Up).normalized,
+                    _state.GetTime()
+                );
+            }
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

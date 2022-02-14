@@ -24,7 +24,7 @@ namespace Banchou.Player.Behavior {
 			_lastStepTime = _state.GetTime();
 			_gestureIndex = 0;
 			_input.PushCommands(InputCommand.None, _state.GetTime());
-			_state.ObserveLastAttack(_pawnId.Value)
+			_state.ObserveAttack(_pawnId.Value)
 				.CatchIgnoreLog()
 				.Subscribe(attack => _attack = attack)
 				.AddTo(this);

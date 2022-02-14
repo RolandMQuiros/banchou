@@ -21,8 +21,7 @@ namespace Banchou.Pawn.FSM {
             var stunTimeHash = Animator.StringToHash(_stunTimeFloat);
             if (stunTimeHash != 0) {
                 ObserveStateUpdate
-                    .Select(_ => state.GetCombatantLastHit(pawnId)
-                        .StunTimeAt(state.GetTime()))
+                    .WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit.StunTimeAt(state.GetTime()))
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(stunTimeHash, stunTime))
                     .AddTo(this);
@@ -31,8 +30,7 @@ namespace Banchou.Pawn.FSM {
             var normalizedStunTimeHash = Animator.StringToHash(_stunTimeNormalizedFloat);
             if (normalizedStunTimeHash != 0) {
                 ObserveStateUpdate
-                    .Select(_ => state.GetCombatantLastHit(pawnId)
-                        .NormalizedStunTimeAt(state.GetTime()))
+                    .WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit.NormalizedStunTimeAt(state.GetTime()))
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(normalizedStunTimeHash, stunTime))
                     .AddTo(this);
@@ -41,8 +39,7 @@ namespace Banchou.Pawn.FSM {
             var normalizedPauseTimeHash = Animator.StringToHash(_pauseTimeNormalizedFloat);
             if (normalizedPauseTimeHash != 0) {
                 ObserveStateUpdate
-                    .Select(_ => state.GetCombatantLastHit(pawnId)
-                        .NormalizedPauseTimeAt(state.GetTime()))
+                    .WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit.NormalizedStunTimeAt(state.GetTime()))
                     .CatchIgnoreLog()
                     .Subscribe(pauseTime => animator.SetFloat(normalizedPauseTimeHash, pauseTime))
                     .AddTo(this);
@@ -50,7 +47,7 @@ namespace Banchou.Pawn.FSM {
             
             var hitTriggerHash = Animator.StringToHash(_hitTrigger);
             if (hitTriggerHash != 0) {
-                state.ObserveLastHitChanges(pawnId)
+                state.ObserveHitsOn(pawnId)
                     .Where(hit => hit.StunTime > 0)
                     .CatchIgnoreLog()
                     .Subscribe(hit => {

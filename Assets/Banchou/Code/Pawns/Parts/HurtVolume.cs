@@ -102,7 +102,7 @@ namespace Banchou.Pawn.Part {
             _attack = _state.GetCombatantAttack(PawnId);
             _transform = transform;
 
-            _state.ObserveLastAttackChanges(getPawnId())
+            _state.ObserveAttackChanges(getPawnId())
                 .Where(_ => isActiveAndEnabled)
                 .CatchIgnoreLog()
                 .Subscribe(_ => { _onHit.Invoke(); })

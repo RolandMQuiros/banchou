@@ -59,6 +59,7 @@ namespace Banchou.Combatant {
                     damage,
                     blocked,
                     hitPause,
+                    hitStun,
                     contact,
                     knockback,
                     recoil,
@@ -70,18 +71,7 @@ namespace Banchou.Combatant {
                     attacker.Combatant.LockOff(state.GetTime());
                 }
 
-                defender.Combatant.Hit(
-                    attackerPawnId,
-                    attackId,
-                    contact,
-                    knockback,
-                    blocked,
-                    hitPause,
-                    hitStun,
-                    damage,
-                    isGrab,
-                    state.GetTime()
-                );
+                defender.Combatant.Hit(damage, state.GetTime());
             }
             return state;
         }

@@ -9,12 +9,12 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _maximumOffset = 2f;
 
         private GameState _state;
-        private HitState _hit;
+        private AttackState _hit;
         private Vector3 _targetPosition;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
-            _state.ObserveLastHit(getPawnId())
+            _state.ObserveHitsOn(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(hit => { _hit = hit; })
                 .AddTo(this);

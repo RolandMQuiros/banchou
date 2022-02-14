@@ -17,7 +17,7 @@ namespace Banchou.Pawn.FSM {
             var pawnId = getPawnId();
 
             _state = state;
-            _state.ObserveLastAttack(pawnId)
+            _state.ObserveAttack(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(attack => _attack = attack)
                 .AddTo(this);

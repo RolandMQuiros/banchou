@@ -6,9 +6,9 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId) {
             var pawnId = getPawnId();
             
-            state.ObserveLastHitChanges(pawnId)
+            state.ObserveHitsOn(pawnId)
                 .WithLatestFrom(state.ObservePawnSpatial(pawnId), (lastHit, spatial) => (lastHit, spatial))
-                .Where(args => args.lastHit.IsGrabbed && args.lastHit.AttackerId != default)
+                .Where(args => args.lastHit.IsGrab && args.lastHit.AttackerId != default)
                 .Subscribe(args => {
                     var (lastHit, spatial) = args;
                     var grabberSpatial = state.GetPawnSpatial(lastHit.AttackerId);

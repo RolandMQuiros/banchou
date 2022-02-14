@@ -78,7 +78,7 @@ namespace Banchou.Pawn {
             float when,
             out CombatantState combatant
         ) {
-            Combatant = combatant = new CombatantState(new CombatantStats(team, maxHealth), LastUpdated: when);
+            Combatant = combatant = new CombatantState(PawnId, new CombatantStats(team, maxHealth), LastUpdated: when);
             LastUpdated = when;
             return Notify();
         }

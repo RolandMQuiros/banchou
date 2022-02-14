@@ -14,7 +14,7 @@ namespace Banchou.Pawn.Part {
         [SerializeField] private AttackStateEvent _onRecovery;
         
         public void Construct(GameState state, GetPawnId getPawnId) {
-            state.ObserveLastAttackChanges(getPawnId())
+            state.ObserveAttackChanges(getPawnId())
                 .DistinctUntilChanged(attack => (attack.AttackId, attack.Phase))
                 .CatchIgnoreLog()
                 .Subscribe(attack => {

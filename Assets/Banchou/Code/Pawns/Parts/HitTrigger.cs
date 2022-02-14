@@ -27,7 +27,7 @@ namespace Banchou.Pawn.Part {
         private int _pawnId;
         private GameState _state;
         private PawnSpatial _spatial;
-        private HitState _hitState;
+        private AttackState _hit;
 
         private readonly HashSet<HurtVolume> _collidedVolumes = new();
 
@@ -38,9 +38,9 @@ namespace Banchou.Pawn.Part {
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
-            _state.ObserveLastHit(_pawnId)
+            _state.ObserveHitsOn(_pawnId)
                 .CatchIgnoreLog()
-                .Subscribe(hit => _hitState = hit)
+                .Subscribe(hit => _hit = hit)
                 .AddTo(this);
 
             body.OnTriggerEnterAsObservable()

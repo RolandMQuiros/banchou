@@ -90,7 +90,7 @@ namespace Banchou.Pawn.FSM {
 
     [Serializable]
     public class ApplyFSMParameter {
-        public enum ApplyMode { Set, Unset, Toggle, FromParameter }
+        public enum ApplyMode { Set, Unset, Toggle, Add, Multiply, FromParameter }
 
         [SerializeField] private FSMParameter _parameter;
         [SerializeField] private ApplyMode _applyMode;
@@ -152,6 +152,12 @@ namespace Banchou.Pawn.FSM {
                 case ApplyMode.Unset:
                     animator.SetFloat(_parameter.Hash, 0f);
                     break;
+                case ApplyMode.Add:
+                    animator.SetFloat(_parameter.Hash, animator.GetFloat(_parameter.Hash) + _value);
+                    break;
+                case ApplyMode.Multiply:
+                    animator.SetFloat(_parameter.Hash, animator.GetFloat(_parameter.Hash) * _value);
+                    break;
             }
         }
         
@@ -165,6 +171,12 @@ namespace Banchou.Pawn.FSM {
                     break;
                 case ApplyMode.Unset:
                     animator.SetInteger(_parameter.Hash, 0);
+                    break;
+                case ApplyMode.Add:
+                    animator.SetInteger(_parameter.Hash, animator.GetInteger(_parameter.Hash) + (int)_value);
+                    break;
+                case ApplyMode.Multiply:
+                    animator.SetInteger(_parameter.Hash, animator.GetInteger(_parameter.Hash) * (int)_value);
                     break;
             }
         }

@@ -13,7 +13,7 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
             if (_output.IsSet) {
-                state.ObserveLastHitChanges(pawnId)
+                state.ObserveHitsOn(pawnId)
                     .Where(hit => IsStateActive && hit.StunTime > 0)
                     .CombineLatest(ObserveStateUpdate, (hit, _) => hit)
                     .Select(hit => _normalized ? hit.NormalizedStunTimeAt(state.GetTime()) :

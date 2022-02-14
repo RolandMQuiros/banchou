@@ -223,6 +223,8 @@ namespace Banchou.Pawn.FSM {
             
             switch ((ApplyFSMParameter.ApplyMode) _applyMode.intValue) {
                 case ApplyFSMParameter.ApplyMode.Set:
+                case ApplyFSMParameter.ApplyMode.Add:
+                case ApplyFSMParameter.ApplyMode.Multiply:
                     if (Application.isPlaying) {
                         EditorGUI.LabelField(setRect, _value.stringValue);
                     } else {
