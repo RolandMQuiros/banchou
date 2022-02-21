@@ -21,8 +21,9 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnEnter)) {
-                _output.ForEach(parameter => parameter.Apply(animator));
+                _output.ApplyAll(animator);
             }
             _timer = 0f;
             _appliedAtTime = false;
@@ -30,22 +31,24 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.AtStateTime) && !_appliedAtStateTime &&
                 stateInfo.normalizedTime >= _stateTime) {
-                _output.ForEach(parameter => parameter.Apply(animator));
+                _output.ApplyAll(animator);
                 _appliedAtStateTime = true;
             }
             
             _timer += _state.GetDeltaTime();
             if (_onEvent.HasFlag(ApplyEvent.AtTime) && !_appliedAtTime && _timer >= _time) {
-                _output.ForEach(parameter => parameter.Apply(animator));
+                _output.ApplyAll(animator);
                 _appliedAtTime = true;
             }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnExit)) {
-                _output.ForEach(parameter => parameter.Apply(animator));
+                _output.ApplyAll(animator);
             }
             _timer = 0f;
             _appliedAtTime = false;

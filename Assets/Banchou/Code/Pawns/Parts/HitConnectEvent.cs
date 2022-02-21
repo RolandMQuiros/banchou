@@ -28,7 +28,7 @@ namespace Banchou.Pawn.Part {
                     if (_debugBreak) {
                         Debug.Break();
                     }
-                    
+
                     if (_moveToContact) {
                         transform.position = attack.Contact;
                     } else if (_resetToDefaultPosition) {

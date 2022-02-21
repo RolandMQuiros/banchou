@@ -16,6 +16,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             _attack?.Start(_state.GetTime());
         }
     }

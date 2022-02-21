@@ -44,6 +44,7 @@ namespace Banchou.Pawn.FSM {
         
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnEnter)) {
                 Apply();
             }
@@ -52,6 +53,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.AtTime)) {
                 _stateTime += _state.GetDeltaTime();
                 if (!_applied && _stateTime >= _atTime) {
@@ -62,6 +64,7 @@ namespace Banchou.Pawn.FSM {
         }
         
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnExit)) {
                 Apply();
             }

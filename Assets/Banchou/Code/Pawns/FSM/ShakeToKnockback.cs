@@ -9,26 +9,37 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _maximumOffset = 2f;
 
         private GameState _state;
-        private AttackState _hit;
         private Vector3 _targetPosition;
+
+        private float _hitPauseTime;
+        private float _timeElapsed;
+        private Vector3 _knockback;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
             _state.ObserveHitsOn(getPawnId())
                 .CatchIgnoreLog()
-                .Subscribe(hit => { _hit = hit; })
+                .Subscribe(hit => {
+                    _hitPauseTime = hit.PauseTime;
+                    _knockback = hit.Knockback;
+                    _timeElapsed = 0f;
+                })
                 .AddTo(this);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             var xform = animator.transform;
-            var stateTime = _hit.NormalizedPauseTimeAt(_state.GetTime());
-            var magnitude = _multiplier * Mathf.Clamp01(_hit.Knockback.magnitude / _maximumOffset) *
+            _timeElapsed += _state.GetDeltaTime();
+            
+            var stateTime = Mathf.Clamp01(_timeElapsed / _hitPauseTime);
+            var magnitude = _multiplier * Mathf.Clamp01(_knockback.magnitude / _maximumOffset) *
                             _curve.Evaluate(stateTime);
-            _targetPosition = xform.InverseTransformVector(magnitude * _hit.Knockback.normalized);
+            _targetPosition = xform.InverseTransformVector(magnitude * _knockback.normalized);
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             _targetPosition = Vector3.zero;
         }
 

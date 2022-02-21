@@ -3,19 +3,18 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class RootMotion : FSMBehaviour {
-        private enum ApplyTarget { None, Spatial, AnimatorBody }
+        private enum ApplyTarget { None, Spatial, AnimatorBody, Animator }
         [SerializeField] private ApplyTarget _rootPositionTarget;
         [SerializeField] private ApplyTarget _rootRotationTarget;
 
         private GameState _state;
         private PawnSpatial _spatial;
         private Animator _animator;
-        private Rigidbody _rigidbody;
 
         private Vector3? _positionOffset;
         private Quaternion? _rotationOffset;
 
-        public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
+        public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
             _state.ObservePawnSpatialChanges(getPawnId())
                 .CatchIgnoreLog()
@@ -23,12 +22,23 @@ namespace Banchou.Pawn.FSM {
                     _spatial = spatial;
                 })
                 .AddTo(this);
-            _rigidbody = rigidbody;
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
+            
             _positionOffset = null;
             _rotationOffset = null;
+        }
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
+            
+            switch (_rootRotationTarget) {
+                case ApplyTarget.Animator:
+                    animator.transform.localRotation = Quaternion.identity;
+                    break;
+            }
         }
 
         public override void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -68,6 +78,9 @@ namespace Banchou.Pawn.FSM {
                 case ApplyTarget.Spatial:
                     _spatial.Rotate(deltaRotation * _spatial.Forward, now);
                     break;
+                case ApplyTarget.Animator:
+                    animator.transform.rotation *= deltaRotation;
+                    break;
                 case ApplyTarget.AnimatorBody:
                     animator.bodyRotation = _rotationOffset.Value * localBodyRotation;
                     break;
@@ -75,7 +88,10 @@ namespace Banchou.Pawn.FSM {
 
             switch (_rootPositionTarget) {
                 case ApplyTarget.Spatial:
-                    _spatial.Move(worldPositionDelta, now);
+                    _spatial.Move(deltaPosition, now);
+                    break;
+                case ApplyTarget.Animator:
+                    animator.bodyPosition += worldPositionDelta;
                     break;
                 case ApplyTarget.AnimatorBody:
                     animator.bodyPosition += _positionOffset.Value;

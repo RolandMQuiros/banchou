@@ -17,6 +17,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_output.IsSet) {
                 animator.SetFloat(_output.Hash, _attack.NormalizedPauseTimeAt(_state.GetTime()));
             }

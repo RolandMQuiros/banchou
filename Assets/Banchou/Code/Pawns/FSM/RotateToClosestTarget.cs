@@ -49,6 +49,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             if (_ignoreLockOnTarget || _combatant.LockOnTarget == default) {
                 _target = _state.GetCombatantSpatials()
                     .Where(target => target.PawnId != _pawnId)
@@ -74,6 +75,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
+            
             var stateTime = stateInfo.normalizedTime;
             var withinTimeframe = stateTime >= _fromStateTime && stateTime <= _toStateTime;
 

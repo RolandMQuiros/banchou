@@ -26,11 +26,13 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             _attackTime = 0f;
             _stateLength = stateInfo.length;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_attack.NormalizedPauseTimeAt(_state.GetTime()) >= 1f) {
                 _attackTime += _state.GetDeltaTime();
             }

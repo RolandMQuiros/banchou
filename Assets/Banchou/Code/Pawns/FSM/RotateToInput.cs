@@ -72,11 +72,14 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
+            
             _faceDirection = _spatial.Forward;
             _flipTimer = 0f;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_input == null) return;
             
             var stateTime = stateInfo.normalizedTime % 1;
@@ -119,6 +122,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_snapOnExit) {
                 // Snap to the facing direction on state exit.
                 // Helps face the character in the intended direction when jumping mid-turn.

@@ -10,17 +10,41 @@ namespace Banchou.Pawn.FSM {
         [SerializeField]
         private bool _normalized = true;
 
+        private GameState _state;
+        private float _hitPauseTime;
+        private float _timeElapsed;
+        
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
+            _state = state;
             if (_output.IsSet) {
-                state.ObserveHitsOn(pawnId)
-                    .Where(hit => IsStateActive && hit.StunTime > 0)
-                    .CombineLatest(ObserveStateUpdate, (hit, _) => hit)
-                    .Select(hit => _normalized ? hit.NormalizedPauseTimeAt(state.GetTime()) :
-                        hit.PauseTimeAt(state.GetTime()))
+                _state.ObserveHitsOn(pawnId)
+                    .Where(_ => IsStateActive)
                     .CatchIgnoreLog()
-                    .Subscribe(stunTime => animator.SetFloat(_output.Hash, stunTime))
+                    .Subscribe(hit => {
+                        _hitPauseTime = hit.PauseTime;
+                        _timeElapsed = 0f;
+                        animator.SetFloat(_output.Hash, 0f);
+                    })
                     .AddTo(this);
+            }
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
+            if (_timeElapsed < _hitPauseTime) {
+                _timeElapsed += _state.GetDeltaTime();
+                if (_normalized) {
+                    animator.SetFloat(_output.Hash, Mathf.Clamp01(_timeElapsed / _hitPauseTime));
+                } else {
+                    animator.SetFloat(_output.Hash, Mathf.Clamp(_timeElapsed, 0f, _hitPauseTime));
+                }
+            } else {
+                if (_normalized) {
+                    animator.SetFloat(_output.Hash, 1f);
+                } else {
+                    animator.SetFloat(_output.Hash, _hitPauseTime);
+                }
             }
         }
     }

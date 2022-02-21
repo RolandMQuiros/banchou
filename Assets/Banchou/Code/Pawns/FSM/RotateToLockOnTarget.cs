@@ -35,6 +35,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_spatial == null || _targetSpatial == null) return;
 
             var targetDirection = _spatial.DirectionTo(_targetSpatial.Position);

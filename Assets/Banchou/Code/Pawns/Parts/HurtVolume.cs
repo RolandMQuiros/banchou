@@ -54,7 +54,7 @@ namespace Banchou.Pawn.Part {
          Tooltip("Force applied to the enemy Combatant on contact, in world space. Applied after Hit Pause.")]
         private Vector3 _knockback;
 
-        public Vector3 Knockback => _transform.TransformVector(_knockback);
+        public Vector3 Knockback => Quaternion.LookRotation(_spatial.Forward) * _knockback;
 
         [field: SerializeField,
                 Tooltip("How much force to apply to hurt Pawns")]
@@ -70,11 +70,7 @@ namespace Banchou.Pawn.Part {
          Tooltip("Backwards force applied to the attacker on contact, in world space. Applied after Hit Pause")]
         private Vector3 _recoil;
 
-        public Vector3 Recoil => _transform.TransformVector(_recoil);
-
-        [field: SerializeField,
-         Tooltip("Where, in local Pawn space, to hold the grab target")]
-        public Vector3 GrabTargetPosition { get; private set; }
+        public Vector3 Recoil => Quaternion.LookRotation(_spatial.Forward) * _recoil;
 
         [field: SerializeField,
                 Tooltip("Remove lock-on if hit confirms. Use for attacks with huge knockback.")]
@@ -84,6 +80,7 @@ namespace Banchou.Pawn.Part {
         #endregion
 
         private GameState _state;
+        private PawnSpatial _spatial;
         private AttackState _attack;
         private Transform _transform;
 
@@ -101,6 +98,11 @@ namespace Banchou.Pawn.Part {
             PawnId = getPawnId();
             _attack = _state.GetCombatantAttack(PawnId);
             _transform = transform;
+
+            _state.ObservePawnSpatial(PawnId)
+                .CatchIgnoreLog()
+                .Subscribe(spatial => _spatial = spatial)
+                .AddTo(this);
 
             _state.ObserveAttackChanges(getPawnId())
                 .Where(_ => isActiveAndEnabled)

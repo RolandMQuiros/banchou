@@ -36,6 +36,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_triggered) {
                 _pauseTimer -= _state.GetDeltaTime();
                 if (_pauseTimer <= 0f) {
@@ -43,7 +44,7 @@ namespace Banchou.Pawn.FSM {
                     if (_breakOnSet) {
                         Debug.Break();
                     }
-                    _output.ForEach(parameter => parameter.Apply(animator));
+                    _output.ApplyAll(animator);
                 }
             }
         }

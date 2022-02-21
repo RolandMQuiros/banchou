@@ -3,7 +3,11 @@ using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
-    public class CombatantEvents : MonoBehaviour {
+    [Tooltip(Description)]
+    public class CombatantAnimatorEvents : MonoBehaviour {
+        public const string Description = "Contains Combatant methods called by animation events or the " +
+                                          "AnimatorUnityEvents FSM Behaviour";
+        [SerializeField, DevComment] private string _comment = Description;
         private GameState _state;
         private CombatantState _combatant;
         

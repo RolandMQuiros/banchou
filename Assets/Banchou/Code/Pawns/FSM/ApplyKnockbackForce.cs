@@ -11,28 +11,28 @@ namespace Banchou.Pawn.FSM {
 
         private GameState _state;
         private Rigidbody _rigidbody;
-        private AttackState _hit;
-        
+        private Vector3 _knockback;
+
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
             _state = state;
             _rigidbody = rigidbody;
             _state.ObserveHitsOn(getPawnId())
                 .CatchIgnoreLog()
-                .Subscribe(hit => _hit = hit)
+                .Subscribe(hit => _knockback = hit.Knockback)
                 .AddTo(this);
         }
 
         private void Apply() {
-            if (_hit != null) {
-                _rigidbody.velocity = _multiplier * _hit.Knockback;
-            }
+            _rigidbody.velocity = _multiplier * _knockback;
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply();
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply();
         }
     }

@@ -44,6 +44,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Players
+  - m_GUID: 6cdca0ec698951d4ba4fb06f60a55e12
+    m_Address: Pawn/ShufflemenGrunt
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pawns
+    - Combatants
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d32d5fb5eedff9e448f43656a8c0539b, type: 2}
   m_SchemaSet:

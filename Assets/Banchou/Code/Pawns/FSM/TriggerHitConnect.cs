@@ -26,7 +26,7 @@ namespace Banchou.Pawn.FSM {
                         if (_breakOnSet) {
                             Debug.Break();
                         }
-                        _output.ForEach(parameter => parameter.Apply(animator));
+                        _output.ApplyAll(animator);
                     })
                     .AddTo(this);
             }

@@ -18,38 +18,32 @@ namespace Banchou {
         protected struct FSMUnit {
             public AnimatorStateInfo StateInfo;
             public int LayerIndex;
-            public AnimatorControllerPlayable Playable;
         }
 
         protected readonly Subject<FSMUnit> ObserveStateEnter = new();
         protected readonly Subject<FSMUnit> ObserveStateUpdate = new();
         protected readonly Subject<FSMUnit> ObserveStateExit = new();
         private readonly HashSet<int> _activeStates = new();
+        private FSMUnit _unit;
 
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             _activeStates.Add(stateInfo.fullPathHash);
-            ObserveStateEnter.OnNext(new FSMUnit {
-                StateInfo = stateInfo,
-                LayerIndex = layerIndex,
-                Playable = playable
-            });
+            _unit.StateInfo = stateInfo;
+            _unit.LayerIndex = layerIndex;
+            ObserveStateEnter.OnNext(_unit);
         }
 
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
-            ObserveStateExit.OnNext(new FSMUnit {
-                StateInfo = stateInfo,
-                LayerIndex = layerIndex,
-                Playable = playable
-            });
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _unit.StateInfo = stateInfo;
+            _unit.LayerIndex = layerIndex;
+            ObserveStateExit.OnNext(_unit);
             _activeStates.Remove(stateInfo.fullPathHash);
         }
 
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex, AnimatorControllerPlayable playable) {
-            ObserveStateUpdate.OnNext(new FSMUnit {
-                StateInfo = stateInfo,
-                LayerIndex = layerIndex,
-                Playable = playable
-            });
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _unit.StateInfo = stateInfo;
+            _unit.LayerIndex = layerIndex;
+            ObserveStateUpdate.OnNext(_unit);
         }
 
         private void OnDisable() {
@@ -57,7 +51,9 @@ namespace Banchou {
         }
 
         protected virtual void OnDestroy() {
-            _streams.ForEach(s => s.Dispose());
+            for (int i = 0; i < _streams.Count; i++) {
+                _streams[i].Dispose();
+            }
             _streams.Clear();
         }
 

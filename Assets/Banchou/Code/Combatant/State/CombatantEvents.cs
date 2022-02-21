@@ -57,16 +57,14 @@ namespace Banchou.Combatant {
 
         public static IObservable<AttackState> ObserveHits(this GameState state) =>
             state.ObserveCombatants()
-                .SelectMany(combatant => combatant.Attack.Observe())
-                .DistinctUntilChanged(attack => attack.TargetId)
-                .Where(attack => attack.TargetId != default);
+                .SelectMany(
+                    combatant => combatant.Attack.Observe()
+                        .DistinctUntilChanged(attack => (attack.AttackId, attack.TargetId))
+                        .Where(attack => attack.TargetId != default)
+                );
 
         public static IObservable<AttackState> ObserveHitsOn(this GameState state, int pawnId) =>
-            state.ObserveCombatants()
-                .SelectMany(combatant => combatant.Attack.Observe())
-                .Where(attack => attack.TargetId == pawnId)
-                .DistinctUntilChanged(attack => (attack.AttackerId, attack.AttackId, attack.TargetId));
-                
+            state.ObserveHits().Where(attack => attack.TargetId == pawnId);
 
         public static IObservable<AttackState> ObserveAttackConnects(this GameState state, int pawnId) =>
             state.ObserveAttackChanges(pawnId)
@@ -75,14 +73,34 @@ namespace Banchou.Combatant {
         
         public static IObservable<AttackState> ObserveConfirmedAttack(this GameState state, int pawnId) =>
             state.ObserveAttackConnects(pawnId)
-                .DistinctUntilChanged(attack => attack.Confirmed)
                 .Where(attack => attack.Confirmed);
 
         public static IObservable<AttackState> ObserveBlockedAttack(this GameState state, int pawnId) =>
             state.ObserveAttackConnects(pawnId)
-                .DistinctUntilChanged(attack => attack.Blocked)
                 .Where(attack => attack.Blocked);
 
+        public static IObservable<GrabState> ObserveGrab(this GameState state, int pawnId) =>
+            state.ObserveCombatant(pawnId)
+                .Select(combatant => combatant.Grab);
+
+        public static IObservable<GrabState> ObserveGrabContactsOn(this GameState state, int pawnId) =>
+            state.ObserveCombatants()
+                .SelectMany(combatant => combatant.Grab.Observe())
+                .DistinctUntilChanged(grab => grab.Phase)
+                .Where(grab => grab.Phase == GrabPhase.Contacted && grab.TargetId == pawnId);
+        
+        public static IObservable<GrabState> ObserveGrabHoldsOn(this GameState state, int pawnId) =>
+            state.ObserveCombatants()
+                .SelectMany(combatant => combatant.Grab.Observe())
+                .DistinctUntilChanged(grab => grab.Phase)
+                .Where(grab => grab.Phase == GrabPhase.Held && grab.TargetId == pawnId);
+        
+        public static IObservable<GrabState> ObserveGrabReleasesOn(this GameState state, int pawnId) =>
+            state.ObserveCombatants()
+                .SelectMany(combatant => combatant.Grab.Observe())
+                .DistinctUntilChanged(grab => grab.Phase)
+                .Where(grab => grab.Phase == GrabPhase.Released && grab.TargetId == pawnId);
+        
         public static IObservable<int> ObserveLockOn(this GameState state, int pawnId) =>
             state.ObserveCombatantChanges(pawnId)
                 .Select(combatant => combatant.LockOnTarget)

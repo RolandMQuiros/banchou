@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
@@ -178,6 +179,20 @@ namespace Banchou.Pawn.FSM {
                 case ApplyMode.Multiply:
                     animator.SetInteger(_parameter.Hash, animator.GetInteger(_parameter.Hash) * (int)_value);
                     break;
+            }
+        }
+    }
+
+    public static class FSMParameterExtensions {
+        public static void ApplyAll(this List<ApplyFSMParameter> parameters, Animator animator) {
+            for (int i = 0; i < parameters.Count; i++) {
+                parameters[i].Apply(animator);
+            }
+        }
+        
+        public static void ApplyAll(this ApplyFSMParameter[] parameters, Animator animator) {
+            for (int i = 0; i < parameters.Length; i++) {
+                parameters[i].Apply(animator);
             }
         }
     }

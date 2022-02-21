@@ -39,15 +39,20 @@ namespace Banchou.Pawn.Part {
                             var forward = input.Direction != Vector3.zero ? input.Direction.normalized :
                                 transform.forward;
                             var origin = Origin;
-                            
+
                             var selected = _targets
-                                .Where(target => !Physics.Linecast(Origin, target.Origin, _obstructionMask.value))
+                                .Where(target => !Physics.Linecast(
+                                    Origin, target.transform.position, _obstructionMask.value
+                                ))
                                 .Select(
-                                    target => (
-                                        Target: target,
-                                        Distance: (target.Origin - origin).magnitude, 
-                                        Dot: Vector3.Dot((target.Origin - Origin).normalized, forward) 
-                                    )
+                                    target => {
+                                        var targetOrigin = target.transform.position;
+                                        return (
+                                            Target: target,
+                                            Distance: (targetOrigin - origin).magnitude,
+                                            Dot: Vector3.Dot((targetOrigin - Origin).normalized, forward)
+                                        );
+                                    }
                                 )
                                 .OrderByDescending(targetArgs => Math.Sign(targetArgs.Dot))
                                 .ThenBy(targetArgs => (2f - Mathf.Abs(targetArgs.Dot)) * targetArgs.Distance)
@@ -92,9 +97,9 @@ namespace Banchou.Pawn.Part {
             
             foreach (var target in _targets) {
                 if (target != null) {
-                    var dot = Vector3.Dot((target.Origin - origin).normalized, forward);
-                    var targetOrigin = target.Origin;
-                    var distance = (target.Origin - origin).magnitude;
+                    var targetOrigin = target.transform.position;
+                    var dot = Vector3.Dot((targetOrigin - origin).normalized, forward);
+                    var distance = (targetOrigin - origin).magnitude;
 
                     if (target != _target && dot > 0f) {
                         Gizmos.color = Color.cyan;
@@ -109,8 +114,7 @@ namespace Banchou.Pawn.Part {
             }
 
             if (_target != null) {
-                var targetOrigin = _target.Origin;
-                
+                var targetOrigin = _target.transform.position;
                 Gizmos.color = Color.magenta;
                 Gizmos.DrawLine(origin, targetOrigin);
             }

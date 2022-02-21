@@ -103,6 +103,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
+            
             if (_readEvent.HasFlag(ApplyEvent.OnEnter)) {
                 _velocity = _movementSpeed * _input.Direction;
             }
@@ -118,6 +120,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
+            
             if (_input == null) return;
             
             var dt = _state.GetDeltaTime();
@@ -165,6 +169,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
+            
             if (_clearOutOnExit) {
                 _speedOut = 0f;
                 _rightSpeedOut = 0f;

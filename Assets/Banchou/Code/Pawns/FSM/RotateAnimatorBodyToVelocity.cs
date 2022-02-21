@@ -20,12 +20,14 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             if (_spatial.AmbientVelocity != Vector3.zero) {
                 _targetRotation = Quaternion.LookRotation(_spatial.AmbientVelocity.normalized);
             }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_spatial.AmbientVelocity != Vector3.zero) {
                 _targetRotation = Quaternion.RotateTowards(
                     _targetRotation,
@@ -36,6 +38,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             _targetRotation = Quaternion.identity;
         }
 

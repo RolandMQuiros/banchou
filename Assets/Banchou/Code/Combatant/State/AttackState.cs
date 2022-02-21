@@ -85,13 +85,15 @@ namespace Banchou.Combatant {
             Contact = Vector3.zero;
             Knockback = Vector3.zero;
             Recoil = Vector3.zero;
-            return UpdateTimes(when);
+            LastUpdated = when;
+            return Notify(when);
         }
 
         public AttackState Activate(float when) {
             if (Phase == AttackPhase.Starting) {
                 Phase = AttackPhase.Active;
-                return UpdateTimes(when);
+                LastUpdated = when;
+                return Notify(when);
             }
             return this;
         }
@@ -101,6 +103,7 @@ namespace Banchou.Combatant {
                 AttackId++;
                 TargetId = 0;
                 Blocked = false;
+                LastUpdated = when;
                 return Activate(when);
             }
             return this;
@@ -109,7 +112,8 @@ namespace Banchou.Combatant {
         public AttackState Recover(float when) {
             if (Phase == AttackPhase.Active) {
                 Phase = AttackPhase.Recover;
-                return UpdateTimes(when);
+                LastUpdated = when;
+                return Notify(when);
             }
             return this;
         }
@@ -117,7 +121,9 @@ namespace Banchou.Combatant {
         public AttackState Finish(float when) {
             Phase = AttackPhase.Neutral;
             Blocked = false;
-            return UpdateTimes(when);
+            TargetId = default;
+            LastUpdated = when;
+            return Notify(when);
         }
         
         public AttackState Connect(
@@ -141,12 +147,6 @@ namespace Banchou.Combatant {
             Knockback = knockback;
             Recoil = recoil;
             IsGrab = isGrab;
-            return UpdateTimes(when);
-        }
-
-        private AttackState UpdateTimes(float when) {
-            var diff = when - LastUpdated;
-            PauseTime = Mathf.Clamp01(PauseTime - diff);
             LastUpdated = when;
             return Notify(when);
         }

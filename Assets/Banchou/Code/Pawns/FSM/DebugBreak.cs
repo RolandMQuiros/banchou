@@ -7,10 +7,12 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private ApplyEvent _onEvent;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Debug.Break();
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.OnExit)) Debug.Break();
         }
 

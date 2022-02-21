@@ -14,10 +14,12 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             _attackId = _attackState.Start(_state.GetTime()).AttackId;
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_attackId == _attackState.AttackId) {
                 _attackState.Finish(_state.GetTime());
             }

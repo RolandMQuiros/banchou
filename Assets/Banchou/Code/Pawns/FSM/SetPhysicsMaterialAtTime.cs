@@ -25,6 +25,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateEnter(animator, stateInfo, layerIndex);
             _applied = false;
             if (_onEvent == ApplyEvent.OnEnter && _worldCollider != null) {
                 _worldCollider.material = _activeMaterial;
@@ -33,6 +34,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_worldCollider == null ||
                 _onEvent != ApplyEvent.AtNormalizedTime) return;
             
@@ -48,6 +50,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
             if (_onEvent == ApplyEvent.OnExit && _worldCollider != null) {
                 _worldCollider.material = _activeMaterial;
                 _applied = true;

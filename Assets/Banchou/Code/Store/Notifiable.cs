@@ -1,9 +1,11 @@
 using System;
+using System.Runtime.CompilerServices;
 using UniRx;
 
 namespace Banchou {
     public record Notifiable<TNotifier> where TNotifier : Notifiable<TNotifier> {
         public event Action<TNotifier> Changed;
+        public string LastCaller { get; private set; }
 
         public virtual IObservable<TNotifier> Observe() {
             return Observable.FromEvent<TNotifier>(
@@ -18,7 +20,8 @@ namespace Banchou {
                 .StartWith(emit);
         }
 
-        protected virtual TNotifier Notify() {
+        protected virtual TNotifier Notify([CallerMemberName]string caller = null) {
+            LastCaller = caller;
             Changed?.Invoke((TNotifier)this);
             return (TNotifier)this;
         }
@@ -44,11 +47,11 @@ namespace Banchou {
             return this as TNotifier;
         }
 
-        protected virtual TNotifier Notify(float when) {
+        protected virtual TNotifier Notify(float when, [CallerMemberName] string caller = null) {
             if (History != null) {
                 History.PushFrame(this as TNotifier, when);
             }
-            return Notify();
+            return Notify(caller);
         }
     }
 }

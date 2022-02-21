@@ -22,6 +22,8 @@ namespace Banchou.Pawn.FSM {
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
+            
             if (_input == null) return;
             
             if (_magnitude.IsSet) {
