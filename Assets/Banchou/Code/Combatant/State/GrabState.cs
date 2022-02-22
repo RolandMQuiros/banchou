@@ -36,19 +36,25 @@ namespace Banchou.Combatant {
         }
 
         public GrabState Contact(int attackId, int targetId, float when) {
-            Phase = GrabPhase.Contacted;
-            AttackId = attackId;
-            TargetId = targetId;
-            LaunchForce = Vector3.zero;
-            return Notify(when);
+            if (Phase is GrabPhase.Released or GrabPhase.Interrupted) {
+                Phase = GrabPhase.Contacted;
+                AttackId = attackId;
+                TargetId = targetId;
+                LaunchForce = Vector3.zero;
+                return Notify(when);
+            }
+            return this;
         }
 
         public GrabState Hold(Vector3 position, Quaternion rotation, GrabbedPose pose, float when) {
-            Phase = GrabPhase.Held;
-            AnchorPosition = position;
-            AnchorRotation = rotation;
-            Pose = pose;
-            return Notify(when);
+            if (Phase is GrabPhase.Contacted or GrabPhase.Held && TargetId != default) {
+                Phase = GrabPhase.Held;
+                AnchorPosition = position;
+                AnchorRotation = rotation;
+                Pose = pose;
+                return Notify(when);
+            }
+            return Interrupt(position, rotation, when);
         }
 
         public GrabState Release(Vector3 position, Quaternion rotation, Vector3 launchForce, float when) {
@@ -57,6 +63,22 @@ namespace Banchou.Combatant {
                 AnchorPosition = position;
                 AnchorRotation = rotation;
                 Phase = GrabPhase.Released;
+                Pose = GrabbedPose.None;
+                return Notify(when);
+            }
+            return this;
+        }
+
+        public GrabState Interrupt(float when) {
+            return Interrupt(AnchorPosition, AnchorRotation, when);
+        }
+        
+        public GrabState Interrupt(Vector3 position, Quaternion rotation, float when) {
+            if (Phase is GrabPhase.Contacted or GrabPhase.Held) {
+                LaunchForce = Vector3.zero;
+                AnchorPosition = position;
+                AnchorRotation = rotation;
+                Phase = GrabPhase.Interrupted;
                 Pose = GrabbedPose.None;
                 return Notify(when);
             }
@@ -75,6 +97,7 @@ namespace Banchou.Combatant {
     public enum GrabPhase : byte {
         Contacted,
         Held,
-        Released
+        Released,
+        Interrupted
     }
 }

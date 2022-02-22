@@ -101,6 +101,12 @@ namespace Banchou.Combatant {
                 .DistinctUntilChanged(grab => grab.Phase)
                 .Where(grab => grab.Phase == GrabPhase.Released && grab.TargetId == pawnId);
         
+        public static IObservable<GrabState> ObserveGrabInterruptionsOn(this GameState state, int pawnId) =>
+            state.ObserveCombatants()
+                .SelectMany(combatant => combatant.Grab.Observe())
+                .DistinctUntilChanged(grab => grab.Phase)
+                .Where(grab => grab.Phase == GrabPhase.Interrupted && grab.TargetId == pawnId);
+        
         public static IObservable<int> ObserveLockOn(this GameState state, int pawnId) =>
             state.ObserveCombatantChanges(pawnId)
                 .Select(combatant => combatant.LockOnTarget)

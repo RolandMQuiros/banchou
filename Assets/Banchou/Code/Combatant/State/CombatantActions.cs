@@ -55,21 +55,23 @@ namespace Banchou.Combatant {
                 blocked &= !isGrab; // Grabs break through blocks
                 var now = state.GetTime();
                 
-                attacker.Combatant.Attack.Connect(
-                    defenderPawnId,
-                    damage,
-                    blocked,
-                    hitPause,
-                    hitStun,
-                    contact,
-                    knockback,
-                    recoil,
-                    isGrab,
-                    now
-                );
-
                 if (isGrab) {
                     attacker.Combatant.Grab.Contact(attackId, defenderPawnId, now);
+                }
+
+                if (!isGrab || attacker.Combatant.Grab.TargetId == defenderPawnId) {
+                    attacker.Combatant.Attack.Connect(
+                        defenderPawnId,
+                        damage,
+                        blocked,
+                        hitPause,
+                        hitStun,
+                        contact,
+                        knockback,
+                        recoil,
+                        isGrab,
+                        now
+                    );
                 }
 
                 if (lockOffOnConfirm) {

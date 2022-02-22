@@ -57,6 +57,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: 3232907674459270535}
+  - {fileID: -6486964055284324455}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 280, y: 230, z: 0}
@@ -1131,6 +1132,29 @@ MonoBehaviour:
   _forceMode: 0
   _force: {x: 0, y: 0, z: 0}
   _relativeForce: {x: 0, y: -50, z: 0}
+--- !u!114 &-6486964055284324455
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3176a705709fef44bb7b77f6119482fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _invertDirection: 0
+  _rotationSpeed: 1000
+  _hold: 0
+  _snap: 0
+  _snapOnExit: 1
+  _flipDelay: 0
+  _flipMagnitudeThreshold: 0.4
+  _flipDirectionThreshold: 0.01
+  _startTime: 0
+  _endTime: 1
 --- !u!1101 &-6447578748677603841
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1266,11 +1290,11 @@ AnimatorStateMachine:
     second:
     - {fileID: 2989078897007408596}
     - {fileID: 6110611313395991386}
+  - first: {fileID: 9186696502463278040}
+    second: []
   - first: {fileID: 816221967296824223}
     second:
     - {fileID: 6550550263966957734}
-  - first: {fileID: 9186696502463278040}
-    second: []
   m_StateMachineBehaviours:
   - {fileID: -5655900777699233071}
   - {fileID: -1757497830564396962}
@@ -3043,6 +3067,8 @@ AnimatorStateMachine:
   - {fileID: 5729473699298028371}
   - {fileID: -5904854680578445183}
   - {fileID: -437808215016733786}
+  - {fileID: 86143230097455504}
+  - {fileID: 5551250750386784414}
   m_AnyStatePosition: {x: 30, y: 20, z: 0}
   m_EntryPosition: {x: -20, y: 180, z: 0}
   m_ExitPosition: {x: 610, y: 280, z: 0}
@@ -4130,7 +4156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _onEvent: 1
-  _multiplier: 0.25
+  _multiplier: 1
 --- !u!1101 &-922846019739288214
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -5055,6 +5081,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+--- !u!114 &86143230097455504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe20e093f4fbd2488553f9ffc0f9f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 0
+  _enableCollider: 0
+  _stateTime: 0
 --- !u!114 &92327750528294860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7950,6 +7992,22 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!114 &5551250750386784414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe20e093f4fbd2488553f9ffc0f9f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 2
+  _enableCollider: 0
+  _stateTime: 0
 --- !u!114 &5684403572413445979
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10190,14 +10248,14 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
+  - first: {fileID: 7575072592301372680}
+    second:
+    - {fileID: -8446299489002801831}
   - first: {fileID: 7771591877205563143}
     second:
     - {fileID: -2237286387680351539}
     - {fileID: -202281238929767656}
     - {fileID: 3469997367132802094}
-  - first: {fileID: 7575072592301372680}
-    second:
-    - {fileID: -8446299489002801831}
   m_StateMachineBehaviours:
   - {fileID: 2508541069880812893}
   - {fileID: 4040809446370309817}

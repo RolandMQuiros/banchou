@@ -27,6 +27,7 @@ namespace Banchou.Pawn.FSM {
 
             _state.ObserveConfirmedAttack(getPawnId())
                 .Where(_ => IsStateActive)
+                .DistinctUntilChanged(attack => attack.AttackId) // Only pause once per attack
                 .CatchIgnoreLog()
                 .Subscribe(attack => {
                     _pauseTime = attack.PauseTime;

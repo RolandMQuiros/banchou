@@ -57,6 +57,9 @@ namespace Banchou.Combatant {
         ) {
             if (Defense.IsInvincible) return this;
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
+
+            Grab.Interrupt(when);
+            
             LastUpdated = when;
             return Notify(when);
         }

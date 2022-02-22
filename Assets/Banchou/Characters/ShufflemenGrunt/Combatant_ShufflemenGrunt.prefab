@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6129639373135100290
 Transform:
   m_ObjectHideFlags: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
   _frontKnockbackScale: 1
   _frontRecoilScale: 0
   _frontHitPauseScale: 1
-  _frontHitStunScale: 1
+  _frontHitStunScale: 3
   _rearDamageScale: 1
   _rearKnockbackScale: 1
   _rearRecoilScale: 0
@@ -1802,6 +1802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _pawnCollider: {fileID: 0}
 --- !u!114 &7612661486905432158
 MonoBehaviour:
   m_ObjectHideFlags: 0

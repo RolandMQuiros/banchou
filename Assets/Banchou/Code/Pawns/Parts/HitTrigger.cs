@@ -63,7 +63,7 @@ namespace Banchou.Pawn.Part {
                 if (canHurt) {
                     var position = transform.position;
                     var knockback = hurtVolume.GetKnockbackOn(position);
-                    var isFrontAttack = Vector3.Dot(_spatial.Forward, hurtVolume.transform.position - position) > 0f;
+                    var isFrontAttack = Vector3.Dot(_spatial.Forward, hurtVolume.transform.position - position) > -0.25f;
                     var blocked = _isBlocking && isFrontAttack;
 
                     _state.HitCombatant(

@@ -8,6 +8,7 @@ namespace Banchou.Pawn.FSM {
         private int _pawnId;
         [SerializeField] private ApplyFSMParameter[] _onGrabStart;
         [SerializeField] private ApplyFSMParameter[] _onGrabRelease;
+        [SerializeField] private ApplyFSMParameter[] _onGrabInterrupted;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _state = state;
@@ -15,12 +16,17 @@ namespace Banchou.Pawn.FSM {
             _state.ObserveGrabContactsOn(_pawnId)
                 .Where(_ => IsStateActive)
                 .CatchIgnoreLog()
-                .Subscribe(_ => { _onGrabStart.ApplyAll(animator); })
+                .Subscribe(_ => _onGrabStart.ApplyAll(animator))
                 .AddTo(this);
             _state.ObserveGrabReleasesOn(_pawnId)
                 .Where(_ => IsStateActive)
                 .CatchIgnoreLog()
-                .Subscribe(_ => { _onGrabRelease.ApplyAll(animator); })
+                .Subscribe(_ => _onGrabRelease.ApplyAll(animator))
+                .AddTo(this);
+            _state.ObserveGrabInterruptionsOn(_pawnId)
+                .Where(_ => IsStateActive)
+                .CatchIgnoreLog()
+                .Subscribe(_ => _onGrabInterrupted.ApplyAll(animator))
                 .AddTo(this);
         }
     }

@@ -7,7 +7,11 @@ using UniRx.Triggers;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
+    public delegate Collider GetPawnCollider();
+    
     public class PawnAnimator : MonoBehaviour, IContext {
+        [SerializeField] private Collider _pawnCollider;
+        
         private DiContainer _diContainer;
         private GameState _state;
         private PawnAnimatorFrame _frame;
@@ -86,7 +90,8 @@ namespace Banchou.Pawn.Part {
 
         public DiContainer InstallBindings(DiContainer container) {
             return container
-                .Bind(GetComponent<AnimatorUnityEvents>());
+                .Bind(GetComponent<AnimatorUnityEvents>())
+                .Bind<GetPawnCollider>(() => _pawnCollider);
         }
     }
 }
