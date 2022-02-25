@@ -12,6 +12,7 @@ namespace Banchou.Board {
         List<string> ActiveScenes = null,
         List<string> LoadingScenes = null,
         Dictionary<int, PawnState> Pawns = null,
+        float TimeScale = 1f,
         float LastUpdated = 0f
     ) : Notifiable<BoardState> {
         public event Action<string> SceneAdded;
@@ -27,6 +28,9 @@ namespace Banchou.Board {
         
         [field: SerializeField]
         public Dictionary<int, PawnState> Pawns { get; private set; } = Pawns ?? new Dictionary<int, PawnState>();
+        
+        [field: SerializeField]
+        public float TimeScale { get; private set; } = TimeScale;
         
         [field: SerializeField]
         public float LastUpdated { get; private set; } = LastUpdated;
@@ -164,6 +168,15 @@ namespace Banchou.Board {
                 Pawns.Clear();
                 LastUpdated = when;
                 Notify();
+            }
+            return this;
+        }
+
+        public BoardState SetTimescale(float timeScale, float when) {
+            if (!Mathf.Approximately(TimeScale,  timeScale)) {
+                TimeScale = timeScale;
+                LastUpdated = when;
+                return Notify();
             }
             return this;
         }

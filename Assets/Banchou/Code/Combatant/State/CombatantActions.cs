@@ -78,7 +78,7 @@ namespace Banchou.Combatant {
                     attacker.Combatant.LockOff(now);
                 }
 
-                defender.Combatant.Hit(damage, now);
+                defender.Combatant.TakeHit(attackerPawnId, attackId, damage, hitPause, hitStun, now);
             }
             return state;
         }

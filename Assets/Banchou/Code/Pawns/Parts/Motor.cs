@@ -26,9 +26,18 @@ namespace Banchou.Pawn.Part {
         ) {
             _state = state;
             _rigidbody = body;
-            _state.ObservePawnChanges(getPawnId())
+
+            var pawnId = getPawnId();
+            _state.ObservePawnChanges(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(pawn => _spatial = pawn.Spatial)
+                .AddTo(this);
+            
+            // When timescale changes, scale current velocity
+            _state.ObservePawnTimeScale(pawnId)
+                .Pairwise()
+                .CatchIgnoreLog()
+                .Subscribe(pair => _rigidbody.velocity *= pair.Current / pair.Previous)
                 .AddTo(this);
         }
 

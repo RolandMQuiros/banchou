@@ -14,15 +14,16 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("Pause the editor on confirmation")]
         private bool _breakOnSet;
-
-        private GameState _state;
+        
+        private GetDeltaTime _getDeltaTime;
         private float _pauseTimer = -1f;
-        private bool _triggered = false;
+        private bool _triggered;
         
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
-            _state = state;
+            var pawnId = getPawnId();
+            _getDeltaTime = state.PawnDeltaTime(pawnId);
             if (_output.Count > 0) {
-                _state.ObserveAttackConnects(getPawnId())
+                state.ObserveAttackConnects(pawnId)
                     .Where(attack => IsStateActive && 
                                      (_onConfirm && attack.Confirmed ||
                                       _onBlock && attack.Blocked ||
@@ -38,7 +39,7 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_triggered) {
-                _pauseTimer -= _state.GetDeltaTime();
+                _pauseTimer -= _getDeltaTime();
                 if (_pauseTimer <= 0f) {
                     _triggered = false;
                     if (_breakOnSet) {

@@ -27,9 +27,14 @@ namespace Banchou.Pawn.Part {
             _diContainer = diContainer;
             _state = state;
             _animator = animator;
-            _state.ObservePawnChanges(getPawnId())
+
+            var pawnId = getPawnId();
+            _state.ObservePawnChanges(pawnId)
                 .CatchIgnoreLog()
-                .Subscribe(pawn => _frame = pawn.AnimatorFrame)
+                .Subscribe(pawn => {
+                    _frame = pawn.AnimatorFrame;
+                    animator.speed = _state.Board.TimeScale * pawn.TimeScale;
+                })
                 .AddTo(this);
 
             // Accessing Animator.parameters or Animator.GetParameter seems to generate garbage

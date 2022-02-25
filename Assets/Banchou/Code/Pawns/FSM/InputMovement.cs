@@ -58,6 +58,7 @@ namespace Banchou.Pawn.FSM {
         private bool _clearOutOnExit = true;
 
         private GameState _state;
+        private GetDeltaTime _getDeltaTime;
         private PlayerInputState _input;
         private PawnSpatial _spatial;
         private float _speed;
@@ -75,9 +76,9 @@ namespace Banchou.Pawn.FSM {
         private int _forwardSpeedHash = 0;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
-            _state = state;
             var pawnId = getPawnId();
-            
+            _state = state;
+            _getDeltaTime = state.PawnDeltaTime(pawnId);
             _state.ObservePawnSpatialChanges(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
@@ -124,7 +125,7 @@ namespace Banchou.Pawn.FSM {
             
             if (_input == null) return;
             
-            var dt = _state.GetDeltaTime();
+            var dt = _getDeltaTime();
 
             if (_readEvent.HasFlag(ApplyEvent.OnUpdate)) {
                 var speed = _movementSpeed;
@@ -146,7 +147,7 @@ namespace Banchou.Pawn.FSM {
                 _velocity = Vector3.MoveTowards(_velocity, speed * direction, _acceleration * dt * dt);
             }
 
-            var offset = _velocity * _state.GetDeltaTime();
+            var offset = _velocity * dt;
             _spatial.Move(offset, _state.GetTime());
 
             // Write to output variables

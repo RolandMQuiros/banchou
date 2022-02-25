@@ -6,10 +6,18 @@ using Banchou.Combatant;
 
 namespace Banchou.Pawn {
     public delegate int GetPawnId();
+    public delegate float GetDeltaTime();
+    
     [MessagePackObject, Serializable]
     public record PawnState(
-        int PawnId, string PrefabKey, int PlayerId = 0, PawnSpatial Spatial = null,
-        PawnAnimatorFrame AnimatorFrame = null, float LastUpdated = 0f, CombatantState Combatant = null
+        int PawnId,
+        string PrefabKey,
+        int PlayerId = 0,
+        PawnSpatial Spatial = null,
+        PawnAnimatorFrame AnimatorFrame = null,
+        CombatantState Combatant = null,
+        float TimeScale = 1f,
+        float LastUpdated = 0f
     ) : Notifiable<PawnState> {
         [field: SerializeField]
         public int PlayerId { get; private set; } = PlayerId;
@@ -21,10 +29,13 @@ namespace Banchou.Pawn {
         public PawnAnimatorFrame AnimatorFrame { get; private set; } = AnimatorFrame ?? new PawnAnimatorFrame();
         
         [field: SerializeField]
-        public float LastUpdated { get; private set; } = LastUpdated;
+        public CombatantState Combatant { get; private set; } = Combatant;
         
         [field: SerializeField]
-        public CombatantState Combatant { get; private set; } = Combatant;
+        public float TimeScale { get; private set; } = TimeScale;
+        
+        [field: SerializeField]
+        public float LastUpdated { get; private set; } = LastUpdated;
 
         public PawnState(
             int pawnId,
@@ -83,6 +94,15 @@ namespace Banchou.Pawn {
             );
             LastUpdated = when;
             return Notify();
+        }
+
+        public PawnState SetTimeScale(float timeScale, float when) {
+            if (!Mathf.Approximately(TimeScale, timeScale)) {
+                TimeScale = timeScale;
+                LastUpdated = when;
+                return Notify();
+            }
+            return this;
         }
     }
 }

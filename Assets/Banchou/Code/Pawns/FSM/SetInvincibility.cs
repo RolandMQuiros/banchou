@@ -14,13 +14,16 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Min(0f)] private float _atTime;
 
         private GameState _state;
+        private GetDeltaTime _getDeltaTime;
         private CombatantState _combatant;
         private bool _applied;
         private float _stateTime;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
+            var pawnId = getPawnId();
             _state = state;
-            _state.ObserveCombatant(getPawnId())
+            _getDeltaTime = _state.PawnDeltaTime(pawnId);
+            _state.ObserveCombatant(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(combatant => _combatant = combatant)
                 .AddTo(this);
@@ -55,7 +58,7 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.AtTime)) {
-                _stateTime += _state.GetDeltaTime();
+                _stateTime += _getDeltaTime();
                 if (!_applied && _stateTime >= _atTime) {
                     Apply();
                     _applied = true;

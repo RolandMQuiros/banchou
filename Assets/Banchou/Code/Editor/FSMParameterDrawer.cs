@@ -14,14 +14,30 @@ namespace Banchou.Pawn.FSM {
         private AnimatorControllerParameter[] _parameters;
         private string[] _parameterNames;
         private List<int> _parameterHashes;
+        
+        /// <summary>
+        /// Draws the <see cref="FSMParameter"/> in the inspector
+        /// </summary>
+        /// <param name="position">The encapsulating <see cref="Rect"/> in which to draw the property</param>
+        /// <param name="property">The property to draw</param>
+        /// <param name="label">An accompanying label drawn next to the property</param>
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
             if (!Application.isPlaying && TryGetController(property)) {
-                DrawProperty(position, property, label);
+                DrawPropertyEditMode(position, property, label);
             } else {
                 DrawPropertyPlaymode(position, property, label);
             }
         }
-
+        
+        /// <summary>
+        /// Attempt to extract a reference to the encompassing <see cref="AnimatorController"/> from the owning
+        /// <see cref="SerializedObject"/>.
+        /// </summary>
+        /// <remarks>
+        /// TODO: See if we can grab it from an owning MonoBehaviour too
+        /// </remarks>
+        /// <param name="property">The property being drawn</param>
+        /// <returns><c>true</c> if a <see cref="AnimatorController"/> was found. <c>false</c> otherwise.</returns>
         protected bool TryGetController(SerializedProperty property) {
             _behaviour ??= property.serializedObject.targetObject as StateMachineBehaviour;
             if (_behaviour != null) {
@@ -32,7 +48,12 @@ namespace Banchou.Pawn.FSM {
             }
             return false;
         }
-
+        
+        /// <summary>
+        /// Update the list of <see cref="AnimatorControllerParameter"/>s available in the dropdowns, filtered by
+        /// <see cref="AnimatorControllerParameterType"/> 
+        /// </summary>
+        /// <param name="type">Filters the parameter list by this type. <c>null</c> for no filter.</param>
         private void UpdateParameters(AnimatorControllerParameterType? type = null) {
             var parameters = _controller.parameters;
             if (type != null) {
@@ -54,11 +75,20 @@ namespace Banchou.Pawn.FSM {
             }
         }
 
-        protected void DrawProperty(Rect position, SerializedProperty property, GUIContent label) {
+        /// <summary>
+        /// Draws this property in edit mode, with fully-interactable widgets
+        /// </summary>
+        /// <param name="position">The encapsulating <see cref="Rect"/> in which to draw the property</param>
+        /// <param name="property">The property to draw</param>
+        /// <param name="label">An accompanying label drawn next to the property</param>
+        protected void DrawPropertyEditMode(Rect position, SerializedProperty property, GUIContent label) {
+            // Extract every bit from the serialized property
             var name = property.FindPropertyRelative("_name");
             var hash = property.FindPropertyRelative("_hash");
             var type = property.FindPropertyRelative("_type");
             var filter = property.FindPropertyRelative("_filterByType");
+            
+            // Grab the latest state of the parameters from the controller
             UpdateParameters(filter.boolValue ? (AnimatorControllerParameterType) type.intValue : null);
 
             EditorGUI.BeginProperty(position, label, property);
@@ -67,14 +97,19 @@ namespace Banchou.Pawn.FSM {
             EditorGUI.indentLevel = 0;
             
             EditorGUI.BeginChangeCheck();
-
+            
+            // Display a dropdown with the available animator parameters
             var currentParameterIndex = Math.Max(_parameterHashes.IndexOf(hash.intValue), 0);
             currentParameterIndex = EditorGUI.Popup(position, currentParameterIndex, _parameterNames);
 
+            // Apply changes, if any
             if (EditorGUI.EndChangeCheck()) {
                 var currentParameter = currentParameterIndex <= 0 ? null : _parameters[currentParameterIndex - 1];
 
-                if (currentParameter != null) {
+                if (currentParameter == null) {
+                    Debug.LogWarning($"Could not find animator parameter \"{name.stringValue}\" " +
+                                     $"for object at {property.propertyPath}");
+                } else {
                     name.stringValue = _parameterNames[currentParameterIndex];
                     hash.intValue = _parameterHashes[currentParameterIndex];
                     type.intValue = (int) currentParameter.type;
@@ -83,7 +118,14 @@ namespace Banchou.Pawn.FSM {
             
             EditorGUI.EndProperty();
         }
-
+        
+        /// <summary>
+        /// Draw the parameter and its values only as labels, since <see cref="AnimatorController"/>s cannot be modified
+        /// during PlayMode.
+        /// </summary>
+        /// <param name="position">The encapsulating <see cref="Rect"/> in which to draw the property</param>
+        /// <param name="property">The property to draw</param>
+        /// <param name="label">An accompanying label drawn next to the property</param>
         protected void DrawPropertyPlaymode(Rect position, SerializedProperty property, GUIContent label) {
             var name = property.FindPropertyRelative("_name");
             EditorGUI.BeginProperty(position, label, property);

@@ -62,5 +62,11 @@ namespace Banchou.Pawn {
                     input.When
                 )
             );
+
+        public static IObservable<float> ObservePawnTimeScale(this GameState state, int pawnId) =>
+            state.ObserveBoardChanges()
+                .SelectMany(board => state.ObservePawnChanges(pawnId)
+                    .Select(pawn => board.TimeScale * pawn.TimeScale))
+                .DistinctUntilChanged();
     }
 }

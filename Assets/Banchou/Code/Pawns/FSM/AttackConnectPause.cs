@@ -10,8 +10,8 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField, Tooltip("Whether or not to restore momentum after freezing")]
         private bool _preserveMomentum = true;
-
-        private GameState _state;
+        
+        private GetDeltaTime _getDeltaTime;
         private float _originalSpeed;
         private float _pauseTime;
         private float _timeElapsed;
@@ -19,13 +19,19 @@ namespace Banchou.Pawn.FSM {
         private Rigidbody _rigidbody;
         private RigidbodyConstraints _originalConstraints;
 
-        public void Construct(GameState state, GetPawnId getPawnId, Animator animator, Rigidbody rigidbody) {
-            _state = state;
+        public void Construct(
+            GameState state,
+            GetPawnId getPawnId,
+            Animator animator,
+            Rigidbody rigidbody
+        ) {
+            var pawnId = getPawnId();
+            _getDeltaTime = state.PawnDeltaTime(pawnId);
             _originalSpeed = animator.speed;
             _rigidbody = rigidbody;
             _originalConstraints = _rigidbody.constraints;
 
-            _state.ObserveConfirmedAttack(getPawnId())
+            state.ObserveConfirmedAttack(pawnId)
                 .Where(_ => IsStateActive)
                 .DistinctUntilChanged(attack => attack.AttackId) // Only pause once per attack
                 .CatchIgnoreLog()
@@ -46,7 +52,7 @@ namespace Banchou.Pawn.FSM {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             
             if (_pauseTime > 0f && _timeElapsed <= _pauseTime) {
-                _timeElapsed += _state.GetDeltaTime();
+                _timeElapsed += _getDeltaTime();
                 if (_timeElapsed < _pauseTime) {
                     animator.speed = 0f;
                     if (_freezeOnHit) {

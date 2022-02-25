@@ -7,8 +7,8 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private AnimationCurve _curve;
         [SerializeField] private float _multiplier = 1f;
         [SerializeField] private float _maximumOffset = 2f;
-
-        private GameState _state;
+        
+        private GetDeltaTime _getDeltaTime;
         private Vector3 _targetPosition;
 
         private float _hitPauseTime;
@@ -16,8 +16,9 @@ namespace Banchou.Pawn.FSM {
         private Vector3 _knockback;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
-            _state = state;
-            _state.ObserveHitsOn(getPawnId())
+            var pawnId = getPawnId();
+            _getDeltaTime = state.PawnDeltaTime(pawnId);
+            state.ObserveHitsOn(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(hit => {
                     _hitPauseTime = hit.PauseTime;
@@ -29,7 +30,7 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
-            _timeElapsed += _state.GetDeltaTime();
+            _timeElapsed += _getDeltaTime();
             
             var stateTime = Mathf.Clamp01(_timeElapsed / _hitPauseTime);
             var magnitude = _multiplier * Mathf.Clamp01(_knockback.magnitude / _maximumOffset) *

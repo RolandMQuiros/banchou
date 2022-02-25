@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-
-using UnityEngine;
-using UnityEngine.Animations;
-using UniRx;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UniRx;
 
 namespace Banchou {
     public class FSMBehaviour : StateMachineBehaviour, ICollection<IDisposable> {

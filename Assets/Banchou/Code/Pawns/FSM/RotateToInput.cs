@@ -46,6 +46,7 @@ namespace Banchou.Pawn.FSM {
         #endregion
 
         private GameState _state;
+        private GetDeltaTime _getDeltaTime;
         private PawnSpatial _spatial;
         private PlayerInputState _input;
         private Rigidbody _body;
@@ -59,13 +60,15 @@ namespace Banchou.Pawn.FSM {
             GetPawnId getPawnId,
             Rigidbody body
         ) {
+            var pawnId = getPawnId();
             _state = state;
+            _getDeltaTime = _state.PawnDeltaTime(pawnId);
             _body = body;
-            _state.ObservePawnSpatialChanges(getPawnId())
+            _state.ObservePawnSpatialChanges(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => {  _spatial = spatial; })
                 .AddTo(this);
-            _state.ObservePawnInput(getPawnId())
+            _state.ObservePawnInput(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(input => { _input = input; })
                 .AddTo(this);
@@ -86,6 +89,7 @@ namespace Banchou.Pawn.FSM {
             if (stateTime >= _startTime && stateTime <= _endTime && (!_hold || _input.Direction != Vector3.zero)) {
                 var direction = _invertDirection ? -_input.Direction : _input.Direction;
                 var flipMagnitudeThreshold = _flipMagnitudeThreshold * _flipDirectionThreshold;
+                var dt = _getDeltaTime();
                 
                 if (direction.sqrMagnitude > flipMagnitudeThreshold) {
                     // If the movement direction is different enough from the facing direction,
@@ -93,7 +97,7 @@ namespace Banchou.Pawn.FSM {
                     // more easily execute Pull Attacks
                     var faceMotionDot = Vector3.Dot(direction, _faceDirection);
                     if (faceMotionDot <= _flipDirectionThreshold && _flipTimer < _flipDelay) {
-                        _flipTimer += _state.GetDeltaTime();
+                        _flipTimer += dt;
                     }
                     else {
                         _faceDirection = direction.normalized;
@@ -111,7 +115,7 @@ namespace Banchou.Pawn.FSM {
                             Vector3.RotateTowards(
                                 _body.rotation * Vector3.forward,
                                 _faceDirection,
-                                _rotationSpeed * _state.GetDeltaTime(),
+                                _rotationSpeed * dt,
                                 0f
                             ),
                             _state.GetTime()

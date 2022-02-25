@@ -8,13 +8,14 @@ namespace Banchou.Pawn.FSM {
         private float _rotationSpeed = 1000f;
 
         private GameState _state;
+        private GetDeltaTime _getDeltaTime;
         private PawnSpatial _spatial;
         private PawnSpatial _targetSpatial;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
-            _state = state;
             var pawnId = getPawnId();
-
+            _state = state;
+            _getDeltaTime = _state.PawnDeltaTime(pawnId);
             state.ObservePawnSpatial(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
@@ -43,7 +44,7 @@ namespace Banchou.Pawn.FSM {
                 Vector3.RotateTowards(
                     _spatial.Forward,
                     targetDirection,
-                    _rotationSpeed * _state.GetDeltaTime(),
+                    _rotationSpeed * _getDeltaTime(),
                     0f
                 ),
                 _state.GetTime()

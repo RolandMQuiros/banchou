@@ -10,15 +10,15 @@ namespace Banchou.Pawn.FSM {
         [SerializeField]
         private bool _normalized = true;
 
-        private GameState _state;
+        private GetDeltaTime _getDeltaTime;
         private float _hitPauseTime;
         private float _timeElapsed;
         
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
-            _state = state;
+            _getDeltaTime = state.PawnDeltaTime(pawnId);
             if (_output.IsSet) {
-                _state.ObserveHitsOn(pawnId)
+                state.ObserveHitsOn(pawnId)
                     .Where(_ => IsStateActive)
                     .CatchIgnoreLog()
                     .Subscribe(hit => {
@@ -33,7 +33,7 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_timeElapsed < _hitPauseTime) {
-                _timeElapsed += _state.GetDeltaTime();
+                _timeElapsed += _getDeltaTime();
                 if (_normalized) {
                     animator.SetFloat(_output.Hash, Mathf.Clamp01(_timeElapsed / _hitPauseTime));
                 } else {

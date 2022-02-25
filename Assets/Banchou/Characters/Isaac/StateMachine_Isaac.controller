@@ -230,6 +230,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: Normalized Hit Stun Time
     m_EventTreshold: 1
+  - m_ConditionMode: 1
+    m_ConditionEvent: Hit Confirmed
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 992322550771967204}
   m_Solo: 0
@@ -627,6 +630,36 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-7643135640381354027
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7347ee3abbca47bc800cbbfb93db9dd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _output:
+  - _parameter:
+      _name: Hit
+      _hash: 1654612129
+      _type: 9
+      _filterByType: 0
+    _applyMode: 0
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
+  _onConfirm: 1
+  _onBlock: 1
+  _onGrab: 0
+  _breakOnSet: 0
 --- !u!206 &-7609183279338117909
 BlendTree:
   m_ObjectHideFlags: 1
@@ -1300,6 +1333,7 @@ AnimatorStateMachine:
   - {fileID: -1757497830564396962}
   - {fileID: 6692275168079888578}
   - {fileID: 7003977826422404035}
+  - {fileID: -7643135640381354027}
   - {fileID: 5917529394275152858}
   - {fileID: -378442488704472412}
   - {fileID: 3927343641868376232}
@@ -2799,20 +2833,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
---- !u!114 &-3355797484817846048
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032252b8201480949a3e12f4381af7ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _comments: 
-  _outputParameter: Normalized Attack Time
 --- !u!1109 &-3295236878418735040
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -2822,7 +2842,10 @@ AnimatorTransition:
   m_Name: Blocked
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Hit Blocked
+    m_ConditionEvent: Hit
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Hit Confirmed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4506983504096630133}
@@ -4389,11 +4412,11 @@ MonoBehaviour:
   _comments: Trigger when hit by another Combatant while blocking
   _output:
   - _parameter:
-      _name: Hit Blocked
-      _hash: -163341551
-      _type: 9
+      _name: Hit Confirmed
+      _hash: -266782291
+      _type: 4
       _filterByType: 0
-    _applyMode: 0
+    _applyMode: 1
     _value: 0
     _sourceParameter:
       _name: 
@@ -4836,12 +4859,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Normalized Attack Time
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
   - m_Name: Is Invincible
     m_Type: 4
     m_DefaultFloat: 0
@@ -4866,14 +4883,14 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Hit Confirmed
+  - m_Name: Hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Hit Blocked
-    m_Type: 9
+  - m_Name: Hit Confirmed
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -5488,7 +5505,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Hit Blocked
+    m_ConditionEvent: Hit
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Hit Confirmed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4506983504096630133}
@@ -5628,7 +5648,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 86d2f094583638242923633309b75cfb, type: 2}
   m_Tag: 
-  m_SpeedParameter: Normalized Attack Time
+  m_SpeedParameter: Input Speed
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: Normalized Attack Time
@@ -6828,7 +6848,10 @@ AnimatorStateTransition:
   m_Name: Blocked
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Hit Blocked
+    m_ConditionEvent: Hit
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Hit Confirmed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -8190,6 +8213,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 4
     m_ConditionEvent: Normalized Hit Pause Time
     m_EventTreshold: 1
+  - m_ConditionMode: 1
+    m_ConditionEvent: Hit Confirmed
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5179986009900469955}
   m_Solo: 0
@@ -8947,6 +8973,9 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
+    m_ConditionEvent: Hit
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
     m_ConditionEvent: Hit Confirmed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -9125,7 +9154,10 @@ AnimatorStateTransition:
   m_Name: Blocked
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Hit Blocked
+    m_ConditionEvent: Hit
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: Hit Confirmed
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -9420,8 +9452,7 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours:
-  - {fileID: -3355797484817846048}
+  m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 50, y: 350, z: 0}
@@ -9940,6 +9971,7 @@ MonoBehaviour:
       _hash: 0
       _type: 0
       _filterByType: 0
+  _onGrabInterrupted: []
 --- !u!1109 &8799355631272040345
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -10104,20 +10136,8 @@ MonoBehaviour:
   _time: 0
   _output:
   - _parameter:
-      _name: Hit Confirmed
-      _hash: -266782291
-      _type: 9
-      _filterByType: 0
-    _applyMode: 1
-    _value: 0
-    _sourceParameter:
-      _name: 
-      _hash: 0
-      _type: 0
-      _filterByType: 0
-  - _parameter:
-      _name: Hit Blocked
-      _hash: -163341551
+      _name: Hit
+      _hash: 1654612129
       _type: 9
       _filterByType: 0
     _applyMode: 1

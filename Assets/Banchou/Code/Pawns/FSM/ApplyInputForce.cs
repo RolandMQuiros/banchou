@@ -13,22 +13,28 @@ namespace Banchou.Pawn.FSM {
 
         private Rigidbody _rigidbody;
         private PlayerInputState _input;
+        private float _timeScale; 
 
         public void Construct(
             GameState state,
             GetPawnId getPawnId,
             Rigidbody rigidbody
         ) {
+            var pawnId = getPawnId();
             _rigidbody = rigidbody;
-            state.ObservePawnInput(getPawnId())
+            state.ObservePawnInput(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(input => _input = input)
+                .AddTo(this);
+            state.ObservePawnTimeScale(pawnId)
+                .CatchIgnoreLog()
+                .Subscribe(timeScale => _timeScale = timeScale)
                 .AddTo(this);
         }
 
         private void Apply() {
             if (!Mathf.Approximately(_inputForce, 0f) && _input.Direction != Vector3.zero) {
-                _rigidbody.AddForce(_input.Direction * _inputForce, _forceMode);
+                _rigidbody.AddForce(_timeScale * _input.Direction * _inputForce, _forceMode);
             }
         }
 

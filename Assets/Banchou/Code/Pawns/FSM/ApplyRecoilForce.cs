@@ -6,11 +6,16 @@ namespace Banchou.Pawn.FSM {
     public class ApplyRecoilForce : FSMBehaviour {
         [SerializeField] private float _multiplier = 1f;
         
-        public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody) {
-            state.ObserveAttackConnects(getPawnId())
+        public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody, Animator animator) {
+            var pawnId = getPawnId();
+            state.ObserveAttackConnects(pawnId)
                 .Where(_ => IsStateActive)
+                .WithLatestFrom(state.ObservePawnTimeScale(pawnId), (attack, timeScale) => (attack, timeScale))
                 .CatchIgnoreLog()
-                .Subscribe(attack => { rigidbody.velocity = _multiplier * attack.Recoil; })
+                .Subscribe(args => {
+                    var (attack, timeScale) = args;
+                    rigidbody.AddForce(_multiplier * timeScale * attack.Recoil, ForceMode.VelocityChange);
+                })
                 .AddTo(this);
         }
     }

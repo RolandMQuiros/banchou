@@ -25,7 +25,7 @@ namespace Banchou {
             if (state.GetRollbackPhase() == RollbackPhase.Resimulating) {
                 return state.GetCorrectionTime();
             }
-            return state.LocalTime + (state.Network.HostTimeOffset / 1000f);
+            return state.LocalTime + state.Network.HostTimeOffset / 1000f;
         }
 
         /// <summary>

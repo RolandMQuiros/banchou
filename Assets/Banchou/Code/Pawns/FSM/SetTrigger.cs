@@ -17,13 +17,13 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("Names of the triggers to reset")]
         private string[] _triggers;
-
-        private GameState _state;
+        
+        private GetDeltaTime _getDeltaTime;
         private float _time;
         private int[] _hashes;
 
-        public void Construct(GameState state) {
-            _state = state;
+        public void Construct(GameState state, GetPawnId getPawnId) {
+            _getDeltaTime = state.PawnDeltaTime(getPawnId());
             _hashes = _triggers.Select(Animator.StringToHash).ToArray();
         }
         
@@ -39,7 +39,7 @@ namespace Banchou.Pawn.FSM {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             var resetAtStateTime = _onEvent.HasFlag(ApplyEvent.AtStateTime) && stateInfo.normalizedTime >= _atStateTime;
             var resetAtTime = _onEvent.HasFlag(ApplyEvent.AtTime) && _time >= _atTime;
-            _time += _state.GetDeltaTime() * animator.speed;
+            _time += _getDeltaTime() * animator.speed;
             if (resetAtStateTime || resetAtTime) {
                 foreach (var hash in _hashes) animator.SetTrigger(hash);
             }

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using UniRx;
+using UniRx.Triggers;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyForce : FSMBehaviour {
@@ -14,9 +15,15 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private Vector3 _relativeForce = Vector3.zero;
 
         private Rigidbody _rigidbody;
+        private float _timeScale;
+        private float _currentTime;
 
-        public void Construct(Rigidbody rigidbody) {
+        public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody, Animator animator) {
             _rigidbody = rigidbody;
+            state.ObservePawnTimeScale(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(timeScale => _timeScale = timeScale)
+                .AddTo(this);
         }
 
         private void Apply(Animator animator) {
@@ -27,11 +34,11 @@ namespace Banchou.Pawn.FSM {
             }
 
             if (_force != Vector3.zero) {
-                _rigidbody.AddForce(_force, _forceMode);
+                _rigidbody.AddForce(_force * _timeScale, _forceMode);
             }
 
             if (_relativeForce != Vector3.zero) {
-                _rigidbody.AddRelativeForce(_relativeForce, _forceMode);
+                _rigidbody.AddRelativeForce(_relativeForce * _timeScale, _forceMode);
             }
         }
 
@@ -42,7 +49,10 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply(animator);
+            if (!Mathf.Approximately(_currentTime, Time.fixedTime) && _onEvent.HasFlag(ApplyEvent.OnUpdate)) {
+                _currentTime = Time.fixedTime;
+                Apply(animator);
+            }
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
