@@ -22,6 +22,10 @@ namespace Banchou.Pawn.Part {
             GetPawnId getPawnId = null
         ) {
             _state = state;
+            _animator = GetComponentInChildren<Animator>();
+            _controller = GetComponentInChildren<CharacterController>();
+            _rigidbody = GetComponentInChildren<Rigidbody>();
+            
             if (getPawnId == null) {
                 // If this pawn isn't in the state (i.e., baked into the scene), register it
                 var xform = transform;
@@ -43,20 +47,11 @@ namespace Banchou.Pawn.Part {
                 Destroy(gameObject);
             } else {
                 _pawnId = _pawn.PawnId;
-                _animator = GetComponentInChildren<Animator>();
-                _controller = GetComponentInChildren<CharacterController>();
-                _rigidbody = GetComponentInChildren<Rigidbody>();
             }
         }
 
         private void Start() {
             _registerPawnObject?.Invoke(_pawnId, gameObject);
-        }
-
-        private void OnDestroy() {
-            if (_pawn != null) {
-                _state.RemovePawn(_pawn.PawnId);
-            }
         }
 
         public DiContainer InstallBindings(DiContainer container) {

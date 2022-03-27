@@ -16,58 +16,53 @@
 
 namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 {
-    using System;
-    using System.Buffers;
-    using MessagePack;
+    using global::System.Buffers;
+    using global::MessagePack;
 
     public sealed class ConnectedFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.Connected>
     {
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.Connected value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::Banchou.Network.Message.Connected value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            IFormatterResolver formatterResolver = options.Resolver;
+            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(5);
             writer.Write(value.ClientNetworkId);
-            formatterResolver.GetFormatterWithVerify<GameState>().Serialize(ref writer, value.State, options);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.GameState>().Serialize(ref writer, value.State, options);
             writer.Write(value.ClientTime);
             writer.Write(value.ServerReceiptTime);
             writer.Write(value.ServerTransmissionTime);
         }
 
-        public global::Banchou.Network.Message.Connected Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Network.Message.Connected Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
-                throw new InvalidOperationException("typecode is null, struct not supported");
+                throw new global::System.InvalidOperationException("typecode is null, struct not supported");
             }
 
             options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
+            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __ClientNetworkId__ = default(int);
-            var __State__ = default(GameState);
-            var __ClientTime__ = default(float);
-            var __ServerReceiptTime__ = default(float);
-            var __ServerTransmissionTime__ = default(float);
+            var ____result = new global::Banchou.Network.Message.Connected();
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __ClientNetworkId__ = reader.ReadInt32();
+                        ____result.ClientNetworkId = reader.ReadInt32();
                         break;
                     case 1:
-                        __State__ = formatterResolver.GetFormatterWithVerify<GameState>().Deserialize(ref reader, options);
+                        ____result.State = formatterResolver.GetFormatterWithVerify<global::Banchou.GameState>().Deserialize(ref reader, options);
                         break;
                     case 2:
-                        __ClientTime__ = reader.ReadSingle();
+                        ____result.ClientTime = reader.ReadSingle();
                         break;
                     case 3:
-                        __ServerReceiptTime__ = reader.ReadSingle();
+                        ____result.ServerReceiptTime = reader.ReadSingle();
                         break;
                     case 4:
-                        __ServerTransmissionTime__ = reader.ReadSingle();
+                        ____result.ServerTransmissionTime = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();
@@ -75,12 +70,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
                 }
             }
 
-            var ____result = new global::Banchou.Network.Message.Connected();
-            ____result.ClientNetworkId = __ClientNetworkId__;
-            ____result.State = __State__;
-            ____result.ClientTime = __ClientTime__;
-            ____result.ServerReceiptTime = __ServerReceiptTime__;
-            ____result.ServerTransmissionTime = __ServerTransmissionTime__;
             reader.Depth--;
             return ____result;
         }

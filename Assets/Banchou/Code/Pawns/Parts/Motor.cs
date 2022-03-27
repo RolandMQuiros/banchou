@@ -28,9 +28,22 @@ namespace Banchou.Pawn.Part {
             _rigidbody = body;
 
             var pawnId = getPawnId();
+            
+            // Grab a reference to the pawn's spatial
             _state.ObservePawnChanges(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(pawn => _spatial = pawn.Spatial)
+                .AddTo(this);
+            
+            // Immediately set position when spatial is sync'd
+            _state.ObservePawnSpatialChanges(pawnId)
+                .DistinctUntilChanged(spatial => spatial.IsSync)
+                .Where(spatial => spatial.IsSync)
+                .CatchIgnoreLog()
+                .Subscribe(spatial => {
+                    _rigidbody.position = spatial.Position;
+                    _rigidbody.velocity = spatial.AmbientVelocity;
+                })
                 .AddTo(this);
             
             // When timescale changes, scale current velocity
@@ -42,6 +55,8 @@ namespace Banchou.Pawn.Part {
         }
 
         public void Step() {
+            var now = _state.GetTime();
+            
             _isGrounded = Physics.CheckCapsule(
                 _spatial.Position + _groundedCastOrigin,
                 _spatial.Position + _groundedCastOrigin - _spatial.Up * _groundedCastLength,
@@ -69,9 +84,9 @@ namespace Banchou.Pawn.Part {
             
             if (Snap(_rigidbody.position - _spatial.Position) != Vector3.zero || _moved || 
                 _spatial.IsGrounded != _isGrounded) {
-                _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, _state.GetTime(), _moved);
+                _spatial.Moved(Snap(_rigidbody.position), _rigidbody.velocity, _isGrounded, now, _moved);
             } else {
-                _spatial.SetStyle(PawnSpatial.MovementStyle.Offset, _state.GetTime());
+                _spatial.SetStyle(PawnSpatial.MovementStyle.Offset, now);
             }
             
             _moved = false;

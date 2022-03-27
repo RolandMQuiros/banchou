@@ -21,16 +21,17 @@ namespace Banchou.Pawn {
             Interpolated
         }
 
-        [field: SerializeField] public int PawnId { get; private set; } = PawnId;
-        [field: SerializeField] public Vector3 Position { get; private set; } = Position;
-        [field: SerializeField] public Vector3 Forward { get; private set; } = Forward;
-        [field: SerializeField] public Vector3 Up { get; private set; } = Up;
-        public Vector3 Right => Vector3.Cross(Up, Forward);
-        [field: SerializeField] public Vector3 Target { get; private set; } = Target;
-        [field: SerializeField] public MovementStyle Style { get; private set; } = Style;
-        [field: SerializeField] public Vector3 AmbientVelocity { get; private set; } = AmbientVelocity;
-        [field: SerializeField] public bool IsGrounded { get; private set; } = IsGrounded;
-        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [Key(0)][field: SerializeField] public int PawnId { get; private set; } = PawnId;
+        [Key(1)][field: SerializeField] public Vector3 Position { get; private set; } = Position;
+        [Key(2)][field: SerializeField] public Vector3 Forward { get; private set; } = Forward;
+        [Key(3)][field: SerializeField] public Vector3 Up { get; private set; } = Up;
+        [IgnoreMember] public Vector3 Right => Vector3.Cross(Up, Forward);
+        [Key(4)][field: SerializeField] public Vector3 Target { get; private set; } = Target;
+        [Key(5)][field: SerializeField] public MovementStyle Style { get; private set; } = Style;
+        [Key(6)][field: SerializeField] public Vector3 AmbientVelocity { get; private set; } = AmbientVelocity;
+        [Key(7)][field: SerializeField] public bool IsGrounded { get; private set; } = IsGrounded;
+        [Key(8)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [IgnoreMember] public bool IsSync { get; private set; }
         
         public Vector3 DirectionTo(Vector3 target, bool onPlane = true) =>
             onPlane ? Vector3.ProjectOnPlane(target - Position, Up).normalized : (target - Position).normalized;
@@ -60,6 +61,7 @@ namespace Banchou.Pawn {
 
         public PawnSpatial Sync(PawnSpatial other) {
             Set(other);
+            IsSync = true;
             return Notify(other.LastUpdated);
         }
 
@@ -99,6 +101,7 @@ namespace Banchou.Pawn {
             IsGrounded = isGrounded;
             LastUpdated = when;
             Style = MovementStyle.Offset;
+            IsSync = false;
             return Notify(when);
         }
 

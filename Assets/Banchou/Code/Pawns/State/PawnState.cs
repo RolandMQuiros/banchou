@@ -10,8 +10,8 @@ namespace Banchou.Pawn {
     
     [MessagePackObject, Serializable]
     public record PawnState(
-        int PawnId,
-        string PrefabKey,
+        [property: Key(0)] int PawnId,
+        [property: Key(1)] string PrefabKey,
         int PlayerId = 0,
         PawnSpatial Spatial = null,
         PawnAnimatorFrame AnimatorFrame = null,
@@ -19,22 +19,22 @@ namespace Banchou.Pawn {
         float TimeScale = 1f,
         float LastUpdated = 0f
     ) : Notifiable<PawnState> {
-        [field: SerializeField]
+        [Key(2)][field: SerializeField]
         public int PlayerId { get; private set; } = PlayerId;
         
-        [field: SerializeField]
+        [Key(3)][field: SerializeField]
         public PawnSpatial Spatial { get; private set; } = Spatial ?? new PawnSpatial(PawnId);
         
-        [field: SerializeField]
+        [Key(4)][field: SerializeField]
         public PawnAnimatorFrame AnimatorFrame { get; private set; } = AnimatorFrame ?? new PawnAnimatorFrame();
         
-        [field: SerializeField]
+        [Key(5)][field: SerializeField]
         public CombatantState Combatant { get; private set; } = Combatant;
         
-        [field: SerializeField]
+        [Key(6)][field: SerializeField]
         public float TimeScale { get; private set; } = TimeScale;
         
-        [field: SerializeField]
+        [Key(7)][field: SerializeField]
         public float LastUpdated { get; private set; } = LastUpdated;
 
         public PawnState(
@@ -54,13 +54,22 @@ namespace Banchou.Pawn {
         ) { }
 
         public PawnState Sync(PawnState sync) {
-            Spatial.Sync(sync.Spatial);
-            // History.Sync(sync.History);
-            LastUpdated = sync.LastUpdated;
+            if (PrefabKey == sync.PrefabKey) {
+                if (sync.Spatial != null) {
+                    Spatial.Sync(sync.Spatial);
+                }
+                
+                if (sync.AnimatorFrame != null) {
+                    AnimatorFrame.Sync(sync.AnimatorFrame);
+                }
 
-            if (sync.PlayerId != PlayerId) {
-                PlayerId = sync.PlayerId;
-                return Notify();
+                // History.Sync(sync.History);
+                LastUpdated = sync.LastUpdated;
+
+                if (sync.PlayerId != PlayerId) {
+                    PlayerId = sync.PlayerId;
+                    return Notify();
+                }
             }
             return this;
         }

@@ -14,12 +14,12 @@ namespace Banchou {
         string Version = null, BoardState Board = null, PlayersState Players = null, float LocalTime = 0f,
         float DeltaTime = 0f
     ) : Notifiable<GameState> {
-        [field: SerializeField] public NetworkState Network { get; private set; } = new();
-        [field: SerializeField] public string Version { get; private set; } = Version;
-        [field: SerializeField] public BoardState Board { get; private set; } = Board ?? new BoardState();
-        [field: SerializeField] public PlayersState Players { get; private set; } = Players ?? new PlayersState();
-        [field: SerializeField] public float LocalTime { get; private set; } = LocalTime;
-        [field: SerializeField] public float DeltaTime { get; private set; } = DeltaTime;
+        [IgnoreMember][field: SerializeField] public NetworkState Network { get; private set; } = new();
+        [Key(0)][field: SerializeField] public string Version { get; private set; } = Version;
+        [Key(1)][field: SerializeField] public BoardState Board { get; private set; } = Board ?? new BoardState();
+        [Key(2)][field: SerializeField] public PlayersState Players { get; private set; } = Players ?? new PlayersState();
+        [Key(3)][field: SerializeField] public float LocalTime { get; private set; } = LocalTime;
+        [Key(4)][field: SerializeField] public float DeltaTime { get; private set; } = DeltaTime;
 
         public GameState SetVersion(string version) {
             Version = version;

@@ -11,15 +11,27 @@ namespace Banchou.Pawn.Part {
             GetPawnId getPawnId,
             Rigidbody body
         ) {
-            state.ObservePawnSpatialChanges(getPawnId())
+            var pawnId = getPawnId();
+            state.ObservePawnSpatial(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
+            state.ObservePawnSpatialChanges(pawnId)
+                .DistinctUntilChanged(spatial => spatial.IsSync)
+                .Where(spatial => spatial.IsSync)
+                .CatchIgnoreLog()
+                .Subscribe(Apply)
+                .AddTo(this);
+            
             _rigidbody = body;
         }
 
+        private void Apply(PawnSpatial spatial) {
+            _rigidbody.rotation = Quaternion.LookRotation(spatial.Forward, spatial.Up);
+        }
+
         private void FixedUpdate() {
-            _rigidbody.rotation = Quaternion.LookRotation(_spatial.Forward, _spatial.Up);
+            Apply(_spatial);
         }
     }
 }

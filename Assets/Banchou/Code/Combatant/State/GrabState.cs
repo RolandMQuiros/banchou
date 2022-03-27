@@ -15,15 +15,15 @@ namespace Banchou.Combatant {
         Vector3 LaunchForce = default,
         float LastUpdated = default
     ) : NotifiableWithHistory<GrabState>(32) {
-        [field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
-        [field: SerializeField] public int AttackId { get; private set; } = AttackId;
-        [field: SerializeField] public int TargetId { get; private set; } = TargetId;
-        [field: SerializeField] public GrabPhase Phase { get; private set; } = Phase;
-        [field: SerializeField] public GrabbedPose Pose { get; private set; } = Pose;
-        [field: SerializeField] public Vector3 AnchorPosition { get; private set; } = AnchorPosition;
-        [field: SerializeField] public Quaternion AnchorRotation { get; private set; } = AnchorRotation;
-        [field: SerializeField] public Vector3 LaunchForce { get; private set; } = LaunchForce;
-        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [Key(0)][field: SerializeField] public int AttackerId { get; private set; } = AttackerId;
+        [Key(1)][field: SerializeField] public int AttackId { get; private set; } = AttackId;
+        [Key(2)][field: SerializeField] public int TargetId { get; private set; } = TargetId;
+        [Key(3)][field: SerializeField] public GrabPhase Phase { get; private set; } = Phase;
+        [Key(4)][field: SerializeField] public GrabbedPose Pose { get; private set; } = Pose;
+        [Key(5)][field: SerializeField] public Vector3 AnchorPosition { get; private set; } = AnchorPosition;
+        [Key(6)][field: SerializeField] public Quaternion AnchorRotation { get; private set; } = AnchorRotation;
+        [Key(7)][field: SerializeField] public Vector3 LaunchForce { get; private set; } = LaunchForce;
+        [Key(8)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public override void Set(GrabState other) {
             AttackerId = other.AttackerId;

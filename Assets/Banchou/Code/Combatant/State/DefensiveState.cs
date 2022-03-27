@@ -7,12 +7,11 @@ namespace Banchou.Combatant {
     public record DefensiveState(
         bool IsInvincible = false,
         GuardStyle GuardStyle = GuardStyle.None,
-        float GuardTime = 0f,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<DefensiveState>(32) {
-        [field: SerializeField] public bool IsInvincible { get; private set; } = IsInvincible;
-        [field: SerializeField] public GuardStyle GuardStyle { get; private set; } = GuardStyle;
-        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [Key(0)][field: SerializeField] public bool IsInvincible { get; private set; } = IsInvincible;
+        [Key(1)][field: SerializeField] public GuardStyle GuardStyle { get; private set; } = GuardStyle;
+        [Key(2)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
         public override void Set(DefensiveState other) {
             IsInvincible = other.IsInvincible;

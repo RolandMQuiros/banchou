@@ -10,7 +10,7 @@ namespace Banchou.Player {
         public event Action<PlayerState> PlayerAdded;
         public event Action<PlayerState> PlayerRemoved;
 
-        [field: SerializeField]
+        [Key(0)][field: SerializeField]
         public Dictionary<int, PlayerState> Members { get; init; } = Members ?? new Dictionary<int, PlayerState>();
 
         public PlayersState AddPlayer(
@@ -55,19 +55,23 @@ namespace Banchou.Player {
         }
 
         public PlayersState SyncGame(PlayersState sync) {
-            var playerIds = Members.Select(p => p.Key).ToList();
-            var syncPlayerIds = sync.Members.Select(p => p.Key).ToList();
+            var currentPlayers = Members.Values.Select(p => (p.PlayerId, p.PrefabKey)).ToList();
+            var incomingPlayers = sync.Members.Values.Select(p => (p.PlayerId, p.PrefabKey)).ToList();
 
-            foreach (var added in syncPlayerIds.Except(playerIds)) {
-                Members[added] = sync.Members[added];
+            foreach (var added in incomingPlayers.Except(currentPlayers)) {
+                var player = sync.Members[added.PlayerId];
+                Members[player.PlayerId] = player;
+                PlayerAdded?.Invoke(player);
             }
 
-            foreach (var removed in playerIds.Except(syncPlayerIds)) {
-                Members.Remove(removed);
+            foreach (var removed in currentPlayers.Except(incomingPlayers)) {
+                var player = Members[removed.PlayerId];
+                Members.Remove(removed.PlayerId);
+                PlayerRemoved?.Invoke(player);
             }
 
-            foreach (var playerId in playerIds.Intersect(syncPlayerIds)) {
-                Members[playerId].Sync(sync.Members[playerId]);
+            foreach (var updated in currentPlayers.Intersect(incomingPlayers)) {
+                Members[updated.PlayerId].Sync(sync.Members[updated.PlayerId]);
             }
 
             return Notify();

@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,13 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc482c841ba657f439da7592d36f447c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reservedPlayerId: 0
   _player:
     <NetworkId>k__BackingField: 0
     <Input>k__BackingField:
+      <PlayerId>k__BackingField: 0
       <Commands>k__BackingField: 0
       <Direction>k__BackingField: {x: 0, y: 0, z: 0}
       <Look>k__BackingField: {x: 0, y: 0}
-      <Sequence>k__BackingField: 0
       <When>k__BackingField: 0
 --- !u!114 &2338477261493368107
 MonoBehaviour:
@@ -167,7 +169,7 @@ MonoBehaviour:
     m_ActionId: f346915c-5cfd-4f5c-996e-b1aa62881c60
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
+  m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

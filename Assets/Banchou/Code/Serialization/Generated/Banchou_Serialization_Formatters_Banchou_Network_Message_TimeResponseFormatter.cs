@@ -16,41 +16,39 @@
 
 namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 {
-    using System;
-    using System.Buffers;
-    using MessagePack;
+    using global::System.Buffers;
+    using global::MessagePack;
 
     public sealed class TimeResponseFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.TimeResponse>
     {
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.TimeResponse value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::Banchou.Network.Message.TimeResponse value, global::MessagePack.MessagePackSerializerOptions options)
         {
             writer.WriteArrayHeader(2);
             writer.Write(value.ClientTime);
             writer.Write(value.ServerTime);
         }
 
-        public global::Banchou.Network.Message.TimeResponse Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Network.Message.TimeResponse Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
-                throw new InvalidOperationException("typecode is null, struct not supported");
+                throw new global::System.InvalidOperationException("typecode is null, struct not supported");
             }
 
             options.Security.DepthStep(ref reader);
             var length = reader.ReadArrayHeader();
-            var __ClientTime__ = default(int);
-            var __ServerTime__ = default(int);
+            var ____result = new global::Banchou.Network.Message.TimeResponse();
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __ClientTime__ = reader.ReadInt32();
+                        ____result.ClientTime = reader.ReadInt32();
                         break;
                     case 1:
-                        __ServerTime__ = reader.ReadInt32();
+                        ____result.ServerTime = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -58,9 +56,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
                 }
             }
 
-            var ____result = new global::Banchou.Network.Message.TimeResponse();
-            ____result.ClientTime = __ClientTime__;
-            ____result.ServerTime = __ServerTime__;
             reader.Depth--;
             return ____result;
         }

@@ -20,16 +20,15 @@ namespace Banchou.Player {
         int PlayerId = 0,
         InputCommand Commands = InputCommand.None,
         Vector3 Direction = new(),
-        long Sequence = 0,
         float When = 0f
     ) : NotifiableWithHistory<PlayerInputState>(32) {
-        [field: SerializeField] public int PlayerId { get; private set; } = PlayerId;
-        [field: SerializeField] public InputCommand Commands { get; private set; } = Commands;
-        [field: SerializeField] public Vector3 Direction { get; private set; } = Direction;
+        [Key(0)][field: SerializeField] public int PlayerId { get; private set; } = PlayerId;
+        [Key(1)][field: SerializeField] public InputCommand Commands { get; private set; } = Commands;
+        [Key(2)][field: SerializeField] public Vector3 Direction { get; private set; } = Direction;
 
         // Look input is not shared across the network
-        [field: SerializeField] public Vector2 Look { get; private set; }
-        [field: SerializeField] public float When { get; private set; } = When;
+        [IgnoreMember][field: SerializeField] public Vector2 Look { get; private set; }
+        [Key(3)][field: SerializeField] public float When { get; private set; } = When;
 
         public override void Set(PlayerInputState other) {
             PlayerId = other.PlayerId;

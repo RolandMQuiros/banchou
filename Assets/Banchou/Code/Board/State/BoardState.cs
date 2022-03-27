@@ -20,22 +20,23 @@ namespace Banchou.Board {
         public event Action<PawnState> PawnAdded;
         public event Action<PawnState> PawnRemoved;
 
-        [field: SerializeField]
+        [Key(0)][field: SerializeField]
         public List<string> ActiveScenes { get; private set; } = ActiveScenes ?? new List<string>();
         
-        [field: SerializeField]
+        [Key(1)][field: SerializeField]
         public List<string> LoadingScenes { get; private set; } = LoadingScenes ?? new List<string>();
         
-        [field: SerializeField]
+        [Key(2)][field: SerializeField]
         public Dictionary<int, PawnState> Pawns { get; private set; } = Pawns ?? new Dictionary<int, PawnState>();
         
-        [field: SerializeField]
+        [Key(3)][field: SerializeField]
         public float TimeScale { get; private set; } = TimeScale;
         
-        [field: SerializeField]
+        [Key(4)][field: SerializeField]
         public float LastUpdated { get; private set; } = LastUpdated;
 
         public BoardState SyncGame(BoardState sync) {
+            var boardChanged = false;
             var localScenes = LoadingScenes.Concat(ActiveScenes).Distinct().ToList();
             var remoteScenes = sync.LoadingScenes.Concat(sync.ActiveScenes).ToList();
 
@@ -46,30 +47,38 @@ namespace Banchou.Board {
             var scenesToRemove = localScenes.Except(remoteScenes).ToList();
 
             foreach (var scene in scenesToLoad) {
+                boardChanged = true;
                 LoadingScenes.Add(scene);
                 SceneAdded?.Invoke(scene);
             }
 
             foreach (var scene in scenesToRemove) {
                 if (ActiveScenes.Remove(scene)) {
+                    boardChanged = true;
                     SceneRemoved?.Invoke(scene);
                 }
             }
 
-            var incomingPawnIds = sync.Pawns.Keys;
+            var currentPawns = Pawns.Values.Select(pawn => (pawn.PawnId, pawn.PrefabKey)).ToList();
+            var incomingPawns = sync.Pawns.Values.Select(pawn => (pawn.PawnId, pawn.PrefabKey)).ToList();
 
-            // Add missing pawns
-            foreach (var added in incomingPawnIds.Except(Pawns.Keys)) {
-                var pawn = sync.Pawns[added];
-                Pawns[added] = pawn with { };
-                PawnAdded?.Invoke(pawn);
-            }
-
-            // Remove extraneous pawns
-            foreach (var removed in Pawns.Keys.Except(incomingPawnIds)) {
-                var pawn = Pawns[removed];
-                Pawns.Remove(removed);
+            // Remove extraneous and obsolete pawns
+            var toRemove = currentPawns.Except(incomingPawns);
+            foreach (var removed in toRemove) {
+                boardChanged = true;
+                var pawn = Pawns[removed.PawnId];
+                Pawns.Remove(removed.PawnId);
                 PawnRemoved?.Invoke(pawn);
+            }
+            
+            // Add missing pawns
+            currentPawns = Pawns.Values.Select(pawn => (pawn.PawnId, pawn.PrefabKey)).ToList();
+            var toAdd = incomingPawns.Except(currentPawns);
+            foreach (var added in toAdd) {
+                boardChanged = true;
+                var pawn = sync.Pawns[added.PawnId];
+                Pawns[added.PawnId] = pawn;
+                PawnAdded?.Invoke(pawn);
             }
 
             // Propagate sync to remaining pawns
@@ -77,7 +86,9 @@ namespace Banchou.Board {
                 pawn.Value.Sync(sync.Pawns[pawn.Key]);
             }
 
-            Notify();
+            if (boardChanged) {
+                return Notify();
+            }
             return this;
         }
 

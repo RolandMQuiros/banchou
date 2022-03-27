@@ -16,43 +16,41 @@
 
 namespace Banchou.Serialization.Formatters.Banchou.Network.Message
 {
-    using System;
-    using System.Buffers;
-    using MessagePack;
+    using global::System.Buffers;
+    using global::MessagePack;
 
     public sealed class ConnectClientFormatter : global::MessagePack.Formatters.IMessagePackFormatter<global::Banchou.Network.Message.ConnectClient>
     {
 
-        public void Serialize(ref MessagePackWriter writer, global::Banchou.Network.Message.ConnectClient value, global::MessagePack.MessagePackSerializerOptions options)
+        public void Serialize(ref global::MessagePack.MessagePackWriter writer, global::Banchou.Network.Message.ConnectClient value, global::MessagePack.MessagePackSerializerOptions options)
         {
-            IFormatterResolver formatterResolver = options.Resolver;
+            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             writer.WriteArrayHeader(2);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.ConnectionKey, options);
             writer.Write(value.ClientConnectionTime);
         }
 
-        public global::Banchou.Network.Message.ConnectClient Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
+        public global::Banchou.Network.Message.ConnectClient Deserialize(ref global::MessagePack.MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
         {
             if (reader.TryReadNil())
             {
-                throw new InvalidOperationException("typecode is null, struct not supported");
+                throw new global::System.InvalidOperationException("typecode is null, struct not supported");
             }
 
             options.Security.DepthStep(ref reader);
-            IFormatterResolver formatterResolver = options.Resolver;
+            global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
-            var __ConnectionKey__ = default(string);
-            var __ClientConnectionTime__ = default(float);
+            var ____result = new global::Banchou.Network.Message.ConnectClient();
 
             for (int i = 0; i < length; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        __ConnectionKey__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        ____result.ConnectionKey = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __ClientConnectionTime__ = reader.ReadSingle();
+                        ____result.ClientConnectionTime = reader.ReadSingle();
                         break;
                     default:
                         reader.Skip();
@@ -60,9 +58,6 @@ namespace Banchou.Serialization.Formatters.Banchou.Network.Message
                 }
             }
 
-            var ____result = new global::Banchou.Network.Message.ConnectClient();
-            ____result.ConnectionKey = __ConnectionKey__;
-            ____result.ClientConnectionTime = __ClientConnectionTime__;
             reader.Depth--;
             return ____result;
         }

@@ -31,21 +31,21 @@ namespace Banchou.Combatant {
         bool IsGrab = false,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<AttackState>(32) {
-        [field: SerializeField] public int AttackerId { get; } = AttackerId;
-        [field: SerializeField] public int AttackId { get; private set; } = AttackId;
-        [field: SerializeField] public AttackPhase Phase { get; private set; } = Phase; 
-        [field: SerializeField] public int TargetId { get; private set; } = TargetId;
-        [field: SerializeField] public bool Blocked { get; private set; } = Blocked;
-        [field: SerializeField] public int Damage { get; private set; } = Damage;
-        [field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
-        [field: SerializeField] public float StunTime { get; private set; } = StunTime;
-        [field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
-        [field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
-        [field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
-        [field: SerializeField] public bool IsGrab { get; private set; } = IsGrab;
-        [field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [Key(0)][field: SerializeField] public int AttackerId { get; } = AttackerId;
+        [Key(1)][field: SerializeField] public int AttackId { get; private set; } = AttackId;
+        [Key(2)][field: SerializeField] public AttackPhase Phase { get; private set; } = Phase; 
+        [Key(3)][field: SerializeField] public int TargetId { get; private set; } = TargetId;
+        [Key(4)][field: SerializeField] public bool Blocked { get; private set; } = Blocked;
+        [Key(5)][field: SerializeField] public int Damage { get; private set; } = Damage;
+        [Key(6)][field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
+        [Key(7)][field: SerializeField] public float StunTime { get; private set; } = StunTime;
+        [Key(8)][field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
+        [Key(9)][field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
+        [Key(10)][field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
+        [Key(11)][field: SerializeField] public bool IsGrab { get; private set; } = IsGrab;
+        [Key(12)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
-        public bool Confirmed => TargetId != default && !Blocked;
+        [IgnoreMember] public bool Confirmed => TargetId != default && !Blocked;
         
         public float StunTimeAt(float when) => StunTime - (when - LastUpdated + PauseTime);
         

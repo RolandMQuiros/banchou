@@ -9,9 +9,9 @@ namespace Banchou.Combatant {
         int MaxHealth = 0,
         float Weight = 0f
     ) : NotifiableWithHistory<CombatantStats>(4) {
-        [field: SerializeField] public CombatantTeam Team { get; private set; } = Team;
-        [field: SerializeField] public int MaxHealth { get; private set; } = MaxHealth;
-        [field: SerializeField] public float Weight { get; private set; } = Weight;
+        [Key(0)][field: SerializeField] public CombatantTeam Team { get; private set; } = Team;
+        [Key(1)][field: SerializeField] public int MaxHealth { get; private set; } = MaxHealth;
+        [Key(2)][field: SerializeField] public float Weight { get; private set; } = Weight;
         
         public override void Set(CombatantStats other) {
             Team = other.Team;

@@ -16,20 +16,22 @@ namespace Banchou.Pawn {
     ) : Notifiable<PawnAnimatorFrame> {
         private int[] _stateHashes = StateHashes;
         private float[] _normalizedTimes = NormalizedTimes;
-        public int[] StateHashes => _stateHashes;
-        public float[] NormalizedTimes => _normalizedTimes;
+        [Key(0)] public int[] StateHashes => _stateHashes;
+        [Key(1)] public float[] NormalizedTimes => _normalizedTimes;
 
-        [field: SerializeField]
-        public Dictionary<int, float> Floats { get; init; } = Floats ?? new Dictionary<int, float>();
+        [Key(2)][field: SerializeField]
+        public Dictionary<int, float> Floats { get; private set; } = Floats ?? new Dictionary<int, float>();
         
-        [field: SerializeField]
-        public Dictionary<int, int> Ints { get; init; } = Ints ?? new Dictionary<int, int>();
+        [Key(3)][field: SerializeField]
+        public Dictionary<int, int> Ints { get; private set; } = Ints ?? new Dictionary<int, int>();
         
-        [field: SerializeField]
-        public Dictionary<int, bool> Bools { get; init; } = Bools ?? new Dictionary<int, bool>();
+        [Key(4)][field: SerializeField]
+        public Dictionary<int, bool> Bools { get; private set; } = Bools ?? new Dictionary<int, bool>();
         
-        [field: SerializeField]
+        [Key(5)][field: SerializeField]
         public float When { get; private set; } = When;
+        
+        [IgnoreMember] public bool IsSync { get; private set; }
 
         public PawnAnimatorFrame StartFrame(int layerCount) {
             if (StateHashes == null) {
@@ -47,7 +49,8 @@ namespace Banchou.Pawn {
             if (NormalizedTimes?.Length < layerCount) {
                 Array.Resize(ref _normalizedTimes, layerCount);
             }
-
+            
+            IsSync = false;
             return this;
         }
 
@@ -74,8 +77,18 @@ namespace Banchou.Pawn {
 
         public PawnAnimatorFrame FinishFrame(float when) {
             When = when;
-            Notify();
-            return this;
+            return Notify();
+        }
+
+        public PawnAnimatorFrame Sync(PawnAnimatorFrame other) {
+            _stateHashes = other._stateHashes;
+            _normalizedTimes = other._normalizedTimes;
+            Floats = other.Floats;
+            Ints = other.Ints;
+            Bools = other.Bools;
+            When = other.When;
+            IsSync = true;
+            return Notify();
         }
     }
 }
