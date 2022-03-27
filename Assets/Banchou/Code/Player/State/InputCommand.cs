@@ -16,14 +16,19 @@ namespace Banchou.Player {
         ForwardLeft = 1 << 8,
         LightAttack = 1 << 9,
         LightAttackHold = 1 << 10,
-        HeavyAttack = 1 << 11,
-        HeavyAttackHold = 1 << 12,
-        LockOn = 1 << 13,
-        LockOff = 1 << 14,
-        ShortJump = 1 << 15,
-        Jump = 1 << 16,
-        Block = 1 << 17,
-        Unblock = 1 << 18
+        LightAttackUp = 1 << 11,
+        HeavyAttack = 1 << 12,
+        HeavyAttackHold = 1 << 13,
+        HeavyAttackUp = 1 << 14,
+        SpecialAttack = 1 << 15,
+        SpecialAttackHold = 1 << 16,
+        SpecialAttackUp = 1 << 17,
+        LockOn = 1 << 18,
+        LockOff = 1 << 19,
+        ShortJump = 1 << 20,
+        Jump = 1 << 21,
+        Block = 1 << 22,
+        Unblock = 1 << 23
     }
 
     [Serializable]

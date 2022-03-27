@@ -41,7 +41,7 @@ namespace Banchou.Test {
                     playerId: 1,
                     position: new Vector3(Random.Range(-10f, 10f), 2f, Random.Range(-10f, 10f))
                 )
-                .SetLocalTime(12345f, 0.01666666f);
+                .UpdateLocalTime(0.01666666f);
 
             var perf = Stopwatch.StartNew();
             var bytes = MessagePackSerializer.Serialize(state, _messagePackOptions);
@@ -67,13 +67,12 @@ namespace Banchou.Test {
 
         [Test]
         public void PlayerInputStatesSerialization() {
-            var state = new PlayerInputState(987, InputCommand.LightAttack, Vector3.up, 12345, 12345f);
+            var state = new PlayerInputState(987, InputCommand.LightAttack, Vector3.up, 12345f);
             var bytes = MessagePackSerializer.Serialize(state, _messagePackOptions);
             var deser = MessagePackSerializer.Deserialize<PlayerInputState>(bytes, _messagePackOptions);
 
             Assert.AreEqual(state.Commands, deser.Commands);
             Assert.AreEqual(state.Direction, deser.Direction);
-            Assert.AreEqual(state.Sequence, deser.Sequence);
             Assert.AreEqual(state.When, deser.When);
         }
 
@@ -83,7 +82,7 @@ namespace Banchou.Test {
                 12345,
                 "ASDF",
                 4321,
-                new PlayerInputState(12345, InputCommand.LightAttack, Vector3.up, 12345, 12345f)
+                new PlayerInputState(12345, InputCommand.LightAttack, Vector3.up, 12345f)
             );
             var bytes = MessagePackSerializer.Serialize(state, _messagePackOptions);
             var deser = MessagePackSerializer.Deserialize<PlayerState>(bytes, _messagePackOptions);
@@ -94,7 +93,6 @@ namespace Banchou.Test {
 
             Assert.AreEqual(state.Input.Commands, deser.Input.Commands);
             Assert.AreEqual(state.Input.Direction, deser.Input.Direction);
-            Assert.AreEqual(state.Input.Sequence, deser.Input.Sequence);
             Assert.AreEqual(state.Input.When, deser.Input.When);
         }
 

@@ -5,8 +5,7 @@ using UnityEngine;
 namespace Banchou {
     public class SaveStateLoader : MonoBehaviour {
         [SerializeField] private string _saveNameFormat = "banchou.dev.{0}.sav";
-        [field: SerializeField] public int Slot { get; set; }
-        
+
         private GameState _state;
         private MessagePackSerializerOptions _messagePackOptions;
         
@@ -15,17 +14,17 @@ namespace Banchou {
             _messagePackOptions = messagePackOptions;
         }
 
-        public void SaveState() {
+        public void SaveState(int slot) {
             var savedBoard = MessagePackSerializer.Serialize(_state, _messagePackOptions);
-            var filename = string.Format(_saveNameFormat, Slot);
+            var filename = string.Format(_saveNameFormat, slot);
             File.WriteAllBytes(
                 Path.Combine(Application.persistentDataPath, filename),
                 savedBoard
             );
         }
 
-        public void LoadState() {
-            var filename = string.Format(_saveNameFormat, Slot);
+        public void LoadState(int slot) {
+            var filename = string.Format(_saveNameFormat, slot);
             var path = Path.Combine(Application.persistentDataPath, filename);
             if (File.Exists(path)) {
                 var saveFile = File.ReadAllBytes(path);
