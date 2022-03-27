@@ -10,36 +10,41 @@ namespace Banchou.Pawn.FSM {
         [SerializeField]
         private bool _normalized = true;
 
-        private GetDeltaTime _getDeltaTime;
+        private GameState _state;
         private float _hitPauseTime;
         private float _hitStunTime;
         private float _hitTotalTime;
-        private float _timeElapsed;
-        
+        private float _whenHit;
+        private float _timeScale;
+
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
-            _getDeltaTime = state.PawnDeltaTime(pawnId);
+            _state = state;
             if (_output.IsSet) {
-                state.ObserveHitsOn(pawnId)
+                _state.ObserveHitsOn(pawnId)
                     .Where(_ => IsStateActive)
                     .CatchIgnoreLog()
                     .Subscribe(hit => {
                         _hitPauseTime = hit.PauseTime;
                         _hitStunTime = hit.StunTime;
                         _hitTotalTime = _hitPauseTime + _hitStunTime;
-                        _timeElapsed = 0f;
+                        _whenHit = hit.LastUpdated;
                         animator.SetFloat(_output.Hash, 0f);
                     })
+                    .AddTo(this);
+                _state.ObservePawnTimeScale(pawnId)
+                    .CatchIgnoreLog()
+                    .Subscribe(timeScale => _timeScale = timeScale)
                     .AddTo(this);
             }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
-            if (_timeElapsed < _hitTotalTime) {
-                _timeElapsed += _getDeltaTime();
-                
-                var stunTime = _timeElapsed - _hitPauseTime;
+
+            var timeElapsed = (_state.GetTime() - _whenHit) * _timeScale;
+            if (timeElapsed < _hitTotalTime) {
+                var stunTime = timeElapsed - _hitPauseTime;
                 if (stunTime < 0f) {
                     animator.SetFloat(_output.Hash, 0f);
                 } else if (_normalized) {

@@ -1,3 +1,4 @@
+using System;
 using Banchou.Combatant;
 using UniRx;
 using UnityEngine;
@@ -8,31 +9,35 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _multiplier = 1f;
         [SerializeField] private float _maximumOffset = 2f;
         
-        private GetDeltaTime _getDeltaTime;
         private Vector3 _targetPosition;
 
+        private GameState _state;
         private float _hitPauseTime;
-        private float _timeElapsed;
+        private float _hitTime;
+        private float _timeScale;
         private Vector3 _knockback;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             var pawnId = getPawnId();
-            _getDeltaTime = state.PawnDeltaTime(pawnId);
-            state.ObserveHitsOn(pawnId)
+            _state = state;
+            _state.ObserveHitsOn(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(hit => {
                     _hitPauseTime = hit.PauseTime;
                     _knockback = hit.Knockback;
-                    _timeElapsed = 0f;
+                    _hitTime = hit.LastUpdated;
                 })
+                .AddTo(this);
+            _state.ObservePawnTimeScale(pawnId)
+                .CatchIgnoreLog()
+                .Subscribe(timeScale => _timeScale = timeScale)
                 .AddTo(this);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
-            _timeElapsed += _getDeltaTime();
             
-            var stateTime = Mathf.Clamp01(_timeElapsed / _hitPauseTime);
+            var stateTime = Mathf.Clamp01((_state.GetTime() - _hitTime) * _timeScale / _hitPauseTime);
             var magnitude = _multiplier * Mathf.Clamp01(_knockback.magnitude / _maximumOffset) *
                             _curve.Evaluate(stateTime);
             _targetPosition = magnitude * _knockback.normalized;

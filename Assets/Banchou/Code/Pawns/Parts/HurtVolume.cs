@@ -82,7 +82,6 @@ namespace Banchou.Pawn.Part {
         private GameState _state;
         private PawnSpatial _spatial;
         private AttackState _attack;
-        private Transform _transform;
 
         public Vector3 GetKnockbackOn(Vector3 to) {
             switch (KnockbackMethod) {
@@ -94,10 +93,9 @@ namespace Banchou.Pawn.Part {
         }
 
         public void Construct(GameState state, GetPawnId getPawnId) {
-            _state = state;
             PawnId = getPawnId();
+            _state = state;
             _attack = _state.GetCombatantAttack(PawnId);
-            _transform = transform;
 
             _state.ObservePawnSpatial(PawnId)
                 .CatchIgnoreLog()

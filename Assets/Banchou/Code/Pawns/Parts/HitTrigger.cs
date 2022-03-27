@@ -29,7 +29,7 @@ namespace Banchou.Pawn.Part {
         private PawnSpatial _spatial;
         private AttackState _hit;
 
-        private readonly HashSet<HurtVolume> _collidedVolumes = new();
+        // private readonly HashSet<HurtVolume> _collidedVolumes = new();
 
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody body) {
             _state = state;
@@ -55,7 +55,9 @@ namespace Banchou.Pawn.Part {
 
         private void OnVolumeEnter(Collider other) {
             if (other.TryGetComponent<HurtVolume>(out var hurtVolume)) {
-                var alreadyHit = _collidedVolumes.Contains(hurtVolume);
+                // var alreadyHit = _collidedVolumes.Contains(hurtVolume);
+                var alreadyHit = _hit?.AttackerId == hurtVolume.PawnId &&
+                                 _hit?.AttackId == hurtVolume.AttackId;
                 var canHurt = hurtVolume.PawnId != _pawnId && !alreadyHit &&
                               (hurtVolume.HurtHostile && _state.AreHostile(hurtVolume.PawnId, _pawnId) ||
                                hurtVolume.HurtFriendly && !_state.AreHostile(hurtVolume.PawnId, _pawnId));
@@ -81,19 +83,18 @@ namespace Banchou.Pawn.Part {
                         hurtVolume.IsGrab,
                         hurtVolume.LockOffOnConfirm
                     );
-                    StartCoroutine(RunInterval(hurtVolume));
                 }
             }
         }
 
-        private IEnumerator RunInterval(HurtVolume hurtVolume) {
-            var time = 0f;
-            _collidedVolumes.Add(hurtVolume);
-            while (hurtVolume.isActiveAndEnabled && time < hurtVolume.Interval + hurtVolume.HitPause) {
-                time += _state.GetDeltaTime();
-                yield return null;
-            }
-            _collidedVolumes.Remove(hurtVolume);
-        }
+        // private IEnumerator RunInterval(HurtVolume hurtVolume) {
+        //     var time = 0f;
+        //     _collidedVolumes.Add(hurtVolume);
+        //     while (hurtVolume.isActiveAndEnabled && time < hurtVolume.Interval + hurtVolume.HitPause) {
+        //         time += _state.GetDeltaTime();
+        //         yield return null;
+        //     }
+        //     _collidedVolumes.Remove(hurtVolume);
+        // }
     }
 }

@@ -27,8 +27,13 @@ namespace Banchou {
         }
 
         public GameState SyncGame(GameState other) {
-            Board.SyncGame(other.Board);
-            Players.SyncGame(other.Players);
+            if (Version == other.Version) {
+                LocalTime = other.LocalTime;
+                DeltaTime = other.DeltaTime;
+                Board.SyncGame(other.Board);
+                Players.SyncGame(other.Players);
+            }
+
             return this;
         }
 
@@ -38,8 +43,8 @@ namespace Banchou {
             return this;
         }
 
-        public GameState SetLocalTime(float localTime, float deltaTime) {
-            LocalTime = localTime;
+        public GameState UpdateLocalTime(float deltaTime) {
+            LocalTime += deltaTime;
             DeltaTime = deltaTime;
             // Don't bother notifying for this
             return this;

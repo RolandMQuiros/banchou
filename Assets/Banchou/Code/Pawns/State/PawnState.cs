@@ -63,9 +63,11 @@ namespace Banchou.Pawn {
                     AnimatorFrame.Sync(sync.AnimatorFrame);
                 }
 
-                // History.Sync(sync.History);
+                if (sync.Combatant != null) {
+                    Combatant = Combatant?.Sync(sync.Combatant) ?? sync.Combatant;
+                }
+                
                 LastUpdated = sync.LastUpdated;
-
                 if (sync.PlayerId != PlayerId) {
                     PlayerId = sync.PlayerId;
                     return Notify();

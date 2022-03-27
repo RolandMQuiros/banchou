@@ -64,9 +64,15 @@ namespace Banchou.Pawn.FSM {
             _state = state;
             _getDeltaTime = _state.PawnDeltaTime(pawnId);
             _body = body;
-            _state.ObservePawnSpatialChanges(pawnId)
+            _state.ObservePawnSpatial(pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => {  _spatial = spatial; })
+                .AddTo(this);
+            _state.ObservePawnSpatialChanges(pawnId)
+                .DistinctUntilChanged(spatial => spatial.IsSync)
+                .Subscribe(_ => {
+                    _faceDirection = _spatial.Forward;
+                })
                 .AddTo(this);
             _state.ObservePawnInput(pawnId)
                 .CatchIgnoreLog()

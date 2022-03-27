@@ -36,12 +36,6 @@ namespace Banchou.Player.Part {
         private void Start() {
             _registerPlayerObject?.Invoke(_player.PlayerId, gameObject);
         }
-        
-        private void OnDestroy() {
-            if (_player != null) {
-                _state.RemovePlayer(_player.PlayerId);
-            }
-        }
 
         public DiContainer InstallBindings(DiContainer container) {
             return container

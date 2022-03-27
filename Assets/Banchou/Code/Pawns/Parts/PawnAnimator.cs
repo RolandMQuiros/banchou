@@ -4,7 +4,6 @@ using Banchou.DependencyInjection;
 using Banchou.Utility;
 using UniRx;
 using UniRx.Triggers;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Banchou.Pawn.Part {
@@ -49,9 +48,10 @@ namespace Banchou.Pawn.Part {
                 .SelectMany(pawn => pawn.AnimatorFrame.Observe())
                 .DistinctUntilChanged(frame => frame.IsSync)
                 .Where(frame => frame.IsSync)
+                .CatchIgnoreLog()
                 .Subscribe(ApplyFrame)
                 .AddTo(this);
-            
+
             // Inject references needed by StateMachineBehaviours
             InstallBindings(_diContainer);
             

@@ -36,6 +36,11 @@ namespace Banchou.Combatant {
             LastUpdated = other.LastUpdated;
         }
 
+        public CombatantState Sync(CombatantState other) {
+            Set(other);
+            return Notify();
+        }
+
         public CombatantState LockOn(int targetPawnId, float when) {
             if (LockOnTarget != targetPawnId) {
                 LockOnTarget = targetPawnId;
