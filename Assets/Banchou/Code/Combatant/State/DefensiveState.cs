@@ -19,7 +19,7 @@ namespace Banchou.Combatant {
             LastUpdated = other.LastUpdated;
         }
 
-        public DefensiveState Set(
+        public DefensiveState Sync(
             float when,
             bool? isInvincible = null,
             GuardStyle? guardStyle = null,

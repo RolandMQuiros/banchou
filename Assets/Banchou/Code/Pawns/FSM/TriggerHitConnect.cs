@@ -19,9 +19,9 @@ namespace Banchou.Pawn.FSM {
             if (_output.Count > 0) {
                 state.ObserveHitsOn(getPawnId())
                     .Where(attack => IsStateActive && 
-                                     (_onConfirm && !attack.Blocked ||
-                                      _onBlock && attack.Blocked ||
-                                      _onGrab && attack.IsGrab))
+                                     (_onConfirm && attack.Style == HitStyle.Confirmed ||
+                                      _onBlock && attack.Style == HitStyle.Blocked ||
+                                      _onGrab && attack.Style == HitStyle.Grabbed))
                     .Subscribe(_ => {
                         if (_breakOnSet) {
                             Debug.Break();

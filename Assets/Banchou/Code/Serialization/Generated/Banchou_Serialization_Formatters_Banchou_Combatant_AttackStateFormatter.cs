@@ -31,19 +31,17 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             }
 
             global::MessagePack.IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(13);
+            writer.WriteArrayHeader(11);
             writer.Write(value.AttackerId);
             writer.Write(value.AttackId);
             formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.AttackPhase>().Serialize(ref writer, value.Phase, options);
             writer.Write(value.TargetId);
-            writer.Write(value.Blocked);
+            writer.Write(value.WhenHit);
             writer.Write(value.Damage);
+            formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.HitStyle>().Serialize(ref writer, value.HitStyle, options);
             writer.Write(value.PauseTime);
-            writer.Write(value.StunTime);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Contact, options);
-            formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Knockback, options);
             formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Serialize(ref writer, value.Recoil, options);
-            writer.Write(value.IsGrab);
             writer.Write(value.LastUpdated);
         }
 
@@ -61,14 +59,12 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
             var __AttackId__ = default(int);
             var __Phase__ = default(global::Banchou.Combatant.AttackPhase);
             var __TargetId__ = default(int);
-            var __Blocked__ = default(bool);
+            var __WhenHit__ = default(float);
             var __Damage__ = default(int);
+            var __HitStyle__ = default(global::Banchou.Combatant.HitStyle);
             var __PauseTime__ = default(float);
-            var __StunTime__ = default(float);
             var __Contact__ = default(global::UnityEngine.Vector3);
-            var __Knockback__ = default(global::UnityEngine.Vector3);
             var __Recoil__ = default(global::UnityEngine.Vector3);
-            var __IsGrab__ = default(bool);
             var __LastUpdated__ = default(float);
 
             for (int i = 0; i < length; i++)
@@ -88,30 +84,24 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                         __TargetId__ = reader.ReadInt32();
                         break;
                     case 4:
-                        __Blocked__ = reader.ReadBoolean();
+                        __WhenHit__ = reader.ReadSingle();
                         break;
                     case 5:
                         __Damage__ = reader.ReadInt32();
                         break;
                     case 6:
-                        __PauseTime__ = reader.ReadSingle();
+                        __HitStyle__ = formatterResolver.GetFormatterWithVerify<global::Banchou.Combatant.HitStyle>().Deserialize(ref reader, options);
                         break;
                     case 7:
-                        __StunTime__ = reader.ReadSingle();
+                        __PauseTime__ = reader.ReadSingle();
                         break;
                     case 8:
                         __Contact__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
                     case 9:
-                        __Knockback__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
-                        break;
-                    case 10:
                         __Recoil__ = formatterResolver.GetFormatterWithVerify<global::UnityEngine.Vector3>().Deserialize(ref reader, options);
                         break;
-                    case 11:
-                        __IsGrab__ = reader.ReadBoolean();
-                        break;
-                    case 12:
+                    case 10:
                         __LastUpdated__ = reader.ReadSingle();
                         break;
                     default:
@@ -120,7 +110,7 @@ namespace Banchou.Serialization.Formatters.Banchou.Combatant
                 }
             }
 
-            var ____result = new global::Banchou.Combatant.AttackState(__AttackerId__, __AttackId__, __Phase__, __TargetId__, __Blocked__, __Damage__, __PauseTime__, __StunTime__, __Contact__, __Knockback__, __Recoil__, __IsGrab__, __LastUpdated__);
+            var ____result = new global::Banchou.Combatant.AttackState(__AttackerId__, __AttackId__, __Phase__, __TargetId__, __WhenHit__, __Damage__, __HitStyle__, __PauseTime__, __Contact__, __Recoil__, __LastUpdated__);
             reader.Depth--;
             return ____result;
         }

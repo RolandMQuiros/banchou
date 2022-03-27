@@ -8,7 +8,12 @@ using Banchou.Pawn;
 namespace Banchou.Board {
     public static class BoardSelectors {
         public static IObservable<BoardState> ObserveBoardChanges(this GameState state) {
-            return state.Board.Observe();
+            try {
+                return state.Board.Observe();
+            } catch (Exception e) {
+                int x = 0;
+                return state.Board.Observe();
+            }
         }
 
         public static IObservable<string> ObserveAddedScenes(this GameState state) {

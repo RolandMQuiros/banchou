@@ -4,6 +4,7 @@ using System.Linq;
 using Banchou.Board;
 using Banchou.Pawn;
 using UniRx;
+using UnityEngine;
 
 namespace Banchou.Combatant {
     public static class CombatantEvents {
@@ -55,31 +56,26 @@ namespace Banchou.Combatant {
                 .SelectMany(combatant => combatant.Attack.Observe());
         }
 
-        public static IObservable<AttackState> ObserveHits(this GameState state) =>
+        public static IObservable<HitState> ObserveHits(this GameState state) =>
             state.ObserveCombatants()
-                .SelectMany(
-                    combatant => combatant.Attack.Observe()
-                        .DistinctUntilChanged(attack => (attack.AttackId, attack.TargetId))
-                        .Where(attack => attack.TargetId != default)
-                );
+                .SelectMany(combatant => combatant.Hit.Observe());
 
-        public static IObservable<AttackState> ObserveHitsOn(this GameState state, int pawnId) =>
-            state.ObserveHits().Where(attack => attack.TargetId == pawnId);
+        public static IObservable<HitState> ObserveHitsOn(this GameState state, int pawnId) =>
+            state.ObserveCombatant(pawnId)
+                .SelectMany(combatant => combatant.Hit.Observe());
 
-        public static IObservable<AttackState> ObserveAttackConnects(this GameState state, int pawnId) =>
+        public static IObservable<AttackState> ObserveAttacksBy(this GameState state, int pawnId) =>
             state.ObserveAttackChanges(pawnId)
                 .DistinctUntilChanged(attack => attack.TargetId)
                 .Where(attack => attack.TargetId != default);
-        
-        public static IObservable<AttackState> ObserveConfirmedAttack(this GameState state, int pawnId) =>
-            state.ObserveAttackConnects(pawnId)
-                .Where(attack => attack.Confirmed);
 
-        public static IObservable<AttackState> ObserveBlockedAttack(this GameState state, int pawnId) =>
-            state.ObserveAttackConnects(pawnId)
-                .Where(attack => attack.Blocked);
+        public static IObservable<AttackState> ObserveAttacksOn(this GameState state, int pawnId) =>
+            state.ObserveCombatants()
+                .SelectMany(combatant => combatant.Attack.Observe())
+                .Where(attack => attack.TargetId == pawnId)
+                .DistinctUntilChanged(attack => attack.AttackId);
 
-        public static IObservable<GrabState> ObserveGrab(this GameState state, int pawnId) =>
+        public static IObservable<GrabState> ObserveGrabsBy(this GameState state, int pawnId) =>
             state.ObserveCombatant(pawnId)
                 .Select(combatant => combatant.Grab);
 
@@ -177,6 +173,33 @@ namespace Banchou.Combatant {
                     pawns => pawns
                         .Where(pawn => pawn.Spatial != null)
                         .Select(pawn => pawn.Spatial)
+                );
+
+        public static IObservable<float> ObserveNormalizedHitPause<T>(
+            this GameState state, int pawnId, IObservable<T> source
+        ) =>
+            source.WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit)
+                .WithLatestFrom(
+                    state.ObservePawnTimeScale(pawnId),
+                    (hit, timeScale) => hit.NormalizedStunTime(timeScale, state.GetTime()) 
+                );
+
+        public static IObservable<float> ObserveNormalizedHitStun<T>(
+            this GameState state, int pawnId, IObservable<T> source
+        ) =>
+            source.WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit)
+                .WithLatestFrom(
+                    state.ObservePawnTimeScale(pawnId),
+                    (hit, timeScale) => hit.NormalizedStunTime(timeScale, state.GetTime()) 
+                );
+
+        public static IObservable<float> ObserveNormalizedAttackPause<T>(
+            this GameState state, int pawnId, IObservable<T> source
+        ) =>
+            source.WithLatestFrom(state.ObserveAttacksBy(pawnId), (_, attack) => attack)
+                .WithLatestFrom(
+                    state.ObservePawnTimeScale(pawnId),
+                    (attack, timeScale) => attack.NormalizedPauseTime(timeScale, state.GetTime()) 
                 );
     }
 }

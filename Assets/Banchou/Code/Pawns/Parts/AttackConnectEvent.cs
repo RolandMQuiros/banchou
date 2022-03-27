@@ -21,11 +21,11 @@ namespace Banchou.Pawn.Part {
         
         public void Construct(GameState state, GetPawnId getPawnId) {
             var originalPosition = transform.localPosition;
-            state.ObserveAttackConnects(getPawnId())
+            state.ObserveAttacksBy(getPawnId())
                 .Where(attack => isActiveAndEnabled &&
-                                (_onConfirm && attack.Confirmed ||
-                                 _onBlock && attack.Blocked ||
-                                 _onGrab && attack.IsGrab))
+                                (_onConfirm && attack.HitStyle == HitStyle.Confirmed ||
+                                 _onBlock && attack.HitStyle == HitStyle.Blocked ||
+                                 _onGrab && attack.HitStyle == HitStyle.Grabbed))
                 .CatchIgnoreLog()
                 .Subscribe(attack => {
                     if (_debugBreak) {

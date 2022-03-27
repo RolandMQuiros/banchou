@@ -23,11 +23,11 @@ namespace Banchou.Pawn.FSM {
             var pawnId = getPawnId();
             _getDeltaTime = state.PawnDeltaTime(pawnId);
             if (_output.Count > 0) {
-                state.ObserveAttackConnects(pawnId)
+                state.ObserveAttacksBy(pawnId)
                     .Where(attack => IsStateActive && 
-                                     (_onConfirm && attack.Confirmed ||
-                                      _onBlock && attack.Blocked ||
-                                      _onGrab && attack.IsGrab))
+                                     (_onConfirm && attack.HitStyle == HitStyle.Confirmed ||
+                                      _onBlock && attack.HitStyle == HitStyle.Blocked ||
+                                      _onGrab && attack.HitStyle == HitStyle.Grabbed))
                     .Subscribe(attack => {
                         _pauseTimer = attack.PauseTime;
                         _triggered = true;

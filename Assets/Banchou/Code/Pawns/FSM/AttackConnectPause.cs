@@ -31,8 +31,8 @@ namespace Banchou.Pawn.FSM {
             _rigidbody = rigidbody;
             _originalConstraints = _rigidbody.constraints;
 
-            state.ObserveConfirmedAttack(pawnId)
-                .Where(_ => IsStateActive)
+            state.ObserveAttacksBy(pawnId)
+                .Where(attack => IsStateActive && attack.HitStyle == HitStyle.Confirmed)
                 .DistinctUntilChanged(attack => attack.AttackId) // Only pause once per attack
                 .CatchIgnoreLog()
                 .Subscribe(attack => {

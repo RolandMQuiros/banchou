@@ -10,27 +10,15 @@ namespace Banchou.Pawn.FSM {
         private string _hitTrigger;
         [SerializeField, Tooltip("Float parameter to set the normalized hit pause time")]
         private string _pauseTimeNormalizedFloat;
-        [SerializeField, Tooltip("Float parameter to set the hitstun time")]
-        private string _stunTimeFloat;
         [SerializeField, Tooltip("Float parameter to set the normalized hitstun time")]
         private string _stunTimeNormalizedFloat;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             var pawnId = getPawnId();
-            
-            var stunTimeHash = Animator.StringToHash(_stunTimeFloat);
-            if (stunTimeHash != 0) {
-                ObserveStateUpdate
-                    .WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit.StunTimeAt(state.GetTime()))
-                    .CatchIgnoreLog()
-                    .Subscribe(stunTime => animator.SetFloat(stunTimeHash, stunTime))
-                    .AddTo(this);
-            }
 
             var normalizedStunTimeHash = Animator.StringToHash(_stunTimeNormalizedFloat);
             if (normalizedStunTimeHash != 0) {
-                ObserveStateUpdate
-                    .WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit.NormalizedStunTimeAt(state.GetTime()))
+                state.ObserveNormalizedHitStun(pawnId, ObserveStateUpdate)
                     .CatchIgnoreLog()
                     .Subscribe(stunTime => animator.SetFloat(normalizedStunTimeHash, stunTime))
                     .AddTo(this);
@@ -38,8 +26,7 @@ namespace Banchou.Pawn.FSM {
 
             var normalizedPauseTimeHash = Animator.StringToHash(_pauseTimeNormalizedFloat);
             if (normalizedPauseTimeHash != 0) {
-                ObserveStateUpdate
-                    .WithLatestFrom(state.ObserveHitsOn(pawnId), (_, hit) => hit.NormalizedStunTimeAt(state.GetTime()))
+                state.ObserveNormalizedHitPause(pawnId, ObserveStateUpdate)
                     .CatchIgnoreLog()
                     .Subscribe(pauseTime => animator.SetFloat(normalizedPauseTimeHash, pauseTime))
                     .AddTo(this);
@@ -50,22 +37,7 @@ namespace Banchou.Pawn.FSM {
                 state.ObserveHitsOn(pawnId)
                     .Where(hit => hit.StunTime > 0)
                     .CatchIgnoreLog()
-                    .Subscribe(hit => {
-                        animator.SetTrigger(hitTriggerHash);
-
-                        var now = state.GetTime();
-                        if (normalizedPauseTimeHash != 0) {
-                            animator.SetFloat(normalizedPauseTimeHash, hit.NormalizedPauseTimeAt(now));
-                        }
-                        
-                        if (stunTimeHash != 0) {
-                            animator.SetFloat(stunTimeHash, hit.StunTimeAt(now));
-                        }
-
-                        if (normalizedStunTimeHash != 0) {
-                            animator.SetFloat(normalizedStunTimeHash, hit.NormalizedStunTimeAt(now));
-                        }
-                    })
+                    .Subscribe(_ => { animator.SetTrigger(hitTriggerHash); })
                     .AddTo(this);
             }
         }

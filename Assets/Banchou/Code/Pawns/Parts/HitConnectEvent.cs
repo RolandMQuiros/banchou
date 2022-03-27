@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Banchou.Pawn.Part {
     public class HitConnectEvent : MonoBehaviour {
-        [Serializable] private class HitStateEvent : UnityEvent<AttackState> { }
+        [Serializable] private class HitStateEvent : UnityEvent<HitState> { }
 
         [SerializeField] private bool _onConfirm = true;
         [SerializeField] private bool _onBlock = true;
@@ -21,20 +21,21 @@ namespace Banchou.Pawn.Part {
         public void Construct(GameState state, GetPawnId getPawnId) {
             var originalPosition = transform.localPosition;
             state.ObserveHitsOn(getPawnId())
-                .Where(attack => isActiveAndEnabled && 
-                              (_onBlock && attack.Blocked || _onConfirm && !attack.Blocked))
+                .Where(hit => isActiveAndEnabled && 
+                              (_onBlock && hit.Style == HitStyle.Blocked ||
+                               _onConfirm && hit.Style == HitStyle.Confirmed))
                 .CatchIgnoreLog()
-                .Subscribe(attack => {
+                .Subscribe(hit => {
                     if (_debugBreak) {
                         Debug.Break();
                     }
 
                     if (_moveToContact) {
-                        transform.position = attack.Contact;
+                        transform.position = hit.Contact;
                     } else if (_resetToDefaultPosition) {
                         transform.localPosition = originalPosition;
                     }
-                    _onEvent.Invoke(attack);
+                    _onEvent.Invoke(hit);
                 })
                 .AddTo(this);
         }

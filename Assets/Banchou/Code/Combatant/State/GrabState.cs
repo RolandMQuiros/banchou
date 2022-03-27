@@ -35,6 +35,11 @@ namespace Banchou.Combatant {
             LastUpdated = other.LastUpdated;
         }
 
+        public GrabState Sync(GrabState other) {
+            Set(other);
+            return Notify();
+        }
+
         public GrabState Contact(int attackId, int targetId, float when) {
             if (Phase is GrabPhase.Released or GrabPhase.Interrupted) {
                 Phase = GrabPhase.Contacted;

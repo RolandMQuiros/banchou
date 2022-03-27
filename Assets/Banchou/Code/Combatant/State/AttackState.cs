@@ -21,70 +21,64 @@ namespace Banchou.Combatant {
         int AttackId = 0,
         AttackPhase Phase = AttackPhase.Neutral,
         int TargetId = 0,
-        bool Blocked = false,
+        float WhenHit = 0f,
         int Damage = 0,
+        HitStyle HitStyle = HitStyle.None,
         float PauseTime = 0f,
-        float StunTime = 0f,
         Vector3 Contact = new(),
-        Vector3 Knockback = new(),
         Vector3 Recoil = new(),
-        bool IsGrab = false,
         float LastUpdated = 0f
     ) : NotifiableWithHistory<AttackState>(32) {
         [Key(0)][field: SerializeField] public int AttackerId { get; } = AttackerId;
         [Key(1)][field: SerializeField] public int AttackId { get; private set; } = AttackId;
         [Key(2)][field: SerializeField] public AttackPhase Phase { get; private set; } = Phase; 
+        
         [Key(3)][field: SerializeField] public int TargetId { get; private set; } = TargetId;
-        [Key(4)][field: SerializeField] public bool Blocked { get; private set; } = Blocked;
+        [Key(4)][field: SerializeField] public float WhenHit { get; private set; } = WhenHit;
         [Key(5)][field: SerializeField] public int Damage { get; private set; } = Damage;
-        [Key(6)][field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
-        [Key(7)][field: SerializeField] public float StunTime { get; private set; } = StunTime;
+        [Key(6)][field: SerializeField] public HitStyle HitStyle { get; private set; } = HitStyle;
+        [Key(7)][field: SerializeField] public float PauseTime { get; private set; } = PauseTime;
+
         [Key(8)][field: SerializeField] public Vector3 Contact { get; private set; } = Contact;
-        [Key(9)][field: SerializeField] public Vector3 Knockback { get; private set; } = Knockback;
-        [Key(10)][field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
-        [Key(11)][field: SerializeField] public bool IsGrab { get; private set; } = IsGrab;
-        [Key(12)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
+        [Key(9)][field: SerializeField] public Vector3 Recoil { get; private set; } = Recoil;
+        
+        [Key(10)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
-        [IgnoreMember] public bool Confirmed => TargetId != default && !Blocked;
-        
-        public float StunTimeAt(float when) => StunTime - (when - LastUpdated + PauseTime);
-        
-        public float NormalizedStunTimeAt(float when) => Mathf.Approximately(StunTime, 0f) ? 1f :
-            Mathf.Clamp01((when - (LastUpdated + PauseTime)) / StunTime);
-
-        public float PauseTimeAt(float when) => PauseTime - (when - LastUpdated);
-        
-        public float NormalizedPauseTimeAt(float when) => Mathf.Approximately(PauseTime, 0f) ? 1f :
-            Mathf.Clamp01((when - LastUpdated) / PauseTime);
-        
-        public bool IsStunned(float when) => StunTimeAt(when) > 0f;
+        public float NormalizedPauseTime(float timeScale, float when) =>
+            Mathf.Clamp01((when - WhenHit) * timeScale / PauseTime);
 
         public override void Set(AttackState other) {
             AttackId = other.AttackId;
             Phase = other.Phase;
+            
             TargetId = other.TargetId;
-            Blocked = other.Blocked;
+            WhenHit = other.WhenHit;
             Damage = other.Damage;
+            HitStyle = other.HitStyle;
             PauseTime = other.PauseTime;
-            StunTime = other.StunTime;
             Contact = other.Contact;
-            Knockback = other.Knockback;
             Recoil = other.Recoil;
-            IsGrab = other.IsGrab;
+            
             LastUpdated = other.LastUpdated;
+        }
+
+        public AttackState Sync(AttackState other) {
+            Set(other);
+            return Notify();
         }
 
         public AttackState Start(float when) {
             AttackId++;
             Phase = AttackPhase.Starting;
-            Blocked = false;
+            
             TargetId = 0;
+            WhenHit = 0f;
             Damage = 0;
+            HitStyle = HitStyle.None;
             PauseTime = 0f;
-            StunTime = 0f;
             Contact = Vector3.zero;
-            Knockback = Vector3.zero;
             Recoil = Vector3.zero;
+            
             LastUpdated = when;
             return Notify(when);
         }
@@ -101,8 +95,6 @@ namespace Banchou.Combatant {
         public AttackState Reactivate(float when) {
             if (Phase == AttackPhase.Active) {
                 AttackId++;
-                TargetId = 0;
-                Blocked = false;
                 LastUpdated = when;
                 return Activate(when);
             }
@@ -120,8 +112,6 @@ namespace Banchou.Combatant {
 
         public AttackState Finish(float when) {
             Phase = AttackPhase.Neutral;
-            Blocked = false;
-            TargetId = default;
             LastUpdated = when;
             return Notify(when);
         }
@@ -129,24 +119,20 @@ namespace Banchou.Combatant {
         public AttackState Connect(
             int targetId,
             int damage,
-            bool blocked,
+            HitStyle style,
             float pause,
-            float stun,
             Vector3 contact,
             Vector3 knockback,
             Vector3 recoil,
-            bool isGrab,
             float when
         ) {
             TargetId = targetId;
+            WhenHit = when;
             Damage = damage;
-            Blocked = blocked;
+            HitStyle = style;
             PauseTime = pause;
-            StunTime = stun;
             Contact = contact;
-            Knockback = knockback;
             Recoil = recoil;
-            IsGrab = isGrab;
             LastUpdated = when;
             return Notify(when);
         }

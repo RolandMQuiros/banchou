@@ -1,4 +1,3 @@
-using System;
 using Banchou.Combatant;
 using UniRx;
 using UnityEngine;
@@ -10,11 +9,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _maximumOffset = 2f;
         
         private Vector3 _targetPosition;
-
         private GameState _state;
-        private float _hitPauseTime;
-        private float _hitTime;
-        private float _timeScale;
         private Vector3 _knockback;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
@@ -22,25 +17,16 @@ namespace Banchou.Pawn.FSM {
             _state = state;
             _state.ObserveHitsOn(pawnId)
                 .CatchIgnoreLog()
-                .Subscribe(hit => {
-                    _hitPauseTime = hit.PauseTime;
-                    _knockback = hit.Knockback;
-                    _hitTime = hit.LastUpdated;
+                .Subscribe(hit => { _knockback = hit.Knockback; })
+                .AddTo(this);
+            _state.ObserveNormalizedHitPause(pawnId, ObserveStateUpdate)
+                .CatchIgnoreLog()
+                .Subscribe(pauseTime => {
+                    var magnitude = _multiplier * Mathf.Clamp01(_knockback.magnitude / _maximumOffset) *
+                                    _curve.Evaluate(pauseTime);
+                    _targetPosition = magnitude * _knockback.normalized;
                 })
                 .AddTo(this);
-            _state.ObservePawnTimeScale(pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(timeScale => _timeScale = timeScale)
-                .AddTo(this);
-        }
-
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateUpdate(animator, stateInfo, layerIndex);
-            
-            var stateTime = Mathf.Clamp01((_state.GetTime() - _hitTime) * _timeScale / _hitPauseTime);
-            var magnitude = _multiplier * Mathf.Clamp01(_knockback.magnitude / _maximumOffset) *
-                            _curve.Evaluate(stateTime);
-            _targetPosition = magnitude * _knockback.normalized;
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

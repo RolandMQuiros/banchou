@@ -5,22 +5,12 @@ using UnityEngine;
 namespace Banchou.Pawn.FSM {
     public class AttackPauseToFloat : FSMBehaviour {
         [SerializeField] private FSMParameter _output = new(AnimatorControllerParameterType.Float);
-        private GameState _state;
-        private AttackState _attack;
 
-        public void Construct(GameState state, GetPawnId getPawnId) {
-            _state = state;
-            _state.ObserveAttack(getPawnId())
+        public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
+            state.ObserveNormalizedAttackPause(getPawnId(), ObserveStateUpdate)
                 .CatchIgnoreLog()
-                .Subscribe(attack => _attack = attack)
+                .Subscribe(pauseTime => animator.SetFloat(_output.Hash, pauseTime))
                 .AddTo(this);
-        }
-
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateUpdate(animator, stateInfo, layerIndex);
-            if (_output.IsSet) {
-                animator.SetFloat(_output.Hash, _attack.NormalizedPauseTimeAt(_state.GetTime()));
-            }
         }
     }
 }

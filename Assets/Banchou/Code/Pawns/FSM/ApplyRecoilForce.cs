@@ -8,7 +8,7 @@ namespace Banchou.Pawn.FSM {
         
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody rigidbody, Animator animator) {
             var pawnId = getPawnId();
-            state.ObserveAttackConnects(pawnId)
+            state.ObserveAttacksBy(pawnId)
                 .Where(_ => IsStateActive)
                 .WithLatestFrom(state.ObservePawnTimeScale(pawnId), (attack, timeScale) => (attack, timeScale))
                 .CatchIgnoreLog()

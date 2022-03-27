@@ -37,7 +37,13 @@ namespace Banchou.Combatant {
         }
 
         public CombatantState Sync(CombatantState other) {
-            Set(other);
+            Health = other.Health;
+            Stats.Set(other.Stats);
+            Attack.Sync(other.Attack);
+            Hit.Sync(other.Hit);
+            Grab.Sync(other.Grab);
+            LockOnTarget = other.LockOnTarget;
+            LastUpdated = other.LastUpdated;
             return Notify();
         }
 
@@ -62,14 +68,17 @@ namespace Banchou.Combatant {
         public CombatantState TakeHit(
             int attackerId,
             int attackId,
+            HitStyle style,
             int damage,
             float pauseTime,
             float stunTime,
+            Vector3 knockback,
+            Vector3 contact,
             float when
         ) {
             if (Defense.IsInvincible) return this;
             Health = Mathf.Clamp(Health - damage, 0, Stats.MaxHealth);
-            Hit.Take(attackerId, attackId, damage, pauseTime, stunTime, when);
+            Hit.Take(attackerId, attackId, style, damage, pauseTime, stunTime, knockback, contact, when);
             Grab.Interrupt(when);
             LastUpdated = when;
             return Notify(when);
