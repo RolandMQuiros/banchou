@@ -28,7 +28,6 @@ namespace Banchou.Player.Part {
             
             // If pawn is still null, destroy this object
             if (_player == null) {
-                Debug.LogError($"Could not resolve a PlayerState for this PlayerContext. Destroying.");
                 Destroy(gameObject);
             }
         }
@@ -38,9 +37,12 @@ namespace Banchou.Player.Part {
         }
 
         public DiContainer InstallBindings(DiContainer container) {
-            return container
-                .Bind(_player)
-                .Bind<GetPlayerId>(() => _player.PlayerId);
+            if (_player != null) {
+                return container
+                    .Bind(_player)
+                    .Bind<GetPlayerId>(() => _player.PlayerId);
+            }
+            return container;
         }
     }
 }

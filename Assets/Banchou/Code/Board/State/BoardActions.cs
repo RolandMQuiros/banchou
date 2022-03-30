@@ -23,10 +23,10 @@ namespace Banchou.Board {
             Vector3 forward = default
         ) {
             state.Board.AddPawn(
+                prefabKey,
                 state.GetTime(),
                 out pawn,
                 pawnId,
-                prefabKey,
                 playerId,
                 position,
                 forward

@@ -12,9 +12,21 @@ namespace Banchou.Player.Part {
         public void Construct(
             GameState state,
             Instantiator instantiate,
-            RegisterPlayerObject registerPlayerObject
+            GetMutablePlayerInstances getPlayerInstances
         ) {
+            var playerInstances = getPlayerInstances();
             var createdByFactory = new Dictionary<int, (GameObject Instance, string PrefabKey)>();
+            
+            state.ObserveRemovedPlayers()
+                .CatchIgnoreLog()
+                .Subscribe(player => {
+                    if (playerInstances.TryGetValue(player.PlayerId, out var instance)) {
+                        playerInstances.Remove(player.PlayerId);
+                        createdByFactory.Remove(player.PlayerId);
+                        Destroy(instance);
+                    }
+                })
+                .AddTo(this);
             
             state.ObserveAddedPlayers()
                 .Where(player => !string.IsNullOrEmpty(player.PrefabKey))
@@ -52,7 +64,7 @@ namespace Banchou.Player.Part {
                             view.ViewID = player.NetworkId;
                         }
 
-                        registerPlayerObject(player.PlayerId, instance);
+                        playerInstances[player.PlayerId] = instance;
                     }
                 })
                 .AddTo(this);

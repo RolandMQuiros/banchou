@@ -20,9 +20,7 @@ namespace Banchou.Player {
             int networkId = default
         ) {
             if (playerId == default) {
-                // Find the first available pawn ID
-                var usedIds = Members.Keys.OrderBy(id => id).ToList();
-                for (playerId = 1; playerId <= usedIds.Count && playerId == usedIds[playerId - 1]; playerId++) { }
+                playerId = (Members.Values.Count(p => p.PrefabKey == prefabKey), prefabKey).GetHashCode();
             }
             
             player = new PlayerState(playerId, prefabKey, networkId);
@@ -58,16 +56,16 @@ namespace Banchou.Player {
             var currentPlayers = Members.Values.Select(p => (p.PlayerId, p.PrefabKey)).ToList();
             var incomingPlayers = sync.Members.Values.Select(p => (p.PlayerId, p.PrefabKey)).ToList();
 
-            foreach (var added in incomingPlayers.Except(currentPlayers)) {
-                var player = sync.Members[added.PlayerId];
-                Members[player.PlayerId] = player;
-                PlayerAdded?.Invoke(player);
-            }
-
             foreach (var removed in currentPlayers.Except(incomingPlayers)) {
                 var player = Members[removed.PlayerId];
                 Members.Remove(removed.PlayerId);
                 PlayerRemoved?.Invoke(player);
+            }
+            
+            foreach (var added in incomingPlayers.Except(currentPlayers)) {
+                var player = sync.Members[added.PlayerId];
+                Members[player.PlayerId] = player;
+                PlayerAdded?.Invoke(player);
             }
 
             foreach (var updated in currentPlayers.Intersect(incomingPlayers)) {

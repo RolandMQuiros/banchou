@@ -11,13 +11,13 @@ namespace Banchou.Pawn.Part {
     
     public class PawnAnimator : MonoBehaviour, IContext {
         [SerializeField] private Collider _pawnCollider;
-        
+
+        private int _pawnId;
         private DiContainer _diContainer;
         private GameState _state;
         private PawnAnimatorFrame _frame;
         private Animator _animator;
         private List<AnimatorControllerParameter> _cachedParameters;
-
         private float _lastFrameTime;
 
         public void Construct(
@@ -28,14 +28,14 @@ namespace Banchou.Pawn.Part {
         ) {
             _diContainer = diContainer;
             _state = state;
+            _pawnId = getPawnId();
             _animator = animator;
             // Accessing Animator.parameters or Animator.GetParameter seems to generate garbage
             // so let's get this out of the way early
             _cachedParameters = _animator.parameters.ToList();
             
             // Query latest animator frame
-            var pawnId = getPawnId();
-            _state.ObservePawnChanges(pawnId)
+            _state.ObservePawnChanges(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(pawn => {
                     _frame = pawn.AnimatorFrame;
@@ -43,18 +43,18 @@ namespace Banchou.Pawn.Part {
                 })
                 .AddTo(this);
 
+            // Inject references needed by StateMachineBehaviours
+            InstallBindings(_diContainer);
+            
             // Handle frame syncs
-            _state.ObservePawn(pawnId)
+            _state.ObservePawn(_pawnId)
                 .SelectMany(pawn => pawn.AnimatorFrame.Observe())
-                .DistinctUntilChanged(frame => frame.IsSync)
+                .DistinctUntilChanged(frame => (frame.IsSync, frame.When))
                 .Where(frame => frame.IsSync)
                 .CatchIgnoreLog()
                 .Subscribe(ApplyFrame)
                 .AddTo(this);
 
-            // Inject references needed by StateMachineBehaviours
-            InstallBindings(_diContainer);
-            
             // Need to re-inject when enabled, because Animators delete their StateMachineBehaviours on disable
             this.OnEnableAsObservable()
                 .Subscribe(_ => { Inject(); })
@@ -81,7 +81,7 @@ namespace Banchou.Pawn.Part {
         /// </summary>
         private void ApplyFrame(PawnAnimatorFrame frame) {
             _cachedParameters = _animator.parameters.ToList();
-            
+
             foreach (var param in frame.Bools) {
                 _animator.SetBool(param.Key, param.Value);
             }

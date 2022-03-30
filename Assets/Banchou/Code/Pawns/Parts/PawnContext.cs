@@ -43,7 +43,6 @@ namespace Banchou.Pawn.Part {
 
             // If pawn is still null, destroy this object
             if (_pawn == null) {
-                Debug.LogError($"Could not resolve a PawnState for this PawnContext. Destroying.");
                 Destroy(gameObject);
             } else {
                 _pawnId = _pawn.PawnId;

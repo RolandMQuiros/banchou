@@ -37,7 +37,7 @@ namespace Banchou.Pawn.Part {
             
             // Immediately set position when spatial is sync'd
             _state.ObservePawnSpatialChanges(pawnId)
-                .DistinctUntilChanged(spatial => spatial.IsSync)
+                .DistinctUntilChanged(spatial => (spatial.IsSync, spatial.LastUpdated))
                 .Where(spatial => spatial.IsSync)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => {

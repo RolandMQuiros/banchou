@@ -12,10 +12,22 @@ namespace Banchou.Board.Part {
         public void Construct(
             GameState state,
             Instantiator instantiate,
-            RegisterPawnObject registerPawnObject
+            GetMutablePawnObjects getPawnObjects
         ) {
+            var pawnObjects = getPawnObjects();
             var createdInstances = new Dictionary<int, (GameObject Instance, string PrefabKey)>();
-
+            
+            state.ObserveRemovedPawns()
+                .CatchIgnoreLog()
+                .Subscribe(pawn => {
+                    if (pawnObjects.TryGetValue(pawn.PawnId, out var instance)) {
+                        pawnObjects.Remove(pawn.PawnId);
+                        createdInstances.Remove(pawn.PawnId);
+                        Destroy(instance);
+                    }
+                })
+                .AddTo(this);
+            
             state.ObserveAddedPawns()
                 .Where(pawn => !string.IsNullOrEmpty(pawn.PrefabKey))
                 .Do(pawn => Debug.Log($"Creating Pawn {pawn.PawnId} from Prefab {pawn.PrefabKey}"))
@@ -46,7 +58,7 @@ namespace Banchou.Board.Part {
                             (GetPawnId)(() => pawn.PawnId)
                         );
                         createdInstances[pawn.PawnId] = (instance, pawn.PrefabKey);
-                        registerPawnObject(pawn.PawnId, instance);
+                        pawnObjects[pawn.PawnId] = instance;
                     }
                 })
                 .AddTo(this);
