@@ -72,7 +72,6 @@ namespace Banchou.Board {
             }
             
             // Add missing pawns
-            currentPawns = Pawns.Values.Select(pawn => (pawn.PawnId, pawn.PrefabKey)).ToList();
             var toAdd = incomingPawns.Except(currentPawns);
             foreach (var added in toAdd) {
                 boardChanged = true;
@@ -128,18 +127,17 @@ namespace Banchou.Board {
         }
 
         public BoardState AddPawn(
+            string prefabKey,
             float when,
             out PawnState pawn,
             int pawnId = default,
-            string prefabKey = default,
             int playerId = default,
             Vector3 position = default,
             Vector3 forward = default
         ) {
             if (pawnId == default) {
-                // Find the first available pawn ID
-                var usedIds = Pawns.Keys.OrderBy(id => id).ToList();
-                for (pawnId = 1; pawnId <= usedIds.Count && pawnId == usedIds[pawnId - 1]; pawnId++) { }
+                var prefabCount = Pawns.Values.Count(pawn => pawn.PrefabKey == prefabKey);
+                pawnId = (prefabKey, prefabCount).GetHashCode();
             }
             
             pawn = new PawnState(

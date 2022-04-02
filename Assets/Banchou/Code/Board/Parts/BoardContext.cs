@@ -1,7 +1,6 @@
 using UnityEngine;
 using Banchou.DependencyInjection;
 using Banchou.Pawn.Part;
-using Banchou.Player;
 using Banchou.Player.Part;
 using UniRx;
 

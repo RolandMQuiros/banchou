@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 4745906076791081519}
   - component: {fileID: 2338477261493368107}
   - component: {fileID: 4382030275167622507}
+  - component: {fileID: 5143902829916317029}
+  - component: {fileID: 7674498945720988145}
   m_Layer: 0
   m_Name: Local Player
   m_TagString: Untagged
@@ -169,8 +171,8 @@ MonoBehaviour:
     m_ActionId: f346915c-5cfd-4f5c-996e-b1aa62881c60
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: Player
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Debug Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4382030275167622507
@@ -186,3 +188,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lockTapTime: 0.25
+--- !u!114 &5143902829916317029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338477261493368109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d555014a7faa75548b5479376fb29aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7674498945720988145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2338477261493368109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4f98f67eb87423408de695e6e310e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _saveNameFormat: banchou.dev.{0}.sav

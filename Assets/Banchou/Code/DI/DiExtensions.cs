@@ -112,37 +112,22 @@ namespace Banchou.DependencyInjection {
         }
 
         /// <summary>
-        /// Expands a <see cref="Component"/> into subobjects that can receive dependency injections
-        /// </summary>
-        /// <param name="component">The target <see cref="Component"/></param>
-        /// <returns>An unordered collection of subobjects</returns>
-        public static IEnumerable<object> Expand(this Component component) {
-            yield return component;
-            
-            // Animators need to explicitly be re-injected on enable, because StateMachineBehaviours are destroyed
-            // on disable
-            
-            // if (component is Animator animator) {
-            //     foreach (var behaviour in animator.GetBehaviours<StateMachineBehaviour>()) {
-            //         yield return behaviour;
-            //     }
-            // }
-        }
-        
-        /// <summary>
-        /// Retrives an ordered collection of <see cref="Transform"/> descendants that can receive dependency injection.
+        /// Retrieves an ordered collection of <see cref="Transform"/> descendants that can receive dependency injection.
         /// Prioritizes implementations of <see cref="IContext"/> first.
         /// </summary>
         /// <param name="transform">
         /// The root transform of the <see cref="GameObject"/> tree to search for injectees
         /// </param>
         /// <returns>An ordered collection of eligible injectee objects</returns>
-        private static IOrderedEnumerable<object> GetInjectees(this Transform transform) {
+        private static IEnumerable<object> GetInjectees(this Transform transform) {
             return transform.gameObject
                 .GetComponents<Component>()
-                .SelectMany(Expand)
+                .Select((component, index) => (component, index))
                 // Handle contexts first
-                .OrderBy(c => c is IContext ? 0 : 1);
+                .OrderBy(args => args.component is IContext ? 0 : 1)
+                    // Maintain component order on the GameObject
+                    .ThenBy(args => args.index)
+                .Select(args => args.component);
         }
     }
 }

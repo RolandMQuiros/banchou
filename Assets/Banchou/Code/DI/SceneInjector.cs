@@ -3,14 +3,8 @@ using UnityEngine.SceneManagement;
 
 namespace Banchou.DependencyInjection {
     public class SceneInjector : MonoBehaviour {
-        private DiContainer _container;
-        
         private void Awake() {
-            _container = new DiContainer();
-            foreach (var context in transform.FindContexts()) {
-                context.InstallBindings(_container);
-            }
-            
+            transform.ApplyBindings();
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
@@ -19,8 +13,11 @@ namespace Banchou.DependencyInjection {
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+            var container = transform.FindContexts().ToDiContainer();
             foreach (var root in scene.GetRootGameObjects()) {
-                root.transform.ApplyBindings(_container);
+                if (root != gameObject) {
+                    root.transform.ApplyBindings(container);
+                }
             }
         }
     }
