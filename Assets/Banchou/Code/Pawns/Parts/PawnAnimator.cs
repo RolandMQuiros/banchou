@@ -47,8 +47,7 @@ namespace Banchou.Pawn.Part {
             InstallBindings(_diContainer);
             
             // Handle frame syncs
-            _state.ObservePawn(_pawnId)
-                .SelectMany(pawn => pawn.AnimatorFrame.Observe())
+            _state.ObservePawnAnimatorFrameChanges(_pawnId)
                 .DistinctUntilChanged(frame => (frame.IsSync, frame.When))
                 .Where(frame => frame.IsSync)
                 .CatchIgnoreLog()

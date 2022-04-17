@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using MessagePack;
 using UnityEngine;
 
@@ -22,11 +23,11 @@ namespace Banchou.Pawn {
         [Key(2)][field: SerializeField]
         public int PlayerId { get; private set; } = PlayerId;
         
-        [Key(3)][field: SerializeField]
+        [Key(3)][field: SerializeField, NotNull]
         public PawnSpatial Spatial { get; private set; } = Spatial ?? new PawnSpatial(PawnId);
         
         [Key(4)][field: SerializeField]
-        public PawnAnimatorFrame AnimatorFrame { get; private set; } = AnimatorFrame ?? new PawnAnimatorFrame();
+        public PawnAnimatorFrame AnimatorFrame { get; private set; } = AnimatorFrame;
         
         [Key(5)][field: SerializeField]
         public CombatantState Combatant { get; private set; } = Combatant;
@@ -60,7 +61,7 @@ namespace Banchou.Pawn {
                 }
                 
                 if (sync.AnimatorFrame != null) {
-                    AnimatorFrame.Sync(sync.AnimatorFrame);
+                    AnimatorFrame?.Sync(sync.AnimatorFrame);
                 }
 
                 if (sync.Combatant != null) {

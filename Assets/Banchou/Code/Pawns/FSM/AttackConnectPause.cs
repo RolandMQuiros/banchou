@@ -1,7 +1,6 @@
 using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
-using UniRx.Diagnostics;
 
 namespace Banchou.Pawn.FSM {
     public class AttackConnectPause : FSMBehaviour {
@@ -10,11 +9,12 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField, Tooltip("Whether or not to restore momentum after freezing")]
         private bool _preserveMomentum = true;
-        
-        private GetDeltaTime _getDeltaTime;
+
+        private GameState _state;
         private float _originalSpeed;
         private float _pauseTime;
-        private float _timeElapsed;
+        private float _hitTime;
+        private float _timeScale;
 
         private Rigidbody _rigidbody;
         private RigidbodyConstraints _originalConstraints;
@@ -26,47 +26,48 @@ namespace Banchou.Pawn.FSM {
             Rigidbody rigidbody
         ) {
             var pawnId = getPawnId();
-            _getDeltaTime = state.PawnDeltaTime(pawnId);
+            _state = state;
             _originalSpeed = animator.speed;
             _rigidbody = rigidbody;
             _originalConstraints = _rigidbody.constraints;
 
-            state.ObserveAttacksBy(pawnId)
+            _state.ObserveAttacksBy(pawnId)
                 .Where(attack => IsStateActive && attack.HitStyle == HitStyle.Confirmed)
                 .DistinctUntilChanged(attack => attack.AttackId) // Only pause once per attack
                 .CatchIgnoreLog()
                 .Subscribe(attack => {
                     _pauseTime = attack.PauseTime;
-                    _timeElapsed = 0f;
+                    _hitTime = attack.WhenHit;
                 })
+                .AddTo(this);
+            _state.ObservePawnTimeScale(pawnId)
+                .CatchIgnoreLog()
+                .Subscribe(timeScale => _timeScale = timeScale)
                 .AddTo(this);
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateEnter(animator, stateInfo, layerIndex);
             _pauseTime = 0f;
-            _timeElapsed = 0f;
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             
-            if (_pauseTime > 0f && _timeElapsed <= _pauseTime) {
-                _timeElapsed += _getDeltaTime();
-                if (_timeElapsed < _pauseTime) {
-                    animator.speed = 0f;
-                    if (_freezeOnHit) {
-                        if (!_preserveMomentum) {
-                            _rigidbody.velocity = Vector3.zero;
-                        }
-
-                        // This is messing up on weird transitions
-                        _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+            var timeElapsed = (_state.GetTime() - _hitTime) * _timeScale;
+            if (timeElapsed >= 0f && timeElapsed <= _pauseTime) {
+                animator.speed = 0f;
+                if (_freezeOnHit) {
+                    if (!_preserveMomentum) {
+                        _rigidbody.velocity = Vector3.zero;
                     }
-                } else {
-                    animator.speed = _originalSpeed;
-                    _rigidbody.constraints = _originalConstraints;
+
+                    // This is messing up on weird transitions
+                    _rigidbody.constraints = RigidbodyConstraints.FreezeAll;
                 }
+            } else {
+                animator.speed = _originalSpeed;
+                _rigidbody.constraints = _originalConstraints;
             }
         }
 

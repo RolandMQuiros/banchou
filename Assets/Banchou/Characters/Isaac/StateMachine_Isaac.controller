@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: Blocking
-  _inputSequence: 00000200
+  _inputSequence: 00004000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00800100
+  _inputSequence: 00003000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions:
@@ -956,7 +956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 010000000601000000080000
+  _inputSequence: 010000000601000000100000
   _inputLifetime: 0.05
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -1121,6 +1121,22 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-6650066250540353847
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe20e093f4fbd2488553f9ffc0f9f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 2
+  _enableCollider: 1
+  _stateTime: 0
 --- !u!114 &-6648780962696402919
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2077,7 +2093,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00080000
+  _inputSequence: 00100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -2134,7 +2150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 008a0100
+  _inputSequence: 00923000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions:
@@ -2512,7 +2528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00800000
+  _inputSequence: 00001000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -3201,9 +3217,6 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: 4865489141934198763}
-    second:
-    - {fileID: 140608304797768348}
   - first: {fileID: -4770361075881557369}
     second:
     - {fileID: 8714731393636807469}
@@ -3213,6 +3226,9 @@ AnimatorStateMachine:
   - first: {fileID: -1718765474828018939}
     second:
     - {fileID: -6583530345425699630}
+  - first: {fileID: 4865489141934198763}
+    second:
+    - {fileID: 140608304797768348}
   m_StateMachineBehaviours:
   - {fileID: 5729473699298028371}
   - {fileID: -5904854680578445183}
@@ -3428,7 +3444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00800100
+  _inputSequence: 00003000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions:
@@ -3543,7 +3559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 0200000000020000
+  _inputSequence: 0200000000100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -3968,7 +3984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00000100
+  _inputSequence: 00002000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -4256,7 +4272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00800000
+  _inputSequence: 00001000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -4444,7 +4460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: Release Block
-  _inputSequence: 00000400
+  _inputSequence: 00008000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -5815,7 +5831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 060100000002000000080000
+  _inputSequence: 060100000002000000100000
   _inputLifetime: 0.05
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -6090,6 +6106,8 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: -6519646924481466075}
+  - {fileID: 2982304348416649757}
+  - {fileID: -6650066250540353847}
   m_AnyStatePosition: {x: -230, y: 180, z: 0}
   m_EntryPosition: {x: -230, y: 250, z: 0}
   m_ExitPosition: {x: 160, y: 570, z: 0}
@@ -6990,6 +7008,22 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &2982304348416649757
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfe20e093f4fbd2488553f9ffc0f9f32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 0
+  _enableCollider: 0
+  _stateTime: 0
 --- !u!1109 &2989078897007408596
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -7023,7 +7057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00000100
+  _inputSequence: 00002000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -7259,7 +7293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 0601000000080000
+  _inputSequence: 0601000000100000
   _inputLifetime: 0.16666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -8415,7 +8449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00800000
+  _inputSequence: 00003000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -8674,7 +8708,6 @@ MonoBehaviour:
   _comments: 
   _hitTrigger: 
   _pauseTimeNormalizedFloat: 
-  _stunTimeFloat: 
   _stunTimeNormalizedFloat: 
 --- !u!114 &6335881366752367628
 MonoBehaviour:
@@ -8737,7 +8770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00800000
+  _inputSequence: 00001000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -9374,7 +9407,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 0601000000080000
+  _inputSequence: 0601000000100000
   _inputLifetime: 0.16666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -9650,6 +9683,28 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &7854135726437435070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c008459cdcc2f8418c4bffc9c5d039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _offsetFloat: 
+  _forwardOffsetFloat: 
+  _rightOffsetFloat: 
+  _upOffsetFloat: 
+  _deltaSpeedFloat: 
+  _forwardDeltaFloat: 
+  _rightDeltaFloat: 
+  _upDeltaFloat: 
+  _isGroundedBool: 
 --- !u!114 &7891623839151909678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9663,7 +9718,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00000100
+  _inputSequence: 00002000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -9998,7 +10053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00080000
+  _inputSequence: 00100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []
@@ -10033,7 +10088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _inputSequence: 00080000
+  _inputSequence: 00100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
   _conditions: []

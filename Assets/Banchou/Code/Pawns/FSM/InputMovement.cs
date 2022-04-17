@@ -56,16 +56,15 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("True to clear all parameters to zero on state exit")]
         private bool _clearOutOnExit = true;
+        private float _approachDot;
 
         private GameState _state;
         private GetDeltaTime _getDeltaTime;
         private PlayerInputState _input;
         private PawnSpatial _spatial;
-        private float _speed;
-        private Vector3 _velocity;
-
         private PawnSpatial _targetSpatial;
-        private float _approachDot;
+        
+        private Vector3 _velocity;
 
         private float _speedOut = 0f;
         private float _forwardSpeedOut = 0f;
@@ -124,7 +123,10 @@ namespace Banchou.Pawn.FSM {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             
             if (_input == null) return;
-            
+            if (_spatial.IsSync) {
+                _velocity = Vector3.zero;
+            }
+
             var dt = _getDeltaTime();
 
             if (_readEvent.HasFlag(ApplyEvent.OnUpdate)) {
