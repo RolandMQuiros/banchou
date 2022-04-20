@@ -36,12 +36,13 @@ namespace Banchou.Pawn {
 
         public static IObservable<PawnAnimatorFrame> ObservePawnAnimatorFrame(this GameState state, int pawnId) =>
             state.ObservePawn(pawnId)
+                .Where(pawn => pawn.AnimatorFrame != null)
                 .Select(pawn => pawn.AnimatorFrame);
 
-        public static IObservable<PawnAnimatorFrame>
-            ObservePawnAnimatorFrameChanges(this GameState state, int pawnId) =>
-            state.ObservePawnAnimatorFrame(pawnId)
+        public static IObservable<PawnAnimatorFrame> ObservePawnAnimatorFrameChanges(this GameState state, int pawnId) {
+            return state.ObservePawnAnimatorFrame(pawnId)
                 .SelectMany(frame => frame.Observe());
+        }
 
         public static IObservable<int> ObservePawnPlayerId(this GameState state, int pawnId) =>
             state.ObservePawnChanges(pawnId)

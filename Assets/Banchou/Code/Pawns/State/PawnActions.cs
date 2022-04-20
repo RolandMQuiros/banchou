@@ -7,6 +7,12 @@ namespace Banchou.Pawn {
             return state;
         }
 
+        public static GameState AttachAnimatorToPawn(this GameState state, int pawnId, out PawnAnimatorFrame frame) {
+            frame = null;
+            state.GetPawn(pawnId)?.AttachAnimator(state.GetTime(), out frame);
+            return state;
+        }
+
         public static GameState MovePawn(this GameState state, int pawnId, Vector3 velocity) {
             state.GetPawnSpatial(pawnId)?.Move(velocity, state.GetTime());
             return state;

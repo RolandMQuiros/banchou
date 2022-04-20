@@ -108,6 +108,16 @@ namespace Banchou.Pawn {
             return Notify();
         }
 
+        public PawnState AttachAnimator(float when, out PawnAnimatorFrame frame) {
+            if (AnimatorFrame == null) {
+                frame = AnimatorFrame = new PawnAnimatorFrame();
+                LastUpdated = when;
+                return Notify();
+            }
+            frame = AnimatorFrame;
+            return this;
+        }
+
         public PawnState SetTimeScale(float timeScale, float when) {
             if (!Mathf.Approximately(TimeScale, timeScale)) {
                 TimeScale = timeScale;

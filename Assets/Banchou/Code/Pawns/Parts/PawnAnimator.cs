@@ -34,13 +34,10 @@ namespace Banchou.Pawn.Part {
             // so let's get this out of the way early
             _cachedParameters = _animator.parameters.ToList();
             
-            // Query latest animator frame
-            _state.ObservePawnChanges(_pawnId)
+            // Set animator speed according to timescale
+            _state.ObservePawnTimeScale(_pawnId)
                 .CatchIgnoreLog()
-                .Subscribe(pawn => {
-                    _frame = pawn.AnimatorFrame;
-                    animator.speed = _state.Board.TimeScale * pawn.TimeScale;
-                })
+                .Subscribe(timeScale => { animator.speed = timeScale; })
                 .AddTo(this);
 
             // Inject references needed by StateMachineBehaviours
@@ -59,6 +56,10 @@ namespace Banchou.Pawn.Part {
                 .Subscribe(_ => { Inject(); })
                 .AddTo(this);
             Inject();
+        }
+        
+        private void Start() {
+            _state.AttachAnimatorToPawn(_pawnId, out _frame);
         }
 
         /// <summary>
@@ -104,6 +105,8 @@ namespace Banchou.Pawn.Part {
         /// Save the current state the animator to the game state
         /// </summary>
         private void LateUpdate() {
+            if (_frame == null) return;
+            
             _frame.StartFrame(_animator.layerCount);
 
             // Save layer values
