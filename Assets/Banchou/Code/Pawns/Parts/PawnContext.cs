@@ -60,8 +60,7 @@ namespace Banchou.Pawn.Part {
                 .Bind(_animator)
                 .Bind(_controller)
                 .Bind(_rigidbody)
-                .Bind(_worldCollider)
-                .Bind<GetDeltaTime>(() => _state.Board.TimeScale * _pawn.TimeScale * _state.GetDeltaTime());
+                .Bind(_worldCollider);
         }
     }
 }

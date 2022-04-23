@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
@@ -9,15 +10,18 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _stateTime;
         [SerializeField] private float _time;
         [SerializeField] private List<ApplyFSMParameter> _output;
-        
-        private GetDeltaTime _getDeltaTime;
+
+        private float _deltaTime;
         private float _timer;
 
         private bool _appliedAtStateTime;
         private bool _appliedAtTime;
         
         public void Construct(GameState state, GetPawnId getPawnId) {
-            _getDeltaTime = state.PawnDeltaTime(getPawnId());
+            state.ObservePawnDeltaTime(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(deltaTime => _deltaTime = deltaTime)
+                .AddTo(this);
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -38,7 +42,7 @@ namespace Banchou.Pawn.FSM {
                 _appliedAtStateTime = true;
             }
             
-            _timer += _getDeltaTime();
+            _timer += _deltaTime;
             if (_onEvent.HasFlag(ApplyEvent.AtTime) && !_appliedAtTime && _timer >= _time) {
                 _output.ApplyAll(animator);
                 _appliedAtTime = true;

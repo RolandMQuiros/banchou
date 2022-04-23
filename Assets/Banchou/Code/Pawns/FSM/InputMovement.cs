@@ -2,12 +2,10 @@
 using Banchou.Combatant;
 using UnityEngine;
 using UniRx;
-
 using Banchou.Player;
-using UnityEngine.InputSystem.Utilities;
 
 namespace Banchou.Pawn.FSM {
-    public class InputMovement : FSMBehaviour {
+    public class InputMovement : PawnFSMBehaviour {
         [Flags] private enum ApplyEvent { OnEnter = 1, OnUpdate = 2 }
         
         [Header("Movement")]
@@ -57,12 +55,11 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Tooltip("True to clear all parameters to zero on state exit")]
         private bool _clearOutOnExit = true;
         private float _approachDot;
-
-        private GameState _state;
-        private GetDeltaTime _getDeltaTime;
+        
         private PlayerInputState _input;
         private PawnSpatial _spatial;
         private PawnSpatial _targetSpatial;
+        private float _timeScale;
         
         private Vector3 _velocity;
 
@@ -75,21 +72,20 @@ namespace Banchou.Pawn.FSM {
         private int _forwardSpeedHash = 0;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
-            var pawnId = getPawnId();
-            _state = state;
-            _getDeltaTime = state.PawnDeltaTime(pawnId);
-            _state.ObservePawnSpatialChanges(pawnId)
+            ConstructCommon(state, getPawnId);
+            
+            State.ObservePawnSpatialChanges(PawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
-            _state.ObservePawnInput(pawnId)
+            State.ObservePawnInput(PawnId)
                 .CatchIgnoreLog()
                 .Subscribe(input => _input = input)
                 .AddTo(this);
 
             if (_handleApproaches) {
-                _state.ObserveLockOn(pawnId)
-                    .SelectMany(targetId => _state.ObservePawnSpatial(targetId))
+                State.ObserveLockOn(PawnId)
+                    .SelectMany(targetId => State.ObservePawnSpatial(targetId))
                     .CatchIgnoreLog()
                     .Subscribe(targetSpatial => _targetSpatial = targetSpatial)
                     .AddTo(this);
@@ -127,8 +123,6 @@ namespace Banchou.Pawn.FSM {
                 _velocity = Vector3.zero;
             }
 
-            var dt = _getDeltaTime();
-
             if (_readEvent.HasFlag(ApplyEvent.OnUpdate)) {
                 var speed = _movementSpeed;
                 var direction = _input.Direction;
@@ -146,11 +140,11 @@ namespace Banchou.Pawn.FSM {
                 }
                 
                 // Calculate new velocity
-                _velocity = Vector3.MoveTowards(_velocity, speed * direction, _acceleration * dt * dt);
+                _velocity = Vector3.MoveTowards(_velocity, speed * direction, _acceleration * DeltaTime * DeltaTime);
             }
 
-            var offset = _velocity * dt;
-            _spatial.Move(offset, _state.GetTime());
+            var offset = _velocity * DeltaTime;
+            _spatial.Move(offset, State.GetTime());
 
             // Write to output variables
             if (!string.IsNullOrWhiteSpace(_movementSpeedOut)) {

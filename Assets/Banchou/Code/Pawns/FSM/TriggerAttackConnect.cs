@@ -14,14 +14,22 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("Pause the editor on confirmation")]
         private bool _breakOnSet;
-        
-        private GetDeltaTime _getDeltaTime;
-        private float _pauseTimer = -1f;
+
+        private GameState _state;
+        private float _timeScale;
+        private float _whenHit;
+        private float _pauseTime;
         private bool _triggered;
         
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
+            _state = state;
             var pawnId = getPawnId();
-            _getDeltaTime = state.PawnDeltaTime(pawnId);
+
+            _state.ObservePawnTimeScale(pawnId)
+                .CatchIgnoreLog()
+                .Subscribe(timeScale => _timeScale = timeScale)
+                .AddTo(this);
+
             if (_output.Count > 0) {
                 state.ObserveAttacksBy(pawnId)
                     .Where(attack => IsStateActive && 
@@ -29,7 +37,8 @@ namespace Banchou.Pawn.FSM {
                                       _onBlock && attack.HitStyle == HitStyle.Blocked ||
                                       _onGrab && attack.HitStyle == HitStyle.Grabbed))
                     .Subscribe(attack => {
-                        _pauseTimer = attack.PauseTime;
+                        _whenHit = attack.WhenHit;
+                        _pauseTime = attack.PauseTime;
                         _triggered = true;
                     })
                     .AddTo(this);
@@ -39,8 +48,8 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_triggered) {
-                _pauseTimer -= _getDeltaTime();
-                if (_pauseTimer <= 0f) {
+                var timeElapsed = (_state.GetTime() - _whenHit) * _timeScale;
+                if (timeElapsed > _pauseTime) {
                     _triggered = false;
                     if (_breakOnSet) {
                         Debug.Break();

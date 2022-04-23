@@ -7,8 +7,7 @@ using Banchou.Combatant;
 
 namespace Banchou.Pawn {
     public delegate int GetPawnId();
-    public delegate float GetDeltaTime();
-    
+
     [MessagePackObject, Serializable]
     public record PawnState(
         [property: Key(0)] int PawnId,

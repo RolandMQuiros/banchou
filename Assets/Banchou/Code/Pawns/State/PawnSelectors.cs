@@ -29,15 +29,5 @@ namespace Banchou.Pawn {
                 .Select(pawn => pawn.Spatial)
                 .Where(spatial => spatial != null);
         }
-
-        public static Func<float> PawnTimeScale(this GameState state, int pawnId) {
-            var pawn = state.GetPawn(pawnId);
-            return () => state.Board.TimeScale * (pawn?.TimeScale ?? 1f);
-        }
-
-        public static GetDeltaTime PawnDeltaTime(this GameState state, int pawnId) {
-            var pawn = state.GetPawn(pawnId);
-            return () => state.Board.TimeScale * (pawn?.TimeScale ?? 1f) * state.GetDeltaTime();
-        }
     }
 }

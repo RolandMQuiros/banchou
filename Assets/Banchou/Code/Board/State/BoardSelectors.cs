@@ -7,14 +7,7 @@ using Banchou.Pawn;
 
 namespace Banchou.Board {
     public static class BoardSelectors {
-        public static IObservable<BoardState> ObserveBoardChanges(this GameState state) {
-            try {
-                return state.Board.Observe();
-            } catch (Exception e) {
-                int x = 0;
-                return state.Board.Observe();
-            }
-        }
+        public static IObservable<BoardState> ObserveBoardChanges(this GameState state) => state.Board.Observe();
 
         public static IObservable<string> ObserveAddedScenes(this GameState state) {
             return Observable

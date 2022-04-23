@@ -2,11 +2,14 @@ using Banchou.Combatant;
 using UniRx;
 using UnityEngine;
 
+#pragma warning disable CS0414
+
 namespace Banchou.Pawn.Part {
     [Tooltip(Description)]
     public class CombatantAnimatorEvents : MonoBehaviour {
         public const string Description = "Contains Combatant methods called by animation events or the " +
                                           "AnimatorUnityEvents FSM Behaviour";
+        // ReSharper disable once NotAccessedField.Local
         [SerializeField, DevComment] private string _comment = Description;
         private GameState _state;
         private CombatantState _combatant;

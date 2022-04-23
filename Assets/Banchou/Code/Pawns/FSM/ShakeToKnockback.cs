@@ -3,23 +3,21 @@ using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
-    public class ShakeToKnockback : FSMBehaviour {
+    public class ShakeToKnockback : PawnFSMBehaviour {
         [SerializeField] private AnimationCurve _curve;
         [SerializeField] private float _multiplier = 1f;
         [SerializeField] private float _maximumOffset = 2f;
         
         private Vector3 _targetPosition;
-        private GameState _state;
         private Vector3 _knockback;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
-            var pawnId = getPawnId();
-            _state = state;
-            _state.ObserveHitsOn(pawnId)
+            ConstructCommon(state, getPawnId);
+            State.ObserveHitsOn(PawnId)
                 .CatchIgnoreLog()
                 .Subscribe(hit => { _knockback = hit.Knockback; })
                 .AddTo(this);
-            _state.ObserveNormalizedHitPause(pawnId, ObserveStateUpdate)
+            State.ObserveNormalizedHitPause(PawnId, ObserveStateUpdate)
                 .CatchIgnoreLog()
                 .Subscribe(pauseTime => {
                     var magnitude = _multiplier * Mathf.Clamp01(_knockback.magnitude / _maximumOffset) *

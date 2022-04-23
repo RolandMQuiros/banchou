@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx;
 
 namespace Banchou.Pawn.FSM {
-    public class SetInvincibility : FSMBehaviour {
+    public class SetInvincibility : PawnFSMBehaviour {
         [Flags] private enum ApplyEvent { OnEnter = 1, AtTime = 2, OnExit = 4 }
         private enum ApplyMode { Set, Unset, Toggle }
 
@@ -12,18 +12,14 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private ApplyEvent _onEvent;
         [SerializeField] private ApplyMode _applyMode;
         [SerializeField, Min(0f)] private float _atTime;
-
-        private GameState _state;
-        private GetDeltaTime _getDeltaTime;
+        
         private CombatantState _combatant;
         private bool _applied;
-        private float _stateTime;
+        private float _stateStartTime;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
-            var pawnId = getPawnId();
-            _state = state;
-            _getDeltaTime = _state.PawnDeltaTime(pawnId);
-            _state.ObserveCombatant(pawnId)
+            ConstructCommon(state, getPawnId);
+            State.ObserveCombatant(PawnId)
                 .CatchIgnoreLog()
                 .Subscribe(combatant => _combatant = combatant)
                 .AddTo(this);
@@ -42,7 +38,7 @@ namespace Banchou.Pawn.FSM {
                     value = !_combatant.Defense.IsInvincible;
                     break;
             }
-            _combatant.Defense.SetInvincibility(value, _state.GetTime());
+            _combatant.Defense.SetInvincibility(value, State.GetTime());
         }
         
 
@@ -52,14 +48,13 @@ namespace Banchou.Pawn.FSM {
                 Apply();
             }
             _applied = false;
-            _stateTime = 0f;
+            _stateStartTime = State.GetTime();
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
             if (_onEvent.HasFlag(ApplyEvent.AtTime)) {
-                _stateTime += _getDeltaTime();
-                if (!_applied && _stateTime >= _atTime) {
+                if (!_applied && _stateStartTime >= _atTime) {
                     Apply();
                     _applied = true;
                 }
@@ -72,7 +67,7 @@ namespace Banchou.Pawn.FSM {
                 Apply();
             }
             _applied = false;
-            _stateTime = 0f;
+            _stateStartTime = 0f;
         }
     }
 }

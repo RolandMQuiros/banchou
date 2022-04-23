@@ -78,5 +78,11 @@ namespace Banchou.Pawn {
                 .SelectMany(board => state.ObservePawnChanges(pawnId)
                     .Select(pawn => board.TimeScale * pawn.TimeScale))
                 .DistinctUntilChanged();
+
+        public static IObservable<float> ObservePawnDeltaTime(this GameState state, int pawnId) =>
+            Observable.EveryFixedUpdate()
+                .WithLatestFrom(state.ObservePawnTimeScale(pawnId), (_, timeScale) => timeScale)
+                .Select(timeScale => state.GetDeltaTime() * timeScale);
+
     }
 }

@@ -262,9 +262,9 @@ MonoBehaviour:
       <AmbientVelocity>k__BackingField: {x: 0, y: 0, z: 0}
       <IsGrounded>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
+      <IsSync>k__BackingField: 0
     <AnimatorFrame>k__BackingField:
       <When>k__BackingField: 0
-    <LastUpdated>k__BackingField: 0
     <Combatant>k__BackingField:
       <PawnId>k__BackingField: 0
       <Health>k__BackingField: 0
@@ -280,14 +280,23 @@ MonoBehaviour:
         <AttackId>k__BackingField: 0
         <Phase>k__BackingField: 0
         <TargetId>k__BackingField: 0
-        <Blocked>k__BackingField: 0
+        <WhenHit>k__BackingField: 0
+        <Damage>k__BackingField: 0
+        <HitStyle>k__BackingField: 0
+        <PauseTime>k__BackingField: 0
+        <Contact>k__BackingField: {x: 0, y: 0, z: 0}
+        <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
+        <LastUpdated>k__BackingField: 0
+      <Hit>k__BackingField:
+        <DefenderId>k__BackingField: 0
+        <AttackerId>k__BackingField: 0
+        <AttackId>k__BackingField: 0
+        <Style>k__BackingField: 0
         <Damage>k__BackingField: 0
         <PauseTime>k__BackingField: 0
         <StunTime>k__BackingField: 0
-        <Contact>k__BackingField: {x: 0, y: 0, z: 0}
         <Knockback>k__BackingField: {x: 0, y: 0, z: 0}
-        <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
-        <IsGrab>k__BackingField: 0
+        <Contact>k__BackingField: {x: 0, y: 0, z: 0}
         <LastUpdated>k__BackingField: 0
       <Grab>k__BackingField:
         <AttackerId>k__BackingField: 0
@@ -301,6 +310,8 @@ MonoBehaviour:
         <LastUpdated>k__BackingField: 0
       <LockOnTarget>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
+    <TimeScale>k__BackingField: 0
+    <LastUpdated>k__BackingField: 0
   _worldCollider: {fileID: 5346111062365686283}
 --- !u!114 &6952295661100396989
 MonoBehaviour:
@@ -329,14 +340,23 @@ MonoBehaviour:
       <AttackId>k__BackingField: 0
       <Phase>k__BackingField: 0
       <TargetId>k__BackingField: 0
-      <Blocked>k__BackingField: 0
+      <WhenHit>k__BackingField: 0
+      <Damage>k__BackingField: 0
+      <HitStyle>k__BackingField: 0
+      <PauseTime>k__BackingField: 0
+      <Contact>k__BackingField: {x: 0, y: 0, z: 0}
+      <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
+      <LastUpdated>k__BackingField: 0
+    <Hit>k__BackingField:
+      <DefenderId>k__BackingField: 0
+      <AttackerId>k__BackingField: 0
+      <AttackId>k__BackingField: 0
+      <Style>k__BackingField: 0
       <Damage>k__BackingField: 0
       <PauseTime>k__BackingField: 0
       <StunTime>k__BackingField: 0
-      <Contact>k__BackingField: {x: 0, y: 0, z: 0}
       <Knockback>k__BackingField: {x: 0, y: 0, z: 0}
-      <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
-      <IsGrab>k__BackingField: 0
+      <Contact>k__BackingField: {x: 0, y: 0, z: 0}
       <LastUpdated>k__BackingField: 0
     <Grab>k__BackingField:
       <AttackerId>k__BackingField: 0
@@ -386,7 +406,7 @@ MonoBehaviour:
   _frontKnockbackScale: 1
   _frontRecoilScale: 0
   _frontHitPauseScale: 1
-  _frontHitStunScale: 3
+  _frontHitStunScale: 1
   _rearDamageScale: 1
   _rearKnockbackScale: 1
   _rearRecoilScale: 0

@@ -3,23 +3,21 @@ using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
-    public class HitPauseToFloat : FSMBehaviour {
+    public class HitPauseToFloat : PawnFSMBehaviour {
         [SerializeField, Tooltip("Float parameter to set the hit pause time")]
         private FSMParameter _output = new(AnimatorControllerParameterType.Float);
 
         [SerializeField]
         private bool _normalized = true;
-
-        private GameState _state;
+        
         private float _hitPauseTime;
         private float _hitTime;
-        private float _timeScale;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
-            var pawnId = getPawnId();
-            _state = state;
+            base.ConstructCommon(state, getPawnId);
+            
             if (_output.IsSet) {
-                _state.ObserveHitsOn(pawnId)
+                State.ObserveHitsOn(PawnId)
                     .Where(_ => IsStateActive)
                     .CatchIgnoreLog()
                     .Subscribe(hit => {
@@ -28,16 +26,12 @@ namespace Banchou.Pawn.FSM {
                         animator.SetFloat(_output.Hash, 0f);
                     })
                     .AddTo(this);
-                _state.ObservePawnTimeScale(pawnId)
-                    .CatchIgnoreLog()
-                    .Subscribe(timeScale => _timeScale = timeScale)
-                    .AddTo(this);
             }
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
-            var timeElapsed = (_state.GetTime() - _hitTime) * _timeScale;
+            var timeElapsed = (State.GetTime() - _hitTime) * TimeScale;
             if (timeElapsed < _hitPauseTime) {
                 if (_normalized) {
                     animator.SetFloat(_output.Hash, Mathf.Clamp01(timeElapsed / _hitPauseTime));
