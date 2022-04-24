@@ -3,11 +3,12 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class PawnFSMBehaviour : FSMBehaviour {
+        protected GameState State { get; private set; }
+        protected int PawnId { get; private set; }
+        
         protected float StateStartTime { get; private set; }
         protected float StateTime { get; private set; }
         
-        protected GameState State { get; private set; }
-        protected int PawnId { get; private set; }
         protected float TimeScale { get; private set; }
         protected float DeltaTime { get; private set; }
         
