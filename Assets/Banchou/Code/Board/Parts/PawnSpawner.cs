@@ -2,6 +2,7 @@ using System.Linq;
 using Banchou.Player;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UniRx;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -45,13 +46,18 @@ namespace Banchou.Board.Part {
         }
         
         protected virtual void OnDestroy() {
-            if (PlayerId != default) {
-                State.RemovePlayer(PlayerId);
-            }
+            // HACK: Wait until game objects are already destroyed before removing player, so subscribers to
+            // state.ObservePawn() don't get trapped in feedback loops
+            Observable.NextFrame()
+                .Subscribe(_ => {
+                    if (PlayerId != default) {
+                        State.RemovePlayer(PlayerId);
+                    }
 
-            if (PawnId != default) {
-                State.RemovePawn(PawnId);
-            }
+                    if (PawnId != default) {
+                        State.RemovePawn(PawnId);
+                    }
+                });
         }
         
 #if UNITY_EDITOR

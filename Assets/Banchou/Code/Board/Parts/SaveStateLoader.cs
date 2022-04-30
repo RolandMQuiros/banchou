@@ -5,6 +5,10 @@ using UnityEngine;
 namespace Banchou {
     public class SaveStateLoader : MonoBehaviour {
         [SerializeField] private string _saveNameFormat = "banchou.dev.{0}.sav";
+        
+        [ContextMenuItem("Save State in Slot", nameof(SaveStateHere))]
+        [ContextMenuItem("Load State in Slot", nameof(LoadStateHere))]
+        [SerializeField, Range(1,12)] private int _slot = 1;
 
         private GameState _state;
         private MessagePackSerializerOptions _messagePackOptions;
@@ -14,6 +18,9 @@ namespace Banchou {
             _messagePackOptions = messagePackOptions;
         }
 
+        private void SaveStateHere() => SaveState(_slot);
+        private void LoadStateHere() => LoadState(_slot);
+        
         public void SaveState(int slot) {
             var savedBoard = MessagePackSerializer.Serialize(_state, _messagePackOptions);
             var filename = string.Format(_saveNameFormat, slot);

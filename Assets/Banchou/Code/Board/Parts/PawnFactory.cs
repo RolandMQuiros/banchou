@@ -23,7 +23,9 @@ namespace Banchou.Board.Part {
                     if (pawnObjects.TryGetValue(pawn.PawnId, out var instance)) {
                         pawnObjects.Remove(pawn.PawnId);
                         createdInstances.Remove(pawn.PawnId);
-                        Destroy(instance);
+                        if (instance != null) {
+                            Destroy(instance);
+                        }
                     }
                 })
                 .AddTo(this);

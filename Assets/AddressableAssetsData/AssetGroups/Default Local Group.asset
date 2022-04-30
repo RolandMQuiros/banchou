@@ -50,6 +50,10 @@ MonoBehaviour:
     m_SerializedLabels:
     - Pawns
     - Combatants
+  - m_GUID: 07b6c6c8d36a3d343affabf259deed3e
+    m_Address: Level/Sandbox/Spawns
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d32d5fb5eedff9e448f43656a8c0539b, type: 2}
   m_SchemaSet:

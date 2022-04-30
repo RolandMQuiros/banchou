@@ -6,13 +6,14 @@ using Banchou.Player;
 
 namespace Banchou.Pawn {
     public static class PawnEvents {
+        public static IObservable<PawnState> ObservePawns(this GameState state) =>
+            state.GetPawns().Values.ToObservable()
+                .Merge(state.ObserveAddedPawns());
+
         public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) =>
-            state.ObserveBoardChanges()
-                .Select(board => {
-                    board.Pawns.TryGetValue(pawnId, out var pawn);
-                    return pawn;
-                })
-                .Where(pawn => pawn != null)
+            state.ObserveAddedPawns()
+                .StartWith(state.GetPawn(pawnId))
+                .Where(pawn => pawn?.PawnId == pawnId)
                 .DistinctUntilChanged();
 
         public static IObservable<PawnState> ObservePawnChanges(this GameState state, int pawnId) =>

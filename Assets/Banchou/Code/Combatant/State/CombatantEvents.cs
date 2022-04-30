@@ -17,7 +17,6 @@ namespace Banchou.Combatant {
         public static IObservable<CombatantState> ObserveCombatant(this GameState state, int pawnId) {
             return state.ObservePawnChanges(pawnId)
                 .Select(pawn => pawn.Combatant)
-                .DefaultIfEmpty(state.GetCombatant(pawnId))
                 .Where(combatant => combatant != null)
                 .DistinctUntilChanged();
         }
@@ -28,8 +27,7 @@ namespace Banchou.Combatant {
         /// </summary>
         /// <param name="state">Reference to the <see cref="GameState">game state</see></param>
         public static IObservable<CombatantState> ObserveCombatants(this GameState state) =>
-            state.ObserveBoardChanges()
-                .SelectMany(board => board.Pawns.Values)
+            state.ObservePawns()
                 .SelectMany(pawn => pawn.Observe())
                 .Where(pawn => pawn.Combatant != null)
                 .Select(pawn => pawn.Combatant);
