@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Banchou {
     /// <summary>
@@ -49,7 +48,7 @@ namespace Banchou {
             if (_bufferSize > 0) {
                 // Increment counters
                 _front = (_front + 1) % Math.Min(_frames.Count + 1, _bufferSize);
-                
+
                 // Set the frame's data
                 if (_frames.Count < _bufferSize) {
                     _frames.Add(

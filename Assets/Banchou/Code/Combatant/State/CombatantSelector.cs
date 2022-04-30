@@ -45,14 +45,5 @@ namespace Banchou.Combatant {
         
         public static bool AreHostile(this GameState state, int firstPawnId, int secondPawnId) =>
             state.GetCombatantTeam(firstPawnId) != state.GetCombatantTeam(secondPawnId);
-
-        public static float GetNormalizedHitStunTime(this GameState state, PawnState pawn) {
-            if (pawn?.Combatant != null) {
-                var hit = pawn.Combatant.Hit;
-                var timeScale = state.Board.TimeScale * pawn.TimeScale;
-                return (state.GetTime() - hit.LastUpdated) * timeScale / hit.StunTime;
-            }
-            return 1f;
-        }
     }
 }

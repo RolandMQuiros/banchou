@@ -2,14 +2,16 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Particle_triangle_soft_ADD
   m_Shader: {fileID: -6465566751694194690, guid: 61107d5fd464da74cb97d5b34862602d, type: 3}
-  m_ShaderKeywords: 
+  m_ValidKeywords:
+  - _USE_INTERSECTION
+  m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -76,6 +78,8 @@ Material:
     - _EmissionEnabled: 0
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
+    - _Intersection_Multiplier: 0
+    - _Intersection_Offset: 0
     - _InvFade: 3
     - _LightingEnabled: 0
     - _MAIN_LIGHT_SHADOWS: 0
@@ -87,6 +91,7 @@ Material:
     - _SoftParticlesNearFadeDistance: 0
     - _SrcBlend: 5
     - _Surface: 1
+    - _USE_INTERSECTION: 1
     - _Voronoi_Density: 1
     - _Voronoi_Multiplier: 1
     - _ZWrite: 0
