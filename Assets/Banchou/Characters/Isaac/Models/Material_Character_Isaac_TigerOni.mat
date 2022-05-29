@@ -7,18 +7,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Material_Character_Isaac
-  m_Shader: {fileID: -6465566751694194690, guid: e16325f02772894469fda3241156c72c, type: 3}
+  m_Name: Material_Character_Isaac_TigerOni
+  m_Shader: {fileID: -6465566751694194690, guid: a6c74dfff97b7f747a2a21cb2be4f71f, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SHADOWCASTER
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -79,11 +80,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LUT:
-        m_Texture: {fileID: 2800000, guid: fe20407ea29102c42bfaeeaa8020588d, type: 3}
+        m_Texture: {fileID: 2800000, guid: a334d595584fb8b43af0d0ba931953ba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: e818a601fe7fb7d49af511abcf5d5222, type: 3}
+        m_Texture: {fileID: 2800000, guid: cc6e3cbfee419d64491ae591f0a53e62, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -142,35 +143,43 @@ Material:
     - _Blend: 0
     - _BouncedRimLightStep: 0.5
     - _BumpScale: 1
-    - _CastShadows: 1
+    - _CastShadows: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 2
+    - _Cull: 0
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _Distort_Amount: 0.074
+    - _Distort_Magnitude: 0
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+    - _Framerate: 12
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Intensity: 2
     - _LUTCells: 32
-    - _LUTWeight: 0
+    - _LUTWeight: 1
     - _MainRimLightStep: 0.5
     - _Metallic: 0
     - _Mode: 0
+    - _Noise_Scale: 9
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RECEIVE_SHADOWS: 1
+    - _RECEIVE_SHADOWS: 0
     - _ReceiveShadows: 1
     - _SPECULAR: 0
+    - _Scroll_Speed: -0.5
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _Surface: 0
+    - _Time_Scale: -1
+    - _Tint_Noise_Magnitude: 1.06
     - _UVSec: 0
     - _WorkflowMode: 1
     - _ZTest: 4
@@ -189,12 +198,26 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseColor: {r: 0.2627451, g: 0.8862745, b: 0.8155137, a: 0}
+    - _Distort_Amount: {r: 0.05, g: 0, b: 0.1, a: 0}
+    - _Distort_Offset: {r: 0, g: 3, b: 0, a: 0}
+    - _Distortion_Magnitude: {r: 0.3, g: 0.1, b: 0.45, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _ShadowColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Fade_Direction: {r: 0, g: 0.25, b: 0.1, a: 0}
+    - _Fade_Offset: {r: 0, g: 5.25, b: 0, a: 0}
+    - _Fade_Scale: {r: 0, g: -0.1, b: 0, a: 0}
+    - _Flame_Direction: {r: 0, g: 0.25, b: 0.1, a: 0}
+    - _Flame_Offset: {r: 0, g: 5.32, b: 0, a: 0}
+    - _Noise_Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Noise_Scale: {r: 1, g: 1, b: 0, a: 0}
+    - _ShadowColor: {r: 0.5660378, g: 0.44588825, b: 0.5223471, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColour: {r: 1, g: 1, b: 1, a: 0}
-    - _Tint: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Tint: {r: 1024, g: 0, b: 0, a: 0}
+    - _TintColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Tint_End: {r: 2.270603, g: 0, b: 0.39230314, a: 0}
+    - _Tint_Offset: {r: 0, g: 5.16, b: 0, a: 0}
+    - _Tint_Start: {r: 191.74902, g: 156.61177, b: 0, a: 0}
+    - _Vector2: {r: 2.64, g: 0.04, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7493437075340655507
 MonoBehaviour:

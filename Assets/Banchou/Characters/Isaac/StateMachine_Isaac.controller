@@ -263,6 +263,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 6818562198304556309}
   - {fileID: 5960459557713641390}
+  - {fileID: -5254250680734832631}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -602,6 +603,13 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 0
     _threshold: 0
+  - _parameter:
+      _name: Can Tech
+      _hash: 453270568
+      _type: 4
+      _filterByType: 0
+    _mode: 0
+    _threshold: 0
   _inNormalizedTime: 1
   _acceptFromTime: 0
   _acceptUntilTime: 1
@@ -624,6 +632,18 @@ MonoBehaviour:
       _type: 9
       _filterByType: 0
     _applyMode: 0
+    _value: 0
+    _sourceParameter:
+      _name: Tech
+      _hash: 646881068
+      _type: 9
+      _filterByType: 1
+  - _parameter:
+      _name: Can Tech
+      _hash: 453270568
+      _type: 4
+      _filterByType: 0
+    _applyMode: 1
     _value: 0
     _sourceParameter:
       _name: Tech
@@ -1150,7 +1170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _ignoreLockOnTarget: 0
+  _onlyLockOnTarget: 0
   _useInputDirection: 0
   _scanRange: 3
   _scanAngle: 30
@@ -1809,6 +1829,35 @@ MonoBehaviour:
   _comments: 
   _rotationSpeed: 100
   _offsetAngles: {x: 90, y: 0, z: 0}
+--- !u!114 &-5254250680734832631
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 1
+  _stateTime: 0
+  _time: 0
+  _output:
+  - _parameter:
+      _name: Can Tech
+      _hash: 453270568
+      _type: 4
+      _filterByType: 0
+    _applyMode: 0
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!1101 &-5242899041582421503
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2640,13 +2689,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _ignoreLockOnTarget: 0
+  _onlyLockOnTarget: 0
   _useInputDirection: 1
-  _scanRange: 3
-  _scanAngle: 5
+  _scanRange: 5
+  _scanAngle: 90
   _rotationSpeed: 5000
   _fromStateTime: 0
-  _toStateTime: 0.033333335
+  _toStateTime: 0.1666667
 --- !u!1102 &-3874725405423852378
 AnimatorState:
   serializedVersion: 6
@@ -3455,6 +3504,13 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 0
     _threshold: 0
+  - _parameter:
+      _name: Can Tech
+      _hash: 453270568
+      _type: 4
+      _filterByType: 0
+    _mode: 0
+    _threshold: 0
   _inNormalizedTime: 1
   _acceptFromTime: 0
   _acceptUntilTime: 1
@@ -3477,6 +3533,18 @@ MonoBehaviour:
       _type: 9
       _filterByType: 0
     _applyMode: 0
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
+  - _parameter:
+      _name: Can Tech
+      _hash: 453270568
+      _type: 4
+      _filterByType: 0
+    _applyMode: 1
     _value: 0
     _sourceParameter:
       _name: 
@@ -4939,211 +5007,217 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Input Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Forward Input Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Lateral Input Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Vertical Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Input Direction Magnitude
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Input Direction Forward
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Input Direction Right
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Normalized Hit Stun Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Normalized Hit Pause Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Normalized Attack Pause Time
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Is Invincible
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Is Grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Lock On
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Blocking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Hit Confirmed
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Attack Connected
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Attack Confirmed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Attack Blocked
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Start Jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Short Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Long Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: Can Tech
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: Tech
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Ground Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Air Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: 5L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: 5H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: 6L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: 6H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Grab
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Throw
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Grabbed Pose
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Grabbed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: Released From Grab
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -7355,7 +7429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _ignoreLockOnTarget: 0
+  _onlyLockOnTarget: 0
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 30
@@ -7577,10 +7651,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _onEvent: 0
+  _onEvent: 1
   _stateTime: 0
   _time: 0
-  _output: []
+  _output:
+  - _parameter:
+      _name: Can Tech
+      _hash: 453270568
+      _type: 4
+      _filterByType: 0
+    _applyMode: 0
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!1101 &4331937687484533962
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -9084,10 +9170,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _ignoreLockOnTarget: 0
+  _onlyLockOnTarget: 0
   _useInputDirection: 1
-  _scanRange: 3
-  _scanAngle: 5
+  _scanRange: 5
+  _scanAngle: 90
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.1666667
@@ -9185,10 +9271,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _ignoreLockOnTarget: 0
+  _onlyLockOnTarget: 0
   _useInputDirection: 1
-  _scanRange: 3
-  _scanAngle: 5
+  _scanRange: 5
+  _scanAngle: 90
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.1666667
@@ -9651,9 +9737,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _ignoreLockOnTarget: 0
+  _onlyLockOnTarget: 0
   _useInputDirection: 1
-  _scanRange: 3
+  _scanRange: 5
   _scanAngle: 90
   _rotationSpeed: 5000
   _fromStateTime: 0

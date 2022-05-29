@@ -7,15 +7,18 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Material_Character_Isaac
-  m_Shader: {fileID: -6465566751694194690, guid: e16325f02772894469fda3241156c72c, type: 3}
+  m_Name: Material_Character_Isaac_Shaded
+  m_Shader: {fileID: -6465566751694194690, guid: a27a919d57e12ae4fbfcbb4d92f07b7a, type: 3}
   m_ValidKeywords:
   - _ALPHATEST_ON
-  m_InvalidKeywords: []
+  - _RECEIVE_SHADOWS
+  m_InvalidKeywords:
+  - _GLOSSYREFLECTIONS_OFF
+  - _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2450
   stringTagMap:
     RenderType: TransparentCutout
   disabledShaderPasses: []
@@ -194,7 +197,7 @@ Material:
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _SpecularColour: {r: 1, g: 1, b: 1, a: 0}
     - _Tint: {r: 0, g: 0, b: 0, a: 0}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 0}
+    - _TintColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7493437075340655507
 MonoBehaviour:
