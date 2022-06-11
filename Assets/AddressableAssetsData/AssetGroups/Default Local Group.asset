@@ -23,7 +23,7 @@ MonoBehaviour:
     m_SerializedLabels:
     - Players
   - m_GUID: d272aa4fa72e18e45b3d3f4ebc662fd2
-    m_Address: Pawn/Isaac
+    m_Address: Combatant/Isaac
     m_ReadOnly: 0
     m_SerializedLabels:
     - Pawns
@@ -54,6 +54,12 @@ MonoBehaviour:
     m_Address: Level/Sandbox/Spawns
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: e0661c97a252a60458e8cd3c57788fab
+    m_Address: Combatant/Victoria
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Pawns
+    - Combatants
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d32d5fb5eedff9e448f43656a8c0539b, type: 2}
   m_SchemaSet:

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,12 +12,12 @@ namespace Banchou.Pawn.FSM {
 
         but also AIs inputting commands kinda rules.
     */
-    public class InputGestureToParameters : FSMBehaviour {
+    public class InputGestureToParameters : PawnFSMBehaviour {
         [SerializeField, Tooltip("Sequence of inputs needed to fire the trigger")]
         private InputCommand[] _inputSequence = null;
         
         [SerializeField, Tooltip("Lifetime of stick inputs in the buffer, in seconds")]
-        public float _inputLifetime = 0.1666667f; // Approximately 10 frames
+        private float _inputLifetime = 0.1666667f; // Approximately 10 frames
         
         [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
         private PlayerCommandGesture _overrideGesture;
@@ -35,6 +34,9 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField, Tooltip("The time after which the command is no longer accepted")]
         private float _acceptUntilTime = 1f;
+        
+        [SerializeField, Tooltip("When, in state time, after which triggers are set if a command was accepted.")]
+        private float _bufferUntilTime;
 
         [SerializeField, Tooltip("The the output parameters to set if the gesture was input correctly")]
         private List<ApplyFSMParameter> _output;
@@ -45,11 +47,18 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Tooltip("Pause the editor if the gesture is accepted")]
         private bool _breakOnAccept;
 
+        [SerializeField, Tooltip("Pause the editor if this input command is detected")]
+        private InputCommand _breakOnCommand;
+        
+        private bool _gesturePerformed;
+        private bool _gestureAccepted;
+
         public void Construct(
             GameState state,
-            GetPawnId getPawnId,
-            Animator animator
+            GetPawnId getPawnId
         ) {
+            ConstructCommon(state, getPawnId);
+            
             if (_overrideGesture != null) {
                 _inputSequence = _overrideGesture.Sequence;
                 _inputLifetime = _overrideGesture.Lifetime;
@@ -58,22 +67,27 @@ namespace Banchou.Pawn.FSM {
             if (_inputSequence.Length == 0) return;
 
             var commandMask = _inputSequence.Aggregate((prev, next) => prev | next);
-            var gestureInput = state.ObservePawnInputCommands(getPawnId())
+
+            state.ObservePawnInputCommands(getPawnId())
                 .Where(unit => IsStateActive && (unit.Command & commandMask) != InputCommand.None)
                 .StartWith((Command: InputCommand.Neutral, When: state.GetTime()))
                 .Pairwise()
                 .Scan(0, (sequenceIndex, unitPair) => {
+                    if ((unitPair.Current.Command & _breakOnCommand) != InputCommand.None) {
+                        Debug.Break();
+                    }
+                    
                     if (sequenceIndex >= _inputSequence.Length) {
                         sequenceIndex = 0;
                     }
 
                     var sequenceStarted = sequenceIndex > 0;
-                    var previousCommandTooOld = unitPair.Current.When - unitPair.Previous.When >= _inputLifetime;
+                    var isPreviousCommandTooOld = unitPair.Current.When - unitPair.Previous.When >= _inputLifetime;
 
-                    if (sequenceStarted && previousCommandTooOld) {
+                    if (sequenceStarted && isPreviousCommandTooOld) {
                         return 0;
                     }
-                    
+
                     while (sequenceIndex < _inputSequence.Length &&
                            (unitPair.Current.Command & _inputSequence[sequenceIndex]) != InputCommand.None) {
                         sequenceIndex++;
@@ -81,42 +95,40 @@ namespace Banchou.Pawn.FSM {
 
                     return sequenceIndex;
                 })
-                .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length);
-            
-            // Reset the trigger and entry timestamp
-            var enterTime = 0f;
-            ObserveStateEnter
-                .CatchIgnoreLog()
-                .Subscribe(_ => { enterTime = state.GetTime(); })
-                .AddTo(this);
-            
-            // Check which timescale we're using
-            IObservable<float> observeGestures;
-            if (_inNormalizedTime) {
-                observeGestures = ObserveStateUpdate
-                    .Select(args => args.StateInfo.normalizedTime % 1);
-            } else {
-                observeGestures = ObserveStateUpdate
-                    .Select(_ => state.GetTime() - enterTime);
-            }
-
-            if (_breakOnGesture) {
-                gestureInput.Subscribe(_ => Debug.Break())
-                    .AddTo(this);
-            }
-            
-            observeGestures
-                .Sample(gestureInput)
-                .Where(stateTime => stateTime >= _acceptFromTime && stateTime < _acceptUntilTime &&
-                                    _conditions.All(condition => condition.Evaluate(animator)))
+                .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length)
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
-                    if (_breakOnAccept) {
+                    if (_breakOnGesture) {
                         Debug.Break();
                     }
-                    _output.ApplyAll(animator);
+                    _gesturePerformed = true;
                 })
                 .AddTo(this);
+        }
+
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateUpdate(animator, stateInfo, layerIndex);
+            var stateTime = _inNormalizedTime ? stateInfo.normalizedTime % 1 : StateTime;
+
+            _gestureAccepted = !_gestureAccepted &&
+                               _gesturePerformed &&
+                               stateTime >= _acceptFromTime &&
+                               stateTime <= _acceptUntilTime;
+
+            if (_gestureAccepted && stateTime >= _bufferUntilTime && _conditions.All(c => c.Evaluate(animator))) {
+                _gesturePerformed = false;
+                _gestureAccepted = false;
+                if (_breakOnAccept) {
+                    Debug.Break();
+                }
+                _output.ApplyAll(animator);
+            }
+        }
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            base.OnStateExit(animator, stateInfo, layerIndex);
+            _gesturePerformed = false;
+            _gestureAccepted = false;
         }
     }
 }

@@ -24,16 +24,24 @@ namespace Banchou.Pawn.Part {
         
         private int _pawnId;
         private GameState _state;
+        private CombatantState _combatant;
         private PawnSpatial _spatial;
         private HitState _hit;
 
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody body) {
             _state = state;
             _pawnId = getPawnId();
-            _state.ObservePawnSpatial(getPawnId())
+            
+            _state.ObservePawnSpatial(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
+
+            _state.ObserveCombatant(_pawnId)
+                .CatchIgnoreLog()
+                .Subscribe(combatant => _combatant = combatant)
+                .AddTo(this);
+            
             _state.ObserveHitsOn(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(hit => _hit = hit)
@@ -45,8 +53,12 @@ namespace Banchou.Pawn.Part {
                 .AddTo(this);
         }
 
-        private void Start() {
-            // Need this for Enabled checkbox to show up
+        private void OnEnable() {
+            _combatant?.Defense?.SetInvincibility(false, _state.GetTime());
+        }
+
+        private void OnDisable() {
+            _combatant?.Defense?.SetInvincibility(true, _state.GetTime());
         }
 
         private void OnVolumeEnter(Collider other) {

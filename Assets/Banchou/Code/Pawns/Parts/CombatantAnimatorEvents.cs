@@ -21,9 +21,7 @@ namespace Banchou.Pawn.Part {
                 .Subscribe(combatant => _combatant = combatant)
                 .AddTo(this);
         }
-
-        public void Invincible() => _combatant.Defense.SetInvincibility(true, _state.GetTime());
-        public void Vulnerable() => _combatant.Defense.SetInvincibility(false, _state.GetTime());
+        
         public void StartAttack() => _combatant.Attack.Start(_state.GetTime());
         public void ActivateAttack() => _combatant.Attack.Activate(_state.GetTime());
         public void RecoverAttack() => _combatant.Attack.Recover(_state.GetTime());

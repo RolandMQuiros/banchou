@@ -28,7 +28,8 @@ namespace Banchou.Player {
         ShortJump = 1 << 20,
         Jump = 1 << 21,
         Block = 1 << 22,
-        Unblock = 1 << 23
+        Unblock = 1 << 23,
+        Burst = 1 << 24
     }
 
     [Serializable]

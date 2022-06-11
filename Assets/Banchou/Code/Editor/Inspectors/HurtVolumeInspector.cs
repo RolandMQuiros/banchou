@@ -18,6 +18,7 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _knockbackMethod;
         private SerializedProperty _knockback;
         private SerializedProperty _knockbackMagnitude;
+        private SerializedProperty _additionalKnockback;
         
         private SerializedProperty _recoilMethod;
         private SerializedProperty _recoil;
@@ -41,6 +42,7 @@ namespace Banchou.Pawn.Part {
             _knockbackMethod = serializedObject.FindProperty("<KnockbackMethod>k__BackingField");
             _knockback = serializedObject.FindProperty("_knockback");
             _knockbackMagnitude = serializedObject.FindProperty("<KnockbackMagnitude>k__BackingField");
+            _additionalKnockback = serializedObject.FindProperty("<AdditionalKnockback>k__BackingField");
             
             _recoilMethod = serializedObject.FindProperty("<RecoilMethod>k__BackingField");
             _recoil = serializedObject.FindProperty("_recoil");
@@ -67,17 +69,19 @@ namespace Banchou.Pawn.Part {
             EditorGUILayout.PropertyField(_knockbackMethod);
 
             switch ((HurtVolume.ForceMethod) _knockbackMethod.enumValueIndex) {
-                case HurtVolume.ForceMethod.Static:
+                case HurtVolume.ForceMethod.ForwardRelative:
                     EditorGUILayout.PropertyField(_knockback);
                     break;
                 case HurtVolume.ForceMethod.Contact:
+                case HurtVolume.ForceMethod.ContactUpProjected:
                     EditorGUILayout.PropertyField(_knockbackMagnitude);
+                    EditorGUILayout.PropertyField(_additionalKnockback);
                     break;
             }
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_recoilMethod);
             switch ((HurtVolume.ForceMethod) _recoilMethod.enumValueIndex) {
-                case HurtVolume.ForceMethod.Static:
+                case HurtVolume.ForceMethod.ForwardRelative:
                     EditorGUILayout.PropertyField(_recoil);
                     break;
                 case HurtVolume.ForceMethod.Contact:
@@ -95,13 +99,13 @@ namespace Banchou.Pawn.Part {
         public void OnSceneGUI() {
             EditorGUI.BeginChangeCheck();
 
-            if (_knockbackMethod.enumValueIndex == (int) HurtVolume.ForceMethod.Static) {
+            if (_knockbackMethod.enumValueIndex == (int) HurtVolume.ForceMethod.ForwardRelative) {
                 _knockback.vector3Value = OffsetHandle(
                     "Knockback", _knockback.vector3Value, Color.red, Color.blue
                 );
             }
 
-            if (_recoilMethod.enumValueIndex == (int) HurtVolume.ForceMethod.Static) {
+            if (_recoilMethod.enumValueIndex == (int) HurtVolume.ForceMethod.ForwardRelative) {
                 _recoil.vector3Value = OffsetHandle(
                     "Recoil", _recoil.vector3Value, Color.yellow, Color.blue
                 );

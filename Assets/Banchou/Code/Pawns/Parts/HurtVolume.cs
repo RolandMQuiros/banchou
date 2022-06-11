@@ -9,7 +9,17 @@ using UnityEngine.Events;
 
 namespace Banchou.Pawn.Part {
     public class HurtVolume : MonoBehaviour {
-        public enum ForceMethod { Static, Contact }
+        public enum ForceMethod {
+            /// <summary>Force is applied relative to Pawn's forward vector </summary>
+            ForwardRelative,
+            /// <summary>Force is applied in the direction the target is from the Pawn</summary>
+            Contact,
+            /// <summary>
+            ///     Force is applied in the direction the target is from the Pawn, projected on the plane created by the
+            ///     Pawn's up vector
+            /// </summary>
+            ContactUpProjected
+        }
         
         public int PawnId { get; private set; }
 
@@ -48,7 +58,7 @@ namespace Banchou.Pawn.Part {
                 Tooltip("How to apply knockback to Pawns hurt by this volume\n" +
                         "Static: Use a defined force vector\n" +
                         "Contact: Apply a force in the direction of the contact normal")]
-        public ForceMethod KnockbackMethod { get; private set; } = ForceMethod.Static;
+        public ForceMethod KnockbackMethod { get; private set; } = ForceMethod.ForwardRelative;
 
         [SerializeField,
          Tooltip("Force applied to the enemy Combatant on contact, in world space. Applied after Hit Pause.")]
@@ -61,10 +71,14 @@ namespace Banchou.Pawn.Part {
         public float KnockbackMagnitude { get; private set; }
 
         [field: SerializeField,
+                Tooltip("World-space force added to calculated contact knockback")]
+        public Vector3 AdditionalKnockback { get; private set; }
+
+        [field: SerializeField,
                 Tooltip("How to apply recoil to the Pawn using this Hurt Volume\n" +
                         "Static: Use a defined force vector\n" +
                         "Contact: Apply a force in the direction of the contact normal")]
-        public ForceMethod RecoilMethod { get; private set; } = ForceMethod.Static;
+        public ForceMethod RecoilMethod { get; private set; } = ForceMethod.ForwardRelative;
         
         [SerializeField,
          Tooltip("Backwards force applied to the attacker on contact, in world space. Applied after Hit Pause")]
@@ -86,7 +100,11 @@ namespace Banchou.Pawn.Part {
         public Vector3 GetKnockbackOn(Vector3 to) {
             switch (KnockbackMethod) {
                 case ForceMethod.Contact:
-                    return KnockbackMagnitude * (to - transform.position).normalized;
+                    return KnockbackMagnitude * (to - transform.position).normalized + AdditionalKnockback;
+                case ForceMethod.ContactUpProjected:
+                    return Vector3.ProjectOnPlane(
+                        KnockbackMagnitude * (to - transform.position).normalized, _spatial.Up
+                    ) + AdditionalKnockback;
                 default:
                     return Knockback;
             }

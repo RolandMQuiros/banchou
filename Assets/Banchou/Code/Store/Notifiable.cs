@@ -2,11 +2,12 @@ using System;
 using System.Runtime.CompilerServices;
 using MessagePack;
 using UniRx;
+using UnityEngine;
 
 namespace Banchou {
     public record Notifiable<TNotifier> where TNotifier : Notifiable<TNotifier> {
         public event Action<TNotifier> Changed;
-        [IgnoreMember] public string LastCaller { get; private set; }
+        [field:SerializeField, IgnoreMember] public string LastCaller { get; private set; }
 
         public virtual IObservable<TNotifier> Observe() {
             return Observable.FromEvent<TNotifier>(

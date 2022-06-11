@@ -42,6 +42,7 @@ namespace Banchou.Combatant {
         ) {
             var attacker = state.GetPawn(attackerPawnId);
             var defender = state.GetPawn(defenderPawnId);
+            var now = state.GetTime();
 
             if (attacker == null) {
                 Debug.LogError($"No Pawn {attackerPawnId} found for combatant");
@@ -58,15 +59,22 @@ namespace Banchou.Combatant {
                 } else if (blocked) {
                     style = HitStyle.Blocked;
                 }
-                var now = state.GetTime();
-                
+
                 if (isGrab) {
                     attacker.Combatant.Grab.Contact(attackId, defenderPawnId, now);
                 }
 
                 if (!isGrab || attacker.Combatant.Grab.TargetId == defenderPawnId) {
+                    var attackPause = hitPause; // Should probably be separate from hitpause
+                    var attack = attacker.Combatant.Attack;
+                    
+                    // Only pause once per attack
+                    if (attack.AttackId == attackId && attack.PauseTime > 0f) {
+                        attackPause = 0f;
+                    }
+                    
                     attacker.Combatant.Attack.Connect(
-                        defenderPawnId, damage, style, hitPause, contact, knockback, recoil, now
+                        defenderPawnId, damage, style, attackPause, contact, knockback, recoil, now
                     );
                 }
 

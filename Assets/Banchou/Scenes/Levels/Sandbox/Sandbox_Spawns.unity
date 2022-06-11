@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.45024985, g: 0.5002794, b: 0.57536644, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000006, guid: bc80e2023c51a364797ce5a63abdec95, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -550,7 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -606,7 +606,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -662,7 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -684,7 +684,7 @@ GameObject:
   - component: {fileID: 1398992203}
   - component: {fileID: 1398992204}
   m_Layer: 0
-  m_Name: Isaac
+  m_Name: Victoria
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -698,7 +698,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398992202}
   m_LocalRotation: {x: -0, y: 0.22192828, z: -0, w: 0.975063}
-  m_LocalPosition: {x: -2.37, y: 0, z: 1.2}
+  m_LocalPosition: {x: 2.7, y: 0, z: -13.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -723,7 +723,7 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   <PawnAsset>k__BackingField:
-    m_AssetGUID: d272aa4fa72e18e45b3d3f4ebc662fd2
+    m_AssetGUID: e0661c97a252a60458e8cd3c57788fab
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -774,7 +774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -830,7 +830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -886,7 +886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -942,7 +942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0
@@ -998,7 +998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <PlayerAsset>k__BackingField:
-    m_AssetGUID: 
+    m_AssetGUID: 3e12c5f0a57bb4b419a7c9594550a5e0
     m_SubObjectName: 
     m_SubObjectType: 
     m_EditorAssetChanged: 0

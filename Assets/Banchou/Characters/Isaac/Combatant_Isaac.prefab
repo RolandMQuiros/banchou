@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 4527812589849869119}
   - component: {fileID: 5290274252228839027}
   m_Layer: 9
-  m_Name: Pawn_Isaac
+  m_Name: Combatant_Isaac
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

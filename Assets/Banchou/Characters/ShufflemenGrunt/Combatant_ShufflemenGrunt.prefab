@@ -1787,7 +1787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3fef66e80ef8d4581154fe409aa4a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pawnCollider: {fileID: 0}
+  _pawnCollider: {fileID: 568471948192216619}
 --- !u!114 &7612661486905432158
 MonoBehaviour:
   m_ObjectHideFlags: 0

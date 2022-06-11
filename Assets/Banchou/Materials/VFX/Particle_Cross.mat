@@ -9,13 +9,16 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Particle_Cross
   m_Shader: {fileID: -6465566751694194690, guid: 61107d5fd464da74cb97d5b34862602d, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -78,9 +81,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0.196
+    - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
+    - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -89,7 +93,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _Dither_Texel_Scale: 1
     - _Dither_Weight: 0.089
-    - _DstBlend: 0
+    - _DstBlend: 10
     - _ENABLE_LIGHTING: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
@@ -106,13 +110,15 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _Surface: 0
+    - _SrcBlend: 5
+    - _Surface: 1
     - _USE_INTERSECTION: 0
     - _Voronoi_Density: 1
     - _Voronoi_Multiplier: 1
     - _WorkflowMode: 1
+    - _ZTest: 4
     - _ZWrite: 1
+    - _ZWriteControl: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

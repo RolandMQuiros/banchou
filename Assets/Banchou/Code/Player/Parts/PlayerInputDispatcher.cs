@@ -50,6 +50,11 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.HeavyAttack;
                     }
                 } break;
+                case "Special Attack": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.SpecialAttack;
+                    }
+                } break;
                 case "Jump": {
                     if (callbackContext.performed) {
                         _commandsInput |= InputCommand.Jump;
@@ -73,6 +78,11 @@ namespace Banchou.Player.Part {
                         _commandsInput |= InputCommand.Block;
                     } else if (callbackContext.canceled) {
                         _commandsInput |= InputCommand.Unblock;
+                    }
+                } break;
+                case "Burst": {
+                    if (callbackContext.performed) {
+                        _commandsInput |= InputCommand.Burst;
                     }
                 } break;
                 case "DebugBreak": {
