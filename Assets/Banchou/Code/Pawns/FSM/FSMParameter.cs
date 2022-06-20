@@ -25,6 +25,13 @@ namespace Banchou.Pawn.FSM {
             _filterByType = true;
         }
 
+        public bool GetBool(Animator animator, bool defaultValue = default) =>
+            IsSet ? animator.GetBool(_hash) : defaultValue;
+        public float GetFloat(Animator animator, float defaultValue = default) =>
+            IsSet ? animator.GetFloat(_hash) : defaultValue;
+        public int GetInt(Animator animator, int defaultValue = default) =>
+            IsSet ? animator.GetInteger(_hash) : defaultValue;
+
         public void Apply(Animator animator, bool value) {
             if (IsSet) {
                 _type = AnimatorControllerParameterType.Bool;
@@ -46,12 +53,37 @@ namespace Banchou.Pawn.FSM {
             }
         }
         
-        public void Apply(Animator animator) {
+        public void SetTrigger(Animator animator) {
             if (IsSet) {
                 _type = AnimatorControllerParameterType.Trigger;
                 animator.SetTrigger(_hash);
             }
         }
+
+        public void ResetTrigger(Animator animator) {
+            if (IsSet) {
+                _type = AnimatorControllerParameterType.Trigger;
+                animator.ResetTrigger(_hash);
+            }
+        }
+    }
+
+    [Serializable]
+    public class FSMReadParameter {
+        [SerializeField] private AnimatorControllerParameterType _parameterType;
+        [SerializeField] private FSMParameter _source;
+        [SerializeField] private float _floatValue;
+        [SerializeField] private int _intValue;
+        [SerializeField] private bool _boolValue;
+        
+        public FSMReadParameter(AnimatorControllerParameterType type) {
+            _parameterType = type;
+            _source = new(type);
+        }
+        
+        public bool GetBool(Animator animator) => _source.GetBool(animator, _boolValue);
+        public float GetFloat(Animator animator) => _source.GetFloat(animator, _floatValue);
+        public int GetInt(Animator animator) => _source.GetInt(animator, _intValue);
     }
 
     [Serializable]
@@ -88,7 +120,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         private bool EvaluateFloat(Animator animator) {
-            var value = animator.GetFloat(_parameter.Hash);
+            var value = _parameter.GetFloat(animator);
             switch (_mode) {
                 case ConditionMode.Greater:
                     return value > _threshold;
@@ -99,7 +131,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         private bool EvaluateInt(Animator animator) {
-            var value = animator.GetInteger(_parameter.Hash);
+            var value = _parameter.GetInt(animator);
             var rounded = Mathf.RoundToInt(_threshold);
             switch (_mode) {
                 case ConditionMode.Equals:
@@ -115,7 +147,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         private bool EvaluateTrigger(Animator animator) {
-            return animator.GetBool(_parameter.Hash);
+            return _parameter.GetBool(animator);
         }
     }
 
@@ -155,10 +187,10 @@ namespace Banchou.Pawn.FSM {
         private void ApplyTrigger(Animator animator) {
             switch (_applyMode) {
                 case ApplyMode.Set:
-                    animator.SetTrigger(_parameter.Hash);
+                    _parameter.SetTrigger(animator);
                     break;
                 case ApplyMode.Unset:
-                    animator.ResetTrigger(_parameter.Hash);
+                    _parameter.ResetTrigger(animator);
                     break;
             }
         }
@@ -166,13 +198,13 @@ namespace Banchou.Pawn.FSM {
         private void ApplyBool(Animator animator) {
             switch (_applyMode) {
                 case ApplyMode.Set:
-                    animator.SetBool(_parameter.Hash, true);
+                    _parameter.Apply(animator, true);
                     break;
                 case ApplyMode.Unset:
-                    animator.SetBool(_parameter.Hash, false);
+                    _parameter.Apply(animator, false);
                     break;
                 case ApplyMode.Toggle:
-                    animator.SetBool(_parameter.Hash, !animator.GetBool(_parameter.Hash));
+                    _parameter.Apply(animator, _parameter.GetBool(animator));
                     break;
             }
         }
@@ -180,19 +212,19 @@ namespace Banchou.Pawn.FSM {
         private void ApplyFloat(Animator animator) {
             switch (_applyMode) {
                 case ApplyMode.FromParameter:
-                    animator.SetFloat(_parameter.Hash, animator.GetFloat(_sourceParameter.Hash));
+                    _parameter.Apply(animator, _sourceParameter.GetFloat(animator));
                     break;
                 case ApplyMode.Set:
-                    animator.SetFloat(_parameter.Hash, _value);
+                    _parameter.Apply(animator, _value);
                     break;
                 case ApplyMode.Unset:
-                    animator.SetFloat(_parameter.Hash, 0f);
+                    _parameter.Apply(animator, 0f);
                     break;
                 case ApplyMode.Add:
-                    animator.SetFloat(_parameter.Hash, animator.GetFloat(_parameter.Hash) + _value);
+                    _parameter.Apply(animator, _parameter.GetFloat(animator) + _value);
                     break;
                 case ApplyMode.Multiply:
-                    animator.SetFloat(_parameter.Hash, animator.GetFloat(_parameter.Hash) * _value);
+                    _parameter.Apply(animator, _parameter.GetFloat(animator) * _value);
                     break;
             }
         }
@@ -200,19 +232,19 @@ namespace Banchou.Pawn.FSM {
         private void ApplyInt(Animator animator) {
             switch (_applyMode) {
                 case ApplyMode.FromParameter:
-                    animator.SetInteger(_parameter.Hash, animator.GetInteger(_sourceParameter.Hash));
+                    _parameter.Apply(animator, _parameter.GetInt(animator));
                     break;
                 case ApplyMode.Set:
-                    animator.SetInteger(_parameter.Hash, (int)_value);
+                    _parameter.Apply(animator, (int)_value);
                     break;
                 case ApplyMode.Unset:
-                    animator.SetInteger(_parameter.Hash, 0);
+                    _parameter.Apply(animator, 0);
                     break;
                 case ApplyMode.Add:
-                    animator.SetInteger(_parameter.Hash, animator.GetInteger(_parameter.Hash) + (int)_value);
+                    _parameter.Apply(animator, _parameter.GetInt(animator) + (int)_value);
                     break;
                 case ApplyMode.Multiply:
-                    animator.SetInteger(_parameter.Hash, animator.GetInteger(_parameter.Hash) * (int)_value);
+                    _parameter.Apply(animator, _parameter.GetInt(animator) * (int)_value);
                     break;
             }
         }

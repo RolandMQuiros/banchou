@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using Banchou.Board;
 using Banchou.Player;
-using BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -53,7 +52,7 @@ namespace Banchou.Pawn.UI {
                 .SelectMany(pawn => state.ObservePawnInputCommands(pawn.PawnId))
                 // ...but only if we have labels to fill
                 .Where(_ => _labels.Length > 0)
-                .DistinctUntilChanged(step => step.Command | InputCommandMasks.Stick)
+                .DistinctUntilChanged(step => step.Command)
                 .CatchIgnoreLog()
                 .Subscribe(step => {
                     // Move bottom label to top

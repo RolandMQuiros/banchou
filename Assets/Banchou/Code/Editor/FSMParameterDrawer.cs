@@ -106,13 +106,15 @@ namespace Banchou.Pawn.FSM {
             if (EditorGUI.EndChangeCheck()) {
                 var currentParameter = currentParameterIndex <= 0 ? null : _parameters[currentParameterIndex - 1];
 
-                if (currentParameter == null) {
+                if (currentParameterIndex > 0 && currentParameter == null) {
                     Debug.LogWarning($"Could not find animator parameter \"{name.stringValue}\" " +
                                      $"for object at {property.propertyPath}");
                 } else {
                     name.stringValue = _parameterNames[currentParameterIndex];
                     hash.intValue = _parameterHashes[currentParameterIndex];
-                    type.intValue = (int) currentParameter.type;
+                    if (currentParameter != null) {
+                        type.intValue = (int) currentParameter.type;
+                    }
                 }
             }
             
@@ -130,6 +132,50 @@ namespace Banchou.Pawn.FSM {
             var name = property.FindPropertyRelative("_name");
             EditorGUI.BeginProperty(position, label, property);
             EditorGUI.LabelField(position, name.stringValue);
+            EditorGUI.EndProperty();
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(FSMReadParameter))]
+    public class FSMReadParameterDrawer : PropertyDrawer {
+        private SerializedProperty _parameterType;
+        private SerializedProperty _source;
+        private SerializedProperty _sourceHash;
+        private SerializedProperty _floatValue;
+        private SerializedProperty _intValue;
+        private SerializedProperty _boolValue;
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            _parameterType ??= property.FindPropertyRelative("_parameterType");
+            _source ??= property.FindPropertyRelative("_source");
+            _sourceHash ??= _source.FindPropertyRelative("_hash");
+            _floatValue ??= property.FindPropertyRelative("_floatValue");
+            _intValue ??= property.FindPropertyRelative("_intValue");
+            _boolValue ??= property.FindPropertyRelative("_boolValue");
+            
+            EditorGUI.BeginProperty(position, label, property);
+            position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+            var parameterRect = position;
+            if (_sourceHash.intValue == default) {
+                var fieldRect = new Rect(position) { width = position.width - 32f };
+                parameterRect = new Rect(position) { xMin = position.xMax - 32f };
+                
+                switch ((AnimatorControllerParameterType) _parameterType.intValue) {
+                    case AnimatorControllerParameterType.Bool:
+                    case AnimatorControllerParameterType.Trigger:
+                        EditorGUI.PropertyField(fieldRect, _boolValue, GUIContent.none);
+                        break;
+                    case AnimatorControllerParameterType.Float:
+                        EditorGUI.PropertyField(fieldRect, _floatValue, GUIContent.none);
+                        break;
+                    case AnimatorControllerParameterType.Int:
+                        EditorGUI.PropertyField(fieldRect, _intValue, GUIContent.none);
+                        break;
+                }
+            }
+            EditorGUI.PropertyField(parameterRect, _source, GUIContent.none);
+
             EditorGUI.EndProperty();
         }
     }
@@ -339,11 +385,11 @@ namespace Banchou.Pawn.FSM {
             }
         }
         
-        private static readonly FSMParameterCondition.ConditionMode[] FloatModes = {
+        private static readonly FSMParameterCondition.ConditionMode[] _floatModes = {
             FSMParameterCondition.ConditionMode.Greater,
             FSMParameterCondition.ConditionMode.Less
         };
-        private static readonly string[] FloatModeLabels = FloatModes.Select(mode => mode.ToString()).ToArray();
+        private static readonly string[] _floatModeLabels = _floatModes.Select(mode => mode.ToString()).ToArray();
 
         private void DrawFloatCondition(Rect position) {
             var mode = (FSMParameterCondition.ConditionMode) _mode.intValue;
@@ -352,10 +398,10 @@ namespace Banchou.Pawn.FSM {
             var thresholdRect = new Rect(modeRect) { x = position.x + modeRect.width + 0.5f };
 
             EditorGUI.BeginChangeCheck();
-            modeIndex = EditorGUI.Popup(modeRect, modeIndex, FloatModeLabels);
+            modeIndex = EditorGUI.Popup(modeRect, modeIndex, _floatModeLabels);
             var threshold = EditorGUI.FloatField(thresholdRect, _threshold.floatValue);
             if (EditorGUI.EndChangeCheck()) {
-                _mode.intValue = (int) FloatModes[modeIndex];
+                _mode.intValue = (int) _floatModes[modeIndex];
                 _threshold.floatValue = threshold;
             }
         }

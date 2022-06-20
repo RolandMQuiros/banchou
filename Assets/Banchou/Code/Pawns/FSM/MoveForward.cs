@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class MoveForward : PawnFSMBehaviour {
-        [SerializeField] private float _speed;
+        [SerializeField] private FSMReadParameter _speed = new(AnimatorControllerParameterType.Float);
         [SerializeField, Range(0, 1f)] private float _startTime;
         [SerializeField, Range(0, 1f)] private float _endTime = 1f;
         [SerializeField] private FSMParameter _speedOutput = new(AnimatorControllerParameterType.Float);
@@ -19,8 +19,10 @@ namespace Banchou.Pawn.FSM {
         }
         
         private void Apply(Animator animator) {
-            _spatial.Move(_spatial.Forward * _speed * DeltaTime, StateTime);
-            _speedOutput.Apply(animator, _speed);
+            var speed = _speed.GetFloat(animator);
+            
+            _spatial.Move(_spatial.Forward * speed * DeltaTime, StateTime);
+            _speedOutput.Apply(animator, speed);
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
