@@ -8,7 +8,7 @@ namespace Banchou.Pawn.FSM {
     public class ApplyForce : FSMBehaviour {
         [Serializable, Flags] private enum ApplyEvent { OnEnter = 1, OnUpdate = 2, OnExit = 4 }
 
-        [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnUpdate;
+        [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnEnter | ApplyEvent.OnUpdate | ApplyEvent.OnExit;
         [SerializeField] private List<FSMParameterCondition> _conditions;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
         [SerializeField] private Vector3 _force = Vector3.zero;

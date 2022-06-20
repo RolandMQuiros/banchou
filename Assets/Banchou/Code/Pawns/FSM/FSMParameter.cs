@@ -24,6 +24,34 @@ namespace Banchou.Pawn.FSM {
             _type = type;
             _filterByType = true;
         }
+
+        public void Apply(Animator animator, bool value) {
+            if (IsSet) {
+                _type = AnimatorControllerParameterType.Bool;
+                animator.SetBool(_hash, value);
+            }
+        }
+        
+        public void Apply(Animator animator, float value) {
+            if (IsSet) {
+                _type = AnimatorControllerParameterType.Float;
+                animator.SetFloat(_hash, value);
+            }
+        }
+        
+        public void Apply(Animator animator, int value) {
+            if (IsSet) {
+                _type = AnimatorControllerParameterType.Int;
+                animator.SetInteger(_hash, value);
+            }
+        }
+        
+        public void Apply(Animator animator) {
+            if (IsSet) {
+                _type = AnimatorControllerParameterType.Trigger;
+                animator.SetTrigger(_hash);
+            }
+        }
     }
 
     [Serializable]
@@ -100,6 +128,11 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _value;
         [SerializeField] private FSMParameter _sourceParameter;
 
+        public ApplyFSMParameter() { }
+        public ApplyFSMParameter(AnimatorControllerParameterType type) {
+            _parameter = new(type);
+        }
+        
         public void Apply(Animator animator) {
             if (_parameter.IsSet) {
                 switch (_parameter.Type) {
