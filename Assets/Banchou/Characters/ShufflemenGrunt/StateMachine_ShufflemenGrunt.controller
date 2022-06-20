@@ -1814,7 +1814,16 @@ MonoBehaviour:
   _comments: 
   _onEvent: 2
   _forceMode: 0
-  _inputForce: 0
+  _inputForce:
+    _parameterType: 1
+    _source:
+      _name: 
+      _hash: 0
+      _type: 1
+      _filterByType: 1
+    _floatValue: 0
+    _intValue: 0
+    _boolValue: 0
 --- !u!114 &-5326209126530192770
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2656,7 +2665,16 @@ MonoBehaviour:
   _comments: 
   _onEvent: 1
   _forceMode: 2
-  _inputForce: 4
+  _inputForce:
+    _parameterType: 1
+    _source:
+      _name: 
+      _hash: 0
+      _type: 1
+      _filterByType: 1
+    _floatValue: 4
+    _intValue: 0
+    _boolValue: 0
 --- !u!1109 &-3679856466612807800
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -3105,7 +3123,16 @@ MonoBehaviour:
   _comments: 
   _onEvent: 2
   _forceMode: 0
-  _inputForce: 0
+  _inputForce:
+    _parameterType: 1
+    _source:
+      _name: 
+      _hash: 0
+      _type: 1
+      _filterByType: 1
+    _floatValue: 0
+    _intValue: 0
+    _boolValue: 0
 --- !u!1102 &-2667387387619116916
 AnimatorState:
   serializedVersion: 6
@@ -8383,7 +8410,16 @@ MonoBehaviour:
   _comments: 
   _onEvent: 1
   _forceMode: 2
-  _inputForce: 4
+  _inputForce:
+    _parameterType: 1
+    _source:
+      _name: 
+      _hash: 0
+      _type: 1
+      _filterByType: 1
+    _floatValue: 4
+    _intValue: 0
+    _boolValue: 0
 --- !u!114 &6092866865032311964
 MonoBehaviour:
   m_ObjectHideFlags: 1

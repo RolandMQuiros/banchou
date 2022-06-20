@@ -42,9 +42,10 @@ namespace Banchou.Pawn.FSM {
             _behaviour ??= property.serializedObject.targetObject as StateMachineBehaviour;
             if (_behaviour != null) {
                 _controller ??= AnimatorController
-                    .FindStateMachineBehaviourContext(_behaviour)[0]
+                    .FindStateMachineBehaviourContext(_behaviour)?
+                    .ElementAt(0)?
                     .animatorController;
-                return true;
+                return _controller != null;
             }
             return false;
         }

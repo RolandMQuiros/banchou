@@ -2,6 +2,7 @@ using System;
 using Banchou.Player;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyInputForce : FSMBehaviour {
@@ -9,11 +10,11 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnUpdate;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
-        [SerializeField] private float _inputForce = 0f;
+        [SerializeField] private FSMReadParameter _inputForce = new(AnimatorControllerParameterType.Float);
 
         private Rigidbody _rigidbody;
         private PlayerInputState _input;
-        private float _timeScale; 
+        private float _timeScale;
 
         public void Construct(
             GameState state,
@@ -32,25 +33,27 @@ namespace Banchou.Pawn.FSM {
                 .AddTo(this);
         }
 
-        private void Apply() {
-            if (!Mathf.Approximately(_inputForce, 0f) && _input.Direction != Vector3.zero) {
-                _rigidbody.AddForce(_timeScale * _input.Direction * _inputForce, _forceMode);
+        private void Apply(Animator animator) {
+            var inputForce = _inputForce.GetFloat(animator);
+
+            if (!Mathf.Approximately(inputForce, 0f) && _input.Direction != Vector3.zero) {
+                _rigidbody.AddForce(_timeScale * _input.Direction * inputForce, _forceMode);
             }
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateEnter(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply(animator);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateUpdate(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply(animator);
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateExit(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply();
+            if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply(animator);
         }
     }
 }
