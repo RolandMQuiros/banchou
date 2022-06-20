@@ -99,11 +99,15 @@ MonoBehaviour:
   <Damage>k__BackingField: 8
   <HitPause>k__BackingField: 0
   <HitStun>k__BackingField: 0.25
+  <AttackPause>k__BackingField: 0
   <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
   <KnockbackMagnitude>k__BackingField: 5
+  <AdditionalKnockback>k__BackingField: {x: 0, y: 0, z: 0}
   <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
+  <AdditionalRecoil>k__BackingField: {x: 0, y: 0, z: 0}
   <LockOffOnConfirm>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
@@ -174,11 +178,15 @@ MonoBehaviour:
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0
   <HitStun>k__BackingField: 0.25
+  <AttackPause>k__BackingField: 0
   <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
   <KnockbackMagnitude>k__BackingField: 0
+  <AdditionalKnockback>k__BackingField: {x: 0, y: 0, z: 0}
   <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
+  <AdditionalRecoil>k__BackingField: {x: 0, y: 0, z: 0}
   <LockOffOnConfirm>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
@@ -249,11 +257,15 @@ MonoBehaviour:
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0
   <HitStun>k__BackingField: 0.25
+  <AttackPause>k__BackingField: 0
   <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
   <KnockbackMagnitude>k__BackingField: 0
+  <AdditionalKnockback>k__BackingField: {x: 0, y: 0, z: 0}
   <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
+  <AdditionalRecoil>k__BackingField: {x: 0, y: 0, z: 0}
   <LockOffOnConfirm>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
@@ -5311,7 +5323,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 1}
+      maxColor: {r: 0.8509804, g: 0, b: 0.68235296, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -19767,11 +19779,15 @@ MonoBehaviour:
   <Damage>k__BackingField: 0
   <HitPause>k__BackingField: 0
   <HitStun>k__BackingField: 0.25
+  <AttackPause>k__BackingField: 0
   <KnockbackMethod>k__BackingField: 0
   _knockback: {x: 0, y: 0, z: 0}
   <KnockbackMagnitude>k__BackingField: 0
+  <AdditionalKnockback>k__BackingField: {x: 0, y: 0, z: 0}
   <RecoilMethod>k__BackingField: 0
   _recoil: {x: 0, y: 0, z: 0}
+  <RecoilMagnitude>k__BackingField: 0
+  <AdditionalRecoil>k__BackingField: {x: 0, y: 0, z: 0}
   <LockOffOnConfirm>k__BackingField: 0
   _onHit:
     m_PersistentCalls:
@@ -29692,6 +29708,7 @@ Transform:
   - {fileID: 4954919492512462827}
   - {fileID: 315003220852506329}
   - {fileID: 2047853556260075358}
+  - {fileID: 4762712384830708084}
   m_Father: {fileID: 8280148306035485437}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29973,6 +29990,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7465645479299255387, guid: 99a0f5e3915d30b46a7e1c688e5e005b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.68235296
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465645479299255387, guid: 99a0f5e3915d30b46a7e1c688e5e005b, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.8509804
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99a0f5e3915d30b46a7e1c688e5e005b, type: 3}
 --- !u!198 &2838429625285232840 stripped
@@ -30087,6 +30112,68 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5205518483648101279, guid: ade9042135a41174fb74f18fdb24a058, type: 3}
   m_PrefabInstance: {fileID: 5504149409158874438}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7113951686487001299
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5156413669214985124}
+    m_Modifications:
+    - target: {fileID: 1688275327576774625, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_Name
+      value: Particles_AuraBurst
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+--- !u!4 &4762712384830708084 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
+  m_PrefabInstance: {fileID: 7113951686487001299}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7320977826036082201
 PrefabInstance:

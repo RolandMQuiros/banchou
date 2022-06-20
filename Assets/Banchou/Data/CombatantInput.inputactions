@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Special Attack",
+                    "type": "Button",
+                    "id": "21623a5e-bf35-4c27-92f8-fe77da346242",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Lock On",
                     "type": "Button",
                     "id": "9d5bd4d3-a889-4b08-bd73-5e29124433e0",
@@ -81,6 +90,15 @@
                     "name": "DebugBreak",
                     "type": "Button",
                     "id": "a1b7afe2-d64c-46e0-9fc6-bf9cfdea227b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Burst",
+                    "type": "Button",
+                    "id": "e1924d37-b5b5-466e-a163-d81919d86332",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -450,6 +468,127 @@
                     "action": "DebugBreak",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec47b6a8-cc83-4f2e-a53c-161980382e15",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "28ff6431-071e-4a93-a7d2-bb5186bc7030",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8c915b0-dc16-4f20-b8e8-5b90ccbf2915",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Gamepad",
+                    "id": "a02ed1c2-28f2-41c5-be30-4ab93ad22da4",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "c717469f-0658-4ead-8184-34baeef8a124",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "a402ff45-769a-4f4b-a06c-6e200fb3a181",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "70019e46-7c84-48ca-b60e-e6516e0e89e3",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Keyboard",
+                    "id": "ec9d9755-15d1-44ae-ad0b-4b1362f12ca5",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "b4cf14a2-ca6b-436b-89fb-ead96ffb239e",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "a1153d8c-1781-4cbb-8501-d41b6c92e73a",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "360e09a9-1247-4f16-8bf3-fb349fda6db1",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
@@ -494,6 +633,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Special Attack",
+                    "type": "Button",
+                    "id": "be400ca5-b317-4a45-993f-3c957477d297",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Lock On",
                     "type": "Button",
                     "id": "17ea1574-7c6d-4ba3-b93b-bc9db639d50d",
@@ -524,6 +672,15 @@
                     "name": "Block",
                     "type": "Button",
                     "id": "551a1d67-7c65-4782-9686-eb9ee78bbaa0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Burst",
+                    "type": "Button",
+                    "id": "4e3b7b38-aa77-4beb-b66c-04542903336e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1162,6 +1319,83 @@
                     "action": "Save",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ed3662e-7086-47ef-b856-f37a52c4f2c2",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a3184e77-92d0-4bd0-98e5-c7f10520c891",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ef77cab-eefa-4328-88e3-95d831fc3ffd",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Two Modifiers",
+                    "id": "dc7a0c9a-9780-43ab-8b2d-2f68b50940d8",
+                    "path": "TwoModifiers",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier1",
+                    "id": "016d7f27-1ab3-4cab-8047-30a2d0a663c3",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "modifier2",
+                    "id": "6974d948-d76b-4773-8824-c74e4de67018",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "3ac81946-d955-4ef0-ba07-2eea147858b7",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Burst",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

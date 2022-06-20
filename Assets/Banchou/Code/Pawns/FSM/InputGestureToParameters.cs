@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UniRx;
 using Banchou.Player;
+using UnityEngine.Serialization;
 
 namespace Banchou.Pawn.FSM {
     /*
@@ -21,20 +22,24 @@ namespace Banchou.Pawn.FSM {
         
         [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
         private PlayerCommandGesture _overrideGesture;
-
-        [SerializeField, Tooltip("Animator conditions that must be filled before a gesture can be accepted")]
-        private FSMParameterCondition[] _conditions;
-
+        
         [SerializeField,
-         Tooltip("Whether or not the following times are expressed in normalized state time or in seconds")]
+         Tooltip("Whether or not times are expressed in normalized state time or in seconds")]
         private bool _inNormalizedTime = true;
+
+        [SerializeField, Tooltip("Animator conditions that must be fulfilled before a gesture can be accepted")]
+        private FSMParameterCondition[] _acceptanceConditions;
         
         [SerializeField, Tooltip("The time after which the command is accepted")]
         private float _acceptFromTime;
 
         [SerializeField, Tooltip("The time after which the command is no longer accepted")]
         private float _acceptUntilTime = 1f;
-        
+
+        [SerializeField, Tooltip("Animator conditions that must be fulfilled before an accepted gesture is applied"),
+         FormerlySerializedAs("_conditions")]
+        private FSMParameterCondition[] _bufferConditions;
+
         [SerializeField, Tooltip("When, in state time, after which triggers are set if a command was accepted.")]
         private float _bufferUntilTime;
 
@@ -55,7 +60,8 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(
             GameState state,
-            GetPawnId getPawnId
+            GetPawnId getPawnId,
+            Animator animator
         ) {
             ConstructCommon(state, getPawnId);
             
@@ -96,6 +102,8 @@ namespace Banchou.Pawn.FSM {
                     return sequenceIndex;
                 })
                 .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length)
+                .Where(_ => _acceptanceConditions.Length == 0 ||
+                            _acceptanceConditions.All(condition => condition.Evaluate(animator)))
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
                     if (_breakOnGesture) {
@@ -115,7 +123,7 @@ namespace Banchou.Pawn.FSM {
                                stateTime >= _acceptFromTime &&
                                stateTime <= _acceptUntilTime;
 
-            if (_gestureAccepted && stateTime >= _bufferUntilTime && _conditions.All(c => c.Evaluate(animator))) {
+            if (_gestureAccepted && stateTime >= _bufferUntilTime && _bufferConditions.All(c => c.Evaluate(animator))) {
                 _gesturePerformed = false;
                 _gestureAccepted = false;
                 if (_breakOnAccept) {

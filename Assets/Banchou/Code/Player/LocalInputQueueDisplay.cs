@@ -52,7 +52,7 @@ namespace Banchou.Pawn.UI {
                 // Get input commands for that local player...
                 .SelectMany(pawn => state.ObservePawnInputCommands(pawn.PawnId))
                 // ...but only if we have labels to fill
-                .Where(step => _labels.Length > 0 && step.Command != InputCommand.Neutral)
+                .Where(_ => _labels.Length > 0)
                 .DistinctUntilChanged(step => step.Command | InputCommandMasks.Stick)
                 .CatchIgnoreLog()
                 .Subscribe(step => {

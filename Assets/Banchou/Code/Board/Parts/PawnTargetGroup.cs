@@ -36,9 +36,9 @@ namespace Banchou.Board.Part {
                 .Where(
                     added =>
                         _criteria == 0 ||
-                        _criteria.HasFlag(Criteria.IsCombatant) && state.IsCombatant(added.PawnId) ||
-                        _criteria.HasFlag(Criteria.IsFriendly) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Friendly ||
-                        _criteria.HasFlag(Criteria.IsEnemy) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Enemy
+                        (_criteria.HasFlag(Criteria.IsCombatant) && state.IsCombatant(added.PawnId)) ||
+                        (_criteria.HasFlag(Criteria.IsFriendly) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Friendly) ||
+                        (_criteria.HasFlag(Criteria.IsEnemy) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Enemy)
                 )
                 .CatchIgnoreLog()
                 .Subscribe(added => { AddTarget(added.PawnId, added.PawnObject); })

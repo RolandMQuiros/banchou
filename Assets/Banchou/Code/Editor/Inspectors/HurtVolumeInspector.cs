@@ -14,6 +14,7 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _damage;
         private SerializedProperty _hitStun;
         private SerializedProperty _hitPause;
+        private SerializedProperty _attackPause;
 
         private SerializedProperty _knockbackMethod;
         private SerializedProperty _knockback;
@@ -23,30 +24,36 @@ namespace Banchou.Pawn.Part {
         private SerializedProperty _recoilMethod;
         private SerializedProperty _recoil;
         private SerializedProperty _recoilMagnitude;
+        private SerializedProperty _additionalRecoil;
 
         private SerializedProperty _lockOffOnConfirm;
         private SerializedProperty _onHit;
 
+        private string BackingField(string fieldName) => $"<{fieldName}>k__BackingField";
+
         private void OnEnable() {
             _target = ((HurtVolume)target).transform;
             
-            _hurtFriendly = serializedObject.FindProperty("<HurtFriendly>k__BackingField");
-            _hurtHostile = serializedObject.FindProperty("<HurtHostile>k__BackingField");
-            _isGrab = serializedObject.FindProperty("<IsGrab>k__BackingField");
+            _hurtFriendly = serializedObject.FindProperty(BackingField(nameof(HurtVolume.HurtFriendly)));
+            _hurtHostile = serializedObject.FindProperty(BackingField(nameof(HurtVolume.HurtHostile)));
+            _isGrab = serializedObject.FindProperty(BackingField(nameof(HurtVolume.IsGrab)));
             
-            _interval = serializedObject.FindProperty("<Interval>k__BackingField");
-            _damage = serializedObject.FindProperty("<Damage>k__BackingField");
-            _hitStun = serializedObject.FindProperty("<HitStun>k__BackingField");
-            _hitPause = serializedObject.FindProperty("<HitPause>k__BackingField");
+            _interval = serializedObject.FindProperty(BackingField(nameof(HurtVolume.Interval)));
+            _damage = serializedObject.FindProperty(BackingField(nameof(HurtVolume.Damage)));
+            _hitStun = serializedObject.FindProperty(BackingField(nameof(HurtVolume.HitStun)));
+            _hitPause = serializedObject.FindProperty(BackingField(nameof(HurtVolume.HitPause)));
+            _attackPause = serializedObject.FindProperty(BackingField(nameof(HurtVolume.AttackPause)));
             
-            _knockbackMethod = serializedObject.FindProperty("<KnockbackMethod>k__BackingField");
+            _attackPause = serializedObject.FindProperty(BackingField(nameof(HurtVolume.AttackPause)));
+            _knockbackMethod = serializedObject.FindProperty(BackingField(nameof(HurtVolume.KnockbackMethod)));
             _knockback = serializedObject.FindProperty("_knockback");
-            _knockbackMagnitude = serializedObject.FindProperty("<KnockbackMagnitude>k__BackingField");
-            _additionalKnockback = serializedObject.FindProperty("<AdditionalKnockback>k__BackingField");
+            _knockbackMagnitude = serializedObject.FindProperty(BackingField(nameof(HurtVolume.KnockbackMagnitude)));
+            _additionalKnockback = serializedObject.FindProperty(BackingField(nameof(HurtVolume.AdditionalKnockback)));
             
-            _recoilMethod = serializedObject.FindProperty("<RecoilMethod>k__BackingField");
+            _recoilMethod = serializedObject.FindProperty(BackingField(nameof(HurtVolume.RecoilMethod)));
             _recoil = serializedObject.FindProperty("_recoil");
-            _recoilMagnitude = serializedObject.FindProperty("<RecoilMagnitude>k__BackingField");
+            _recoilMagnitude = serializedObject.FindProperty(BackingField(nameof(HurtVolume.RecoilMagnitude)));
+            _additionalRecoil = serializedObject.FindProperty(BackingField(nameof(HurtVolume.AdditionalRecoil)));
             
             _lockOffOnConfirm = serializedObject.FindProperty("<LockOffOnConfirm>k__BackingField");
             _onHit = serializedObject.FindProperty("_onHit");
@@ -56,18 +63,18 @@ namespace Banchou.Pawn.Part {
             serializedObject.Update();
             EditorGUI.BeginChangeCheck();
 
+            EditorGUILayout.LabelField("Volume Properties", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_hurtFriendly);
             EditorGUILayout.PropertyField(_hurtHostile);
             EditorGUILayout.PropertyField(_isGrab);
-            EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_interval);
             EditorGUILayout.PropertyField(_damage);
+            
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Defender Reactions", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_hitStun);
             EditorGUILayout.PropertyField(_hitPause);
-            EditorGUILayout.PropertyField(_lockOffOnConfirm);
-            EditorGUILayout.Space();
             EditorGUILayout.PropertyField(_knockbackMethod);
-
             switch ((HurtVolume.ForceMethod) _knockbackMethod.enumValueIndex) {
                 case HurtVolume.ForceMethod.ForwardRelative:
                     EditorGUILayout.PropertyField(_knockback);
@@ -79,6 +86,10 @@ namespace Banchou.Pawn.Part {
                     break;
             }
             EditorGUILayout.Space();
+            
+            EditorGUILayout.LabelField("Attacker Reactions", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_attackPause);
+            EditorGUILayout.PropertyField(_lockOffOnConfirm);
             EditorGUILayout.PropertyField(_recoilMethod);
             switch ((HurtVolume.ForceMethod) _recoilMethod.enumValueIndex) {
                 case HurtVolume.ForceMethod.ForwardRelative:
@@ -86,6 +97,7 @@ namespace Banchou.Pawn.Part {
                     break;
                 case HurtVolume.ForceMethod.Contact:
                     EditorGUILayout.PropertyField(_recoilMagnitude);
+                    EditorGUILayout.PropertyField(_additionalRecoil);
                     break;
             }
             

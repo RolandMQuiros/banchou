@@ -134,7 +134,6 @@ namespace Banchou.Combatant {
                 .Select(combatant => combatant.LockOnTarget)
                 .DistinctUntilChanged()
                 .Pairwise()
-                .Where(pair => pair.Current == default)
                 .Select(pair => pair.Previous);
 
         /// <summary>

@@ -100,8 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reservedPlayerId: 0
   _pawn:
+    <LastCaller>k__BackingField: 
     <PlayerId>k__BackingField: 0
     <Spatial>k__BackingField:
+      <LastCaller>k__BackingField: 
       <PawnId>k__BackingField: 0
       <Position>k__BackingField: {x: 0, y: 0, z: 0}
       <Forward>k__BackingField: {x: 0, y: 0, z: 0}
@@ -113,19 +115,24 @@ MonoBehaviour:
       <LastUpdated>k__BackingField: 0
       <IsSync>k__BackingField: 0
     <AnimatorFrame>k__BackingField:
+      <LastCaller>k__BackingField: 
       <When>k__BackingField: 0
     <Combatant>k__BackingField:
+      <LastCaller>k__BackingField: 
       <PawnId>k__BackingField: 0
       <Health>k__BackingField: 0
       <Stats>k__BackingField:
+        <LastCaller>k__BackingField: 
         <Team>k__BackingField: 0
         <MaxHealth>k__BackingField: 0
         <Weight>k__BackingField: 0
       <Defense>k__BackingField:
+        <LastCaller>k__BackingField: 
         <IsInvincible>k__BackingField: 0
         <GuardStyle>k__BackingField: 0
         <LastUpdated>k__BackingField: 0
       <Attack>k__BackingField:
+        <LastCaller>k__BackingField: 
         <AttackId>k__BackingField: 0
         <Phase>k__BackingField: 0
         <TargetId>k__BackingField: 0
@@ -137,6 +144,7 @@ MonoBehaviour:
         <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
         <LastUpdated>k__BackingField: 0
       <Hit>k__BackingField:
+        <LastCaller>k__BackingField: 
         <DefenderId>k__BackingField: 0
         <AttackerId>k__BackingField: 0
         <AttackId>k__BackingField: 0
@@ -148,6 +156,7 @@ MonoBehaviour:
         <Contact>k__BackingField: {x: 0, y: 0, z: 0}
         <LastUpdated>k__BackingField: 0
       <Grab>k__BackingField:
+        <LastCaller>k__BackingField: 
         <AttackerId>k__BackingField: 0
         <AttackId>k__BackingField: 0
         <TargetId>k__BackingField: 0
@@ -175,17 +184,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _combatant:
+    <LastCaller>k__BackingField: 
     <PawnId>k__BackingField: 0
     <Health>k__BackingField: 0
     <Stats>k__BackingField:
+      <LastCaller>k__BackingField: 
       <Team>k__BackingField: 0
       <MaxHealth>k__BackingField: 0
       <Weight>k__BackingField: 0
     <Defense>k__BackingField:
+      <LastCaller>k__BackingField: 
       <IsInvincible>k__BackingField: 0
       <GuardStyle>k__BackingField: 0
       <LastUpdated>k__BackingField: 0
     <Attack>k__BackingField:
+      <LastCaller>k__BackingField: 
       <AttackId>k__BackingField: 0
       <Phase>k__BackingField: 0
       <TargetId>k__BackingField: 0
@@ -197,6 +210,7 @@ MonoBehaviour:
       <Recoil>k__BackingField: {x: 0, y: 0, z: 0}
       <LastUpdated>k__BackingField: 0
     <Hit>k__BackingField:
+      <LastCaller>k__BackingField: 
       <DefenderId>k__BackingField: 0
       <AttackerId>k__BackingField: 0
       <AttackId>k__BackingField: 0
@@ -208,6 +222,7 @@ MonoBehaviour:
       <Contact>k__BackingField: {x: 0, y: 0, z: 0}
       <LastUpdated>k__BackingField: 0
     <Grab>k__BackingField:
+      <LastCaller>k__BackingField: 
       <AttackerId>k__BackingField: 0
       <AttackId>k__BackingField: 0
       <TargetId>k__BackingField: 0
@@ -1276,68 +1291,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 9106815891523996177, guid: ca17a417b9f1ccc4d84946b441884bac, type: 3}
   m_PrefabInstance: {fileID: 991661591770952888}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1055173015098457254
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3139622415678255057}
-    m_Modifications:
-    - target: {fileID: 1688275327576774625, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_Name
-      value: Particles_AuraBurst
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.98
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351258268538065319, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
---- !u!198 &8751445377777880274 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 8635612086470848628, guid: 61783f2e1a335384ba33a4ac903a0441, type: 3}
-  m_PrefabInstance: {fileID: 1055173015098457254}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4809365384359984545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1411,21 +1364,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 741316628642960211}
     m_Modifications:
-    - target: {fileID: 2838429625285232840, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.68235296
-      objectReference: {fileID: 0}
-    - target: {fileID: 2838429625285232840, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.8509804
-      objectReference: {fileID: 0}
     - target: {fileID: 5061266923891984118, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
       propertyPath: m_Name
       value: Secondary
-      objectReference: {fileID: 0}
-    - target: {fileID: 5959204368193367814, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8280148306035485437, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
       propertyPath: m_RootOrder
@@ -1471,14 +1412,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8603065925309448500, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.68235296
-      objectReference: {fileID: 0}
-    - target: {fileID: 8603065925309448500, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.8509804
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
 --- !u!136 &1432121338415072923 stripped
@@ -1486,14 +1419,14 @@ CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 9206067782475641582, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
   m_PrefabInstance: {fileID: 7790505089287599221}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3139622415678255057 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5156413669214985124, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
-  m_PrefabInstance: {fileID: 7790505089287599221}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &8550987706923341886 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 1924823858921729099, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
+  m_PrefabInstance: {fileID: 7790505089287599221}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8751445377777880274 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1544187314684786855, guid: 5530afa8b8862dc4687065caeaa97863, type: 3}
   m_PrefabInstance: {fileID: 7790505089287599221}
   m_PrefabAsset: {fileID: 0}
 --- !u!198 &8773414455539656506 stripped

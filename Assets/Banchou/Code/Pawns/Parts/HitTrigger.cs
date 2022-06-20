@@ -41,24 +41,42 @@ namespace Banchou.Pawn.Part {
                 .CatchIgnoreLog()
                 .Subscribe(combatant => _combatant = combatant)
                 .AddTo(this);
-            
+
+            _state.ObserveCombatant(_pawnId)
+                .Select(combatant => combatant.Defense.IsInvincible)
+                .DistinctUntilChanged()
+                .CatchIgnoreLog()
+                .Subscribe(isInvincible => {
+                    if (enabled == isInvincible) {
+                        enabled = !isInvincible;
+                    }
+                })
+                .AddTo(this);
+
             _state.ObserveHitsOn(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(hit => _hit = hit)
                 .AddTo(this);
 
             body.OnTriggerEnterAsObservable()
+                .Merge(body.OnTriggerStayAsObservable())
                 .Where(_ => isActiveAndEnabled)
                 .Subscribe(OnVolumeEnter)
                 .AddTo(this);
         }
 
         private void OnEnable() {
-            _combatant?.Defense?.SetInvincibility(false, _state.GetTime());
+            var defense = _combatant?.Defense;
+            if (defense?.IsInvincible == true) {
+                defense.SetInvincibility(false, _state.GetTime());
+            }
         }
 
         private void OnDisable() {
-            _combatant?.Defense?.SetInvincibility(true, _state.GetTime());
+            var defense = _combatant?.Defense;
+            if (defense?.IsInvincible == false) {
+                defense.SetInvincibility(true, _state.GetTime());
+            }
         }
 
         private void OnVolumeEnter(Collider other) {
@@ -85,6 +103,7 @@ namespace Banchou.Pawn.Part {
                         knockback * (isFrontAttack ? _frontKnockbackScale : _rearKnockbackScale),
                         hurtVolume.Recoil * (isFrontAttack ? _frontRecoilScale : _rearRecoilScale),
                         hurtVolume.HitPause * (isFrontAttack ? _frontHitPauseScale : _rearHitPauseScale),
+                        hurtVolume.AttackPause,
                         hurtVolume.HitStun * (isFrontAttack ? _frontHitStunScale : _rearHitStunScale),
                         Mathf.RoundToInt(hurtVolume.Damage * (isFrontAttack ? _frontDamageScale : _rearDamageScale)),
                         hurtVolume.IsGrab,

@@ -53,6 +53,10 @@ namespace Banchou.Pawn.Part {
                 Tooltip("How long after contact, in seconds, the enemy Combatant the enemy stays in a stunned state." +
                         " Runs after Hit Pause completes.")]
         public float HitStun { get; private set; } = 0.5f;
+        
+        [field: SerializeField,
+                Tooltip("How long the attacking Combatant freezes in place after contact")]
+        public float AttackPause { get; private set; }
 
         [field: SerializeField,
                 Tooltip("How to apply knockback to Pawns hurt by this volume\n" +
@@ -85,6 +89,15 @@ namespace Banchou.Pawn.Part {
         private Vector3 _recoil;
 
         public Vector3 Recoil => Quaternion.LookRotation(_spatial.Forward) * _recoil;
+        
+        [field: SerializeField,
+                Tooltip("How much force to apply to attacking Pawn")]
+        public float RecoilMagnitude { get; private set; }
+        
+        [field: SerializeField,
+                Tooltip("World-space force added to calculated contact recoil")]
+        public Vector3 AdditionalRecoil { get; private set; }
+
 
         [field: SerializeField,
                 Tooltip("Remove lock-on if hit confirms. Use for attacks with huge knockback.")]
@@ -105,6 +118,19 @@ namespace Banchou.Pawn.Part {
                     return Vector3.ProjectOnPlane(
                         KnockbackMagnitude * (to - transform.position).normalized, _spatial.Up
                     ) + AdditionalKnockback;
+                default:
+                    return Knockback;
+            }
+        }
+        
+        public Vector3 GetRecoilOn(Vector3 to) {
+            switch (RecoilMethod) {
+                case ForceMethod.Contact:
+                    return RecoilMagnitude * (to - transform.position).normalized + AdditionalRecoil;
+                case ForceMethod.ContactUpProjected:
+                    return Vector3.ProjectOnPlane(
+                        RecoilMagnitude * (to - transform.position).normalized, _spatial.Up
+                    ) + AdditionalRecoil;
                 default:
                     return Knockback;
             }
@@ -137,6 +163,7 @@ namespace Banchou.Pawn.Part {
                     if (AttackId == _attack.AttackId) {
                         _attack.Recover(_state.GetTime());
                     }
+                    AttackId = default;
                 })
                 .AddTo(this);
         }
@@ -148,7 +175,7 @@ namespace Banchou.Pawn.Part {
                 _attack.Phase == AttackPhase.Active &&
                 now - _attack.LastUpdated > Interval
             ) {
-                _attack.Reactivate(now);
+                AttackId = _attack.Activate(now).AttackId;
             }
         }
     }

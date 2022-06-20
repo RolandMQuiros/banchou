@@ -50,8 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _reservedPlayerId: 0
   _player:
+    <LastCaller>k__BackingField: 
     <NetworkId>k__BackingField: 0
     <Input>k__BackingField:
+      <LastCaller>k__BackingField: 
       <PlayerId>k__BackingField: 0
       <Commands>k__BackingField: 0
       <Direction>k__BackingField: {x: 0, y: 0, z: 0}
@@ -172,7 +174,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Debug Player
+  m_DefaultActionMap: d2c755b4-2706-418c-bd35-1d58b015e84d
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &4382030275167622507
@@ -213,3 +215,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _saveNameFormat: banchou.dev.{0}.sav
+  _slot: 1

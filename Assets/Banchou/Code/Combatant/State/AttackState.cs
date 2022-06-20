@@ -67,10 +67,7 @@ namespace Banchou.Combatant {
             return Notify();
         }
 
-        public AttackState Start(float when) {
-            AttackId++;
-            Phase = AttackPhase.Starting;
-            
+        private void Reset() {
             TargetId = 0;
             WhenHit = 0f;
             Damage = 0;
@@ -78,7 +75,12 @@ namespace Banchou.Combatant {
             PauseTime = 0f;
             Contact = Vector3.zero;
             Recoil = Vector3.zero;
-            
+        }
+
+        public AttackState Start(float when) {
+            AttackId++;
+            Phase = AttackPhase.Starting;
+            Reset();
             LastUpdated = when;
             return Notify(when);
         }
@@ -95,19 +97,16 @@ namespace Banchou.Combatant {
         public AttackState Reactivate(float when) {
             if (Phase == AttackPhase.Active) {
                 AttackId++;
-                LastUpdated = when;
+                Reset();
                 return Activate(when);
             }
             return this;
         }
 
         public AttackState Recover(float when) {
-            if (Phase == AttackPhase.Active) {
-                Phase = AttackPhase.Recover;
-                LastUpdated = when;
-                return Notify(when);
-            }
-            return this;
+            Phase = AttackPhase.Recover;
+            LastUpdated = when;
+            return Notify(when);
         }
 
         public AttackState Finish(float when) {

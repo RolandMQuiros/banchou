@@ -35,6 +35,7 @@ namespace Banchou.Combatant {
             Vector3 knockback,
             Vector3 recoil,
             float hitPause,
+            float attackPause,
             float hitStun,
             int damage,
             bool isGrab,
@@ -65,7 +66,6 @@ namespace Banchou.Combatant {
                 }
 
                 if (!isGrab || attacker.Combatant.Grab.TargetId == defenderPawnId) {
-                    var attackPause = hitPause; // Should probably be separate from hitpause
                     var attack = attacker.Combatant.Attack;
                     
                     // Only pause once per attack

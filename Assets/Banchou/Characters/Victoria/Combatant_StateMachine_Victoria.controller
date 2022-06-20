@@ -473,10 +473,11 @@ MonoBehaviour:
   _inputSequence: 00004000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -588,7 +589,11 @@ MonoBehaviour:
   _inputSequence: 00003000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions:
+  _inNormalizedTime: 1
+  _acceptanceConditions: []
+  _acceptFromTime: 0
+  _acceptUntilTime: 1
+  _bufferConditions:
   - _parameter:
       _name: Attack Confirmed
       _hash: 267471345
@@ -603,9 +608,6 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 0
     _threshold: 0
-  _inNormalizedTime: 1
-  _acceptFromTime: 0
-  _acceptUntilTime: 1
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -1128,10 +1130,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0.5
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -1190,10 +1193,11 @@ MonoBehaviour:
   _inputSequence: 010000000601000000100000
   _inputLifetime: 0.05
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -1852,10 +1856,11 @@ MonoBehaviour:
   _inputSequence: 
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output: []
   _breakOnGesture: 0
@@ -2153,10 +2158,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0.4
   _output:
   - _parameter:
@@ -2276,10 +2282,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -2370,10 +2377,11 @@ MonoBehaviour:
   _inputSequence: 00100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0.17
   _output:
   - _parameter:
@@ -2429,7 +2437,11 @@ MonoBehaviour:
   _inputSequence: 00923000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions:
+  _inNormalizedTime: 1
+  _acceptanceConditions: []
+  _acceptFromTime: 0
+  _acceptUntilTime: 1
+  _bufferConditions:
   - _parameter:
       _name: Attack Confirmed
       _hash: 267471345
@@ -2437,9 +2449,6 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 2
     _threshold: 0.99
-  _inNormalizedTime: 1
-  _acceptFromTime: 0
-  _acceptUntilTime: 1
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -2607,95 +2616,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0006040127
-      value: 0.9949348
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.13798055
-      value: -1.0034848
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.31147727
-      value: 0.6670773
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.46067095
-      value: -0.67853665
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6413912
-      value: 0.3587687
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.79220414
-      value: -0.5026865
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.89534694
-      value: 0.20508032
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.951297
-      value: -0.19867694
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9999481
-      value: 0.009147141
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _multiplier: 1
   _maximumOffset: 2
+  _shakesPerSecond: 30
 --- !u!114 &-4260173733485707145
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2825,10 +2748,11 @@ MonoBehaviour:
   _inputSequence: 00001000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -3823,7 +3747,11 @@ MonoBehaviour:
   _inputSequence: 00003000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions:
+  _inNormalizedTime: 1
+  _acceptanceConditions: []
+  _acceptFromTime: 0
+  _acceptUntilTime: 1
+  _bufferConditions:
   - _parameter:
       _name: Attack Confirmed
       _hash: 267471345
@@ -3838,9 +3766,6 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 0
     _threshold: 0
-  _inNormalizedTime: 1
-  _acceptFromTime: 0
-  _acceptUntilTime: 1
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -3981,10 +3906,11 @@ MonoBehaviour:
   _inputSequence: feefff00
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0.65
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -4071,10 +3997,11 @@ MonoBehaviour:
   _inputSequence: 0200000000100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0.4
   _output:
   - _parameter:
@@ -4155,10 +4082,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 0.75
+  _bufferConditions: []
   _bufferUntilTime: 0.26
   _output:
   - _parameter:
@@ -4540,10 +4468,11 @@ MonoBehaviour:
   _inputSequence: 00002000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -4702,95 +4631,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: -0.0006040127
-      value: 0.9949348
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.13798055
-      value: -1.0034848
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.31147727
-      value: 0.6670773
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.46067095
-      value: -0.67853665
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6413912
-      value: 0.3587687
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.79220414
-      value: -0.5026865
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.89534694
-      value: 0.20508032
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.951297
-      value: -0.19867694
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.9999481
-      value: 0.009147141
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
   _multiplier: 0.5
   _maximumOffset: 2
+  _shakesPerSecond: 30
 --- !u!1101 &-1084010731763298107
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4882,10 +4725,11 @@ MonoBehaviour:
   _inputSequence: 00001000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -5125,10 +4969,11 @@ MonoBehaviour:
   _inputSequence: 00008000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -5638,235 +5483,235 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Forward Input Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lateral Input Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Vertical Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Direction Magnitude
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Direction Forward
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Input Direction Right
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Hit Stun Time
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Hit Pause Time
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Normalized Attack Pause Time
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 1
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Cancel Recovery
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Is Invincible
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Is Grounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Lock On
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Blocking
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Hit Confirmed
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack Connected
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack Confirmed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack Blocked
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Start Jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Short Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Long Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Can Tech
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Tech
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Ground Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Air Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 5L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 5H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 6L
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: 6H
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Can Burst
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Burst
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Grab
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Throw
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Grabbed Pose
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Grabbed
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Released From Grab
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -6234,10 +6079,11 @@ MonoBehaviour:
   _inputSequence: 00080000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -6507,13 +6353,13 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -4186106997381235689}
-    second:
-    - {fileID: 2398894098760858117}
   - first: {fileID: 1584042346725649746}
     second:
     - {fileID: -4400027491778779750}
     - {fileID: -3535898966102589143}
+  - first: {fileID: -4186106997381235689}
+    second:
+    - {fileID: 2398894098760858117}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 50, z: 0}
   m_EntryPosition: {x: -180, y: 180, z: 0}
@@ -6634,10 +6480,11 @@ MonoBehaviour:
   _inputSequence: 060100000002000000100000
   _inputLifetime: 0.05
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -7634,10 +7481,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -7708,10 +7556,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -7868,10 +7717,11 @@ MonoBehaviour:
   _inputSequence: 00002000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -8072,10 +7922,11 @@ MonoBehaviour:
   _inputSequence: 0601000000100000
   _inputLifetime: 0.16666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -8166,10 +8017,11 @@ MonoBehaviour:
   _inputSequence: 0601000000100000
   _inputLifetime: 0.16666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -8498,7 +8350,11 @@ MonoBehaviour:
   _inputSequence: 00000001
   _inputLifetime: 0.16666667
   _overrideGesture: {fileID: 0}
-  _conditions:
+  _inNormalizedTime: 1
+  _acceptanceConditions: []
+  _acceptFromTime: 0
+  _acceptUntilTime: 1
+  _bufferConditions:
   - _parameter:
       _name: Can Burst
       _hash: -1146109586
@@ -8506,9 +8362,6 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 0
     _threshold: 0
-  _inNormalizedTime: 1
-  _acceptFromTime: 0
-  _acceptUntilTime: 1
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -9501,10 +9354,11 @@ MonoBehaviour:
   _inputSequence: 00003000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -9814,10 +9668,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 0.5
+  _bufferConditions: []
   _bufferUntilTime: 0.2
   _output:
   - _parameter:
@@ -9851,10 +9706,11 @@ MonoBehaviour:
   _inputSequence: 00001000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -10095,10 +9951,11 @@ MonoBehaviour:
   _inputSequence: 00000100
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -10702,7 +10559,11 @@ MonoBehaviour:
   _inputSequence: 00000001
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions:
+  _inNormalizedTime: 1
+  _acceptanceConditions: []
+  _acceptFromTime: 0
+  _acceptUntilTime: 1
+  _bufferConditions:
   - _parameter:
       _name: Can Burst
       _hash: -1146109586
@@ -10710,9 +10571,6 @@ MonoBehaviour:
       _filterByType: 0
     _mode: 0
     _threshold: 0
-  _inNormalizedTime: 1
-  _acceptFromTime: 0
-  _acceptUntilTime: 1
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -10841,10 +10699,11 @@ MonoBehaviour:
   _inputSequence: 00002000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -11192,10 +11051,11 @@ MonoBehaviour:
   _inputSequence: 
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output: []
   _breakOnGesture: 0
@@ -11239,10 +11099,11 @@ MonoBehaviour:
   _inputSequence: 00100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0.6
   _output:
   - _parameter:
@@ -11276,10 +11137,11 @@ MonoBehaviour:
   _inputSequence: 00100000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
@@ -11459,10 +11321,11 @@ MonoBehaviour:
   _inputSequence: 00020000
   _inputLifetime: 0.1666667
   _overrideGesture: {fileID: 0}
-  _conditions: []
   _inNormalizedTime: 1
+  _acceptanceConditions: []
   _acceptFromTime: 0
   _acceptUntilTime: 1
+  _bufferConditions: []
   _bufferUntilTime: 0
   _output:
   - _parameter:
