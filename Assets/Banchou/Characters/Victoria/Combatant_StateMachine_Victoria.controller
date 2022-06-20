@@ -347,6 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 1
   _rotationSpeed: 10000
 --- !u!1101 &-8172605633277434676
 AnimatorStateTransition:
@@ -934,7 +935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 1
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -1312,6 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 1
   _rotationSpeed: 1000
 --- !u!1102 &-6727546901814590994
 AnimatorState:
@@ -1361,6 +1363,7 @@ MonoBehaviour:
   _useInputDirection: 0
   _scanRange: 3
   _scanAngle: 30
+  _snap: 0
   _rotationSpeed: 1000
   _fromStateTime: 0
   _toStateTime: 1
@@ -1502,7 +1505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -2240,7 +2243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -2877,6 +2880,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.1666667
@@ -3181,7 +3185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 25
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -7779,7 +7783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 10
+  _rotationSpeed: 90
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -7857,7 +7861,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _rotationSpeed: 1000
+  _snap: 0
+  _rotationSpeed: 1440
 --- !u!114 &3372280969888364791
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7872,7 +7877,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -8000,6 +8005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 0
   _rotationSpeed: 500
 --- !u!114 &3541996801187271576
 MonoBehaviour:
@@ -8083,6 +8089,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 3
   _scanAngle: 30
+  _snap: 0
   _rotationSpeed: 1000
   _fromStateTime: 0
   _toStateTime: 0.1
@@ -10027,6 +10034,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.1666667
@@ -10128,6 +10136,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.1666667
@@ -10195,6 +10204,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 30
+  _snap: 0
   _rotationSpeed: 500
   _fromStateTime: 0
   _toStateTime: 1
@@ -10276,6 +10286,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 1000
   _fromStateTime: 0
   _toStateTime: 0.186
@@ -10633,6 +10644,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.05
@@ -10891,6 +10903,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 1000
   _fromStateTime: 0
   _toStateTime: 0.244

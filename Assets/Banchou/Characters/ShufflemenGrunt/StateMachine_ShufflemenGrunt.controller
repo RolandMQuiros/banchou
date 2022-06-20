@@ -35,6 +35,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 0
   _rotationSpeed: 500
 --- !u!1107 &-9158033609627465964
 AnimatorStateMachine:
@@ -57,6 +58,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours:
   - {fileID: 3232907674459270535}
+  - {fileID: -6159969544406123095}
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 280, y: 230, z: 0}
@@ -377,6 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 1
   _rotationSpeed: 10000
 --- !u!1101 &-8172605633277434676
 AnimatorStateTransition:
@@ -680,7 +683,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 1
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -975,6 +978,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 1
   _rotationSpeed: 1000
 --- !u!206 &-6752459887475337682
 BlendTree:
@@ -1119,6 +1123,7 @@ MonoBehaviour:
   _useInputDirection: 0
   _scanRange: 3
   _scanAngle: 30
+  _snap: 0
   _rotationSpeed: 1000
   _fromStateTime: 0
   _toStateTime: 1
@@ -1332,6 +1337,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+--- !u!114 &-6159969544406123095
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81e05f1635e36ee41a229b650e8c77a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _inputSequence: 01000000060100000100000006010000
+  _inputLifetime: 0.1666667
+  _overrideGesture: {fileID: 0}
+  _inNormalizedTime: 1
+  _acceptanceConditions: []
+  _acceptFromTime: 0
+  _acceptUntilTime: 1
+  _bufferConditions: []
+  _bufferUntilTime: 0
+  _output:
+  - _parameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
+    _applyMode: 0
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
+  _breakOnGesture: 0
+  _breakOnAccept: 0
+  _breakOnCommand: 0
 --- !u!1107 &-6124103550409731899
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1959,7 +2002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -2568,6 +2611,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 3
   _scanAngle: 5
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.033333335
@@ -2850,7 +2894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 25
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -3975,6 +4019,20 @@ AnimatorStateTransition:
   m_InterruptionSource: 1
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1109 &-1437214001499773715
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 4739556713339889564}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
 --- !u!114 &-1414376525153001361
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6847,7 +6905,7 @@ AnimatorStateTransition:
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 5744102604064386861}
   m_Solo: 0
-  m_Mute: 0
+  m_Mute: 1
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0
@@ -6917,7 +6975,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 10
+  _rotationSpeed: 90
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -6995,6 +7053,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
+  _snap: 0
   _rotationSpeed: 1000
 --- !u!114 &3372280969888364791
 MonoBehaviour:
@@ -7010,7 +7069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _invertDirection: 0
-  _rotationSpeed: 1000
+  _rotationSpeed: 1440
   _hold: 0
   _snap: 0
   _snapOnExit: 1
@@ -7174,6 +7233,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 5
   _scanAngle: 30
+  _snap: 0
   _rotationSpeed: 500
   _fromStateTime: 0
   _toStateTime: 1
@@ -7721,6 +7781,25 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1107 &4739556713339889564
+AnimatorStateMachine:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Dodge
+  m_ChildStates: []
+  m_ChildStateMachines: []
+  m_AnyStateTransitions: []
+  m_EntryTransitions: []
+  m_StateMachineTransitions: {}
+  m_StateMachineBehaviours: []
+  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_DefaultState: {fileID: 0}
 --- !u!1102 &4856599526589116339
 AnimatorState:
   serializedVersion: 6
@@ -8852,6 +8931,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 3
   _scanAngle: 5
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.1666667
@@ -9411,6 +9491,7 @@ MonoBehaviour:
   _useInputDirection: 1
   _scanRange: 3
   _scanAngle: 90
+  _snap: 0
   _rotationSpeed: 5000
   _fromStateTime: 0
   _toStateTime: 0.6
@@ -9682,6 +9763,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_StateMachine: {fileID: -9158033609627465964}
     m_Position: {x: 290, y: 120, z: 0}
+  - serializedVersion: 1
+    m_StateMachine: {fileID: 4739556713339889564}
+    m_Position: {x: 290, y: 20, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions:
   - {fileID: -2882247776383063599}
@@ -9690,6 +9774,7 @@ AnimatorStateMachine:
     second:
     - {fileID: -3295236878418735040}
     - {fileID: -2452968546936955070}
+    - {fileID: -1437214001499773715}
   m_StateMachineBehaviours:
   - {fileID: -2598031138140767669}
   - {fileID: 8916878646842203928}

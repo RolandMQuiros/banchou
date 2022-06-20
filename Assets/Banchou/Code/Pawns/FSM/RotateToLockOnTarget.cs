@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class RotateToLockOnTarget : FSMBehaviour {
+        [SerializeField, Tooltip("Whether or not to ignore rotation speed and instantaneously snap to target rotation")]
+        private bool _snap;
+        
         [SerializeField, Tooltip("How quickly, in degrees per second, the Pawn will rotate to face its target")]
         private float _rotationSpeed = 1000f;
 
@@ -45,15 +48,15 @@ namespace Banchou.Pawn.FSM {
             if (_spatial == null || _targetSpatial == null) return;
 
             var targetDirection = _spatial.DirectionTo(_targetSpatial.Position);
-            _spatial.Rotate(
-                Vector3.RotateTowards(
+            if (!_snap) {
+                targetDirection = Vector3.RotateTowards(
                     _spatial.Forward,
                     targetDirection,
-                    _rotationSpeed * _deltaTime,
+                    Mathf.Deg2Rad * _rotationSpeed * _deltaTime,
                     0f
-                ),
-                _state.GetTime()
-            );
+                );
+            }
+            _spatial.Rotate(targetDirection, _state.GetTime());
         }
     }
 }

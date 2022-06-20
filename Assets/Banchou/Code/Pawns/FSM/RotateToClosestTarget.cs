@@ -14,6 +14,8 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField] private float _scanRange = 3f;
         [SerializeField] private float _scanAngle = 30f;
+        [SerializeField, Tooltip("Whether or not to ignore rotation speed and instantaneously snap to target rotation")]
+        private bool _snap;
         [SerializeField] private float _rotationSpeed = 1000f;
         [SerializeField, Min(0f)] private float _fromStateTime = 0f;
         [SerializeField, Min(0f)] private float _toStateTime = 1f;
@@ -94,10 +96,14 @@ namespace Banchou.Pawn.FSM {
                     forward = _input.Direction.normalized;
                 }
 
-                _spatial.Rotate(
-                    Vector3.RotateTowards(forward, direction, _rotationSpeed, 0f),
-                    _state.GetTime()
-                );
+                if (_snap) {
+                    _spatial.Rotate(direction, _state.GetTime());
+                } else {
+                    _spatial.Rotate(
+                        Vector3.RotateTowards(forward, direction, Mathf.Deg2Rad * _rotationSpeed, 0f),
+                        _state.GetTime()
+                    );
+                }
             }
         }
     }
