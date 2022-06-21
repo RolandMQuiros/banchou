@@ -316,5 +316,13 @@ namespace Banchou.Pawn.FSM {
                 parameters[i].Apply(animator);
             }
         }
+
+        public static bool Evaluate(this FSMParameterCondition[] conditions, Animator animator) {
+            var conditionsMet = true;
+            for (int i = 0; i < conditions.Length; i++) {
+                conditionsMet &= conditions[i].Evaluate(animator);
+            }
+            return conditionsMet;
+        }
     }
 }

@@ -103,7 +103,7 @@ namespace Banchou.Pawn.FSM {
                 })
                 .Where(sequenceIndex => sequenceIndex >= _inputSequence.Length)
                 .Where(_ => _acceptanceConditions.Length == 0 ||
-                            _acceptanceConditions.All(condition => condition.Evaluate(animator)))
+                            _acceptanceConditions.Evaluate(animator))
                 .CatchIgnoreLog()
                 .Subscribe(_ => {
                     if (_breakOnGesture) {
@@ -121,8 +121,8 @@ namespace Banchou.Pawn.FSM {
                                _gesturePerformed &&
                                stateTime >= _acceptFromTime &&
                                stateTime <= _acceptUntilTime;
-
-            if (_gestureAccepted && stateTime >= _bufferUntilTime && _bufferConditions.All(c => c.Evaluate(animator))) {
+            
+            if (_gestureAccepted && stateTime >= _bufferUntilTime && _bufferConditions.Evaluate(animator)) {
                 _gesturePerformed = false;
                 _gestureAccepted = false;
                 if (_breakOnAccept) {
