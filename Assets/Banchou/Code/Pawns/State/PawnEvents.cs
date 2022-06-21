@@ -11,14 +11,12 @@ namespace Banchou.Pawn {
                 .Merge(state.ObserveAddedPawns());
 
         public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) =>
-            state.ObserveAddedPawns()
+            Observable.Never<PawnState>()
                 .StartWith(state.GetPawn(pawnId))
-                .Where(pawn => pawn?.PawnId == pawnId)
-                .DistinctUntilChanged();
+                .Where(pawn => pawn != null);
 
         public static IObservable<PawnState> ObservePawnChanges(this GameState state, int pawnId) =>
-            state.ObservePawn(pawnId)
-                .SelectMany(pawn => pawn.Observe());
+            state.GetPawn(pawnId).Observe();
 
         public static IObservable<PawnSpatial> ObservePawnSpatial(this GameState state, int pawnId) =>
             state.ObservePawn(pawnId)
@@ -74,11 +72,15 @@ namespace Banchou.Pawn {
                 )
             );
 
-        public static IObservable<float> ObservePawnTimeScale(this GameState state, int pawnId) =>
-            state.ObserveBoardChanges()
-                .SelectMany(board => state.ObservePawnChanges(pawnId)
-                    .Select(pawn => board.TimeScale * pawn.TimeScale))
+        public static IObservable<float> ObservePawnTimeScale(this GameState state, int pawnId) {
+            var pawn = state.GetPawn(pawnId);
+            
+            // Optimized to avoid SelectMany
+            return state.ObserveBoardChanges().Select(_ => 0)
+                .Merge(state.ObservePawnChanges(pawnId).Select(_ => 0))
+                .Select(_ => state.Board.TimeScale * (pawn ??= state.GetPawn(pawnId)).TimeScale)
                 .DistinctUntilChanged();
+        }
 
         public static IObservable<float> ObservePawnDeltaTime(this GameState state, int pawnId) =>
             Observable.EveryFixedUpdate()

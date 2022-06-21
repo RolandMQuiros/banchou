@@ -79,6 +79,7 @@ namespace Banchou.Board {
                 boardChanged = true;
                 var pawn = Pawns[removed.PawnId];
                 Pawns.Remove(removed.PawnId);
+                pawn.Dispose();
                 PawnRemoved?.Invoke(pawn);
             }
 
@@ -182,6 +183,7 @@ namespace Banchou.Board {
             if (Pawns.Any()) {
                 if (PawnRemoved != null) {
                     foreach (var pawn in Pawns.Values) {
+                        pawn.Dispose();
                         PawnRemoved(pawn);
                     }
                 }
