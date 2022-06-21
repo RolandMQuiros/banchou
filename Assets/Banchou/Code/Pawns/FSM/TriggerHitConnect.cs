@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Banchou.Pawn.FSM {
     public class TriggerHitConnect : FSMBehaviour {
         [SerializeField, Tooltip("The trigger parameter to output to")]
-        private List<ApplyFSMParameter> _output;
+        private List<OutputFSMParameter> _output;
 
         [SerializeField] private bool _onConfirm;
         [SerializeField] private bool _onBlock;

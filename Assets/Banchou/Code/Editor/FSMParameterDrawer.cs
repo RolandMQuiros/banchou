@@ -137,51 +137,89 @@ namespace Banchou.Pawn.FSM {
         }
     }
 
-    [CustomPropertyDrawer(typeof(FSMReadParameter))]
+    [CustomPropertyDrawer(typeof(InputFSMParameter))]
     public class FSMReadParameterDrawer : PropertyDrawer {
-        private SerializedProperty _parameterType;
-        private SerializedProperty _source;
-        private SerializedProperty _sourceHash;
-        private SerializedProperty _floatValue;
-        private SerializedProperty _intValue;
-        private SerializedProperty _boolValue;
-        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-            _parameterType ??= property.FindPropertyRelative("_parameterType");
-            _source ??= property.FindPropertyRelative("_source");
-            _sourceHash ??= _source.FindPropertyRelative("_hash");
-            _floatValue ??= property.FindPropertyRelative("_floatValue");
-            _intValue ??= property.FindPropertyRelative("_intValue");
-            _boolValue ??= property.FindPropertyRelative("_boolValue");
+            var parameterType = property.FindPropertyRelative("_parameterType");
+            var source = property.FindPropertyRelative("_source");
+            var sourceHash = source.FindPropertyRelative("_hash");
+            var floatValue = property.FindPropertyRelative("_floatValue");
+            var intValue = property.FindPropertyRelative("_intValue");
+            var boolValue = property.FindPropertyRelative("_boolValue");
             
             EditorGUI.BeginProperty(position, label, property);
             position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
             var parameterRect = position;
-            if (_sourceHash.intValue == default) {
+            if (sourceHash.intValue == default) {
                 var fieldRect = new Rect(position) { width = position.width - 32f };
                 parameterRect = new Rect(position) { xMin = position.xMax - 32f };
                 
-                switch ((AnimatorControllerParameterType) _parameterType.intValue) {
+                switch ((AnimatorControllerParameterType) parameterType.intValue) {
                     case AnimatorControllerParameterType.Bool:
                     case AnimatorControllerParameterType.Trigger:
-                        EditorGUI.PropertyField(fieldRect, _boolValue, GUIContent.none);
+                        EditorGUI.PropertyField(fieldRect, boolValue, GUIContent.none);
                         break;
                     case AnimatorControllerParameterType.Float:
-                        EditorGUI.PropertyField(fieldRect, _floatValue, GUIContent.none);
+                        EditorGUI.PropertyField(fieldRect, floatValue, GUIContent.none);
                         break;
                     case AnimatorControllerParameterType.Int:
-                        EditorGUI.PropertyField(fieldRect, _intValue, GUIContent.none);
+                        EditorGUI.PropertyField(fieldRect, intValue, GUIContent.none);
                         break;
                 }
             }
-            EditorGUI.PropertyField(parameterRect, _source, GUIContent.none);
+            EditorGUI.PropertyField(parameterRect, source, GUIContent.none);
 
             EditorGUI.EndProperty();
         }
     }
 
-    [CustomPropertyDrawer(typeof(ApplyFSMParameter))]
+    [CustomPropertyDrawer(typeof(Vector2InputFSMParameter)), CustomPropertyDrawer(typeof(Vector3InputFSMParameter))]
+    public class VectorInputFSMParameterDrawer : PropertyDrawer {
+        private static readonly GUIContent _xLabel = new("X");
+        private static readonly GUIContent _yLabel = new("Y");
+        private static readonly GUIContent _zLabel = new("Z");
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            var x = property.FindPropertyRelative("_x");
+            var y = property.FindPropertyRelative("_y");
+            var z = property.FindPropertyRelative("_z");
+            var columns = (x != null ? 1 : 0) + (y != null ? 1 : 0) + (z != null ? 1 : 0);
+
+            if (columns > 0) {
+                EditorGUI.BeginProperty(position, label, property);
+                position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+
+                var columnWidth = position.width / columns;
+                var columnRect = new Rect(position) { width = columnWidth };
+                var paramRect = new Rect(columnRect) { x = position.x + 16f, width = columnWidth - 20f };
+                var labelRect = new Rect(columnRect) { width = 16f };
+
+                if (x != null) {
+                    EditorGUI.LabelField(labelRect, _xLabel);
+                    EditorGUI.PropertyField(paramRect, x, GUIContent.none);
+                    labelRect.x += columnWidth;
+                    paramRect.x += columnWidth;
+                }
+                
+                if (y != null) {
+                    EditorGUI.LabelField(labelRect, _yLabel);
+                    EditorGUI.PropertyField(paramRect, y, GUIContent.none);
+                    labelRect.x += columnWidth;
+                    paramRect.x += columnWidth;
+                }
+                
+                if (z != null) {
+                    EditorGUI.LabelField(labelRect, _zLabel);
+                    EditorGUI.PropertyField(paramRect, z, GUIContent.none);
+                }
+
+                EditorGUI.EndProperty();
+            }
+        }
+    }
+
+    [CustomPropertyDrawer(typeof(OutputFSMParameter))]
     public class ApplyFSMParameterDrawer : PropertyDrawer {
         private SerializedProperty _parameter;
         private SerializedProperty _name;
@@ -236,7 +274,7 @@ namespace Banchou.Pawn.FSM {
         }
 
         private Rect DrawParameterAndApplyMode(
-            Rect position, Func<Enum, bool> selectModes, ApplyFSMParameter.ApplyMode defaultMode
+            Rect position, Func<Enum, bool> selectModes, OutputFSMParameter.ApplyMode defaultMode
         ) {
             var parameterRect = new Rect(position) { width = position.width * 0.5f };
             EditorGUI.PropertyField(parameterRect, _parameter, GUIContent.none);
@@ -246,7 +284,7 @@ namespace Banchou.Pawn.FSM {
                 width = position.width * 0.2f - 5f
             };
             
-            var applyMode = (ApplyFSMParameter.ApplyMode) _applyMode.intValue;
+            var applyMode = (OutputFSMParameter.ApplyMode) _applyMode.intValue;
             if (!selectModes(applyMode)) {
                 applyMode = defaultMode;
             }
@@ -254,7 +292,7 @@ namespace Banchou.Pawn.FSM {
             if (Application.isPlaying) {
                 EditorGUI.LabelField(applyModeRect, applyMode.ToString());
             } else {
-                applyMode = (ApplyFSMParameter.ApplyMode) EditorGUI.EnumPopup(
+                applyMode = (OutputFSMParameter.ApplyMode) EditorGUI.EnumPopup(
                     applyModeRect, GUIContent.none, applyMode, selectModes
                 );
 
@@ -269,8 +307,8 @@ namespace Banchou.Pawn.FSM {
         private void DrawBoolean(Rect position) {
             var rect = DrawParameterAndApplyMode(
                 position,
-                mode => (ApplyFSMParameter.ApplyMode) mode != ApplyFSMParameter.ApplyMode.Toggle,
-                ApplyFSMParameter.ApplyMode.Set
+                mode => (OutputFSMParameter.ApplyMode) mode != OutputFSMParameter.ApplyMode.Toggle,
+                OutputFSMParameter.ApplyMode.Set
             );
 
             var setRect = new Rect(position) {
@@ -278,7 +316,7 @@ namespace Banchou.Pawn.FSM {
                 width = position.width - rect.width - 10f
             };
 
-            if (_applyMode.intValue == (int) ApplyFSMParameter.ApplyMode.FromParameter) {
+            if (_applyMode.intValue == (int) OutputFSMParameter.ApplyMode.FromParameter) {
                 EditorGUI.PropertyField(setRect, _sourceParameter, GUIContent.none);
                 if (_sourceType.intValue != _type.intValue) {
                     _sourceHash.intValue = _hash.intValue;
@@ -292,17 +330,17 @@ namespace Banchou.Pawn.FSM {
         private void DrawTrigger(Rect position) {
             DrawParameterAndApplyMode(
                 position,
-                mode => (ApplyFSMParameter.ApplyMode) mode == ApplyFSMParameter.ApplyMode.Set ||
-                        (ApplyFSMParameter.ApplyMode) mode == ApplyFSMParameter.ApplyMode.Unset,
-                ApplyFSMParameter.ApplyMode.Set
+                mode => (OutputFSMParameter.ApplyMode) mode == OutputFSMParameter.ApplyMode.Set ||
+                        (OutputFSMParameter.ApplyMode) mode == OutputFSMParameter.ApplyMode.Unset,
+                OutputFSMParameter.ApplyMode.Set
             );
         }
         
         private void DrawNumber(Rect position) {
             var rect = DrawParameterAndApplyMode(
                 position,
-                mode => (ApplyFSMParameter.ApplyMode) mode != ApplyFSMParameter.ApplyMode.Toggle,
-                ApplyFSMParameter.ApplyMode.Set
+                mode => (OutputFSMParameter.ApplyMode) mode != OutputFSMParameter.ApplyMode.Toggle,
+                OutputFSMParameter.ApplyMode.Set
             );
 
             var setRect = new Rect(position) {
@@ -310,17 +348,17 @@ namespace Banchou.Pawn.FSM {
                 width = position.width - rect.width - 10f
             };
             
-            switch ((ApplyFSMParameter.ApplyMode) _applyMode.intValue) {
-                case ApplyFSMParameter.ApplyMode.Set:
-                case ApplyFSMParameter.ApplyMode.Add:
-                case ApplyFSMParameter.ApplyMode.Multiply:
+            switch ((OutputFSMParameter.ApplyMode) _applyMode.intValue) {
+                case OutputFSMParameter.ApplyMode.Set:
+                case OutputFSMParameter.ApplyMode.Add:
+                case OutputFSMParameter.ApplyMode.Multiply:
                     if (Application.isPlaying) {
                         EditorGUI.LabelField(setRect, _value.stringValue);
                     } else {
                         EditorGUI.PropertyField(setRect, _value, GUIContent.none);
                     }
                     break;
-                case ApplyFSMParameter.ApplyMode.FromParameter:
+                case OutputFSMParameter.ApplyMode.FromParameter:
                     EditorGUI.PropertyField(setRect, _sourceParameter, GUIContent.none);
                     if (_sourceType.intValue != _type.intValue) {
                         _sourceHash.intValue = _hash.intValue;

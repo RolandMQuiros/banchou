@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using Banchou.Board;
-using UniRx;
 using UnityEngine;
 
 using Banchou.Network;
@@ -45,16 +43,19 @@ namespace Banchou.Player {
         }
 
         public static InputCommand DirectionToStick(this Vector2 vec) {
-            var snapped = Snapping.Snap(vec, Vector2.one);
-            if      (snapped == Vector2.zero) return InputCommand.Neutral;
-            else if (snapped == Vector2.up          )  return InputCommand.Forward;
-            else if (snapped == Vector2.one         )  return InputCommand.ForwardRight;
-            else if (snapped == Vector2.right       )  return InputCommand.Right;
-            else if (snapped == new Vector2(1f, -1f))  return InputCommand.BackRight;
-            else if (snapped == Vector2.down        )  return InputCommand.Back;
-            else if (snapped == -Vector2.one        )  return InputCommand.BackLeft;
-            else if (snapped == Vector2.left        )  return InputCommand.Left;
-            else if (snapped == new Vector2(-1f, 1f))  return InputCommand.ForwardLeft;
+            var snapped = new Vector2(
+                vec.x < -0.8f ? -1f : 0f + vec.x > 0.8f ? 1f : 0f,
+                vec.y < -0.8f ? -1f : 0f + vec.y > 0.8f ? 1f : 0f
+            );
+            if (snapped == Vector2.zero        )  return InputCommand.Neutral;
+            if (snapped == Vector2.up          )  return InputCommand.Forward;
+            if (snapped == Vector2.one         )  return InputCommand.ForwardRight;
+            if (snapped == Vector2.right       )  return InputCommand.Right;
+            if (snapped == new Vector2(1f, -1f))  return InputCommand.BackRight;
+            if (snapped == Vector2.down        )  return InputCommand.Back;
+            if (snapped == -Vector2.one        )  return InputCommand.BackLeft;
+            if (snapped == Vector2.left        )  return InputCommand.Left;
+            if (snapped == new Vector2(-1f, 1f))  return InputCommand.ForwardLeft;
             return InputCommand.None;
         }
     }

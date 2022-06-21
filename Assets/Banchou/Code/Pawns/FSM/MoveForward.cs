@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
     public class MoveForward : PawnFSMBehaviour {
-        [SerializeField] private FSMReadParameter _speed = new(AnimatorControllerParameterType.Float);
+        [SerializeField] private InputFSMParameter _speed = new(AnimatorControllerParameterType.Float);
         [SerializeField, Range(0, 1f)] private float _startTime;
         [SerializeField, Range(0, 1f)] private float _endTime = 1f;
         [SerializeField] private List<FloatFSMParameter> _speedOutput;

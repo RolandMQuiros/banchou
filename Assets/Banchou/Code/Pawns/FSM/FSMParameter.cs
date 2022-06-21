@@ -101,14 +101,14 @@ namespace Banchou.Pawn.FSM {
     #endregion
 
     [Serializable]
-    public class FSMReadParameter {
+    public class InputFSMParameter {
         [SerializeField] private AnimatorControllerParameterType _parameterType;
         [SerializeField] private FSMParameter _source;
         [SerializeField] private float _floatValue;
         [SerializeField] private int _intValue;
         [SerializeField] private bool _boolValue;
         
-        public FSMReadParameter(AnimatorControllerParameterType type) {
+        public InputFSMParameter(AnimatorControllerParameterType type) {
             _parameterType = type;
             _source = new(type);
         }
@@ -116,6 +116,28 @@ namespace Banchou.Pawn.FSM {
         public bool GetBool(Animator animator) => _source.GetBool(animator, _boolValue);
         public float GetFloat(Animator animator) => _source.GetFloat(animator, _floatValue);
         public int GetInt(Animator animator) => _source.GetInt(animator, _intValue);
+    }
+    
+    [Serializable]
+    public class Vector2InputFSMParameter {
+        [SerializeField] private InputFSMParameter _x = new(AnimatorControllerParameterType.Float);
+        [SerializeField] private InputFSMParameter _y = new(AnimatorControllerParameterType.Float);
+        public Vector2 Value(Animator animator) => new(
+            _x.GetFloat(animator),
+            _y.GetFloat(animator)
+        );
+    }
+    
+    [Serializable]
+    public class Vector3InputFSMParameter {
+        [SerializeField] private InputFSMParameter _x = new(AnimatorControllerParameterType.Float);
+        [SerializeField] private InputFSMParameter _y = new(AnimatorControllerParameterType.Float);
+        [SerializeField] private InputFSMParameter _z = new(AnimatorControllerParameterType.Float);
+        public Vector3 Value(Animator animator) => new(
+            _x.GetFloat(animator),
+            _y.GetFloat(animator),
+            _z.GetFloat(animator)
+        );
     }
 
     [Serializable]
@@ -184,7 +206,7 @@ namespace Banchou.Pawn.FSM {
     }
 
     [Serializable]
-    public class ApplyFSMParameter {
+    public class OutputFSMParameter {
         public enum ApplyMode { Set, Unset, Toggle, Add, Multiply, FromParameter }
 
         [SerializeField] private FSMParameter _parameter;
@@ -192,8 +214,8 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private float _value;
         [SerializeField] private FSMParameter _sourceParameter;
 
-        public ApplyFSMParameter() { }
-        public ApplyFSMParameter(AnimatorControllerParameterType type) {
+        public OutputFSMParameter() { }
+        public OutputFSMParameter(AnimatorControllerParameterType type) {
             _parameter = new(type);
         }
         
@@ -283,13 +305,13 @@ namespace Banchou.Pawn.FSM {
     }
 
     public static class FSMParameterExtensions {
-        public static void ApplyAll(this List<ApplyFSMParameter> parameters, Animator animator) {
+        public static void ApplyAll(this List<OutputFSMParameter> parameters, Animator animator) {
             for (int i = 0; i < parameters.Count; i++) {
                 parameters[i].Apply(animator);
             }
         }
         
-        public static void ApplyAll(this ApplyFSMParameter[] parameters, Animator animator) {
+        public static void ApplyAll(this OutputFSMParameter[] parameters, Animator animator) {
             for (int i = 0; i < parameters.Length; i++) {
                 parameters[i].Apply(animator);
             }

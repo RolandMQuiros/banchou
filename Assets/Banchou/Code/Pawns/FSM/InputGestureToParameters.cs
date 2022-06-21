@@ -44,7 +44,7 @@ namespace Banchou.Pawn.FSM {
         private float _bufferUntilTime;
 
         [SerializeField, Tooltip("The the output parameters to set if the gesture was input correctly")]
-        private List<ApplyFSMParameter> _output;
+        private List<OutputFSMParameter> _output;
 
         [SerializeField, Tooltip("Pause the editor if the gesture is input")]
         private bool _breakOnGesture;

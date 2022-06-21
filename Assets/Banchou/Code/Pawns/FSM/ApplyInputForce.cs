@@ -10,7 +10,7 @@ namespace Banchou.Pawn.FSM {
 
         [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnUpdate;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
-        [SerializeField] private FSMReadParameter _inputForce = new(AnimatorControllerParameterType.Float);
+        [SerializeField] private InputFSMParameter _inputForce = new(AnimatorControllerParameterType.Float);
 
         private Rigidbody _rigidbody;
         private PlayerInputState _input;
