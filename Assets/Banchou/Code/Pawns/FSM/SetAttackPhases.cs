@@ -1,4 +1,5 @@
 using Banchou.Combatant;
+using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
@@ -10,7 +11,10 @@ namespace Banchou.Pawn.FSM {
         
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
-            _attackState = _state.GetCombatantAttack(getPawnId());
+            _state.ObserveAttack(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(attack => _attackState = attack)
+                .AddTo(this);
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {

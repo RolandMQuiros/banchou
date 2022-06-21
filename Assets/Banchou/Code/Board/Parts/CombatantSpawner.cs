@@ -16,7 +16,9 @@ namespace Banchou.Board.Part {
         protected override void Start() {
             base.Start();
             if (Application.isPlaying) {
-                State.SetCombatant(_team, PawnId, _maxHealth);
+                State.GetCombatant(PawnId)?
+                    .Stats
+                    .Set(_team, _maxHealth, 1f, State.GetTime());
             }
         }
     }

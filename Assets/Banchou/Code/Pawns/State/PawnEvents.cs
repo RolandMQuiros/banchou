@@ -10,24 +10,11 @@ namespace Banchou.Pawn {
             state.GetPawns().Values.ToObservable()
                 .Merge(state.ObserveAddedPawns());
 
-        public static IObservable<PawnState> ObservePawn(this GameState state, int pawnId) =>
-            state.ObserveAddedPawns()
-                .StartWith(state.GetPawn(pawnId))
-                .Where(pawn => pawn?.PawnId == pawnId)
-                .DistinctUntilChanged();
-
         public static IObservable<PawnState> ObservePawnChanges(this GameState state, int pawnId) =>
-            state.ObservePawn(pawnId)
-                .SelectMany(pawn => pawn.Observe());
-
-        public static IObservable<PawnSpatial> ObservePawnSpatial(this GameState state, int pawnId) =>
-            state.ObservePawn(pawnId)
-                .Select(pawn => pawn.Spatial)
-                .Where(spatial => spatial != null);
+            state.GetPawn(pawnId)?.Observe() ?? Observable.Empty<PawnState>();
 
         public static IObservable<PawnSpatial> ObservePawnSpatialChanges(this GameState state, int pawnId) =>
-            state.ObservePawnSpatial(pawnId)
-                .SelectMany(spatial => spatial.Observe());
+            state.GetPawnSpatial(pawnId)?.Observe() ?? Observable.Empty<PawnSpatial>();
 
         public static IObservable<PawnSpatial> ObservePawnSpatialsChanges(this GameState state) =>
             state.ObserveAddedPawns()
@@ -35,14 +22,9 @@ namespace Banchou.Pawn {
                 .SelectMany(_ => state.GetPawns().Values)
                 .SelectMany(pawn => pawn.Spatial.Observe());
 
-        public static IObservable<PawnAnimatorFrame> ObservePawnAnimatorFrame(this GameState state, int pawnId) =>
-            state.ObservePawn(pawnId)
-                .Where(pawn => pawn.AnimatorFrame != null)
-                .Select(pawn => pawn.AnimatorFrame);
-
         public static IObservable<PawnAnimatorFrame> ObservePawnAnimatorFrameChanges(this GameState state, int pawnId) {
-            return state.ObservePawnAnimatorFrame(pawnId)
-                .SelectMany(frame => frame.Observe());
+            return state.GetPawn(pawnId)?.AnimatorFrame?.Observe() ??
+                Observable.Empty<PawnAnimatorFrame>();
         }
 
         public static IObservable<int> ObservePawnPlayerId(this GameState state, int pawnId) =>
@@ -50,11 +32,6 @@ namespace Banchou.Pawn {
                 .Select(pawn => pawn.PlayerId)
                 .DistinctUntilChanged()
                 .Where(playerId => playerId != default);
-
-        public static IObservable<PlayerState> ObservePawnPlayer(this GameState state, int pawnId) =>
-            state.ObservePawnPlayerId(pawnId)
-                .Select(state.GetPlayer)
-                .DistinctUntilChanged();
 
         public static IObservable<PlayerInputState> ObservePawnInput(this GameState state, int pawnId) =>
             state.ObservePawnPlayerId(pawnId)

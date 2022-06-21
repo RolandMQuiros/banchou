@@ -32,20 +32,12 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
             _pawnId = getPawnId();
-
+            _spatial = _state.GetPawnSpatial(_pawnId);
+            _combatant = _state.GetCombatant(_pawnId);
             state.ObservePawnInput(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(input => _input = input)
                 .AddTo(this);
-            state.ObservePawnSpatial(_pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
-            state.ObserveCombatant(_pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(combatant => _combatant = combatant)
-                .AddTo(this);
-            
             _scanDot = Mathf.Cos(Mathf.Deg2Rad * _scanAngle / 2f);
         }
 

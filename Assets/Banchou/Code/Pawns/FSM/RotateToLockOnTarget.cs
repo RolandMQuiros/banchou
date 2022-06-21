@@ -18,12 +18,8 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId) {
             var pawnId = getPawnId();
             _state = state;
-            
-            state.ObservePawnSpatial(pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
-            
+            _spatial = _state.GetPawnSpatial(pawnId);
+
             state.ObserveCombatantChanges(pawnId)
                 .Select(combatant => combatant.LockOnTarget)
                 .DistinctUntilChanged()

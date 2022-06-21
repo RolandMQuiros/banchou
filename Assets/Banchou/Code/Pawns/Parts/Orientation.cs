@@ -13,10 +13,7 @@ namespace Banchou.Pawn.Part {
         ) {
             var pawnId = getPawnId();
             _rigidbody = body;
-            state.ObservePawnSpatial(pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = state.GetPawnSpatial(pawnId);
             state.ObservePawnSpatialChanges(pawnId)
                 .DistinctUntilChanged(spatial => spatial.IsSync)
                 .Where(spatial => spatial.IsSync)

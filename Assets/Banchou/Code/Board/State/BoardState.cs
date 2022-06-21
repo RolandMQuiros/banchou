@@ -80,6 +80,7 @@ namespace Banchou.Board {
                 var pawn = Pawns[removed.PawnId];
                 Pawns.Remove(removed.PawnId);
                 PawnRemoved?.Invoke(pawn);
+                pawn.Dispose();
             }
 
             // Add missing pawns
@@ -173,6 +174,7 @@ namespace Banchou.Board {
             if (Pawns.TryGetValue(pawnId, out pawn) && Pawns.Remove(pawnId)) {
                 LastUpdated = when;
                 PawnRemoved?.Invoke(pawn);
+                pawn.Dispose();
                 return Notify();
             }
             return this;
@@ -183,6 +185,7 @@ namespace Banchou.Board {
                 if (PawnRemoved != null) {
                     foreach (var pawn in Pawns.Values) {
                         PawnRemoved(pawn);
+                        pawn.Dispose();
                     }
                 }
                 Pawns.Clear();

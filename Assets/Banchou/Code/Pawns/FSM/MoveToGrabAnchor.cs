@@ -12,10 +12,7 @@ namespace Banchou.Pawn.FSM {
         public void Construct(GameState state, GetPawnId getPawnId) {
             _state = state;
             _pawnId = getPawnId();
-            _state.ObservePawnSpatial(_pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = _state.GetPawnSpatial(_pawnId);
             _state.ObserveGrabHoldsOn(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(grab => _grab = grab)

@@ -13,10 +13,7 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             ConstructCommon(state, getPawnId);
-            state.ObservePawnSpatial(getPawnId())
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = State.GetPawnSpatial(PawnId);
         }
         
         private void Apply(Animator animator) {

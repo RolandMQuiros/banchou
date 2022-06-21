@@ -102,8 +102,6 @@ namespace Banchou.Pawn.Part {
         [field: SerializeField,
                 Tooltip("Remove lock-on if hit confirms. Use for attacks with huge knockback.")]
         public bool LockOffOnConfirm { get; private set; }
-
-        [SerializeField] private UnityEvent _onHit;
         #endregion
 
         private GameState _state;
@@ -139,18 +137,8 @@ namespace Banchou.Pawn.Part {
         public void Construct(GameState state, GetPawnId getPawnId) {
             PawnId = getPawnId();
             _state = state;
+            _spatial = _state.GetPawnSpatial(PawnId);
             _attack = _state.GetCombatantAttack(PawnId);
-
-            _state.ObservePawnSpatial(PawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
-
-            _state.ObserveAttackChanges(getPawnId())
-                .Where(_ => isActiveAndEnabled)
-                .CatchIgnoreLog()
-                .Subscribe(_ => { _onHit.Invoke(); })
-                .AddTo(this);
 
             this.OnEnableAsObservable()
                 .Subscribe(_ => {

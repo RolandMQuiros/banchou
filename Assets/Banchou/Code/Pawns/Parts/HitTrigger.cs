@@ -31,16 +31,8 @@ namespace Banchou.Pawn.Part {
         public void Construct(GameState state, GetPawnId getPawnId, Rigidbody body) {
             _state = state;
             _pawnId = getPawnId();
-            
-            _state.ObservePawnSpatial(_pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
-
-            _state.ObserveCombatant(_pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(combatant => _combatant = combatant)
-                .AddTo(this);
+            _spatial = state.GetPawnSpatial(_pawnId);
+            _combatant = _state.GetCombatant(_pawnId);
 
             _state.ObserveCombatant(_pawnId)
                 .Select(combatant => combatant.Defense.IsInvincible)

@@ -11,11 +11,7 @@ namespace Banchou.Pawn.FSM {
         private Quaternion _offsetRotation;
         
         public void Construct(GameState state, GetPawnId getPawnId) {
-            state.ObservePawnSpatial(getPawnId())
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
-
+            _spatial = state.GetPawnSpatial(getPawnId());
             _offsetRotation = Quaternion.Euler(_offsetAngles);
         }
 

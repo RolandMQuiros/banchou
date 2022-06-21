@@ -1,6 +1,4 @@
-using UniRx;
 using UnityEngine;
-
 using Banchou.Combatant;
 
 namespace Banchou.Pawn.Part {
@@ -9,9 +7,10 @@ namespace Banchou.Pawn.Part {
         
         public void Construct(GameState state, GetPawnId getPawnId) {
             var pawnId = getPawnId();
-            state.ObserveCombatant(pawnId)
-                .Subscribe(c => _combatant = c)
-                .AddTo(this);
+            _combatant = state.GetCombatant(pawnId);
+            if (_combatant == null) {
+                state.SetCombatant(out _combatant, pawnId);
+            }
         }
     }
 }

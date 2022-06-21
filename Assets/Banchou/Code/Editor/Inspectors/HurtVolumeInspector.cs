@@ -100,8 +100,6 @@ namespace Banchou.Pawn.Part {
                     EditorGUILayout.PropertyField(_additionalRecoil);
                     break;
             }
-            
-            EditorGUILayout.PropertyField(_onHit, true);
 
             if (EditorGUI.EndChangeCheck()) {
                 serializedObject.ApplyModifiedProperties();

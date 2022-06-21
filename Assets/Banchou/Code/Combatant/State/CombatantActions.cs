@@ -6,22 +6,20 @@ namespace Banchou.Combatant {
         public static GameState SetCombatant(
             this GameState state,
             out CombatantState combatant,
-            CombatantTeam team,
-            int pawnId,
-            int maxHealth
+            int pawnId
         ) {
             var pawn = state.GetPawn(pawnId);
             if (pawn == null) {
                 Debug.LogError($"No Pawn {pawnId} found for combatant");
                 combatant = null;
             } else {
-                pawn.SetCombatant(team, maxHealth, state.GetTime(), out combatant);
+                pawn.SetCombatant(out combatant, state.GetTime());
             }
             return state;
         }
 
-        public static GameState SetCombatant(this GameState state, CombatantTeam team, int pawnId, int maxHealth) {
-            return state.SetCombatant(out _, team, pawnId, maxHealth);
+        public static GameState SetCombatant(this GameState state, int pawnId) {
+            return state.SetCombatant(out _, pawnId);
         }
 
         public static GameState HitCombatant(

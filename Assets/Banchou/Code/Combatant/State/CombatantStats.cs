@@ -18,5 +18,26 @@ namespace Banchou.Combatant {
             MaxHealth = other.MaxHealth;
             Weight = other.Weight;
         }
+
+        public CombatantStats Set(CombatantTeam team, int maxHealth, float weight, float when) {
+            var changed = false;
+            
+            if (Team != team) {
+                Team = team;
+                changed = true;
+            }
+
+            if (MaxHealth != maxHealth) {
+                MaxHealth = maxHealth;
+                changed = true;
+            }
+
+            if (!Mathf.Approximately(Weight, weight)) {
+                Weight = weight;
+                changed = true;
+            }
+
+            return changed ? Notify(when) : this;
+        }
     }
 }

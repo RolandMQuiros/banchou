@@ -101,15 +101,8 @@ namespace Banchou.Pawn {
             return this;
         }
 
-        public PawnState SetCombatant(
-            CombatantTeam team,
-            int maxHealth,
-            float when,
-            out CombatantState combatant
-        ) {
-            Combatant = combatant = new CombatantState(
-                PawnId, maxHealth, new CombatantStats(team, maxHealth), LastUpdated: when
-            );
+        public PawnState SetCombatant(out CombatantState combatant, float when) {
+            Combatant = combatant = new CombatantState(PawnId, LastUpdated: when);
             LastUpdated = when;
             return Notify();
         }

@@ -14,11 +14,9 @@ namespace Banchou.Pawn.FSM {
         private Vector3 _knockback;
 
         public void Construct(GameState state, GetPawnId getPawnId) {
+            var pawnId = getPawnId();
             _state = state;
-            state.ObservePawnSpatial(getPawnId())
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = _state.GetPawnSpatial(pawnId);
             state.ObserveHitsOn(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(hit => _knockback = hit.Knockback)

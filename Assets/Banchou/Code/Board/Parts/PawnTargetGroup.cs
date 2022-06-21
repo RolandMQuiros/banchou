@@ -11,9 +11,8 @@ namespace Banchou.Board.Part {
     [RequireComponent(typeof(CinemachineTargetGroup))]
     public class PawnTargetGroup : MonoBehaviour {
         [Flags] private enum Criteria {
-            IsCombatant = 1,
-            IsFriendly = 1 << 1,
-            IsEnemy = 1 << 2,
+            IsFriendly,
+            IsEnemy
         }
 
         [SerializeField] private Criteria _criteria;
@@ -26,22 +25,22 @@ namespace Banchou.Board.Part {
         ) {
             _targetGroup = GetComponent<CinemachineTargetGroup>();
             var pawnObjects = getPawnObjects();
-            
-            pawnObjects.ObserveAdd()
-                .Select(added => (PawnId: added.Key, PawnObject: added.Value))
-                .Merge(
-                    pawnObjects.ObserveReplace()
-                        .Select(replaced => (PawnId: replaced.Key, PawnObject: replaced.NewValue))
-                )
+
+            state.ObserveCombatants()
+                .SelectMany(combatant => combatant.Stats.Observe()
+                    .Select(_ => combatant))
                 .Where(
                     added =>
                         _criteria == 0 ||
-                        (_criteria.HasFlag(Criteria.IsCombatant) && state.IsCombatant(added.PawnId)) ||
                         (_criteria.HasFlag(Criteria.IsFriendly) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Friendly) ||
                         (_criteria.HasFlag(Criteria.IsEnemy) && state.GetCombatantTeam(added.PawnId) == CombatantTeam.Enemy)
                 )
                 .CatchIgnoreLog()
-                .Subscribe(added => { AddTarget(added.PawnId, added.PawnObject); })
+                .Subscribe(added => {
+                    if (pawnObjects.TryGetValue(added.PawnId, out var pawnObject)) {
+                        AddTarget(added.PawnId, pawnObject);
+                    }
+                })
                 .AddTo(this);
 
             pawnObjects.ObserveRemove()

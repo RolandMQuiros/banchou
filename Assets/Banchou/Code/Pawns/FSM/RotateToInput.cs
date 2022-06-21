@@ -54,10 +54,8 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             ConstructCommon(state, getPawnId);
-            State.ObservePawnSpatial(PawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = State.GetPawnSpatial(PawnId);
+            
             State.ObservePawnSpatialChanges(PawnId)
                 .DistinctUntilChanged(spatial => spatial.IsSync)
                 .Subscribe(_ => _faceDirection = _spatial.Forward)

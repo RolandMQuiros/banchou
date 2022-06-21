@@ -17,10 +17,8 @@ namespace Banchou.Pawn.Part {
             _transform = transform;
             _state = state;
             _pawnId = getPawnId();
-            state.ObservePawnSpatial(_pawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = state.GetPawnSpatial(_pawnId);
+            
             state.ObserveGrabsBy(_pawnId)
                 .CatchIgnoreLog()
                 .Subscribe(grab => _grab = grab)

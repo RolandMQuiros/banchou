@@ -73,11 +73,7 @@ namespace Banchou.Pawn.FSM {
 
         public void Construct(GameState state, GetPawnId getPawnId) {
             ConstructCommon(state, getPawnId);
-            
-            State.ObservePawnSpatialChanges(PawnId)
-                .CatchIgnoreLog()
-                .Subscribe(spatial => _spatial = spatial)
-                .AddTo(this);
+            _spatial = State.GetPawnSpatial(PawnId);
             State.ObservePawnInput(PawnId)
                 .CatchIgnoreLog()
                 .Subscribe(input => _input = input)
@@ -85,9 +81,8 @@ namespace Banchou.Pawn.FSM {
 
             if (_handleApproaches) {
                 State.ObserveLockOn(PawnId)
-                    .SelectMany(targetId => State.ObservePawnSpatial(targetId))
                     .CatchIgnoreLog()
-                    .Subscribe(targetSpatial => _targetSpatial = targetSpatial)
+                    .Subscribe(targetId => _targetSpatial = State.GetPawnSpatial(targetId))
                     .AddTo(this);
             }
 
