@@ -21,19 +21,19 @@ namespace Banchou.Pawn {
     ) : Notifiable<PawnState> {
         [Key(2)][field: SerializeField]
         public int PlayerId { get; private set; } = PlayerId;
-        
+
         [Key(3)][field: SerializeField, NotNull]
         public PawnSpatial Spatial { get; private set; } = Spatial ?? new PawnSpatial(PawnId);
-        
+
         [Key(4)][field: SerializeField]
         public PawnAnimatorFrame AnimatorFrame { get; private set; } = AnimatorFrame;
-        
+
         [Key(5)][field: SerializeField]
         public CombatantState Combatant { get; private set; } = Combatant;
-        
+
         [Key(6)][field: SerializeField]
         public float TimeScale { get; private set; } = TimeScale;
-        
+
         [Key(7)][field: SerializeField]
         public float LastUpdated { get; private set; } = LastUpdated;
 
@@ -53,12 +53,19 @@ namespace Banchou.Pawn {
             LastUpdated: lastUpdated
         ) { }
 
+        public override void Dispose() {
+            base.Dispose();
+            Spatial.Dispose();
+            AnimatorFrame.Dispose();
+            Combatant.Dispose();
+        }
+
         public PawnState Sync(PawnState sync) {
             if (PrefabKey == sync.PrefabKey) {
                 if (sync.Spatial != null) {
                     Spatial.Sync(sync.Spatial);
                 }
-                
+
                 if (sync.AnimatorFrame != null) {
                     AnimatorFrame?.Sync(sync.AnimatorFrame);
                 }
@@ -66,7 +73,7 @@ namespace Banchou.Pawn {
                 if (sync.Combatant != null) {
                     Combatant = Combatant?.Sync(sync.Combatant) ?? sync.Combatant;
                 }
-                
+
                 LastUpdated = sync.LastUpdated;
                 if (sync.PlayerId != PlayerId) {
                     PlayerId = sync.PlayerId;

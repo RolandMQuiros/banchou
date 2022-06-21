@@ -13,6 +13,15 @@ namespace Banchou.Player {
         [Key(0)][field: SerializeField]
         public Dictionary<int, PlayerState> Members { get; init; } = Members ?? new Dictionary<int, PlayerState>();
 
+        public override void Dispose() {
+            base.Dispose();
+            PlayerAdded = null;
+            PlayerRemoved = null;
+            foreach (var player in Members.Values) {
+                player.Dispose();
+            }
+        }
+
         public PlayersState AddPlayer(
             out PlayerState player,
             int playerId = default,
@@ -22,11 +31,11 @@ namespace Banchou.Player {
             if (playerId == default) {
                 playerId = (Members.Values.Count(p => p.PrefabKey == prefabKey), prefabKey).GetHashCode();
             }
-            
+
             player = new PlayerState(playerId, prefabKey, networkId);
             Members[playerId] = player;
             PlayerAdded?.Invoke(player);
-            
+
             return Notify();
         }
 
@@ -38,7 +47,7 @@ namespace Banchou.Player {
             }
             return this;
         }
-        
+
         public PlayersState ClearPlayers(float when) {
             if (Members.Any()) {
                 if (PlayerRemoved != null) {
@@ -61,7 +70,7 @@ namespace Banchou.Player {
                 Members.Remove(removed.PlayerId);
                 PlayerRemoved?.Invoke(player);
             }
-            
+
             foreach (var added in incomingPlayers.Except(currentPlayers)) {
                 var player = sync.Members[added.PlayerId];
                 Members[player.PlayerId] = player;

@@ -35,5 +35,9 @@ namespace Banchou {
         private void FixedUpdate() {
             _store.State.UpdateLocalTime(Time.fixedDeltaTime);
         }
+
+        private void OnDestroy() {
+            _state.Dispose();
+        }
     }
 }

@@ -21,6 +21,13 @@ namespace Banchou {
         [Key(3)][field: SerializeField] public float LocalTime { get; private set; } = LocalTime;
         [Key(4)][field: SerializeField] public float DeltaTime { get; private set; } = DeltaTime;
 
+        public override void Dispose() {
+            base.Dispose();
+            Network.Dispose();
+            Board.Dispose();
+            Players.Dispose();
+        }
+
         public GameState SetVersion(string version) {
             Version = version;
             return Notify();

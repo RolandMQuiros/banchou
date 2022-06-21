@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine;
 
 namespace Banchou {
-    public record Notifiable<TNotifier> where TNotifier : Notifiable<TNotifier> {
+    public record Notifiable<TNotifier> : IDisposable where TNotifier : Notifiable<TNotifier> {
         public event Action<TNotifier> Changed;
         [field:SerializeField, IgnoreMember] public string LastCaller { get; private set; }
 
@@ -27,8 +27,12 @@ namespace Banchou {
             Changed?.Invoke((TNotifier)this);
             return (TNotifier)this;
         }
+
+        public virtual void Dispose() {
+            Changed = null;
+        }
     }
-    
+
     public abstract record NotifiableWithHistory<TNotifier> : Notifiable<TNotifier>, IRecordable<TNotifier>
         where TNotifier : Notifiable<TNotifier>, IRecordable<TNotifier> {
 
@@ -37,7 +41,7 @@ namespace Banchou {
         protected NotifiableWithHistory(int historyBufferSize) {
             History = new History<TNotifier>(historyBufferSize);
         }
-        
+
         public abstract void Set(TNotifier other);
 
         public virtual TNotifier Rewind(float to) {

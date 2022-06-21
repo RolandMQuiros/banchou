@@ -25,6 +25,15 @@ namespace Banchou.Combatant {
         [Key(7)][field: SerializeField] public int LockOnTarget { get; private set; } = LockOnTarget;
         [Key(8)][field: SerializeField] public float LastUpdated { get; private set; } = LastUpdated;
 
+        public override void Dispose() {
+            base.Dispose();
+            Stats.Dispose();
+            Defense.Dispose();
+            Attack.Dispose();
+            Hit.Dispose();
+            Grab.Dispose();
+        }
+
         public override void Set(CombatantState other) {
             Health = other.Health;
             Stats.Set(other.Stats);

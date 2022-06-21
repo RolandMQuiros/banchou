@@ -29,6 +29,12 @@ namespace Banchou.Network {
         public IReadOnlyList<int> Clients => _clients;
         [SerializeField] private List<int> _clients = new List<int>();
 
+        public override void Dispose() {
+            base.Dispose();
+            Rollback.Dispose();
+            Stats.Dispose();
+        }
+
         public NetworkState ClientConnected(int clientNetworkId) {
             _clients.Add(clientNetworkId);
             Notify();

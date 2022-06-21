@@ -53,6 +53,11 @@ namespace Banchou.Player {
             int networkId = 0
         ) : this(playerId, prefabKey, networkId, null) { }
 
+        public override void Dispose() {
+            base.Dispose();
+            Input.Dispose();
+        }
+
         /// <summary>Synchronizes this <c>PlayerState</c> with another, usually received over the network.</summary>
         /// <param name="other">The other <c>PlayerState</c> to synchronize the current one to.</param>
         /// <returns>This <c>PlayerState</c></returns>

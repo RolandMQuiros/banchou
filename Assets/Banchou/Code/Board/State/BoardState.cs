@@ -22,18 +22,29 @@ namespace Banchou.Board {
 
         [Key(0)][field: SerializeField]
         public List<string> ActiveScenes { get; private set; } = ActiveScenes ?? new List<string>();
-        
+
         [Key(1)][field: SerializeField]
         public List<string> LoadingScenes { get; private set; } = LoadingScenes ?? new List<string>();
-        
+
         [Key(2)][field: SerializeField]
         public Dictionary<int, PawnState> Pawns { get; private set; } = Pawns ?? new Dictionary<int, PawnState>();
-        
+
         [Key(3)][field: SerializeField]
         public float TimeScale { get; private set; } = TimeScale;
-        
+
         [Key(4)][field: SerializeField]
         public float LastUpdated { get; private set; } = LastUpdated;
+
+        public override void Dispose() {
+            base.Dispose();
+            SceneAdded = null;
+            SceneRemoved = null;
+            PawnAdded = null;
+            PawnRemoved = null;
+            foreach (var pawn in Pawns.Values) {
+                pawn.Dispose();
+            }
+        }
 
         public BoardState SyncGame(BoardState sync) {
             var boardChanged = false;
@@ -70,7 +81,7 @@ namespace Banchou.Board {
                 Pawns.Remove(removed.PawnId);
                 PawnRemoved?.Invoke(pawn);
             }
-            
+
             // Add missing pawns
             var toAdd = incomingPawns.Except(currentPawns);
             foreach (var added in toAdd) {
@@ -139,7 +150,7 @@ namespace Banchou.Board {
                 var prefabCount = Pawns.Values.Count(pawn => pawn.PrefabKey == prefabKey);
                 pawnId = (prefabKey, prefabCount).GetHashCode();
             }
-            
+
             pawn = new PawnState(
                 pawnId,
                 playerId: playerId,
@@ -153,7 +164,7 @@ namespace Banchou.Board {
             Pawns[pawnId] = pawn;
             LastUpdated = when;
             PawnAdded?.Invoke(pawn);
-            
+
             return Notify();
         }
 
