@@ -192,8 +192,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1101 &-8897489168452160574
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -250,6 +312,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -578,8 +641,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 2
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 10, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 10
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 10, z: 0}
 --- !u!1102 &-7859536413133663209
 AnimatorState:
   serializedVersion: 6
@@ -1416,8 +1541,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -50, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -50
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -50, z: 0}
 --- !u!114 &-6506786449593305217
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1434,6 +1621,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Ground Attack
@@ -1665,35 +1853,6 @@ AnimatorStateMachine:
   m_ExitPosition: {x: -220, y: 280, z: 0}
   m_ParentStateMachinePosition: {x: 30, y: 350, z: 0}
   m_DefaultState: {fileID: -6627634503825799178}
---- !u!114 &-6116552860366192152
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _comments: 
-  _onEvent: 8
-  _stateTime: 0
-  _time: 0
-  _output:
-  - _parameter:
-      _name: Is Dashing
-      _hash: -304131263
-      _type: 4
-      _filterByType: 0
-    _applyMode: 1
-    _value: 0
-    _sourceParameter:
-      _name: 
-      _hash: 0
-      _type: 0
-      _filterByType: 0
 --- !u!1109 &-6069147071917333634
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -1727,8 +1886,150 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 2
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 15, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 15
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 15, z: 0}
+--- !u!114 &-6021909155908627870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347cf32ca13ab1e45bdbaeb61510bcb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 7
+  _conditions: []
+  _forceMode: 0
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1107 &-5999107773062287253
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1901,6 +2202,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -4655168288820602999}
   - {fileID: 5405966771178240890}
+  - {fileID: 8834845881835325403}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1958,8 +2260,12 @@ MonoBehaviour:
   _startTime: 0
   _endTime: 1
   _speedOutput:
-    _name: Input Speed
+  - _name: Input Speed
     _hash: 183576965
+    _type: 1
+    _filterByType: 1
+  - _name: Forward Input Velocity
+    _hash: 988322367
     _type: 1
     _filterByType: 1
 --- !u!1109 &-5726837754927872154
@@ -2267,6 +2573,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Can Tech
@@ -2865,6 +3172,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -6041245677555590221}
   - {fileID: -3737427549433109492}
+  - {fileID: 7226943248065965023}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -3127,8 +3435,8 @@ MonoBehaviour:
   _inputForce:
     _parameterType: 1
     _source:
-      _name: Input Speed
-      _hash: 183576965
+      _name: None
+      _hash: 0
       _type: 1
       _filterByType: 1
     _floatValue: 4
@@ -3263,6 +3571,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -5370,6 +5679,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -5451,7 +5761,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0
   m_TransitionOffset: 0
   m_ExitTime: 0
-  m_HasExitTime: 1
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -5538,8 +5848,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -100, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -100
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!1102 &-69830110688348947
 AnimatorState:
   serializedVersion: 6
@@ -5590,8 +5962,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1101 &-18164957276161888
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -5633,6 +6067,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -6023,8 +6458,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!114 &82956108695089581
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6397,6 +6894,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -6503,6 +7001,8 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -5733155617695461456}
   - {fileID: 1677127824576634957}
+  - {fileID: 7455861519216528824}
+  - {fileID: 7313703638538443388}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -7074,9 +7574,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 4
-    m_ConditionEvent: Forward Input Velocity
-    m_EventTreshold: 5
   - m_ConditionMode: 1
     m_ConditionEvent: 5L
     m_EventTreshold: 0
@@ -7309,6 +7806,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -7690,6 +8188,36 @@ MonoBehaviour:
   _normalizeOutput: 1
   _clearOutOnEntry: 1
   _clearOutOnExit: 1
+--- !u!114 &2415954381435200503
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 1
+  _stateTime: 0
+  _time: 0
+  _conditions: []
+  _output:
+  - _parameter:
+      _name: Is Dashing
+      _hash: -304131263
+      _type: 4
+      _filterByType: 0
+    _applyMode: 1
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!114 &2508541069880812893
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7706,8 +8234,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -50, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -50
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -50, z: 0}
 --- !u!1101 &2514294963096393594
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -7799,6 +8389,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -8132,6 +8723,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Is Dashing
@@ -8161,8 +8753,70 @@ MonoBehaviour:
   _onEvent: -1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -100, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -100
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!114 &2982304348416649757
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8295,8 +8949,7 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
-  m_StateMachineBehaviours:
-  - {fileID: -6116552860366192152}
+  m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 50, y: 320, z: 0}
@@ -8889,6 +9542,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Can Tech
@@ -9106,6 +9760,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Ground Attack
@@ -9549,6 +10204,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -9792,6 +10448,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 2800651808449656195}
   - {fileID: -2753360990734574866}
+  - {fileID: 2415954381435200503}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -10167,8 +10824,8 @@ MonoBehaviour:
   _inputForce:
     _parameterType: 1
     _source:
-      _name: Input Speed
-      _hash: 183576965
+      _name: None
+      _hash: 0
       _type: 1
       _filterByType: 1
     _floatValue: 4
@@ -10313,6 +10970,20 @@ MonoBehaviour:
   _hitTrigger: 
   _pauseTimeNormalizedFloat: 
   _stunTimeNormalizedFloat: 
+--- !u!1109 &6300085468697732864
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 1
+  serializedVersion: 1
 --- !u!114 &6335881366752367628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10877,8 +11548,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1101 &7174470507110687636
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -10957,6 +11690,86 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &7226943248065965023
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 347cf32ca13ab1e45bdbaeb61510bcb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 7
+  _conditions: []
+  _forceMode: 0
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1102 &7235809183561109892
 AnimatorState:
   serializedVersion: 6
@@ -11003,6 +11816,43 @@ MonoBehaviour:
   _activeMaterial: {fileID: 13400000, guid: 4bc99749732286641a3274c45416432f, type: 2}
   _normalizedTime: 0
   _normalizedTimeParameter: 
+--- !u!114 &7313703638538443388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 8
+  _stateTime: 0
+  _time: 0
+  _conditions:
+  - _parameter:
+      _name: Input Direction Magnitude
+      _hash: -1057351871
+      _type: 1
+      _filterByType: 0
+    _mode: 3
+    _threshold: 0.5
+  _output:
+  - _parameter:
+      _name: Is Dashing
+      _hash: -304131263
+      _type: 4
+      _filterByType: 0
+    _applyMode: 1
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!114 &7334042970458314528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11068,6 +11918,21 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &7455861519216528824
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0f0782ef99da414f93c423d4afb82c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _snap: 0
+  _rotationSpeed: 720
 --- !u!1101 &7458908568632024795
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -11590,7 +12455,8 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions:
   - first: {fileID: 3062199086394615285}
-    second: []
+    second:
+    - {fileID: 6300085468697732864}
   m_StateMachineBehaviours:
   - {fileID: 8653837048339956208}
   - {fileID: 2717298252713598176}
@@ -11960,6 +12826,36 @@ MonoBehaviour:
       _type: 0
       _filterByType: 0
   _onGrabInterrupted: []
+--- !u!114 &8834845881835325403
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b32f198c4d245343b8b0121ca8b1be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _comments: 
+  _onEvent: 1
+  _stateTime: 0
+  _time: 0
+  _conditions: []
+  _output:
+  - _parameter:
+      _name: Is Dashing
+      _hash: -304131263
+      _type: 4
+      _filterByType: 0
+    _applyMode: 1
+    _value: 0
+    _sourceParameter:
+      _name: 
+      _hash: 0
+      _type: 0
+      _filterByType: 0
 --- !u!114 &8840087885464703763
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -12142,6 +13038,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Hit

@@ -168,10 +168,11 @@ namespace Banchou.Pawn.FSM {
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateExit(animator, stateInfo, layerIndex);
             
+            _speedOut = 0f;
+            _rightSpeedOut = 0f;
+            _forwardSpeedOut = 0f;
+            
             if (_clearOutOnExit) {
-                _speedOut = 0f;
-                _rightSpeedOut = 0f;
-                _forwardSpeedOut = 0f;
                 if (_speedHash != 0) animator.SetFloat(_speedHash, 0f);
                 if (_rightSpeedHash != 0) animator.SetFloat(_rightSpeedHash, 0f);
                 if (_forwardSpeedHash != 0) animator.SetFloat(_forwardSpeedHash, 0f);

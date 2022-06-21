@@ -133,7 +133,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private InputFSMParameter _x = new(AnimatorControllerParameterType.Float);
         [SerializeField] private InputFSMParameter _y = new(AnimatorControllerParameterType.Float);
         [SerializeField] private InputFSMParameter _z = new(AnimatorControllerParameterType.Float);
-        public Vector3 Value(Animator animator) => new(
+        public Vector3 Get(Animator animator) => new(
             _x.GetFloat(animator),
             _y.GetFloat(animator),
             _z.GetFloat(animator)

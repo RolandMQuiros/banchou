@@ -135,8 +135,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1101 &-8897489168452160574
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -428,8 +490,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 2
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 10, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 10
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 10, z: 0}
 --- !u!1102 &-7859536413133663209
 AnimatorState:
   serializedVersion: 6
@@ -537,6 +661,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -783,6 +908,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Ground Attack
@@ -1471,8 +1597,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -100, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -100
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!114 &-6519646924481466075
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1489,8 +1677,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -50, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -50
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -50, z: 0}
 --- !u!114 &-6486964055284324455
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1730,8 +1980,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 2
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 15, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 15
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 15, z: 0}
 --- !u!1107 &-5999107773062287253
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1917,8 +2229,70 @@ MonoBehaviour:
     _mode: 2
     _threshold: 0.99
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -100, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -100
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!114 &-5884510544140824856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2083,6 +2457,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Can Tech
@@ -3054,6 +3429,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -3484,8 +3860,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -100, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -100
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!1107 &-2555730033725791369
 AnimatorStateMachine:
   serializedVersion: 6
@@ -5209,6 +5647,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -5344,8 +5783,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -100, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -100
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!1102 &-69830110688348947
 AnimatorState:
   serializedVersion: 6
@@ -5396,8 +5897,70 @@ MonoBehaviour:
   _onEvent: 1
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!1101 &-18164957276161888
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -5439,6 +6002,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: 5L
@@ -5823,8 +6387,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: 0, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: 0, z: 0}
 --- !u!114 &82956108695089581
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6224,6 +6850,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -6922,6 +7549,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -6951,6 +7579,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Cancel Recovery
@@ -7345,8 +7974,70 @@ MonoBehaviour:
   _onEvent: 2
   _conditions: []
   _forceMode: 0
-  _force: {x: 0, y: 0, z: 0}
-  _relativeForce: {x: 0, y: -50, z: 0}
+  _force:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  _relativeForce:
+    _x:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+    _y:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: -50
+      _intValue: 0
+      _boolValue: 0
+    _z:
+      _parameterType: 1
+      _source:
+        _name: 
+        _hash: 0
+        _type: 1
+        _filterByType: 1
+      _floatValue: 0
+      _intValue: 0
+      _boolValue: 0
+  __force: {x: 0, y: 0, z: 0}
+  __relativeForce: {x: 0, y: -50, z: 0}
 --- !u!1101 &2514294963096393594
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -8429,6 +9120,7 @@ MonoBehaviour:
   _onEvent: 1
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Can Tech
@@ -8903,6 +9595,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Start Jump
@@ -11464,6 +12157,7 @@ MonoBehaviour:
   _onEvent: 8
   _stateTime: 0
   _time: 0
+  _conditions: []
   _output:
   - _parameter:
       _name: Hit

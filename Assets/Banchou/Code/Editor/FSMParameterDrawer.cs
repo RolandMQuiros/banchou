@@ -152,8 +152,8 @@ namespace Banchou.Pawn.FSM {
 
             var parameterRect = position;
             if (sourceHash.intValue == default) {
-                var fieldRect = new Rect(position) { width = position.width - 32f };
-                parameterRect = new Rect(position) { xMin = position.xMax - 32f };
+                var fieldRect = new Rect(position) { width = position.width - 20f };
+                parameterRect = new Rect(position) { xMin = position.xMax - 20f };
                 
                 switch ((AnimatorControllerParameterType) parameterType.intValue) {
                     case AnimatorControllerParameterType.Bool:
@@ -353,7 +353,14 @@ namespace Banchou.Pawn.FSM {
                 case OutputFSMParameter.ApplyMode.Add:
                 case OutputFSMParameter.ApplyMode.Multiply:
                     if (Application.isPlaying) {
-                        EditorGUI.LabelField(setRect, _value.stringValue);
+                        switch ((AnimatorControllerParameterType) _type.intValue) {
+                            case AnimatorControllerParameterType.Float:
+                                EditorGUI.LabelField(setRect, _value.floatValue.ToString());
+                                break;
+                            case AnimatorControllerParameterType.Int:
+                                EditorGUI.LabelField(setRect, _value.intValue.ToString());
+                                break;
+                        }
                     } else {
                         EditorGUI.PropertyField(setRect, _value, GUIContent.none);
                     }

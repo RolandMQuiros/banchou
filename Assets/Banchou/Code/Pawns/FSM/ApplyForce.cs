@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using UniRx.Triggers;
+using UnityEngine.Serialization;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyForce : FSMBehaviour {
@@ -11,8 +11,8 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnEnter | ApplyEvent.OnUpdate | ApplyEvent.OnExit;
         [SerializeField] private List<FSMParameterCondition> _conditions;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
-        [SerializeField] private Vector3 _force = Vector3.zero;
-        [SerializeField] private Vector3 _relativeForce = Vector3.zero;
+        [SerializeField] private Vector3InputFSMParameter _force;
+        [SerializeField] private Vector3InputFSMParameter _relativeForce;
 
         private Rigidbody _rigidbody;
         private float _timeScale;
@@ -33,12 +33,15 @@ namespace Banchou.Pawn.FSM {
                 }
             }
 
-            if (_force != Vector3.zero) {
-                _rigidbody.AddForce(_force * _timeScale, _forceMode);
+            var force = _force.Get(animator);
+            var relativeForce = _relativeForce.Get(animator);
+
+            if (force != Vector3.zero) {
+                _rigidbody.AddForce(force * _timeScale, _forceMode);
             }
 
-            if (_relativeForce != Vector3.zero) {
-                _rigidbody.AddRelativeForce(_relativeForce * _timeScale, _forceMode);
+            if (relativeForce != Vector3.zero) {
+                _rigidbody.AddRelativeForce(relativeForce * _timeScale, _forceMode);
             }
         }
 
