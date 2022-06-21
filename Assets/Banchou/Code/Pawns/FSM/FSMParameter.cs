@@ -9,9 +9,8 @@ namespace Banchou.Pawn.FSM {
     public class FSMParameter {
         [SerializeField] private string _name;
         [SerializeField] private int _hash;
-        [SerializeField] private AnimatorControllerParameterType _type;
-        // ReSharper disable once NotAccessedField.Local
-        [SerializeField] private bool _filterByType;
+        [SerializeField] protected AnimatorControllerParameterType _type;
+        [SerializeField] protected bool _filterByType;
 
         public string Name => _name;
         public int Hash => _hash;
@@ -34,39 +33,72 @@ namespace Banchou.Pawn.FSM {
 
         public void Apply(Animator animator, bool value) {
             if (IsSet) {
-                _type = AnimatorControllerParameterType.Bool;
                 animator.SetBool(_hash, value);
             }
         }
         
         public void Apply(Animator animator, float value) {
             if (IsSet) {
-                _type = AnimatorControllerParameterType.Float;
                 animator.SetFloat(_hash, value);
             }
         }
         
         public void Apply(Animator animator, int value) {
             if (IsSet) {
-                _type = AnimatorControllerParameterType.Int;
                 animator.SetInteger(_hash, value);
             }
         }
         
         public void SetTrigger(Animator animator) {
             if (IsSet) {
-                _type = AnimatorControllerParameterType.Trigger;
                 animator.SetTrigger(_hash);
             }
         }
 
         public void ResetTrigger(Animator animator) {
             if (IsSet) {
-                _type = AnimatorControllerParameterType.Trigger;
                 animator.ResetTrigger(_hash);
             }
         }
     }
+
+    #region FSMParameter child classes for serialization
+    [Serializable]
+    public class BoolFSMParameter : FSMParameter, ISerializationCallbackReceiver {
+        public void OnBeforeSerialize() { }
+        public void OnAfterDeserialize() {
+            _type = AnimatorControllerParameterType.Bool;
+            _filterByType = true;
+        }
+    }
+
+    [Serializable]
+    public class FloatFSMParameter : FSMParameter, ISerializationCallbackReceiver {
+        public void OnBeforeSerialize() { }
+        public void OnAfterDeserialize() {
+            _type = AnimatorControllerParameterType.Float;
+            _filterByType = true;
+        }
+    }
+
+    [Serializable]
+    public class IntFSMParameter : FSMParameter {
+        public void OnBeforeSerialize() { }
+        public void OnAfterDeserialize() {
+            _type = AnimatorControllerParameterType.Int;
+            _filterByType = true;
+        }
+    }
+
+    [Serializable]
+    public class TriggerFSMParameter : FSMParameter {
+        public void OnBeforeSerialize() { }
+        public void OnAfterDeserialize() {
+            _type = AnimatorControllerParameterType.Trigger;
+            _filterByType = true;
+        }
+    }
+    #endregion
 
     [Serializable]
     public class FSMReadParameter {

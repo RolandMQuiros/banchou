@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 
 namespace Banchou.Pawn.FSM {
-    [CustomPropertyDrawer(typeof(FSMParameter))]
+    [CustomPropertyDrawer(typeof(FSMParameter), useForChildren: true)]
     public class FSMParameterDrawer : PropertyDrawer {
         private StateMachineBehaviour _behaviour;
         private AnimatorController _controller;

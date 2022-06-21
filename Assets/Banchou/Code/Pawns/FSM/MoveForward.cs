@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private FSMReadParameter _speed = new(AnimatorControllerParameterType.Float);
         [SerializeField, Range(0, 1f)] private float _startTime;
         [SerializeField, Range(0, 1f)] private float _endTime = 1f;
-        [SerializeField] private FSMParameter _speedOutput = new(AnimatorControllerParameterType.Float);
+        [SerializeField] private List<FloatFSMParameter> _speedOutput;
 
         private PawnSpatial _spatial;
 
@@ -20,9 +21,8 @@ namespace Banchou.Pawn.FSM {
         
         private void Apply(Animator animator) {
             var speed = _speed.GetFloat(animator);
-            
             _spatial.Move(_spatial.Forward * speed * DeltaTime, StateTime);
-            _speedOutput.Apply(animator, speed);
+            _speedOutput.ForEach(p => p.Apply(animator, speed));
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
