@@ -24,9 +24,8 @@ namespace Banchou.Pawn {
                 .Where(spatial => spatial != null);
 
         public static IObservable<PawnSpatial> ObservePawnSpatialChanges(this GameState state, int pawnId) =>
-            state.ObservePawnSpatial(pawnId)
-                .SelectMany(spatial => spatial.Observe());
-
+            state.GetPawn(pawnId)?.Spatial?.Observe() ?? Observable.Empty<PawnSpatial>();
+            
         public static IObservable<PawnSpatial> ObservePawnSpatialsChanges(this GameState state) =>
             state.ObserveAddedPawns()
                 .Merge(state.ObserveRemovedPawns())
@@ -74,18 +73,24 @@ namespace Banchou.Pawn {
 
         public static IObservable<float> ObservePawnTimeScale(this GameState state, int pawnId) {
             var pawn = state.GetPawn(pawnId);
-            
-            // Optimized to avoid SelectMany
-            return state.ObserveBoardChanges().Select(_ => 0)
-                .Merge(state.ObservePawnChanges(pawnId).Select(_ => 0))
-                .Select(_ => state.Board.TimeScale * (pawn ??= state.GetPawn(pawnId)).TimeScale)
-                .DistinctUntilChanged();
+
+            if (pawn != null) {
+                // Optimized to avoid SelectMany
+                return state.ObserveBoardChanges().Select(_ => 0)
+                    .Merge(state.ObservePawnChanges(pawnId).Select(_ => 0))
+                    .Select(_ => state.Board.TimeScale * (pawn ??= state.GetPawn(pawnId)).TimeScale)
+                    .DistinctUntilChanged();
+            }
+            return Observable.Empty<float>();
         }
 
-        public static IObservable<float> ObservePawnDeltaTime(this GameState state, int pawnId) =>
-            Observable.EveryFixedUpdate()
-                .WithLatestFrom(state.ObservePawnTimeScale(pawnId), (_, timeScale) => timeScale)
-                .Select(timeScale => state.GetDeltaTime() * timeScale);
-
+        public static IObservable<float> ObservePawnDeltaTime(this GameState state, int pawnId) {
+            var pawn = state.GetPawn(pawnId);
+            if (pawn != null) {
+                return Observable.EveryFixedUpdate()
+                    .Select(_ => state.GetDeltaTime() * state.Board.TimeScale * pawn.TimeScale);
+            }
+            return Observable.Empty<float>();
+        }
     }
 }

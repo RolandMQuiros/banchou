@@ -53,17 +53,23 @@ namespace Banchou.DependencyInjection {
             return this;
         }
 
+        private static readonly List<(Type Key, object Value)> _applicableBindings = new();
+        private static readonly List<object> _injections = new();
+        private static readonly Dictionary<MethodBase, ParameterInfo[]> _constructParameters = new();
+
         public T Inject<T>(T target) {
             if (target is DiContainer) {
                 throw new Exception("Cannot inject into a DiContainer");
             }
 
-            var applicableBindings = _bindings
-                .Where(pair => pair.Value.Condition == null || pair.Value.Condition(target.GetType()))
-                .Select(pair => (pair.Key, Value: pair.Value.Instance))
-                .ToList();
+            _applicableBindings.Clear();
+            _applicableBindings.AddRange(
+                _bindings
+                    .Where(pair => pair.Value.Condition == null || pair.Value.Condition(target.GetType()))
+                    .Select(pair => (pair.Key, Value: pair.Value.Instance))
+            );
 
-            if (!applicableBindings.Any()) {
+            if (_applicableBindings.Count == 0) {
                 return target;
             }
 
@@ -75,11 +81,15 @@ namespace Banchou.DependencyInjection {
                 .Cast<MethodBase>();
 
             foreach (var inject in injectInfo) {
-                var parameters = inject.GetParameters();
+                if (!_constructParameters.TryGetValue(inject, out var parameters)) {
+                    parameters = inject.GetParameters();
+                    _constructParameters[inject] = parameters;
+                }
+                
                 var injectionPairs = parameters
                     // Left join against the parameter list
                     .GroupJoin(
-                        inner: applicableBindings,
+                        inner: _applicableBindings,
                         outerKeySelector: parameter => parameter.ParameterType,
                         innerKeySelector: pair => pair.Key,
                         resultSelector: (parameter, containerPairs) => (
@@ -97,20 +107,22 @@ namespace Banchou.DependencyInjection {
                             return (Parameter: parameter, Value: values.FirstOrDefault());
                         }
                     });
+                
+                _injections.Clear();
+                _injections.AddRange(
+                    injectionPairs
+                        // Filter out nulls, unless defined as a parameter's default value
+                        .Where(pair => pair.Parameter.HasDefaultValue || pair.Value != null)
+                        // Sift out the parameters
+                        .Select(pair => pair.Value)
+                );
 
-                var injections = injectionPairs
-                    // Filter out nulls, unless defined as a parameter's default value
-                    .Where(pair => pair.Parameter.HasDefaultValue || pair.Value != null)
-                    // Sift out the parameters
-                    .Select(pair => pair.Value)
-                    .ToArray();
-
-                if (injections.Length == parameters.Length) {
-                    inject.Invoke(target, injections);
+                if (_injections.Count == parameters.Length) {
+                    inject.Invoke(target, _injections.ToArray());
                 } else {
                     var missingTypes = parameters
                         .Select(p => p.ParameterType)
-                        .Where(m => !injections
+                        .Where(m => !_injections
                             .Any(i => i.GetType().IsAssignableFrom(m))
                         );
                     Debug.LogWarning(

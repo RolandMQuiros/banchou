@@ -139,13 +139,15 @@ namespace Banchou.Pawn.Part {
         public void Construct(GameState state, GetPawnId getPawnId) {
             PawnId = getPawnId();
             _state = state;
-            _attack = _state.GetCombatantAttack(PawnId);
 
+            _state.ObserveAttack(PawnId)
+                .CatchIgnoreLog()
+                .Subscribe(attack => _attack = attack)
+                .AddTo(this);
             _state.ObservePawnSpatial(PawnId)
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
-
             _state.ObserveAttackChanges(getPawnId())
                 .Where(_ => isActiveAndEnabled)
                 .CatchIgnoreLog()
