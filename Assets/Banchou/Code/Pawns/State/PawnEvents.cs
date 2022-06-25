@@ -85,12 +85,9 @@ namespace Banchou.Pawn {
         }
 
         public static IObservable<float> ObservePawnDeltaTime(this GameState state, int pawnId) {
-            var pawn = state.GetPawn(pawnId);
-            if (pawn != null) {
-                return Observable.EveryFixedUpdate()
-                    .Select(_ => state.GetDeltaTime() * state.Board.TimeScale * pawn.TimeScale);
-            }
-            return Observable.Empty<float>();
+            return Observable.EveryFixedUpdate()
+                .WithLatestFrom(state.ObservePawnTimeScale(pawnId), (_, timeScale) => timeScale)
+                .Select(timeScale => state.GetDeltaTime() * timeScale);
         }
     }
 }

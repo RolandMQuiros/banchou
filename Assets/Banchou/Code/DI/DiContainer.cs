@@ -53,7 +53,8 @@ namespace Banchou.DependencyInjection {
             return this;
         }
 
-        private static readonly List<(Type Key, object Value)> _applicableBindings = new();
+        private static readonly Dictionary<Type, object> _applicableBindings = new();
+        private static readonly Dictionary<Type, List<MethodBase>> _injectableMethods = new();
         private static readonly List<object> _injections = new();
         private static readonly Dictionary<MethodBase, ParameterInfo[]> _constructParameters = new();
 
@@ -61,69 +62,56 @@ namespace Banchou.DependencyInjection {
             if (target is DiContainer) {
                 throw new Exception("Cannot inject into a DiContainer");
             }
+            var targetType = target.GetType();
 
             _applicableBindings.Clear();
-            _applicableBindings.AddRange(
-                _bindings
-                    .Where(pair => pair.Value.Condition == null || pair.Value.Condition(target.GetType()))
-                    .Select(pair => (pair.Key, Value: pair.Value.Instance))
-            );
+            foreach (var binding in _bindings) {
+                if (binding.Value.Condition == null || binding.Value.Condition.Invoke(targetType)) {
+                    _applicableBindings.Add(binding.Key, binding.Value.Instance);
+                }
+            }
 
             if (_applicableBindings.Count == 0) {
                 return target;
             }
 
-            var targetType = target.GetType();
+            if (!_injectableMethods.TryGetValue(targetType, out var injectInfo)) {
+                injectInfo = targetType
+                    .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .Where(inject => inject.Name == "Construct")
+                    .Cast<MethodBase>()
+                    .ToList();
+                _injectableMethods[targetType] = injectInfo;
+            }
 
-            var injectInfo = targetType
-                .GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                .Where(inject => inject.Name == "Construct")
-                .Cast<MethodBase>();
-
-            foreach (var inject in injectInfo) {
+            for (int i = 0; i < injectInfo.Count; i++) {
+                var inject = injectInfo[i];
+                
                 if (!_constructParameters.TryGetValue(inject, out var parameters)) {
                     parameters = inject.GetParameters();
                     _constructParameters[inject] = parameters;
                 }
-                
-                var injectionPairs = parameters
-                    // Left join against the parameter list
-                    .GroupJoin(
-                        inner: _applicableBindings,
-                        outerKeySelector: parameter => parameter.ParameterType,
-                        innerKeySelector: pair => pair.Key,
-                        resultSelector: (parameter, containerPairs) => (
-                            Parameter: parameter, Values: containerPairs.Select(pair => pair.Value).ToList()
-                        )
-                    )
-                    .Select(pair => {
-                        var (parameter, values) = pair;
-                        // If the Construct method has a default value, and there's no binding available, use the default value
-                        if (parameter.HasDefaultValue && !values.Any()) {
-                            return (Parameter: parameter, Value: parameter.DefaultValue);
-                        }
-                        // Otherwise, grab the first value in the grouping. There should only be one, since the container is a Dictionary.
-                        else {
-                            return (Parameter: parameter, Value: values.FirstOrDefault());
-                        }
-                    });
-                
+
                 _injections.Clear();
-                _injections.AddRange(
-                    injectionPairs
-                        // Filter out nulls, unless defined as a parameter's default value
-                        .Where(pair => pair.Parameter.HasDefaultValue || pair.Value != null)
-                        // Sift out the parameters
-                        .Select(pair => pair.Value)
-                );
+                for (int j = 0; j < parameters.Length; j++) {
+                    var parameter = parameters[j];
+                    if (_applicableBindings.TryGetValue(parameter.ParameterType, out var bind) && bind != null) {
+                        _injections.Add(bind);
+                    }
+                    // If the Construct method has a default value, and there's no binding available, use the
+                    // default value
+                    else if (parameter.HasDefaultValue) {
+                        _injections.Add(parameter.DefaultValue);
+                    }
+                }
 
                 if (_injections.Count == parameters.Length) {
                     inject.Invoke(target, _injections.ToArray());
                 } else {
                     var missingTypes = parameters
                         .Select(p => p.ParameterType)
-                        .Where(m => !_injections
-                            .Any(i => i.GetType().IsAssignableFrom(m))
+                        .Where(p => !_injections
+                            .Any(injection => injection.GetType().IsAssignableFrom(p))
                         );
                     Debug.LogWarning(
                         $"Failed to satisfy the dependencies for {inject.DeclaringType}:{inject}\n" +
