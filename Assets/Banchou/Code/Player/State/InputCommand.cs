@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Banchou.Player {
@@ -64,5 +66,93 @@ namespace Banchou.Player {
             InputCommand.HeavyAttackHold;
 
         public const InputCommand Gestures = Stick | Attacks;
+
+        public static string EmojiString(this InputCommand command) {
+            var builder = new StringBuilder();
+            foreach (var value in Enum.GetValues(typeof(InputCommand)).Cast<InputCommand>()) {
+                if (command.HasFlag(value)) {
+                    switch (value) {
+                        case InputCommand.None:
+                            break;
+                        case InputCommand.Neutral:
+                            builder.Append("•");
+                            break;
+                        case InputCommand.Forward:
+                            builder.Append("⬆");
+                            break;
+                        case InputCommand.ForwardRight:
+                            builder.Append("↗");
+                            break;
+                        case InputCommand.Right:
+                            builder.Append("➡");
+                            break;
+                        case InputCommand.BackRight:
+                            builder.Append("↘");
+                            break;
+                        case InputCommand.Back:
+                            builder.Append("⬇");
+                            break;
+                        case InputCommand.BackLeft:
+                            builder.Append("↙");
+                            break;
+                        case InputCommand.Left:
+                            builder.Append("⬅");
+                            break;
+                        case InputCommand.ForwardLeft:
+                            builder.Append("↖");
+                            break;
+                        case InputCommand.LightAttack:
+                            builder.Append("L");
+                            break;
+                        case InputCommand.LightAttackHold:
+                            builder.Append("<b>L</b>");
+                            break;
+                        case InputCommand.LightAttackUp:
+                            builder.Append("<b><i>L</i><b>");
+                            break;
+                        case InputCommand.HeavyAttack:
+                            builder.Append("H");
+                            break;
+                        case InputCommand.HeavyAttackHold:
+                            builder.Append("<b>H</b>");
+                            break;
+                        case InputCommand.HeavyAttackUp:
+                            builder.Append("<b><i>H</i><b>");
+                            break;
+                        case InputCommand.SpecialAttack:
+                            builder.Append("S");
+                            break;
+                        case InputCommand.SpecialAttackHold:
+                            builder.Append("<b>S</b>");
+                            break;
+                        case InputCommand.SpecialAttackUp:
+                            builder.Append("<b><i>S</i><b>");
+                            break;
+                        case InputCommand.Jump:
+                            builder.Append("J");
+                            break;
+                        case InputCommand.ShortJump:
+                            builder.Append("j");
+                            break;
+                        case InputCommand.LockOn:
+                            builder.Append("L");
+                            break;
+                        case InputCommand.LockOff:
+                            builder.Append("l");
+                            break;
+                        case InputCommand.Block:
+                            builder.Append("🛡");
+                            break;
+                        case InputCommand.Unblock:
+                            builder.Append("❌🛡");
+                            break;
+                        default:
+                            builder.Append(value.ToString());
+                            break;
+                    }
+                }
+            }
+            return builder.ToString();
+        }
     }
 }

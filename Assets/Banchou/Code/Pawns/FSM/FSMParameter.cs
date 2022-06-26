@@ -310,6 +310,36 @@ namespace Banchou.Pawn.FSM {
                 parameters[i].Apply(animator);
             }
         }
+
+        public static void ApplyAll(this FloatFSMParameter[] parameters, Animator animator, float value) {
+            for (int i = 0; i < parameters.Length; i++) {
+                parameters[i].Apply(animator, value);
+            }
+        }
+
+        public static void ApplyAll(this IntFSMParameter[] parameters, Animator animator, int value) {
+            for (int i = 0; i < parameters.Length; i++) {
+                parameters[i].Apply(animator, value);
+            }
+        }
+
+        public static void ApplyAll(this BoolFSMParameter[] parameters, Animator animator, bool value) {
+            for (int i = 0; i < parameters.Length; i++) {
+                parameters[i].Apply(animator, value);
+            }
+        }
+
+        public static void SetAllTriggers(this TriggerFSMParameter[] parameters, Animator animator) {
+            for (int i = 0; i < parameters.Length; i++) {
+                parameters[i].SetTrigger(animator);
+            }
+        }
+
+        public static void ResetAllTriggers(this TriggerFSMParameter[] parameters, Animator animator) {
+            for (int i = 0; i < parameters.Length; i++) {
+                parameters[i].ResetTrigger(animator);
+            }
+        }
         
         public static void ApplyAll(this OutputFSMParameter[] parameters, Animator animator) {
             for (int i = 0; i < parameters.Length; i++) {

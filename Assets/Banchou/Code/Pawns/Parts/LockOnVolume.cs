@@ -40,6 +40,8 @@ namespace Banchou.Pawn.Part {
                                 transform.forward;
                             var origin = Origin;
 
+                            _targets.RemoveWhere(target => target == null);
+                            
                             var selected = _targets
                                 .Where(target => !Physics.Linecast(
                                     Origin, target.transform.position, _obstructionMask.value
