@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Banchou.Pawn.FSM {
     public class HitStunToFloat : FSMBehaviour {
         [SerializeField, Tooltip("Float parameter to set the hit stun time")]
-        private FSMParameter _output = new(AnimatorControllerParameterType.Float);
+        private FloatFSMParameter _output;
 
         [SerializeField]
         private bool _normalized = true;

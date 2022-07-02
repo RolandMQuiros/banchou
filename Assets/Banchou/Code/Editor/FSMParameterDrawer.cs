@@ -137,11 +137,15 @@ namespace Banchou.Pawn.FSM {
         }
     }
 
-    [CustomPropertyDrawer(typeof(InputFSMParameter))]
-    public class FSMReadParameterDrawer : PropertyDrawer {
+    [CustomPropertyDrawer(typeof(FSMParameterField<FSMParameter>))]
+    [CustomPropertyDrawer(typeof(FSMParameterField<FloatFSMParameter>))]
+    [CustomPropertyDrawer(typeof(FSMParameterField<IntFSMParameter>))]
+    [CustomPropertyDrawer(typeof(FSMParameterField<BoolFSMParameter>))]
+    [CustomPropertyDrawer(typeof(FSMParameterField<TriggerFSMParameter>))]
+    public class FSMParameterFieldDrawer : PropertyDrawer {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
-            var parameterType = property.FindPropertyRelative("_parameterType");
             var source = property.FindPropertyRelative("_source");
+            var parameterType = source.FindPropertyRelative("_type");
             var sourceHash = source.FindPropertyRelative("_hash");
             var floatValue = property.FindPropertyRelative("_floatValue");
             var intValue = property.FindPropertyRelative("_intValue");
@@ -174,7 +178,7 @@ namespace Banchou.Pawn.FSM {
         }
     }
 
-    [CustomPropertyDrawer(typeof(Vector2InputFSMParameter)), CustomPropertyDrawer(typeof(Vector3InputFSMParameter))]
+    [CustomPropertyDrawer(typeof(Vector2FSMParameterField)), CustomPropertyDrawer(typeof(Vector3FSMParameterField))]
     public class VectorInputFSMParameterDrawer : PropertyDrawer {
         private static readonly GUIContent _xLabel = new("X");
         private static readonly GUIContent _yLabel = new("Y");

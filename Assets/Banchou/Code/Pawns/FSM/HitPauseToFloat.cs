@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Banchou.Pawn.FSM {
     public class HitPauseToFloat : PawnFSMBehaviour {
         [SerializeField, Tooltip("Float parameter to set the hit pause time")]
-        private FSMParameter _output = new(AnimatorControllerParameterType.Float);
+        private FloatFSMParameter _output;
 
         [SerializeField]
         private bool _normalized = true;
@@ -34,15 +34,15 @@ namespace Banchou.Pawn.FSM {
             var timeElapsed = (State.GetTime() - _hitTime) * TimeScale;
             if (timeElapsed < _hitPauseTime) {
                 if (_normalized) {
-                    animator.SetFloat(_output.Hash, Mathf.Clamp01(timeElapsed / _hitPauseTime));
+                    _output.Apply(animator, Mathf.Clamp01(timeElapsed / _hitPauseTime));
                 } else {
-                    animator.SetFloat(_output.Hash, Mathf.Clamp(timeElapsed, 0f, _hitPauseTime));
+                    _output.Apply(animator, Mathf.Clamp(timeElapsed, 0f, _hitPauseTime));
                 }
             } else {
                 if (_normalized) {
-                    animator.SetFloat(_output.Hash, 1f);
+                    _output.Apply(animator, 1f);
                 } else {
-                    animator.SetFloat(_output.Hash, _hitPauseTime);
+                    _output.Apply(animator, _hitPauseTime);
                 }
             }
         }

@@ -21,6 +21,8 @@ namespace Banchou {
         protected readonly Subject<FSMUnit> ObserveStateEnter = new();
         protected readonly Subject<FSMUnit> ObserveStateUpdate = new();
         protected readonly Subject<FSMUnit> ObserveStateExit = new();
+        protected readonly Subject<FSMUnit> ObserveAllStateEvents = new();
+        
         private readonly HashSet<int> _activeStates = new();
         private FSMUnit _unit;
 
@@ -29,6 +31,7 @@ namespace Banchou {
             _unit.StateInfo = stateInfo;
             _unit.LayerIndex = layerIndex;
             ObserveStateEnter.OnNext(_unit);
+            OnAllStateEvents(animator, stateInfo, layerIndex);
         }
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -36,14 +39,20 @@ namespace Banchou {
             _unit.LayerIndex = layerIndex;
             ObserveStateExit.OnNext(_unit);
             _activeStates.Remove(stateInfo.fullPathHash);
+            OnAllStateEvents(animator, stateInfo, layerIndex);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             _unit.StateInfo = stateInfo;
             _unit.LayerIndex = layerIndex;
             ObserveStateUpdate.OnNext(_unit);
+            OnAllStateEvents(animator, stateInfo, layerIndex);
         }
 
+        protected virtual void OnAllStateEvents(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            ObserveAllStateEvents.OnNext(_unit);
+        }
+        
         private void OnDisable() {
             _activeStates.Clear();
         }

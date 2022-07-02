@@ -193,7 +193,10 @@ namespace Banchou.Combatant {
         public static IObservable<float> ObserveNormalizedAttackPause<T>(
             this GameState state, int pawnId, IObservable<T> source
         ) =>
-            source.WithLatestFrom(state.ObserveAttacksBy(pawnId), (_, attack) => attack)
+            source.WithLatestFrom(
+                    state.ObserveAttacksBy(pawnId),
+                    (_, attack) => attack
+                )
                 .WithLatestFrom(
                     state.ObservePawnTimeScale(pawnId),
                     (attack, timeScale) => attack.NormalizedPauseTime(timeScale, state.GetTime()) 

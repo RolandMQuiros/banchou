@@ -11,8 +11,8 @@ namespace Banchou.Pawn.FSM {
         [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnEnter | ApplyEvent.OnUpdate | ApplyEvent.OnExit;
         [SerializeField] private List<FSMParameterCondition> _conditions;
         [SerializeField] private ForceMode _forceMode = ForceMode.Force;
-        [SerializeField] private Vector3InputFSMParameter _force;
-        [SerializeField] private Vector3InputFSMParameter _relativeForce;
+        [SerializeField] private Vector3FSMParameterField _force;
+        [SerializeField] private Vector3FSMParameterField _relativeForce;
 
         private Rigidbody _rigidbody;
         private float _timeScale;

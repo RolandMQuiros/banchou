@@ -1,35 +1,37 @@
-using System.Collections.Generic;
+using Banchou.Player;
 using UniRx;
 using UnityEngine;
 
 namespace Banchou.Pawn.FSM {
-    public class MoveForward : PawnFSMBehaviour {
-        [SerializeField] private FSMParameterField<FloatFSMParameter> _speed;
-        [SerializeField, Range(0, 1f)] private float _startTime;
-        [SerializeField, Range(0, 1f)] private float _endTime = 1f;
-        [SerializeField] private List<FloatFSMParameter> _speedOutput;
+    public class InputDirectionToParameters : FSMBehaviour {
+        [SerializeField] private FloatFSMParameter _magnitude;
+        [SerializeField] private FloatFSMParameter _forward;
+        [SerializeField] private FloatFSMParameter _right;
 
+        private PlayerInputState _input;
         private PawnSpatial _spatial;
-
+        
         public void Construct(GameState state, GetPawnId getPawnId) {
-            ConstructCommon(state, getPawnId);
+            state.ObservePawnInput(getPawnId())
+                .CatchIgnoreLog()
+                .Subscribe(player => _input = player)
+                .AddTo(this);
             state.ObservePawnSpatial(getPawnId())
                 .CatchIgnoreLog()
                 .Subscribe(spatial => _spatial = spatial)
                 .AddTo(this);
         }
-        
+
         private void Apply(Animator animator) {
-            var speed = _speed.GetFloat(animator);
-            _spatial.Move(_spatial.Forward * speed * DeltaTime, StateTime);
-            _speedOutput.ForEach(p => p.Apply(animator, speed));
+            if (_input == null) return;
+            _magnitude.Apply(animator, _input.Direction.magnitude);
+            _forward.Apply(animator, Vector3.Dot(_input.Direction, _spatial.Forward));
+            _right.Apply(animator, Vector3.Dot(_input.Direction, _spatial.Right));
         }
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateEnter(animator, stateInfo, layerIndex);
-            if (_startTime <= 0f) {
-                Apply(animator);
-            }
+            Apply(animator);
         }
 
         public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -39,9 +41,7 @@ namespace Banchou.Pawn.FSM {
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnStateExit(animator, stateInfo, layerIndex);
-            if (_endTime >= 1f) {
-                Apply(animator);
-            }
+            Apply(animator);
         }
-    }
+    }   
 }

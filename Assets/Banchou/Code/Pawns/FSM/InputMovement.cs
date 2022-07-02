@@ -46,8 +46,6 @@ namespace Banchou.Pawn.FSM {
         [SerializeField, Tooltip("Animation parameter to write forward movement speed")]
         private FloatFSMParameter[] _velocityForwardOut;
 
-        [SerializeField, Tooltip("Normalize the animation parameters")]
-        private bool _normalizeOutput = true;
         private float _approachDot;
         
         private PlayerInputState _input;

@@ -65,7 +65,10 @@ namespace Banchou.Pawn.FSM {
     #region FSMParameter child classes for serialization
     [Serializable]
     public class BoolFSMParameter : FSMParameter, ISerializationCallbackReceiver {
-        public void OnBeforeSerialize() { }
+        public void OnBeforeSerialize() {
+            _type = AnimatorControllerParameterType.Bool;
+            _filterByType = true;
+        }
         public void OnAfterDeserialize() {
             _type = AnimatorControllerParameterType.Bool;
             _filterByType = true;
@@ -74,7 +77,10 @@ namespace Banchou.Pawn.FSM {
 
     [Serializable]
     public class FloatFSMParameter : FSMParameter, ISerializationCallbackReceiver {
-        public void OnBeforeSerialize() { }
+        public void OnBeforeSerialize() {
+            _type = AnimatorControllerParameterType.Float;
+            _filterByType = true;
+        }
         public void OnAfterDeserialize() {
             _type = AnimatorControllerParameterType.Float;
             _filterByType = true;
@@ -83,7 +89,10 @@ namespace Banchou.Pawn.FSM {
 
     [Serializable]
     public class IntFSMParameter : FSMParameter {
-        public void OnBeforeSerialize() { }
+        public void OnBeforeSerialize() {
+            _type = AnimatorControllerParameterType.Int;
+            _filterByType = true;
+        }
         public void OnAfterDeserialize() {
             _type = AnimatorControllerParameterType.Int;
             _filterByType = true;
@@ -92,7 +101,10 @@ namespace Banchou.Pawn.FSM {
 
     [Serializable]
     public class TriggerFSMParameter : FSMParameter {
-        public void OnBeforeSerialize() { }
+        public void OnBeforeSerialize() {
+            _type = AnimatorControllerParameterType.Trigger;
+            _filterByType = true;
+        }
         public void OnAfterDeserialize() {
             _type = AnimatorControllerParameterType.Trigger;
             _filterByType = true;
@@ -101,17 +113,11 @@ namespace Banchou.Pawn.FSM {
     #endregion
 
     [Serializable]
-    public class InputFSMParameter {
-        [SerializeField] private AnimatorControllerParameterType _parameterType;
-        [SerializeField] private FSMParameter _source;
+    public class FSMParameterField<TParameter> where TParameter : FSMParameter {
+        [SerializeField] private TParameter _source;
         [SerializeField] private float _floatValue;
         [SerializeField] private int _intValue;
         [SerializeField] private bool _boolValue;
-        
-        public InputFSMParameter(AnimatorControllerParameterType type) {
-            _parameterType = type;
-            _source = new(type);
-        }
         
         public bool GetBool(Animator animator) => _source.GetBool(animator, _boolValue);
         public float GetFloat(Animator animator) => _source.GetFloat(animator, _floatValue);
@@ -119,9 +125,9 @@ namespace Banchou.Pawn.FSM {
     }
     
     [Serializable]
-    public class Vector2InputFSMParameter {
-        [SerializeField] private InputFSMParameter _x = new(AnimatorControllerParameterType.Float);
-        [SerializeField] private InputFSMParameter _y = new(AnimatorControllerParameterType.Float);
+    public class Vector2FSMParameterField {
+        [SerializeField] private FSMParameterField<FloatFSMParameter> _x;
+        [SerializeField] private FSMParameterField<FloatFSMParameter> _y;
         public Vector2 Value(Animator animator) => new(
             _x.GetFloat(animator),
             _y.GetFloat(animator)
@@ -129,10 +135,10 @@ namespace Banchou.Pawn.FSM {
     }
     
     [Serializable]
-    public class Vector3InputFSMParameter {
-        [SerializeField] private InputFSMParameter _x = new(AnimatorControllerParameterType.Float);
-        [SerializeField] private InputFSMParameter _y = new(AnimatorControllerParameterType.Float);
-        [SerializeField] private InputFSMParameter _z = new(AnimatorControllerParameterType.Float);
+    public class Vector3FSMParameterField {
+        [SerializeField] private FSMParameterField<FloatFSMParameter> _x;
+        [SerializeField] private FSMParameterField<FloatFSMParameter> _y;
+        [SerializeField] private FSMParameterField<FloatFSMParameter> _z;
         public Vector3 Get(Animator animator) => new(
             _x.GetFloat(animator),
             _y.GetFloat(animator),
