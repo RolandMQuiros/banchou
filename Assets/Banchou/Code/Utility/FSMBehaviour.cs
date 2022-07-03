@@ -7,52 +7,70 @@ using UniRx;
 namespace Banchou {
     public class FSMBehaviour : StateMachineBehaviour, ICollection<IDisposable> {
         [SerializeField, DevComment] private string _comments;
-        
-        public bool IsStateActive => _activeStates.Count > 0;
+
+        protected bool IsStateActive => _activeStates.Count > 0;
 
         private readonly List<IDisposable> _streams = new();
         protected ICollection<IDisposable> Streams => _streams;
 
+        [Serializable, Flags] protected enum StateEvent { OnEnter = 1, OnUpdate = 2, OnExit = 4 }
+        
         protected struct FSMUnit {
+            public StateEvent StateEvent;
             public AnimatorStateInfo StateInfo;
             public int LayerIndex;
         }
 
-        protected readonly Subject<FSMUnit> ObserveStateEnter = new();
-        protected readonly Subject<FSMUnit> ObserveStateUpdate = new();
-        protected readonly Subject<FSMUnit> ObserveStateExit = new();
-        protected readonly Subject<FSMUnit> ObserveAllStateEvents = new();
+        private readonly Subject<FSMUnit> StateEventSubject = new();
+        
+        protected IObservable<FSMUnit> ObserveStateEvents => StateEventSubject;
+        protected IObservable<FSMUnit> ObserveStateEnter => StateEventSubject
+            .Where(unit => unit.StateEvent == StateEvent.OnEnter);
+        protected IObservable<FSMUnit> ObserveStateUpdate => StateEventSubject
+            .Where(unit => unit.StateEvent == StateEvent.OnUpdate);
+        protected IObservable<FSMUnit> ObserveStateExit => StateEventSubject
+            .Where(unit => unit.StateEvent == StateEvent.OnExit);
         
         private readonly HashSet<int> _activeStates = new();
         private FSMUnit _unit;
 
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             _activeStates.Add(stateInfo.fullPathHash);
+            _unit.StateEvent = StateEvent.OnEnter;
             _unit.StateInfo = stateInfo;
             _unit.LayerIndex = layerIndex;
-            ObserveStateEnter.OnNext(_unit);
-            OnAllStateEvents(animator, stateInfo, layerIndex);
-        }
-
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _unit.StateInfo = stateInfo;
-            _unit.LayerIndex = layerIndex;
-            ObserveStateExit.OnNext(_unit);
-            _activeStates.Remove(stateInfo.fullPathHash);
-            OnAllStateEvents(animator, stateInfo, layerIndex);
-        }
-
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            _unit.StateInfo = stateInfo;
-            _unit.LayerIndex = layerIndex;
-            ObserveStateUpdate.OnNext(_unit);
-            OnAllStateEvents(animator, stateInfo, layerIndex);
-        }
-
-        protected virtual void OnAllStateEvents(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            ObserveAllStateEvents.OnNext(_unit);
+            StateEventSubject.OnNext(_unit);
+            OnStateEnter(animator, ref _unit);
+            OnAllStateEvents(animator, ref _unit);
         }
         
+        protected virtual void OnStateEnter(Animator animator, ref FSMUnit fsmUnit) { }
+        
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _unit.StateEvent = StateEvent.OnUpdate;
+            _unit.StateInfo = stateInfo;
+            _unit.LayerIndex = layerIndex;
+            StateEventSubject.OnNext(_unit);
+            OnStateUpdate(animator, ref _unit);
+            OnAllStateEvents(animator, ref _unit);
+        }
+        
+        protected virtual void OnStateUpdate(Animator animator, ref FSMUnit fsmUnit) { }
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+            _unit.StateEvent = StateEvent.OnExit;
+            _unit.StateInfo = stateInfo;
+            _unit.LayerIndex = layerIndex;
+            StateEventSubject.OnNext(_unit);
+            OnStateExit(animator, ref _unit);
+            _activeStates.Remove(stateInfo.fullPathHash);
+            OnAllStateEvents(animator, ref _unit);
+        }
+
+        protected virtual void OnStateExit(Animator animator, ref FSMUnit fsmUnit) { }
+
+        protected virtual void OnAllStateEvents(Animator animator, ref FSMUnit fsmUnit) { }
+
         private void OnDisable() {
             _activeStates.Clear();
         }

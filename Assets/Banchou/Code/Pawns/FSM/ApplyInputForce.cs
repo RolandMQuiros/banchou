@@ -2,15 +2,28 @@ using System;
 using Banchou.Player;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Banchou.Pawn.FSM {
     public class ApplyInputForce : FSMBehaviour {
-        [Serializable, Flags] private enum ApplyEvent { OnEnter = 1, OnUpdate = 2, OnExit = 4 }
+        [Serializable]
+        private class AppliedForce {
+            [SerializeField] public StateEvent _onEvent = StateEvent.OnUpdate;
+            [SerializeField] public ForceMode _forceMode = ForceMode.Force;
+            [SerializeField] public FSMParameterField<FloatFSMParameter> _inputForce;
+            
+            public void Apply(
+                StateEvent onEvent, Animator animator, Rigidbody rigidbody, PlayerInputState input, float timeScale
+            ) {
+                if (!_onEvent.HasFlag(onEvent)) return;
+                
+                var inputForce = _inputForce.GetFloat(animator);
+                if (!Mathf.Approximately(inputForce, 0f) && input.Direction != Vector3.zero) {
+                    rigidbody.AddForce(timeScale * input.Direction * inputForce, _forceMode);
+                }
+            }
+        }
 
-        [SerializeField] private ApplyEvent _onEvent = ApplyEvent.OnUpdate;
-        [SerializeField] private ForceMode _forceMode = ForceMode.Force;
-        [SerializeField] private FSMParameterField<FloatFSMParameter> _inputForce;
+        [SerializeField] private AppliedForce[] _forces;
 
         private Rigidbody _rigidbody;
         private PlayerInputState _input;
@@ -33,27 +46,10 @@ namespace Banchou.Pawn.FSM {
                 .AddTo(this);
         }
 
-        private void Apply(Animator animator) {
-            var inputForce = _inputForce.GetFloat(animator);
-
-            if (!Mathf.Approximately(inputForce, 0f) && _input.Direction != Vector3.zero) {
-                _rigidbody.AddForce(_timeScale * _input.Direction * inputForce, _forceMode);
+        protected override void OnAllStateEvents(Animator animator, ref FSMUnit fsmUnit) {
+            for (var i = 0; i < _forces.Length; i++) {
+                _forces[i].Apply(fsmUnit.StateEvent, animator, _rigidbody, _input, _timeScale);
             }
-        }
-
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateEnter(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnEnter)) Apply(animator);
-        }
-
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateUpdate(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnUpdate)) Apply(animator);
-        }
-
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateExit(animator, stateInfo, layerIndex);
-            if (_onEvent.HasFlag(ApplyEvent.OnExit)) Apply(animator);
         }
     }
 }

@@ -15,45 +15,45 @@ namespace Banchou.Pawn.FSM {
     */
     public class InputGestureToParameters : PawnFSMBehaviour {
         [SerializeField, Tooltip("Sequence of inputs needed to fire the trigger")]
-        private InputCommand[] _inputSequence = null;
+        public InputCommand[] _inputSequence = null;
 
         [SerializeField, Tooltip("Lifetime of stick inputs in the buffer, in seconds")]
-        private float _inputLifetime = 0.1666667f; // Approximately 10 frames
+        public float _inputLifetime = 0.1666667f; // Approximately 10 frames
 
         [SerializeField, Tooltip("A command gesture asset. Overrides the Input Sequence and Lifetime if provided.")]
-        private PlayerCommandGesture _overrideGesture;
+        public PlayerCommandGesture _overrideGesture;
 
         [SerializeField,
          Tooltip("Whether or not times are expressed in normalized state time or in seconds")]
-        private bool _inNormalizedTime = true;
+        public bool _inNormalizedTime = true;
 
         [SerializeField, Tooltip("Animator conditions that must be fulfilled before a gesture can be accepted")]
-        private FSMParameterCondition[] _acceptanceConditions;
+        public FSMParameterCondition[] _acceptanceConditions;
 
         [SerializeField, Tooltip("The time after which the command is accepted")]
-        private float _acceptFromTime;
+        public float _acceptFromTime;
 
         [SerializeField, Tooltip("The time after which the command is no longer accepted")]
-        private float _acceptUntilTime = 1f;
+        public float _acceptUntilTime = 1f;
 
         [SerializeField, Tooltip("Animator conditions that must be fulfilled before an accepted gesture is applied"),
          FormerlySerializedAs("_conditions")]
-        private FSMParameterCondition[] _bufferConditions;
+        public FSMParameterCondition[] _bufferConditions;
 
         [SerializeField, Tooltip("When, in state time, after which triggers are set if a command was accepted.")]
-        private float _bufferUntilTime;
+        public float _bufferUntilTime;
 
         [SerializeField, Tooltip("The the output parameters to set if the gesture was input correctly")]
-        private List<OutputFSMParameter> _output;
+        public List<OutputFSMParameter> _output;
 
         [SerializeField, Tooltip("Pause the editor if the gesture is input")]
-        private bool _breakOnGesture;
+        public bool _breakOnGesture;
 
         [SerializeField, Tooltip("Pause the editor if the gesture is accepted")]
-        private bool _breakOnAccept;
+        public bool _breakOnAccept;
 
         [SerializeField, Tooltip("Pause the editor if this input command is detected")]
-        private InputCommand _breakOnCommand;
+        public InputCommand _breakOnCommand;
 
         private bool _gesturePerformed;
         private bool _gestureAccepted;

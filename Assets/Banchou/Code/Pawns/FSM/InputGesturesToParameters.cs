@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Banchou.Player;
 using UniRx;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,7 +12,7 @@ namespace Banchou.Pawn.FSM
     public class InputGesturesToParameters : PawnFSMBehaviour
     {
         [Serializable]
-        public class InputGesture : ISerializationCallbackReceiver {
+        private class InputGesture : ISerializationCallbackReceiver {
             [SerializeField, HideInInspector] private string _name;
             
             [SerializeField, Tooltip("Sequence of inputs needed to fire the trigger")]
@@ -55,6 +56,21 @@ namespace Banchou.Pawn.FSM
             private InputCommand _lastCommand = InputCommand.None;
             private float _whenLastInput;
 
+            public InputGesture() { }
+            
+            public InputGesture(InputGestureToParameters old) {
+                _inputSequence = old._inputSequence;
+                _inputLifetime = old._inputLifetime;
+                _acceptanceConditions = old._acceptanceConditions;
+                _acceptFromTime = old._acceptFromTime;
+                _acceptUntilTime = old._acceptUntilTime;
+                _bufferConditions = old._bufferConditions;
+                _bufferUntilTime = old._bufferUntilTime;
+                _output = old._output;
+                _breakOnGesture = old._breakOnGesture;
+                _breakOnAccept = old._breakOnAccept;
+            }
+            
             public void Initialize() {
                 _commandMask = _inputSequence.Aggregate((prev, next) => prev | next);
             }
@@ -88,24 +104,25 @@ namespace Banchou.Pawn.FSM
                 }
             }
 
-            public void Apply(Animator animator, AnimatorStateInfo stateInfo) {
-                var stateTime = stateInfo.normalizedTime % 1f;
+            public void Apply(Animator animator, ref FSMUnit fsmUnit) {
+                var stateTime = fsmUnit.StateInfo.normalizedTime % 1f;
                 _accepted = !_accepted && _performed &&
                                    stateTime >= _acceptFromTime &&
                                    stateTime <= _acceptUntilTime;
 
                 if (_accepted && stateTime >= _bufferUntilTime && _bufferConditions.Evaluate(animator)) {
-                    ResetFlags();
+                    _performed = false;
+                    _accepted = false;
                     if (_breakOnAccept) {
                         Debug.Break();
                     }
                     _output.ApplyAll(animator);
                 }
-            }
 
-            public void ResetFlags() {
-                _performed = false;
-                _accepted = false;
+                if (fsmUnit.StateEvent == StateEvent.OnExit) {
+                    _performed = false;
+                    _accepted = false;
+                }
             }
 
             public void OnBeforeSerialize() {
@@ -153,28 +170,48 @@ namespace Banchou.Pawn.FSM
             }
         }
 
-        private void Apply(Animator animator, AnimatorStateInfo stateInfo) {
-            foreach (var t in _gestures) t.Apply(animator, stateInfo);
+        private void Apply(Animator animator, ref FSMUnit fsmUnit) {
+            foreach (var t in _gestures) t.Apply(animator, ref fsmUnit);
         }
 
-        private void ResetGestures() {
-            foreach (var t in _gestures) t.ResetFlags();
+        protected override void OnAllStateEvents(Animator animator, ref FSMUnit fsmUnit) {
+            Apply(animator, ref fsmUnit);
         }
 
-        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateEnter(animator, stateInfo, layerIndex);
-            Apply(animator, stateInfo);
-        }
+        [ContextMenu("Migrate Legacy InputGestureToParameters")]
+        private void MigrateLegacy() {
+            var context = AnimatorController
+                .FindStateMachineBehaviourContext(this)?
+                .ElementAt(0);
+            var owner = context?.animatorObject;
 
-        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateUpdate(animator, stateInfo, layerIndex);
-            Apply(animator, stateInfo);
-        }
+            if (owner is AnimatorState state) {
+                var gestures = state.behaviours
+                    .Where(b => b is InputGestureToParameters)
+                    .Cast<InputGestureToParameters>()
+                    .Select(old => new InputGesture(old))
+                    .ToArray();
 
-        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnStateExit(animator, stateInfo, layerIndex);
-            Apply(animator, stateInfo);
-            ResetGestures();
+                if (gestures.Length > 0) {
+                    _gestures = gestures;
+                    state.behaviours = state.behaviours
+                        .Where(b => b is not InputGestureToParameters)
+                        .ToArray();
+                }
+            } else if (owner is AnimatorStateMachine stateMachine) {
+                var gestures = stateMachine.behaviours
+                    .Where(b => b is InputGestureToParameters)
+                    .Cast<InputGestureToParameters>()
+                    .Select(old => new InputGesture(old))
+                    .ToArray();
+
+                if (gestures.Length > 0) {
+                    _gestures = gestures;
+                    stateMachine.behaviours = stateMachine.behaviours
+                        .Where(b => b is not InputGestureToParameters)
+                        .ToArray();
+                }
+            }
         }
     }
 }

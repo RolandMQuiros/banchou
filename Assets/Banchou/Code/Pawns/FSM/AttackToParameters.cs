@@ -55,9 +55,8 @@ namespace Banchou.Pawn.FSM {
                 .AddTo(this);
         }
 
-        protected override void OnAllStateEvents(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-            base.OnAllStateEvents(animator, stateInfo, layerIndex);
-            
+        protected override void OnAllStateEvents(Animator animator, ref FSMUnit fsmUnit) {
+            base.OnAllStateEvents(animator, ref fsmUnit);
             var now = _state.GetTime();
             
             if (_triggered) {
