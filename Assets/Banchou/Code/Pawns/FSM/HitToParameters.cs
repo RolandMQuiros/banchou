@@ -10,42 +10,10 @@ namespace Banchou.Pawn.FSM {
             [SerializeField, HideInInspector] private string _name;
             [SerializeField] private HitStyle _hitStyle;
             [SerializeField] private OutputFSMParameter[] _output;
-            [SerializeField] private FloatFSMParameter[] _hitPause;
-            [SerializeField] private FloatFSMParameter[] _hitStun;
 
-            private float _whenHit;
-            private float _pauseTime;
-            private float _stunTime;
-            
             public void OnHit(Animator animator, HitState hit) {
                 if (_hitStyle == HitStyle.None || hit.Style == _hitStyle) {
-                    _whenHit = hit.LastUpdated;
-                    _pauseTime = hit.PauseTime;
-                    _stunTime = hit.StunTime;
                     _output.ApplyAll(animator);
-                }
-            }
-
-            public void OnUpdate(Animator animator, float timeScale, float when) {
-                var timeElapsed = (when - _whenHit) * timeScale;
-
-                if (_hitPause.Length > 0) {
-                    _hitPause.ApplyAll(animator, Mathf.Clamp01(timeElapsed / _pauseTime));
-                }
-
-                if (_hitStun.Length > 0) {
-                    if (timeElapsed < _pauseTime + _stunTime) {
-                        var stunTime = timeElapsed - _pauseTime;
-                        if (stunTime < 0f) {
-                            _hitStun.ApplyAll(animator, 0f);
-                        }
-                        else {
-                            _hitStun.ApplyAll(animator, Mathf.Clamp01(stunTime / _stunTime));
-                        }
-                    }
-                    else {
-                        _hitStun.ApplyAll(animator, 1f);
-                    }
                 }
             }
 
@@ -57,9 +25,14 @@ namespace Banchou.Pawn.FSM {
         }
 
         [SerializeField] private HitEvent[] _hitEvents;
+        [SerializeField] private FloatFSMParameter[] _hitPauseOutput;
+        [SerializeField] private FloatFSMParameter[] _hitStunOutput;
         
         private GameState _state;
         private float _timeScale;
+        private float _whenHit;
+        private float _pauseTime;
+        private float _stunTime;
 
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _state = state;
@@ -67,7 +40,12 @@ namespace Banchou.Pawn.FSM {
             
             _state.ObserveHitsOn(pawnId)
                 .Where(_ => IsStateActive)
-                .Subscribe(hit => { foreach (var hitEvent in _hitEvents) hitEvent.OnHit(animator, hit); })
+                .Subscribe(hit => {
+                    foreach (var hitEvent in _hitEvents) hitEvent.OnHit(animator, hit);
+                    _whenHit = hit.LastUpdated;
+                    _pauseTime = hit.PauseTime;
+                    _stunTime = hit.StunTime;
+                })
                 .AddTo(this);
             
             _state.ObservePawnTimeScale(pawnId)
@@ -79,7 +57,26 @@ namespace Banchou.Pawn.FSM {
         protected override void OnAllStateEvents(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnAllStateEvents(animator, stateInfo, layerIndex);
             var now = _state.GetTime();
-            foreach (var hitEvent in _hitEvents) hitEvent.OnUpdate(animator, _timeScale, now);
+            var timeElapsed = (now - _whenHit) * _timeScale;
+
+            if (_hitPauseOutput.Length > 0) {
+                _hitPauseOutput.ApplyAll(animator, Mathf.Clamp01(timeElapsed / _pauseTime));
+            }
+
+            if (_hitStunOutput.Length > 0) {
+                if (timeElapsed < _pauseTime + _stunTime) {
+                    var stunTime = timeElapsed - _pauseTime;
+                    if (stunTime < 0f) {
+                        _hitStunOutput.ApplyAll(animator, 0f);
+                    }
+                    else {
+                        _hitStunOutput.ApplyAll(animator, Mathf.Clamp01(stunTime / _stunTime));
+                    }
+                }
+                else {
+                    _hitStunOutput.ApplyAll(animator, 1f);
+                }
+            }
         }
     }
 }

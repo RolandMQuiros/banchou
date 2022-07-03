@@ -2,7 +2,6 @@
 using Banchou.Combatant;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Banchou.Pawn.FSM {
     public class AttackToParameters : FSMBehaviour {
@@ -12,40 +11,29 @@ namespace Banchou.Pawn.FSM {
             [SerializeField] private HitStyle _hitStyle;
             [SerializeField] private OutputFSMParameter[] _output;
             [SerializeField] private bool _break;
-            [SerializeField] private FloatFSMParameter[] _attackPause;
-            
-            private float _whenHit;
-            private float _pauseTime;
-            private bool _triggered;
-            
-            public void OnAttack(AttackState attack) {
-                if (_hitStyle != HitStyle.None && attack.HitStyle != _hitStyle) return;
-                _whenHit = attack.WhenHit;
-                _pauseTime = attack.PauseTime;
-                _triggered = true;
-            }
 
-            public void OnUpdate(Animator animator, float timeScale, float when) {
-                if (_triggered) {
-                    var timeElapsed = (when - _whenHit) * timeScale;
-                    if (timeElapsed > _pauseTime) {
-                        _triggered = false;
-                        _output.ApplyAll(animator);
-                    }
-                    _attackPause.ApplyAll(animator, Mathf.Clamp01(timeElapsed / _pauseTime));
+            public void Apply(Animator animator, HitStyle incomingHitStyle) {
+                if (_hitStyle == HitStyle.None || _hitStyle == incomingHitStyle) {
+                    _output.ApplyAll(animator);
                 }
             }
-            
+
             public void OnBeforeSerialize() {
                 _name = _hitStyle == HitStyle.None ? "On Connecting Attacks" : $"On {_hitStyle} Attacks";
             }
+
             public void OnAfterDeserialize() { }
         }
 
         [SerializeField] private AttackEvent[] _attackEvents;
+        [SerializeField] private FloatFSMParameter[] _attackPauseOutput;
         
         private GameState _state;
         private float _timeScale;
+        private float _whenHit;
+        private float _pauseTime;
+        private HitStyle _hitStyle;
+        private bool _triggered;
         
         public void Construct(GameState state, GetPawnId getPawnId, Animator animator) {
             _state = state;
@@ -58,13 +46,28 @@ namespace Banchou.Pawn.FSM {
 
             _state.ObserveAttacksBy(pawnId)
                 .Where(_ => IsStateActive)
-                .Subscribe(attack => { foreach (var t in _attackEvents) t.OnAttack(attack); })
+                .Subscribe(attack => {
+                    _whenHit = attack.LastUpdated;
+                    _pauseTime = attack.PauseTime;
+                    _hitStyle = attack.HitStyle;
+                    _triggered = true;
+                })
                 .AddTo(this);
         }
 
         protected override void OnAllStateEvents(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
             base.OnAllStateEvents(animator, stateInfo, layerIndex);
-            foreach (var t in _attackEvents) t.OnUpdate(animator, _timeScale, _state.GetTime());
+            
+            var now = _state.GetTime();
+            
+            if (_triggered) {
+                var timeElapsed = (now - _whenHit) * _timeScale;
+                if (timeElapsed > _pauseTime) {
+                    _triggered = false;
+                    foreach (var attackEvent in _attackEvents) attackEvent.Apply(animator, _hitStyle);
+                }
+                _attackPauseOutput.ApplyAll(animator, Mathf.Clamp01((now - _whenHit) * _timeScale / _pauseTime));
+            }
         }
     }
 }

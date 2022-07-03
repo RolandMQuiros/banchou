@@ -372,11 +372,6 @@ MonoBehaviour:
         _type: 0
         _filterByType: 0
     _break: 0
-    _attackPause:
-    - _name: Normalized Attack Pause Time
-      _hash: 2057737938
-      _type: 1
-      _filterByType: 1
   - _name: On Confirmed Attacks
     _hitStyle: 1
     _output:
@@ -393,11 +388,6 @@ MonoBehaviour:
         _type: 0
         _filterByType: 0
     _break: 0
-    _attackPause:
-    - _name: Normalized Attack Pause Time
-      _hash: 2057737938
-      _type: 1
-      _filterByType: 1
   - _name: On Blocked Attacks
     _hitStyle: 2
     _output:
@@ -414,11 +404,7 @@ MonoBehaviour:
         _type: 0
         _filterByType: 0
     _break: 0
-    _attackPause:
-    - _name: Normalized Attack Pause Time
-      _hash: 2057737938
-      _type: 1
-      _filterByType: 1
+  _attackPauseOutput: []
 --- !u!1102 &-8256633540079339761
 AnimatorState:
   serializedVersion: 6
@@ -3274,6 +3260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _attackEvents: []
+  _attackPauseOutput: []
 --- !u!114 &-2598031138140767669
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8094,21 +8081,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7347ee3abbca47bc800cbbfb93db9dd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _comments: Trigger when hit by another Combatant while not blocking
+  _comments: 
   _hitEvents:
-  - _name: On Connected Hits
-    _hitStyle: 0
-    _output: []
-    _hitPause:
-    - _name: Normalized Hit Pause Time
-      _hash: 529556121
-      _type: 1
-      _filterByType: 1
-    _hitStun:
-    - _name: Normalized Hit Stun Time
-      _hash: -983609768
-      _type: 1
-      _filterByType: 1
   - _name: On Confirmed Hits
     _hitStyle: 1
     _output:
@@ -8124,8 +8098,6 @@ MonoBehaviour:
         _hash: 0
         _type: 0
         _filterByType: 0
-    _hitPause: []
-    _hitStun: []
   - _name: On Blocked Hits
     _hitStyle: 2
     _output:
@@ -8141,8 +8113,16 @@ MonoBehaviour:
         _hash: 0
         _type: 0
         _filterByType: 0
-    _hitPause: []
-    _hitStun: []
+  _hitPauseOutput:
+  - _name: Normalized Hit Pause Time
+    _hash: 529556121
+    _type: 1
+    _filterByType: 1
+  _hitStunOutput:
+  - _name: Normalized Hit Stun Time
+    _hash: -983609768
+    _type: 1
+    _filterByType: 1
 --- !u!1101 &5927612095887658712
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -9851,6 +9831,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _comments: 
   _attackEvents: []
+  _attackPauseOutput: []
 --- !u!1107 &9186696502463278040
 AnimatorStateMachine:
   serializedVersion: 6

@@ -146,25 +146,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-7779480513232156894
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b175467b93b44e5ab25e385f38902601, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _comments: 
-  _output:
-    _name: Normalized Pause Time
-    _hash: 1236136784
-    _type: 1
-    _filterByType: 1
-  _normalized: 1
 --- !u!1101 &-7554214554643392158
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -286,7 +267,6 @@ MonoBehaviour:
   _forceMode: 0
   _force:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -296,7 +276,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -306,7 +285,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -317,7 +295,6 @@ MonoBehaviour:
       _boolValue: 0
   _relativeForce:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -327,7 +304,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -337,7 +313,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -346,8 +321,6 @@ MonoBehaviour:
       _floatValue: 0
       _intValue: 0
       _boolValue: 0
-  __force: {x: 0, y: 0, z: 0}
-  __relativeForce: {x: 0, y: -50, z: 0}
 --- !u!114 &-5904330513103081810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -454,25 +427,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!114 &-3811291341396059617
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50e04d0fd4714e79aef59538a3635494, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _comments: 
-  _output:
-    _name: Normalized Stun Time
-    _hash: 1258988653
-    _type: 1
-    _filterByType: 1
-  _normalized: 1
 --- !u!114 &-3526491567815093202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -486,23 +440,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _comments: 
-  _output:
-  - _parameter:
-      _name: Hit
-      _hash: 1654612129
-      _type: 9
-      _filterByType: 0
-    _applyMode: 0
-    _value: 0
-    _sourceParameter:
-      _name: 
-      _hash: 0
-      _type: 0
-      _filterByType: 0
-  _onConfirm: 1
-  _onBlock: 1
-  _onGrab: 0
-  _breakOnSet: 0
+  _hitEvents: []
+  _hitPauseOutput: []
+  _hitStunOutput: []
 --- !u!114 &-2827379855864051945
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -521,7 +461,6 @@ MonoBehaviour:
   _forceMode: 0
   _force:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -531,7 +470,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -541,7 +479,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -552,7 +489,6 @@ MonoBehaviour:
       _boolValue: 0
   _relativeForce:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -562,7 +498,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -572,7 +507,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -581,8 +515,6 @@ MonoBehaviour:
       _floatValue: 0
       _intValue: 0
       _boolValue: 0
-  __force: {x: 0, y: 0, z: 0}
-  __relativeForce: {x: 0, y: -50, z: 0}
 --- !u!1102 &-2766029126255023484
 AnimatorState:
   serializedVersion: 6
@@ -947,7 +879,6 @@ MonoBehaviour:
   _forceMode: 0
   _force:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -957,7 +888,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -967,7 +897,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -978,7 +907,6 @@ MonoBehaviour:
       _boolValue: 0
   _relativeForce:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -988,7 +916,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -998,7 +925,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1007,8 +933,6 @@ MonoBehaviour:
       _floatValue: 0
       _intValue: 0
       _boolValue: 0
-  __force: {x: 0, y: 0, z: 0}
-  __relativeForce: {x: 0, y: -100, z: 0}
 --- !u!114 &1574248099947868956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1139,8 +1063,6 @@ AnimatorStateMachine:
   m_StateMachineBehaviours:
   - {fileID: -7158635112524611468}
   - {fileID: -8868369243085958780}
-  - {fileID: -3811291341396059617}
-  - {fileID: -7779480513232156894}
   - {fileID: -3526491567815093202}
   m_AnyStatePosition: {x: -450, y: 310, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
@@ -1165,7 +1087,6 @@ MonoBehaviour:
   _forceMode: 0
   _force:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1175,7 +1096,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1185,7 +1105,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1196,7 +1115,6 @@ MonoBehaviour:
       _boolValue: 0
   _relativeForce:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1206,7 +1124,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1216,7 +1133,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1225,8 +1141,6 @@ MonoBehaviour:
       _floatValue: 0
       _intValue: 0
       _boolValue: 0
-  __force: {x: 0, y: 0, z: 0}
-  __relativeForce: {x: 0, y: -10, z: 0}
 --- !u!114 &3852401693281901827
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1410,7 +1324,6 @@ MonoBehaviour:
   _forceMode: 0
   _force:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1420,7 +1333,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1430,7 +1342,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1441,7 +1352,6 @@ MonoBehaviour:
       _boolValue: 0
   _relativeForce:
     _x:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1451,7 +1361,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _y:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1461,7 +1370,6 @@ MonoBehaviour:
       _intValue: 0
       _boolValue: 0
     _z:
-      _parameterType: 1
       _source:
         _name: 
         _hash: 0
@@ -1470,8 +1378,6 @@ MonoBehaviour:
       _floatValue: 0
       _intValue: 0
       _boolValue: 0
-  __force: {x: 0, y: 0, z: 0}
-  __relativeForce: {x: 0, y: -10, z: 0}
 --- !u!1102 &6920580041398729844
 AnimatorState:
   serializedVersion: 6
