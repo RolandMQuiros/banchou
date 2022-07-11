@@ -21,14 +21,14 @@ namespace Banchou {
             public int LayerIndex;
         }
 
-        private readonly Subject<FSMUnit> StateEventSubject = new();
+        private readonly Subject<FSMUnit> _stateEventSubject = new();
         
-        protected IObservable<FSMUnit> ObserveStateEvents => StateEventSubject;
-        protected IObservable<FSMUnit> ObserveStateEnter => StateEventSubject
+        protected IObservable<FSMUnit> ObserveStateEvents => _stateEventSubject;
+        protected IObservable<FSMUnit> ObserveStateEnter => _stateEventSubject
             .Where(unit => unit.StateEvent == StateEvent.OnEnter);
-        protected IObservable<FSMUnit> ObserveStateUpdate => StateEventSubject
+        protected IObservable<FSMUnit> ObserveStateUpdate => _stateEventSubject
             .Where(unit => unit.StateEvent == StateEvent.OnUpdate);
-        protected IObservable<FSMUnit> ObserveStateExit => StateEventSubject
+        protected IObservable<FSMUnit> ObserveStateExit => _stateEventSubject
             .Where(unit => unit.StateEvent == StateEvent.OnExit);
         
         private readonly HashSet<int> _activeStates = new();
@@ -39,7 +39,7 @@ namespace Banchou {
             _unit.StateEvent = StateEvent.OnEnter;
             _unit.StateInfo = stateInfo;
             _unit.LayerIndex = layerIndex;
-            StateEventSubject.OnNext(_unit);
+            _stateEventSubject.OnNext(_unit);
             OnStateEnter(animator, ref _unit);
             OnAllStateEvents(animator, ref _unit);
         }
@@ -50,7 +50,7 @@ namespace Banchou {
             _unit.StateEvent = StateEvent.OnUpdate;
             _unit.StateInfo = stateInfo;
             _unit.LayerIndex = layerIndex;
-            StateEventSubject.OnNext(_unit);
+            _stateEventSubject.OnNext(_unit);
             OnStateUpdate(animator, ref _unit);
             OnAllStateEvents(animator, ref _unit);
         }
@@ -61,7 +61,7 @@ namespace Banchou {
             _unit.StateEvent = StateEvent.OnExit;
             _unit.StateInfo = stateInfo;
             _unit.LayerIndex = layerIndex;
-            StateEventSubject.OnNext(_unit);
+            _stateEventSubject.OnNext(_unit);
             OnStateExit(animator, ref _unit);
             _activeStates.Remove(stateInfo.fullPathHash);
             OnAllStateEvents(animator, ref _unit);
